@@ -15,7 +15,7 @@
     "bootstrap": "^5.3.5",
     "flatpickr": "^4.6.13",
     "isotope-layout": "^3.0.6",
-    "next": "15.3.0",
+    "next": "^16.2.6",
     "react": "^18.3.1",
     "react-countup": "^6.5.3",
     "react-dom": "^18.3.1",
@@ -42,7 +42,10 @@
     "@types/react-flatpickr": "^3.8.11",
     "@types/react-modal-video": "^1.2.3",
     "eslint": "^9",
-    "eslint-config-next": "15.3.0",
+    "eslint-config-next": "^16.2.6",
     "typescript": "^5"
+  },
+  "overrides": {
+    "postcss": "^8.5.10"
   }
 }
