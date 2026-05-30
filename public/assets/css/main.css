@@ -2878,20 +2878,9 @@ textarea {
   color: var(--tg-common-black);
   font-size: 15px;
 }
-/* .tgmenu__navbar-wrap ul li .sub-menu li:hover > a,
+.tgmenu__navbar-wrap ul li .sub-menu li:hover > a,
 .tgmenu__navbar-wrap ul li .sub-menu li.active > a {
   color: #b38ef7;
-} */
-.tgmenu__navbar-wrap ul li a.active {
-  color: #dcbf72;
-}
-
-.tgmenu__navbar-wrap > ul > li.active > a {
-  color: #dcbf72;
-}
-
-.tgmenu__navbar-wrap > ul > li:hover > a {
-  color: #ffffff;
 }
 .tgmenu__navbar-wrap ul li .sub-menu li:hover > a {
   -webkit-transform: translateX(8px);
@@ -10610,40 +10599,3 @@ textarea {
 }
 
 /*# sourceMappingURL=main.css.map */
-
-/* Golfnity header customization - Header Three only */
-.golfnity-header.header-sticky {
-  background: rgba(31, 93, 74, 0.96);
-}
-
-.golfnity-header.header-sticky .tgmenu__main-menu ul > li > a,
-.golfnity-header.header-sticky .tg-header-contact-number a,
-.golfnity-header.header-sticky .tg-header-contact-number span,
-.golfnity-header.header-sticky .tg-header-cart .cart-button {
-  color: #d8bd72;
-}
-
-.golfnity-header.header-sticky .tg-header-contact-icon {
-  color: #d8bd72;
-  border-color: rgba(216, 189, 114, 0.7);
-}
-
-.golfnity-header.header-sticky .tgmenu-offcanvas-open-btn span {
-  background-color: #d8bd72;
-}
-
-.golfnity-header.header-sticky .tg-btn-header {
-  color: #1f5d4a;
-  border-color: #d8bd72;
-  background: #d8bd72;
-}
-
-.golfnity-header.header-sticky .tg-btn-header:hover {
-  color: #d8bd72;
-  background: transparent;
-}
-
-.golfnity-header.header-sticky .tgmenu__navbar-wrap > ul > li.active > a,
-.golfnity-header.header-sticky .tgmenu__navbar-wrap > ul > li:hover > a {
-  color: #ffffff;
-}

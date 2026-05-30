@@ -29,3 +29,15 @@
   color: #e6c76f;
   background: transparent;
 }
+
+.golfnity-header .tgmenu__navbar-wrap ul li a {
+  color: #e6c76f;
+}
+
+.golfnity-header .tgmenu__navbar-wrap > ul > li:hover > a {
+  color: #ffffff;
+}
+
+.golfnity-header .tgmenu__navbar-wrap > ul > li.active > a {
+  color: #e6c76f;
+}

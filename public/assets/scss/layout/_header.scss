@@ -203,7 +203,7 @@
                         padding: 42px 18px;
                     }
                     &.active {
-                        color: #dcbf72;
+                       color: #e6c76f;
                     }
                 }
                 & .sub-menu {
@@ -252,12 +252,12 @@
                             color: var(--tg-common-black);
                             font-size: 15px;
                             &.active {
-                                color: #dcbf72;
+                               color: #e6c76f;
                             }
                         }
                         &:hover > a,
                         &.active > a {
-                            color: #dcbf72;
+                            color: #e6c76f;
                         }
                         &:hover > a {
                             @include transform(translateX(8px));
@@ -276,9 +276,16 @@
                 &.active,
                 &:hover {
                     & a {
-                        color: #e2d6f8;
+                        color: #e6c76f;
                     }
                 }
+
+                 &:hover {
+            & > a {
+                color: #ffffff;
+            }
+        }
+                
             }
         }
         &-2{
