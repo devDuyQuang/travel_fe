@@ -41,3 +41,30 @@
 .golfnity-header .tgmenu__navbar-wrap > ul > li.active > a {
   color: #e6c76f;
 }
+
+/* css của phần logo  */
+
+.golfnity-logo-img {
+  width: 180px;
+  height: auto;
+  max-width: 100%;
+}
+
+.golfnity-header .tg-btn-header {
+  color: #1f6b5a;
+  background: #e6c76f;
+  border-color: #e6c76f;
+}
+
+.golfnity-header .tg-btn-header:hover {
+  color: #e6c76f;
+  background: transparent;
+  border-color: #e6c76f;
+}
+
+@media (max-width: 767px) {
+  .golfnity-logo-img {
+    width: 140px;
+    height: auto;
+  }
+}
