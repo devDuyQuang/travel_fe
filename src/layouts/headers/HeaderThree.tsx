@@ -37,22 +37,22 @@ const HeaderThree = () => {
               <div className="col-lg-7 col-5">
                 <div className="tgmenu__wrap d-flex align-items-center">
                   <div className="logo">
-                    <Link className="logo-1" href="/">
+                    <Link className="logo-1" href="/home-three">
                       <Image
                         src={logo_1}
                         alt="Golfnity"
-                        width={150}
-                        height={80}
+                        width={100}
+                        height={60}
                         priority
                       />
                     </Link>
 
-                    <Link className="logo-2 d-none" href="/">
+                    <Link className="logo-2 d-none" href="/home-three">
                       <Image
                         src={logo_2}
                         alt="Golfnity"
-                        width={150}
-                        height={80}
+                        width={100}
+                        height={60}
                         priority
                       />
                     </Link>

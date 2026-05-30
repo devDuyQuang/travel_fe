@@ -42,57 +42,46 @@ const menu_data: MenuItem[] = [
     {
         id: 3,
         title: "Service",
-        link: "#",
-        has_dropdown: true,
-        sub_menus: [
-            {
-                link: "/tour-grid-1",
-                title: "Tour Grid",
-            },
-            {
-                link: "/tour-details",
-                title: "Tour Detail One",
-            },
-        ],
+        link: "/tour-grid-1",
+        has_dropdown: false,
 
-        // title: "Pages",
+        // ===== TEMPLATE VERSION =====
+        // link: "#",
+        // has_dropdown: true,
         // sub_menus: [
-        //   { link: "/about", title: "About" },
-        //   { link: "/team", title: "Team" },
-        //   { link: "/team-details", title: "Team Details" },
-        //   { link: "/shop", title: "Shop" },
-        //   { link: "/shop-details", title: "Shop Details" },
-        //   { link: "/cart", title: "Cart" },
-        //   { link: "/wishlist", title: "Wishlist" },
-        //   { link: "/checkout", title: "Checkout" },
-        //   { link: "/pricing", title: "Pricing" },
-        //   { link: "/faq", title: "Faq" },
-        //   { link: "/login", title: "Log In" },
-        //   { link: "/register", title: "Register" },
-        //   { link: "/no-found", title: "Error" },
+        //     {
+        //         link: "/tour-grid-1",
+        //         title: "Tour Grid",
+        //     },
+        //     {
+        //         link: "/tour-details",
+        //         title: "Tour Detail One",
+        //     },
         // ],
     },
-
     {
         id: 4,
         title: "Blogs",
-        link: "#",
-        has_dropdown: true,
-        sub_menus: [
-            {
-                link: "/blog-grid",
-                title: "Blog Grid",
-            },
-            {
-                link: "/blog-details",
-                title: "Blog Detail",
-            },
+        link: "/blog-grid",
+        has_dropdown: false,
 
-            // {
-            //   link: "/blog-standard",
-            //   title: "Blog Standard",
-            // },
-        ],
+        // ===== TEMPLATE VERSION =====
+        // link: "#",
+        // has_dropdown: true,
+        // sub_menus: [
+        //     {
+        //         link: "/blog-grid",
+        //         title: "Blog Grid",
+        //     },
+        //     {
+        //         link: "/blog-details",
+        //         title: "Blog Detail",
+        //     },
+        //     {
+        //         link: "/blog-standard",
+        //         title: "Blog Standard",
+        //     },
+        // ],
     },
 
     {
