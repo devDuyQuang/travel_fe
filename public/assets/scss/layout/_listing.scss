@@ -24,16 +24,16 @@
                 @include tg-transition();
             }
             & .shape{
-                background-image: url(../img/listing/angle.png);
+                background-image: url(../../img/listing/angle.png);
                 background-repeat: no-repeat;
                 background-size: cover;
                 &-2{
-                    background-image: url(../img/listing/angle-2.png);
+                    background-image: url(../../img/listing/angle-2.png);
                     background-repeat: no-repeat;
                     background-size: cover;
                 }
                 &-3{
-                    background-image: url(../img/listing/angle-3.png);
+                    background-image: url(../../img/listing/angle-3.png);
                     background-repeat: no-repeat;
                     background-size: cover;
                     display: flex;
@@ -43,7 +43,7 @@
                     }
                 }
                 &-4{
-                    background-image: url(../img/listing/listing-5/shape-2.png);
+                    background-image: url(../../img/listing/listing-5/shape-2.png);
                     background-repeat: no-repeat;
                     background-size: cover;
                     display: flex;
@@ -131,7 +131,7 @@
                 height: 50px;
                 padding: 5px 29px 5px 23px;
                 &.price-bg{
-                    background-image: url(../img/listing/angle-4.png);
+                    background-image: url(../../img/listing/angle-4.png);
                     background-repeat: no-repeat;
                     background-size: cover;
                     border-radius: 0px 0px 0px 12px;
@@ -393,7 +393,7 @@
                     z-index: 2;
                     background: none;
                     border: none;
-                    background-image: url(../img/listing/listing-3/rectangle.png);
+                    background-image: url(../../img/listing/listing-3/rectangle.png);
                     background-repeat: no-repeat;
                     background-size: cover;
                     border-radius: 0px;
@@ -543,7 +543,7 @@
                     padding: 0px 18px 24px 25px;
                 }
                 & .tg-listing-card-thumb .closed {
-                    background-image: url(../img/listing/listing-5/shape-1.png);
+                    background-image: url(../../img/listing/listing-5/shape-1.png);
                 }
                 & .tg-listing-item-price-discount.offer-btm {
                     top: 45px;
