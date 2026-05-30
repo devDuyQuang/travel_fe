@@ -14,7 +14,7 @@ const menu_data: MenuItem[] = [
     {
         id: 1,
         title: "Home",
-        link: "/home-three",
+        link: "/",
         has_dropdown: false,
 
         // has_dropdown: true,
