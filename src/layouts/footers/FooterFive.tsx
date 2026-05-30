@@ -2,19 +2,28 @@
 import Image from "next/image"
 import Link from "next/link"
 
-import logo from "@/assets/img/logo/logo-white.png"
+import logo from "@/assets/img/logo/golfnity-logo2x.png"
 
 const FooterFive = () => {
    return (
       <footer>
-         <div className="tg-footer-area pt-130 include-bg" style={{ backgroundImage: `url(/assets/img/footer/footer.jpg)` }}>
+         <div className="tg-footer-area pt-130 include-bg" style={{ backgroundImage: `url(/assets/img/footer/footer-2.jpg)` }}>
             <div className="container">
                <div className="tg-footer-top pb-40">
                   <div className="row">
                      <div className="col-xl-3 col-lg-3 col-md-6 col-sm-6">
                         <div className="tg-footer-widget mb-40">
                            <div className="tg-footer-logo mb-20">
-                              <Link href="/"><Image src={logo} alt="" /></Link>
+                              <Link href="/">
+                                 <Image
+                                    src={logo}
+                                    alt="Golfnity"
+                                    width={200}
+                                    height={61}
+                                    priority
+                                    className="golfnity-logo-img"
+                                 />
+                              </Link>
                            </div>
                            <p className="mb-20">Pharetra maecenas felis vestibulum convallis mollis nullam congue sit.d rivers of Finland Quebec.</p>
                            <div className="tg-footer-form mb-30">

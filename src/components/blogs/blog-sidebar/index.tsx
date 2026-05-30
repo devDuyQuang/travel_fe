@@ -29,7 +29,7 @@ const BlogSidebar = () => {
          <Category />
          <RecentPost />
          <Ads />
-         <Tags />
+         {/* <Tags /> */}
       </div>
    )
 }

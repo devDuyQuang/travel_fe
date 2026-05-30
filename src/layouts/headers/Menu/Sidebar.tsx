@@ -1,4 +1,4 @@
-import logo from "@/assets/img/logo/logo-green.png"
+import logo from "@/assets/img/logo/golfnity-logo2x.png"
 import Image from "next/image"
 import Link from "next/link"
 
@@ -15,7 +15,14 @@ const Sidebar = ({ sidebar, setSidebar }: SidebarProps) => {
                <button onClick={() => setSidebar(false)}><i className="fa-sharp fa-regular fa-xmark"></i></button>
             </div>
             <div className="offCanvas__logo mb-30">
-               <Link href="/"><Image src={logo} alt="Logo" /></Link>
+               <Link href="/">
+                  <Image
+                     src={logo}
+                     alt="Golfnity"
+                     width={200}
+                     height={61}
+                     priority
+                     className="golfnity-logo-img" /></Link>
             </div>
             <div className="offCanvas__side-info mb-30">
                <div className="contact-list mb-30">

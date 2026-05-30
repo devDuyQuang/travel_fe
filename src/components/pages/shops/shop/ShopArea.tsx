@@ -100,12 +100,14 @@ const ShopArea = () => {
                     <nav>
                       <ReactPaginate
                         breakLabel="..."
-                        nextLabel={<i className="p-btn">Next Page</i>}
+                        nextLabel="Next Page"
                         onPageChange={handlePageClick}
                         pageRangeDisplayed={3}
                         pageCount={totalPages}
-                        previousLabel={<i className="p-btn">Previous Page</i>}
+                        previousLabel="Previous Page"
                         renderOnZeroPageCount={null}
+                        nextLinkClassName="p-btn"
+                        previousLinkClassName="p-btn"
                       />
                     </nav>
                   </div>
