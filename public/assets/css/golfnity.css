@@ -1,0 +1,31 @@
+.golfnity-header.header-sticky {
+  background: #1f6b5a;
+  backdrop-filter: none;
+}
+
+.golfnity-header.header-sticky .tgmenu__main-menu ul > li > a,
+.golfnity-header.header-sticky .tg-header-contact-number span,
+.golfnity-header.header-sticky .tg-header-contact-number a,
+.golfnity-header.header-sticky .tg-header-cart .cart-button {
+  color: #e6c76f;
+}
+
+.golfnity-header.header-sticky .tg-header-contact-icon {
+  color: #e6c76f;
+  border-color: rgba(230, 199, 111, 0.7);
+}
+
+.golfnity-header.header-sticky .tgmenu-offcanvas-open-btn span {
+  background-color: #e6c76f;
+}
+
+.golfnity-header.header-sticky .tg-btn-header {
+  color: #1f6b5a;
+  background: #e6c76f;
+  border-color: #e6c76f;
+}
+
+.golfnity-header.header-sticky .tg-btn-header:hover {
+  color: #e6c76f;
+  background: transparent;
+}
