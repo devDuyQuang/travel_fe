@@ -1,9 +1,9 @@
 .golfnity-header.header-sticky {
-  background: #1f6b5a;
+  background: #1b4d3e;
   backdrop-filter: none;
 }
 
-.golfnity-header.header-sticky .tgmenu__main-menu ul > li > a,
+.golfnity-header.header-sticky .tgmenu__main-menu ul>li>a,
 .golfnity-header.header-sticky .tg-header-contact-number span,
 .golfnity-header.header-sticky .tg-header-contact-number a,
 .golfnity-header.header-sticky .tg-header-cart .cart-button {
@@ -34,11 +34,11 @@
   color: #e6c76f;
 }
 
-.golfnity-header .tgmenu__navbar-wrap > ul > li:hover > a {
+.golfnity-header .tgmenu__navbar-wrap>ul>li:hover>a {
   color: #ffffff;
 }
 
-.golfnity-header .tgmenu__navbar-wrap > ul > li.active > a {
+.golfnity-header .tgmenu__navbar-wrap>ul>li.active>a {
   color: #e6c76f;
 }
 

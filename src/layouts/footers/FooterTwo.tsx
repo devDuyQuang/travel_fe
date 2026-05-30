@@ -7,7 +7,7 @@ import logo from "@/assets/img/logo/logo-white.png"
 const FooterTwo = () => {
    return (
       <footer>
-         <div className="tg-footer-area tg-footer-su-wrapper tg-footer-su-2-wrapper pt-130 include-bg" style={{ backgroundImage: `url(/assets/img/footer/footer-3.jpg)` }}>
+         <div className="tg-footer-area tg-footer-su-wrapper tg-footer-su-2-wrapper pt-130" style={{ backgroundColor: "#06130e" }}>
             <div className="container">
                <div className="tg-footer-top mb-45">
                   <div className="row">
