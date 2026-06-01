@@ -117,6 +117,11 @@
   --tg-border-1: #e1e1e1;
   --tg-border-2: #c5c5c5;
   --tg-border-3: #e6e6e6;
+
+  /*  Link dùng chung cho đường dẫn */
+  --tg-link-color: #0d6efd;
+  --tg-link-hover-color: #084298;
+  --tg-link-visited-color: #084298;
 }
 
 /*=============================
@@ -5321,6 +5326,17 @@ textarea {
   align-items: center;
 }
 
+/* css của phần % offer new Fratured */
+.tg-listing-card-thumb .shape,
+.tg-listing-card-thumb .shape-2,
+.tg-listing-card-thumb .shape-3 {
+  background-image: none;
+  background: var(--tg-theme-primary);
+  color: var(--tg-common-white);
+
+  clip-path: polygon(0 0, 88% 0, 100% 50%, 88% 100%, 0 100%);
+}
+
 .tg-listing-card-thumb .tg-card-border {
   border-radius: 12px 12px 0px 0px;
   -webkit-transition: all 0.3s 0s ease-out;
@@ -5392,13 +5408,15 @@ textarea {
   text-transform: capitalize;
   color: rgba(2, 6, 21, 0.6);
   display: block;
+  color: var(--tg-grey-4);
 }
 
 .tg-listing-card-activity-person {
   font-weight: 500;
   font-size: 12px;
   text-transform: capitalize;
-  color: var(--tg-common-black);
+  /* color: var(--tg-common-black); */
+  color: var(--tg-theme-primary);
   line-height: 22px;
 }
 
@@ -5409,11 +5427,18 @@ textarea {
 
 .tg-listing-card-price-wrap.price-bg {
   /* background-image: url(../img/listing/angle-4.png); */
-  background-image: url(../img/listing/angle-5.png);
+  /* background-image: url(../img/listing/angle-5.png);
   background-repeat: no-repeat;
   background-size: cover;
   border-radius: 0px 0px 0px 12px;
+  width: 158px; */
+  background: var(--tg-theme-secondary);
+  background-image: none;
   width: 158px;
+  height: 50px;
+  padding: 5px 29px 5px 23px;
+  border-radius: 0 0 0 12px;
+  clip-path: polygon(0 0, 92% 0, 100% 100%, 0% 100%);
 }
 
 .tg-listing-card-content {
@@ -6227,14 +6252,25 @@ textarea {
 }
 
 .tg-listing-su-card-item .tg-listing-item-price-discount {
-  background: var(--tg-theme-primary);
+  /* background: var(--tg-theme-primary);
   font-size: 15px;
   font-weight: 500;
   border-radius: 5px;
   padding: 8px 10px;
   top: 33px;
   left: 40px;
-  z-index: 2;
+  z-index: 2; */
+  position: absolute;
+  top: 17px;
+  left: 0;
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: capitalize;
+  color: var(--tg-common-white);
+  background: var(--tg-theme-primary);
+  padding: 6px 20px 6px 14px;
+  line-height: 1;
+  display: inline-block;
 }
 
 .tg-listing-su-card-item .tg-listing-card-thumb::before {
@@ -7104,7 +7140,7 @@ textarea {
 }
 
 .tg-banner-content {
-  background: #e6c770;
+  background: var(--tg-theme-secondary);
   height: 100%;
   padding: 73px 20px;
   border-radius: 0px 12px 12px 0px;
@@ -12170,4 +12206,70 @@ textarea {
   color: var(--tg-common-black);
 }
 
+main
+  a:not(.tg-btn):not(.tg-btn-header):not(.cart-button):not(.logo-1):not(
+    .logo-2
+  ) {
+  color: var(--tg-link-color);
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+main
+  a:not(.tg-btn):not(.tg-btn-header):not(.cart-button):not(.logo-1):not(
+    .logo-2
+  ):hover {
+  color: var(--tg-link-hover-color);
+  text-decoration: underline;
+}
+
+main
+  a:not(.tg-btn):not(.tg-btn-header):not(.cart-button):not(.logo-1):not(
+    .logo-2
+  ):visited {
+  color: var(--tg-link-visited-color);
+}
+
+main
+  a:not(.tg-btn):not(.tg-btn-header):not(.cart-button):not(.logo-1):not(
+    .logo-2
+  ):visited {
+  color: var(--tg-link-visited-color, #084298);
+}
+
+/* css của phần video bên phải  */
+.tg-banner-cta {
+  background: #e6c770;
+  color: #245f52;
+}
+
+.tg-banner-cta:hover {
+  background: #d8b858;
+  color: #1f5247;
+}
+
+.tg-btn-switch-animation .btn-icon + .btn-icon {
+  order: -2;
+  opacity: 0;
+  transform: translateX(-10px);
+}
+
+/* Home CTA video play button */
+.tg-cta-video-play {
+  color: #124536;
+}
+
+.tg-cta-video-play i,
+.tg-cta-video-play svg,
+.tg-cta-video-play svg path {
+  color: #124536;
+  fill: currentColor;
+  stroke: currentColor;
+}
+
+.tg-cta-video-play::before,
+.tg-cta-video-play::after {
+  border-left-color: #124536;
+}
 /*# sourceMappingURL=main.css.map */
