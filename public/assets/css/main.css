@@ -113,7 +113,7 @@
   --tg-grey-7: #f6f6f7;
   --tg-grey-8: #f6f4fa;
   --tg-theme-primary: #e6c770;
-  --tg-theme-secondary: #1b4d3e;
+  --tg-theme-secondary: #2a6b5b;
   --tg-border-1: #e1e1e1;
   --tg-border-2: #c5c5c5;
   --tg-border-3: #e6e6e6;
@@ -654,17 +654,17 @@ textarea {
   font-weight: 600;
   font-size: 15px;
   text-transform: uppercase;
-  color: #e6c76f;
+  color: var(--tg-theme-primary);
   border-radius: 6px;
   padding: 12px 27px;
-  background: #1f6b5a;
+  background: var(--tg-theme-secondary);
   display: inline-block;
   transition: all 0.3s ease;
 }
 
 .tg-btn:hover {
-  background: #155143;
-  color: #e6c76f;
+  background: #245f52;
+  color: var(--tg-theme-primary);
   transform: translateY(-2px);
 }
 
@@ -673,12 +673,15 @@ textarea {
 }
 
 .tg-btn-transparent {
-  background: #e6c77033;
+  background: var(--tg-theme-secondary);
   color: var(--tg-theme-primary);
+  transition: all 0.3s ease;
 }
 
 .tg-btn-transparent:hover {
-  color: var(--tg-common-white);
+  background: #245f52;
+  color: var(--tg-theme-primary);
+  transform: translateY(-2px);
 }
 
 .tg-btn-switch-animation .btn-text {
@@ -4387,9 +4390,15 @@ textarea {
   background: var(--tg-theme-secondary);
   font-weight: 600;
   font-size: 15px;
-  color: var(--tg-common-white);
+  color: var(--tg-theme-primary);
   border-radius: 8px;
   padding: 10px 70px;
+}
+.tg-booking-form-search-btn .bk-search-button:hover {
+  background: #143d32;
+  color: var(--tg-theme-primary);
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(27, 77, 62, 0.25);
 }
 
 @media only screen and (min-width: 1200px) and (max-width: 1399px) {
@@ -7373,8 +7382,7 @@ textarea {
 .tg-banner-4-content .tg-btn-transparent {
   background: var(--tg-common-white);
 }
-
-.tg-banner-4-content .tg-btn-transparent:hover {
+.tg-baner .tg-banner-4-content .tg-btn-transparent:hover {
   color: var(--tg-theme-primary);
 }
 

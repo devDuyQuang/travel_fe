@@ -216,7 +216,7 @@ const HeaderThree = () => {
                   </div>
 
                   <div className="tg-header-cart p-relative ml-20 pl-20 d-none d-xl-block">
-                    <span className="tg-header-border"></span>
+                    {/* <span className="tg-header-border"></span> */}
                     <button className="cart-button">
                       <span>
                         <CartIcon />
@@ -238,7 +238,7 @@ const HeaderThree = () => {
                   </div>
 
                   <div className="tg-header-menu-bar lh-1 p-relative ml-20 pl-20">
-                    <span className="tg-header-border d-none d-xl-block"></span>
+                    {/* <span className="tg-header-border d-none d-xl-block"></span> */}
                     <button
                       onClick={() => setSidebar(true)}
                       style={{ cursor: "pointer" }}
