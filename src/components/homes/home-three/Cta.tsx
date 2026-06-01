@@ -21,11 +21,29 @@ const Cta = () => {
                 style={{ backgroundImage: `url(/assets/img/banner/thumb.jpg)` }}
               >
                 <div className="tg-banner-video-inner text-center">
+                  {/* <a
+                    onClick={() => setIsVideoOpen(true)}
+                    style={{ cursor: "pointer" }}
+                    className="tg-video-play popup-video tg-pulse-border"
+                  >
+                    <span className="p-relative z-index-11">
+                      <svg
+                        width="19"
+                        height="21"
+                        viewBox="0 0 19 21"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M17.3616 8.34455C19.0412 9.31425 19.0412 11.7385 17.3616 12.7082L4.13504 20.3445C2.45548 21.3142 0.356021 20.1021 0.356021 18.1627L0.356022 2.89C0.356022 0.950609 2.45548 -0.261512 4.13504 0.708185L17.3616 8.34455Z"
+                          fill="currentColor"
+                        />
+                      </svg>
+                    </span>
+                  </a> */}
                   <a
                     onClick={() => setIsVideoOpen(true)}
                     style={{ cursor: "pointer" }}
-                    // className="tg-video-play popup-video tg-pulse-border"
-
                     className="tg-video-play popup-video tg-pulse-border tg-cta-video-play"
                   >
                     <span className="p-relative z-index-11">
@@ -42,6 +60,9 @@ const Cta = () => {
                         />
                       </svg>
                     </span>
+
+                    <span className="tg-cta-wave tg-cta-wave-one" />
+                    <span className="tg-cta-wave tg-cta-wave-two" />
                   </a>
                 </div>
               </div>
