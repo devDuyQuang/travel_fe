@@ -2,7 +2,7 @@ import HeaderThree from "@/layouts/headers/HeaderThree"
 import FeatureArea from "./FeatureArea"
 import BreadCrumb from "./BreadCrumb"
 import BannerForm from "./BannerForm"
-import FooterFive from "@/layouts/footers/FooterFive"
+import FooterThree from "@/layouts/footers/FooterThree";
 
 const FeatureTwo = () => {
    return (
@@ -13,7 +13,7 @@ const FeatureTwo = () => {
             <BannerForm />
             <FeatureArea />
          </main>
-         <FooterFive />
+         <FooterThree />
       </>
    )
 }
