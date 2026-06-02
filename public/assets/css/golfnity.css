@@ -1173,3 +1173,30 @@ main .tg-listing-card-title a:active {
   color: var(--golfnity-gold);
   transform: scale(1.05);
 }
+
+/* ================================
+   About Choose Icons
+================================ */
+
+.tg-chose-6-wrap .icon {
+  background: var(--golfnity-moss);
+  color: var(--golfnity-gold);
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.tg-chose-6-wrap .icon svg {
+  color: var(--golfnity-gold);
+}
+
+.tg-chose-6-wrap .icon svg path {
+  stroke: currentColor;
+}
+
+.tg-chose-6-wrap:hover .icon {
+  background: var(--golfnity-moss-dark);
+  color: var(--golfnity-gold);
+  transform: translateY(-3px);
+}
