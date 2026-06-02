@@ -1,7 +1,7 @@
 import BreadCrumb from "@/components/common/BreadCrumb"
 import HeaderThree from "@/layouts/headers/HeaderThree"
 import ShopDetailsArea from "./ShopDetailsArea"
-import FooterThree from "@/layouts/footers/FooterThree";
+import FooterSix from "@/layouts/footers/FooterSix";
 import ShopDetailsTabArea from "./ShopDetailsTabArea"
 
 const ShopDetails = () => {
@@ -13,7 +13,7 @@ const ShopDetails = () => {
             <ShopDetailsArea />
             <ShopDetailsTabArea />
          </main>
-         <FooterThree />
+         <FooterSix />
       </>
    )
 }

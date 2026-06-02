@@ -12,7 +12,7 @@ const FooterThree = () => {
           className="tg-footer-area tg-footer-space include-bg"
           style={{ backgroundImage: `url(/assets/img/footer/footer-2.jpg)` }}
         > */}
-        <div className="tg-footer-area tg-footer-space golfnity-footer">
+        <div className="tg-footer-area tg-footer-space include-bg golfnity-footer">
           <div className="container">
             <div className="tg-footer-top mb-40">
               <div className="row">
