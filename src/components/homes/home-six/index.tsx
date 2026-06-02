@@ -12,7 +12,7 @@ import Counter from "./Counter"
 import Testimonial from "../home-seven/Testimonial"
 import Blog from "./Blog"
 import Brand from "../home-seven/Brand"
-import FooterThree from "@/layouts/footers/FooterThree";
+import FooterSix from "@/layouts/footers/FooterSix";
 
 const HomeSix = () => {
   return (
@@ -33,7 +33,7 @@ const HomeSix = () => {
         <Brand />
         <Blog />
       </main>
-      <FooterThree />
+      <FooterSix />
     </>
   )
 }

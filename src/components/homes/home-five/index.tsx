@@ -8,7 +8,7 @@ import Blog from "./Blog"
 import CtaTwo from "./CtaTwo"
 import Listing from "./Listing"
 import Location from "./Location"
-import FooterThree from "@/layouts/footers/FooterThree";
+import FooterFive from "@/layouts/footers/FooterFive";
 import CtaThree from "./CtaThree"
 
 const HomeFive = () => {
@@ -25,7 +25,7 @@ const HomeFive = () => {
          <Testimonial style={true} />
          <Blog />
          <CtaTwo />
-         <FooterThree />
+         <FooterFive />
       </>
    )
 }

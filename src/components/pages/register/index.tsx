@@ -1,6 +1,6 @@
 import InnerHeader from "@/layouts/headers/InnerHeader"
 import RegisterArea from "./RegisterArea"
-import FooterThree from "@/layouts/footers/FooterThree";
+import FooterFive from "@/layouts/footers/FooterFive";
 
 const Register = () => {
    return (
@@ -9,7 +9,7 @@ const Register = () => {
          <main>
             <RegisterArea />
          </main>
-         <FooterThree />
+         <FooterFive />
       </>
    )
 }

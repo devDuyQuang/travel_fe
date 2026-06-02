@@ -13,7 +13,57 @@
   --golfnity-white: #ffffff;
   --golfnity-link-blue: #0b4ea2;
   --golfnity-link-visited: #075985;
+  --golfnity-gold-dark: #c9a227;
   /* --golfnity-link-visited: #dc2626; */
+}
+
+/* ================================
+   Hero Slider Navigation Buttons
+================================ */
+
+.tg-hero-arrow-box button.tg-hero-next,
+.tg-hero-arrow-box button.tg-hero-prev,
+button.tg-hero-next,
+button.tg-hero-prev {
+  background: var(--golfnity-moss);
+  color: var(--golfnity-gold);
+  border: 0;
+  box-shadow: none;
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.tg-hero-arrow-box button.tg-hero-next svg,
+.tg-hero-arrow-box button.tg-hero-prev svg,
+button.tg-hero-next svg,
+button.tg-hero-prev svg {
+  color: var(--golfnity-gold);
+}
+
+.tg-hero-arrow-box button.tg-hero-next svg path,
+.tg-hero-arrow-box button.tg-hero-prev svg path,
+button.tg-hero-next svg path,
+button.tg-hero-prev svg path {
+  stroke: currentColor;
+  fill: none;
+}
+
+.tg-hero-arrow-box button.tg-hero-next:hover,
+.tg-hero-arrow-box button.tg-hero-prev:hover,
+button.tg-hero-next:hover,
+button.tg-hero-prev:hover {
+  background: var(--golfnity-moss-dark);
+  color: var(--golfnity-gold);
+  box-shadow: 0 8px 18px rgba(18, 56, 45, 0.25);
+}
+
+.tg-hero-arrow-box button.tg-hero-next:hover svg,
+.tg-hero-arrow-box button.tg-hero-prev:hover svg,
+button.tg-hero-next:hover svg,
+button.tg-hero-prev:hover svg {
+  color: var(--golfnity-gold);
 }
 
 /* ================================
@@ -165,7 +215,7 @@
 .golfnity-header .tg-header-cart-count,
 .golfnity-header.header-sticky .tg-header-cart-count {
   background: var(--golfnity-white);
-  color: var(--golfnity-gold);
+  color: var(--golfnity-moss-dark);
   border: 1px solid var(--golfnity-gold);
 }
 
@@ -338,16 +388,32 @@ main .tg-listing-card-title a:active {
    Footer
 ================================ */
 
+/* Hover: vàng đậm hơn */
+.golfnity-footer .tg-footer-form-btn:hover {
+  background: var(--golfnity-gold);
+  color: var(--golfnity-moss);
+}
+
 .golfnity-footer {
   background: var(--golfnity-moss);
   background-image: none;
+}
+
+/* Footer widget headings */
+.golfnity-footer .tg-footer-widget-title,
+.golfnity-footer h1,
+.golfnity-footer h2,
+.golfnity-footer h3,
+.golfnity-footer h4,
+.golfnity-footer h5,
+.golfnity-footer h6 {
+  color: var(--golfnity-gold);
 }
 
 .golfnity-footer,
 .golfnity-footer p,
 .golfnity-footer li,
 .golfnity-footer span,
-.golfnity-footer .tg-footer-widget-title,
 .golfnity-footer .tg-footer-copyright {
   color: var(--golfnity-white);
 }
@@ -421,11 +487,14 @@ main .tg-listing-card-title a:active {
   color: rgba(27, 77, 62, 0.75);
 }
 
-/* Footer submit button */
+/* Footer form submit button */
 .golfnity-footer .tg-footer-form-btn {
-  background: var(--golfnity-gold);
+  background: #f2d985; /* vàng nhạt khi chưa hover */
   color: var(--golfnity-moss);
   border: 0;
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease;
 }
 
 .golfnity-footer .tg-footer-form-btn svg,
@@ -435,9 +504,11 @@ main .tg-listing-card-title a:active {
   stroke: currentColor;
 }
 
-.golfnity-footer .tg-footer-form-btn:hover {
-  background: var(--golfnity-white);
+.golfnity-footer .tg-footer-form-btn:hover svg,
+.golfnity-footer .tg-footer-form-btn:hover svg path,
+.golfnity-footer .tg-footer-form-btn:hover i {
   color: var(--golfnity-moss);
+  stroke: currentColor;
 }
 
 /* ================================
@@ -543,23 +614,589 @@ main .tg-listing-card-title a:active {
 }
 
 /* ================================
-   Golfnity Footer Spacing
+   Listing Card Price
 ================================ */
 
-.golfnity-footer.tg-footer-space {
-  padding-top: 130px;
-  padding-bottom: 30px;
+.tg-listing-card-price h4,
+.tg-listing-card-price h4 > span {
+  color: var(--golfnity-gold);
+  font-weight: 700;
 }
 
-.golfnity-footer .tg-footer-top {
-  margin-bottom: 30px;
+.tg-listing-card-price del,
+.tg-listing-card-price del span,
+.tg-listing-card-price .old-price {
+  color: #111111;
+  text-decoration-color: #111111;
+  opacity: 1;
+}
+/* ================================
+   Listing Card Wishlist / Heart
+================================ */
+
+.tg-listing-item-wishlist a {
+  background: var(--golfnity-white);
+  color: var(--golfnity-moss);
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
-.golfnity-footer .tg-footer-widget {
-  margin-bottom: 30px;
+.tg-listing-item-wishlist a i,
+.tg-listing-item-wishlist a svg,
+.tg-listing-item-wishlist a svg path {
+  color: currentColor;
+  fill: none;
+  stroke: currentColor;
 }
 
-.golfnity-footer .tg-footer-copyright {
-  padding-top: 22px;
-  padding-bottom: 22px;
+.tg-listing-item-wishlist a:hover {
+  background: var(--golfnity-gold);
+  color: var(--golfnity-moss);
+  transform: scale(1.08);
+  box-shadow: 0 8px 18px rgba(18, 56, 45, 0.22);
+}
+
+/* ================================
+   Listing Card Price
+================================ */
+
+/* Main price: $255, $320, $349 */
+.tg-listing-card-price .tg-listing-card-currency-amount,
+.tg-listing-card-price .currency-symbol {
+  color: var(--golfnity-gold);
+  font-weight: 700;
+}
+
+/* Pax text */
+.tg-listing-card-price .tg-listing-card-activity-person {
+  color: var(--golfnity-gold);
+  font-weight: 700;
+}
+
+/* Old crossed price: $280, $299 */
+.tg-listing-card-price .tg-listing-card-currency-old,
+.tg-listing-card-price .tg-listing-card-currency-old del {
+  color: #111111;
+  text-decoration-color: #111111;
+  opacity: 1;
+}
+
+/* ================================
+   Breadcrumb
+================================ */
+
+.tg-breadcrumb-list,
+.tg-breadcrumb-list a,
+.tg-breadcrumb-list span,
+.tg-breadcrumb-list .dvr {
+  color: var(--golfnity-moss);
+  font-weight: 700;
+}
+
+.tg-breadcrumb-list a:hover {
+  color: var(--golfnity-moss-dark);
+  text-decoration: underline;
+}
+
+.tg-breadcrumb-list span:visited,
+.tg-breadcrumb-list a:visited {
+  color: var(--golfnity-moss);
+}
+
+/* ================================
+   Breadcrumb
+================================ */
+
+.tg-breadcrumb-list,
+.tg-breadcrumb-list ul,
+.tg-breadcrumb-list ul li,
+.tg-breadcrumb-list ul li a,
+.tg-breadcrumb-list ul li span,
+.tg-breadcrumb-list ul li i,
+.tg-breadcrumb-list .dvr {
+  color: var(--golfnity-moss);
+  font-weight: 700;
+}
+
+.tg-breadcrumb-list ul li a:hover {
+  color: var(--golfnity-moss-dark);
+  text-decoration: underline;
+}
+
+.tg-breadcrumb-list ul li a:visited {
+  color: var(--golfnity-moss);
+}
+/* ================================
+   Breadcrumb
+================================ */
+
+.tg-breadcrumb-list,
+.tg-breadcrumb-list-2,
+.tg-breadcrumb-list ul,
+.tg-breadcrumb-list-2 ul,
+.tg-breadcrumb-list ul li,
+.tg-breadcrumb-list-2 ul li,
+.tg-breadcrumb-list ul li a,
+.tg-breadcrumb-list-2 ul li a,
+.tg-breadcrumb-list ul li span,
+.tg-breadcrumb-list-2 ul li span,
+.tg-breadcrumb-list ul li i,
+.tg-breadcrumb-list-2 ul li i,
+.tg-breadcrumb-list .dvr,
+.tg-breadcrumb-list-2 .dvr {
+  color: var(--golfnity-moss);
+  font-weight: 700;
+}
+
+.tg-breadcrumb-list ul li a:hover,
+.tg-breadcrumb-list-2 ul li a:hover {
+  color: var(--golfnity-moss-dark);
+  text-decoration: underline;
+}
+
+.tg-breadcrumb-list ul li a:visited,
+.tg-breadcrumb-list-2 ul li a:visited {
+  color: var(--golfnity-moss);
+}
+
+/* ================================
+   Tour Details Feature Icons
+================================ */
+
+.tg-tour-details-video-feature-list ul li .icon {
+  background: var(--golfnity-moss);
+  color: var(--golfnity-gold);
+}
+
+.tg-tour-details-video-feature-list ul li .icon svg {
+  color: var(--golfnity-gold);
+}
+
+.tg-tour-details-video-feature-list ul li .icon svg path {
+  fill: none;
+  stroke: currentColor;
+}
+/* ================================
+   Tour Details Check / X Icons
+================================ */
+
+.tg-tour-about-list ul li .icon {
+  background: var(--golfnity-moss);
+  color: var(--golfnity-gold);
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.tg-tour-about-list ul li .icon i {
+  color: var(--golfnity-gold);
+}
+
+.tg-tour-about-list ul li:hover .icon {
+  background: var(--golfnity-moss-dark);
+  color: var(--golfnity-gold);
+  transform: scale(1.05);
+}
+/* ================================
+   Tour Details Price
+================================ */
+
+.tg-tour-details-video-feature-price p {
+  color: var(--golfnity-moss);
+}
+
+.tg-tour-details-video-feature-price p > span:first-child {
+  color: var(--golfnity-moss);
+  font-weight: 700;
+}
+
+.tg-tour-details-price-unit {
+  color: var(--golfnity-moss);
+  font-weight: 700;
+}
+
+/* ================================
+   Tour Details: Highlight / Include / Exclude Icons
+================================ */
+
+.tg-tour-details-area .tg-tour-about-list li .icon,
+.tg-tour-details-area .tg-tour-about-list ul li .icon {
+  background: var(--golfnity-moss);
+  color: var(--golfnity-gold);
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.tg-tour-details-area .tg-tour-about-list li .icon i,
+.tg-tour-details-area .tg-tour-about-list li .icon svg,
+.tg-tour-details-area .tg-tour-about-list li .icon svg path {
+  color: var(--golfnity-gold);
+  fill: currentColor;
+  stroke: currentColor;
+}
+
+.tg-tour-details-area .tg-tour-about-list li:hover .icon {
+  background: var(--golfnity-moss-dark);
+  color: var(--golfnity-gold);
+  transform: scale(1.05);
+}
+
+/* ================================
+   Tour Details: Tour Plan Accordion
+================================ */
+
+.tg-tour-about-faq .accordion-button {
+  color: var(--golfnity-moss);
+  font-weight: 700;
+  transition:
+    color 0.25s ease,
+    background-color 0.25s ease;
+}
+
+.tg-tour-about-faq .accordion-button:not(.collapsed) {
+  color: var(--golfnity-moss);
+  background: rgba(230, 199, 111, 0.16);
+  box-shadow: none;
+}
+
+.tg-tour-about-faq .accordion-button span:first-child {
+  background: var(--golfnity-gold);
+  color: var(--golfnity-white);
+  font-weight: 700;
+}
+
+.tg-tour-about-faq .accordion-button span:last-child {
+  color: var(--golfnity-moss);
+  font-weight: 700;
+}
+
+.tg-tour-about-faq .accordion-button::after {
+  color: var(--golfnity-moss);
+}
+
+.tg-tour-about-faq .accordion-button:hover {
+  color: var(--golfnity-moss-dark);
+}
+
+.tg-tour-about-faq .accordion-button:hover span:last-child {
+  color: var(--golfnity-moss-dark);
+}
+.tg-tour-about-faq .accordion-button i,
+.tg-tour-about-faq .accordion-button svg,
+.tg-tour-about-faq .accordion-button svg path {
+  color: var(--golfnity-moss);
+  fill: currentColor;
+  stroke: currentColor;
+}
+
+/* ================================
+   Tour Details Booking Time Radio
+================================ */
+
+.tg-tour-about-time .form-check-input {
+  border-color: var(--golfnity-gold);
+  box-shadow: none;
+  cursor: pointer;
+}
+
+.tg-tour-about-time .form-check-input:checked {
+  background-color: var(--golfnity-moss);
+  border-color: var(--golfnity-moss);
+  box-shadow: none;
+}
+
+.tg-tour-about-time .form-check-input:focus {
+  border-color: var(--golfnity-gold);
+  box-shadow: 0 0 0 3px rgba(230, 199, 111, 0.25);
+}
+
+.tg-tour-about-time .form-check-label {
+  cursor: pointer;
+}
+
+.tg-tour-about-time .form-check-input:checked + .form-check-label {
+  color: var(--golfnity-moss);
+  font-weight: 700;
+}
+
+/* ================================
+   Tour Details Review Summary
+================================ */
+
+/* Điểm review 4.9 */
+.tg-tour-about-review .review-left .review-info-inner h2 {
+  color: var(--golfnity-moss);
+  font-weight: 700;
+}
+
+/* Chữ Excellent */
+.tg-tour-about-review .review-left .review-info-inner span {
+  color: var(--golfnity-moss);
+  font-weight: 700;
+}
+
+/* Thanh progress đánh giá */
+.tg-tour-about-review .bar-rv-progress .progress .progress-bar {
+  background-color: var(--golfnity-moss);
+  border-color: var(--golfnity-moss);
+}
+
+/* Nền thanh progress giữ xám nhạt */
+.tg-tour-about-review .bar-rv-progress .progress {
+  background-color: #e5e7eb;
+}
+
+/* Review date */
+.tg-tour-about-cus-name h6 span {
+  color: var(--golfnity-gold-dark);
+  font-weight: 700;
+}
+
+/* ================================
+   Tour Details Highlight / Include Icons
+================================ */
+
+.tg-tour-about-list ul li .icon {
+  background: var(--golfnity-moss);
+  color: var(--golfnity-gold);
+}
+
+.tg-tour-about-list ul li .icon i {
+  color: var(--golfnity-gold);
+}
+
+/* ================================
+   Blog Meta Icons
+================================ */
+
+.tg-blog-standard-date span svg,
+.tg-blog-standard-date span svg path,
+.tg-blog-grid-item .tg-blog-standard-date span svg,
+.tg-blog-grid-item .tg-blog-standard-date span svg path {
+  color: var(--golfnity-moss);
+  fill: none;
+  stroke: currentColor;
+}
+
+.tg-blog-standard-date span i,
+.tg-blog-grid-item .tg-blog-standard-date span i {
+  color: var(--golfnity-moss);
+}
+
+/* ================================
+   Blog Read More Button
+================================ */
+
+.tg-blog-grid-item .tg-btn,
+.tg-blog-grid-item .tg-btn:visited,
+.tg-blog-standard-content .tg-btn,
+.tg-blog-standard-content .tg-btn:visited {
+  background: transparent;
+  color: var(--golfnity-gold);
+  border: 1px solid var(--golfnity-gold);
+  font-weight: 700;
+  text-decoration: none;
+  transition:
+    color 0.25s ease,
+    border-color 0.25s ease,
+    background-color 0.25s ease;
+}
+
+.tg-blog-grid-item .tg-btn svg,
+.tg-blog-grid-item .tg-btn svg path,
+.tg-blog-standard-content .tg-btn svg,
+.tg-blog-standard-content .tg-btn svg path {
+  color: currentColor;
+  stroke: currentColor;
+  fill: none;
+}
+
+.tg-blog-grid-item .tg-btn:hover,
+.tg-blog-standard-content .tg-btn:hover {
+  background: transparent;
+  color: var(--golfnity-moss);
+  border-color: var(--golfnity-moss);
+  text-decoration: none;
+}
+
+.tg-blog-grid-item .tg-btn:hover svg,
+.tg-blog-grid-item .tg-btn:hover svg path,
+.tg-blog-standard-content .tg-btn:hover svg,
+.tg-blog-standard-content .tg-btn:hover svg path {
+  color: var(--golfnity-moss);
+  stroke: currentColor;
+}
+
+/* ================================
+   Blog Post Date Icons
+================================ */
+
+.tg-blog-post-date svg,
+.tg-blog-post-date svg path,
+.tg-blog-post-item .tg-blog-post-date svg,
+.tg-blog-post-item .tg-blog-post-date svg path {
+  color: var(--golfnity-moss);
+  fill: none;
+  stroke: currentColor;
+}
+
+.tg-blog-post-date i,
+.tg-blog-post-item .tg-blog-post-date i {
+  color: var(--golfnity-moss);
+}
+
+/* ================================
+   Breadcrumb Readability on Banner
+================================ */
+
+.tg-breadcrumb-list,
+.tg-breadcrumb-list-2,
+.tg-breadcrumb-list-3,
+.tg-breadcrumb-list-4 {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(230, 199, 111, 0.92);
+  padding: 8px 18px;
+  border-radius: 8px;
+}
+
+.tg-breadcrumb-list ul,
+.tg-breadcrumb-list-2 ul,
+.tg-breadcrumb-list-3 ul,
+.tg-breadcrumb-list-4 ul {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+}
+
+.tg-breadcrumb-list ul li,
+.tg-breadcrumb-list-2 ul li,
+.tg-breadcrumb-list-3 ul li,
+.tg-breadcrumb-list-4 ul li,
+.tg-breadcrumb-list ul li a,
+.tg-breadcrumb-list-2 ul li a,
+.tg-breadcrumb-list-3 ul li a,
+.tg-breadcrumb-list-4 ul li a,
+.tg-breadcrumb-list ul li span,
+.tg-breadcrumb-list-2 ul li span,
+.tg-breadcrumb-list-3 ul li span,
+.tg-breadcrumb-list-4 ul li span,
+.tg-breadcrumb-list ul li i,
+.tg-breadcrumb-list-2 ul li i,
+.tg-breadcrumb-list-3 ul li i,
+.tg-breadcrumb-list-4 ul li i {
+  color: var(--golfnity-moss-dark);
+  font-weight: 700;
+}
+
+.tg-breadcrumb-list ul li a:hover,
+.tg-breadcrumb-list-2 ul li a:hover,
+.tg-breadcrumb-list-3 ul li a:hover,
+.tg-breadcrumb-list-4 ul li a:hover {
+  color: var(--golfnity-moss);
+  text-decoration: underline;
+}
+
+/* ================================
+   Blog Ads Book Now Button
+================================ */
+
+.tg-blog-ads-btn .tg-btn,
+.tg-blog-ads-btn .tg-btn:visited,
+.tg-blog-ads-btn .tg-btn-transparent,
+.tg-blog-ads-btn .tg-btn-transparent:visited {
+  background: var(--golfnity-moss);
+  color: var(--golfnity-gold);
+  border: 1px solid var(--golfnity-moss);
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: none;
+  transition:
+    background-color 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.tg-blog-ads-btn .tg-btn .btn-text,
+.tg-blog-ads-btn .tg-btn .btn-icon,
+.tg-blog-ads-btn .tg-btn svg,
+.tg-blog-ads-btn .tg-btn svg path {
+  color: var(--golfnity-gold);
+  stroke: currentColor;
+}
+
+.tg-blog-ads-btn .tg-btn:hover,
+.tg-blog-ads-btn .tg-btn-transparent:hover {
+  background: var(--golfnity-moss-dark);
+  color: var(--golfnity-gold);
+  border-color: var(--golfnity-moss-dark);
+  text-decoration: none;
+  transform: translateY(-2px);
+}
+
+.tg-blog-ads-btn .tg-btn:hover .btn-text,
+.tg-blog-ads-btn .tg-btn:hover .btn-icon,
+.tg-blog-ads-btn .tg-btn:hover svg,
+.tg-blog-ads-btn .tg-btn:hover svg path {
+  color: var(--golfnity-gold);
+  stroke: currentColor;
+}
+/* ================================
+   Blog Details Check Icons
+================================ */
+
+.tg-blog-details-video-list ul li span {
+  background: var(--golfnity-moss);
+  color: var(--golfnity-gold);
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.tg-blog-details-video-list ul li span i {
+  color: var(--golfnity-gold);
+}
+
+.tg-blog-details-video-list ul li:hover span {
+  background: var(--golfnity-moss-dark);
+  color: var(--golfnity-gold);
+  transform: scale(1.05);
+}
+
+/* ================================
+   About Choose Icons
+================================ */
+
+.tg-chose-6-wrap .icon {
+  background: var(--golfnity-moss);
+  color: var(--golfnity-gold);
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.tg-chose-6-wrap .icon svg {
+  color: var(--golfnity-gold);
+}
+
+.tg-chose-6-wrap .icon svg path {
+  stroke: currentColor;
+}
+
+.tg-chose-6-wrap:hover .icon {
+  background: var(--golfnity-moss-dark);
+  color: var(--golfnity-gold);
+  transform: translateY(-3px);
 }

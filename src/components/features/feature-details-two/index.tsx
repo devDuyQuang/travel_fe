@@ -3,7 +3,7 @@ import TourDetailsArea from "./TourDetailsArea"
 import TourAboutDetails from "./TourAboutDetails"
 import HeaderSix from "@/layouts/headers/HeaderSix"
 import Listing from "./Listing"
-import FooterThree from "@/layouts/footers/FooterThree";
+import FooterFive from "@/layouts/footers/FooterFive";
 
 const FeatureDetailsTwo = () => {
    return (
@@ -15,7 +15,7 @@ const FeatureDetailsTwo = () => {
             <TourAboutDetails />
             <Listing />
          </main>
-         <FooterThree />
+         <FooterFive />
       </>
    )
 }

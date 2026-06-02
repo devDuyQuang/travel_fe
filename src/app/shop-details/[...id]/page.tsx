@@ -3,7 +3,7 @@ import ShopDetails from "@/components/pages/shops/shop-details";
 import ShopDetailsArea from "@/components/pages/shops/shop-details/ShopDetailsArea";
 import ShopDetailsTabArea from "@/components/pages/shops/shop-details/ShopDetailsTabArea";
 import shop_data from "@/data/ShopData";
-import FooterThree from "@/layouts/footers/FooterThree";
+import FooterSix from "@/layouts/footers/FooterSix";
 import HeaderThree from "@/layouts/headers/HeaderThree";
 import Wrapper from "@/layouts/Wrapper";
 
@@ -24,7 +24,7 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
         <ShopDetailsArea single_product={single_product} />
         <ShopDetailsTabArea />
       </main>
-      <FooterThree />
+      <FooterSix />
       <ShopDetails />
     </Wrapper>
   )

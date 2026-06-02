@@ -1,5 +1,5 @@
 import BreadCrumb from "@/components/common/BreadCrumb"
-import FooterThree from "@/layouts/footers/FooterThree";
+import FooterSix from "@/layouts/footers/FooterSix";
 import HeaderThree from "@/layouts/headers/HeaderThree"
 import AboutArea from "./AboutArea"
 import Choose from "./Choose"
@@ -15,7 +15,7 @@ const About = () => {
             <Choose />
             <Cta />
          </main>
-         <FooterThree />
+         <FooterSix />
       </>
    )
 }

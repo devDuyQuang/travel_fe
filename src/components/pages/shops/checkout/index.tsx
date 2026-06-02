@@ -1,5 +1,5 @@
 import BreadCrumb from "@/components/common/BreadCrumb"
-import FooterThree from "@/layouts/footers/FooterThree";
+import FooterSix from "@/layouts/footers/FooterSix";
 import HeaderThree from "@/layouts/headers/HeaderThree"
 import CheckoutArea from "./CheckoutArea"
 
@@ -11,7 +11,7 @@ const Checkout = () => {
             <BreadCrumb title="Checkout Page" sub_title="Checkout Page" />
             <CheckoutArea />
          </main>
-         <FooterThree />
+         <FooterSix />
       </>
    )
 }

@@ -1,5 +1,5 @@
 import LoginArea from "./LoginArea"
-import FooterThree from "@/layouts/footers/FooterThree";
+import FooterFive from "@/layouts/footers/FooterFive";
 import InnerHeader from "@/layouts/headers/InnerHeader"
 
 const Login = () => {
@@ -9,7 +9,7 @@ const Login = () => {
          <main>
             <LoginArea />
          </main>
-         <FooterThree />
+         <FooterFive />
       </>
    )
 }
