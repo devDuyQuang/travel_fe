@@ -9,7 +9,7 @@ import Testimonial from "./Testimonial"
 import Brand from "./Brand"
 import Blog from "../home-three/Blog"
 import Listing from "./Listing"
-import FooterFour from "@/layouts/footers/FooterFour"
+import FooterThree from "@/layouts/footers/FooterThree";
 import CtaTwo from "../home-one/Cta"
 
 const HomeSeven = () => {
@@ -29,7 +29,7 @@ const HomeSeven = () => {
             <Blog />
             <CtaTwo/>
          </main>
-         <FooterFour />
+         <FooterThree />
       </>
    )
 }

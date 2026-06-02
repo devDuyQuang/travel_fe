@@ -1,48 +1,33 @@
+/* :root {
+  --golfnity-moss: #1b4d3e;
+  --golfnity-moss-dark: #12382d;
+  --golfnity-gold: #e6c76f;
+  --golfnity-white: #ffffff;
+  --golfnity-link-blue: #0b4ea2;
+} */
+
+:root {
+  --golfnity-moss: #1b4d3e;
+  --golfnity-moss-dark: #12382d;
+  --golfnity-gold: #e6c76f;
+  --golfnity-white: #ffffff;
+  --golfnity-link-blue: #0b4ea2;
+  --golfnity-link-visited: #075985;
+  /* --golfnity-link-visited: #dc2626; */
+}
+
+/* ================================
+   Golfnity Header Brand
+================================ */
+
 .golfnity-header.header-sticky {
-  background: #1b4d3e;
+  background: var(--golfnity-moss);
   backdrop-filter: none;
 }
 
-.golfnity-header.header-sticky .tgmenu__main-menu ul>li>a,
-.golfnity-header.header-sticky .tg-header-contact-number span,
-.golfnity-header.header-sticky .tg-header-contact-number a,
-.golfnity-header.header-sticky .tg-header-cart .cart-button {
-  color: #e6c76f;
-}
-
-.golfnity-header.header-sticky .tg-header-contact-icon {
-  color: #e6c76f;
-  border-color: rgba(230, 199, 111, 0.7);
-}
-
-.golfnity-header.header-sticky .tgmenu-offcanvas-open-btn span {
-  background-color: #e6c76f;
-}
-
-.golfnity-header.header-sticky .tg-btn-header {
-  color: #1f6b5a;
-  background: #e6c76f;
-  border-color: #e6c76f;
-}
-
-.golfnity-header.header-sticky .tg-btn-header:hover {
-  color: #e6c76f;
-  background: transparent;
-}
-
-.golfnity-header .tgmenu__navbar-wrap ul li a {
-  color: #e6c76f;
-}
-
-.golfnity-header .tgmenu__navbar-wrap>ul>li:hover>a {
-  color: #ffffff;
-}
-
-.golfnity-header .tgmenu__navbar-wrap>ul>li.active>a {
-  color: #e6c76f;
-}
-
-/* css của phần logo  */
+/* ================================
+   Logo
+================================ */
 
 .golfnity-logo-img {
   width: 180px;
@@ -50,21 +35,531 @@
   max-width: 100%;
 }
 
-.golfnity-header .tg-btn-header {
-  color: #1f6b5a;
-  background: #e6c76f;
-  border-color: #e6c76f;
+/* ================================
+   Main Menu
+================================ */
+
+.golfnity-header .tgmenu__navbar-wrap ul li a,
+.golfnity-header.header-sticky .tgmenu__main-menu ul > li > a {
+  color: var(--golfnity-gold);
+  font-size: 18px;
+  font-weight: 600;
+  text-decoration: none;
+  transition:
+    color 0.3s ease,
+    text-decoration-color 0.3s ease;
 }
 
-.golfnity-header .tg-btn-header:hover {
-  color: #e6c76f;
-  background: transparent;
-  border-color: #e6c76f;
+.golfnity-header .tgmenu__navbar-wrap > ul > li:hover > a,
+.golfnity-header.header-sticky .tgmenu__main-menu ul > li:hover > a {
+  color: var(--golfnity-white);
+  text-decoration: underline;
+  text-underline-offset: 5px;
 }
+
+.golfnity-header .tgmenu__navbar-wrap > ul > li.active > a,
+.golfnity-header.header-sticky .tgmenu__main-menu ul > li.active > a {
+  color: var(--golfnity-gold);
+}
+
+/* ================================
+   Remove Header Separators
+================================ */
+
+.golfnity-header .tg-header-border,
+.golfnity-header.header-sticky .tg-header-border {
+  display: none;
+}
+
+/* ================================
+   Header Contact
+================================ */
+
+.golfnity-header .tg-header-contact-icon,
+.golfnity-header.header-sticky .tg-header-contact-icon {
+  color: var(--golfnity-gold);
+  border-color: rgba(230, 199, 111, 0.7);
+  transition:
+    color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.golfnity-header .tg-header-contact-icon svg,
+.golfnity-header .tg-header-contact-icon svg path,
+.golfnity-header.header-sticky .tg-header-contact-icon svg,
+.golfnity-header.header-sticky .tg-header-contact-icon svg path {
+  color: var(--golfnity-gold);
+  fill: currentColor;
+  stroke: currentColor;
+  transition:
+    color 0.3s ease,
+    fill 0.3s ease,
+    stroke 0.3s ease;
+}
+
+.golfnity-header .tg-header-contact-number span,
+.golfnity-header .tg-header-contact-number a,
+.golfnity-header.header-sticky .tg-header-contact-number span,
+.golfnity-header.header-sticky .tg-header-contact-number a {
+  color: var(--golfnity-gold);
+  transition: color 0.3s ease;
+}
+
+.golfnity-header .tg-header-contact-info:hover .tg-header-contact-icon,
+.golfnity-header .tg-header-contact-info:hover .tg-header-contact-number span,
+.golfnity-header .tg-header-contact-info:hover .tg-header-contact-number a {
+  color: var(--golfnity-white);
+  border-color: rgba(255, 255, 255, 0.8);
+}
+
+.golfnity-header .tg-header-contact-info:hover .tg-header-contact-icon svg,
+.golfnity-header
+  .tg-header-contact-info:hover
+  .tg-header-contact-icon
+  svg
+  path {
+  color: var(--golfnity-white);
+  fill: currentColor;
+  stroke: currentColor;
+}
+
+/* ================================
+   Header Cart
+================================ */
+
+.golfnity-header .tg-header-cart .cart-button,
+.golfnity-header.header-sticky .tg-header-cart .cart-button {
+  color: var(--golfnity-gold);
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  transition: color 0.3s ease;
+}
+
+.golfnity-header .tg-header-cart .cart-button svg,
+.golfnity-header .tg-header-cart .cart-button svg path,
+.golfnity-header.header-sticky .tg-header-cart .cart-button svg,
+.golfnity-header.header-sticky .tg-header-cart .cart-button svg path {
+  color: var(--golfnity-gold);
+  fill: currentColor;
+  stroke: currentColor;
+  transition:
+    color 0.3s ease,
+    fill 0.3s ease,
+    stroke 0.3s ease;
+}
+
+.golfnity-header .tg-header-cart .cart-button:hover,
+.golfnity-header.header-sticky .tg-header-cart .cart-button:hover {
+  color: var(--golfnity-white);
+  background: transparent;
+}
+
+.golfnity-header .tg-header-cart .cart-button:hover svg,
+.golfnity-header .tg-header-cart .cart-button:hover svg path {
+  color: var(--golfnity-white);
+  fill: currentColor;
+  stroke: currentColor;
+}
+
+.golfnity-header .tg-header-cart-count,
+.golfnity-header.header-sticky .tg-header-cart-count {
+  background: var(--golfnity-white);
+  color: var(--golfnity-gold);
+  border: 1px solid var(--golfnity-gold);
+}
+
+/* ================================
+   Header Login Action
+================================ */
+
+.golfnity-header .tg-btn-header,
+.golfnity-header.header-sticky .tg-btn-header {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--golfnity-gold);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1;
+  box-shadow: none;
+  text-transform: capitalize;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.golfnity-header .tg-btn-header:hover,
+.golfnity-header .tg-btn-header:focus,
+.golfnity-header.header-sticky .tg-btn-header:hover,
+.golfnity-header.header-sticky .tg-btn-header:focus {
+  background: transparent;
+  color: var(--golfnity-white);
+  border: 0;
+  box-shadow: none;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
+
+.golfnity-header .tg-btn-header span,
+.golfnity-header.header-sticky .tg-btn-header span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 0;
+  transform: none;
+}
+
+.golfnity-header .tg-btn-header svg,
+.golfnity-header .tg-btn-header svg path,
+.golfnity-header.header-sticky .tg-btn-header svg,
+.golfnity-header.header-sticky .tg-btn-header svg path {
+  color: var(--golfnity-gold);
+  fill: currentColor;
+  stroke: currentColor;
+  transition:
+    color 0.3s ease,
+    fill 0.3s ease,
+    stroke 0.3s ease;
+}
+
+.golfnity-header .tg-btn-header:hover svg,
+.golfnity-header .tg-btn-header:hover svg path,
+.golfnity-header.header-sticky .tg-btn-header:hover svg,
+.golfnity-header.header-sticky .tg-btn-header:hover svg path {
+  color: var(--golfnity-white);
+  fill: currentColor;
+  stroke: currentColor;
+}
+
+/* ================================
+   Menu Bar / Offcanvas Icon
+================================ */
+
+.golfnity-header .tgmenu-offcanvas-open-btn span,
+.golfnity-header.header-sticky .tgmenu-offcanvas-open-btn span {
+  background-color: var(--golfnity-gold);
+  transition: background-color 0.3s ease;
+}
+
+.golfnity-header .tgmenu-offcanvas-open-btn:hover span,
+.golfnity-header.header-sticky .tgmenu-offcanvas-open-btn:hover span {
+  background-color: var(--golfnity-white);
+}
+
+/* ================================
+   CTA App Banner
+================================ */
+
+.golfnity-cta-app-banner .tg-section-subtitle,
+.golfnity-cta-app-banner .tg-cta-title {
+  color: var(--golfnity-moss);
+}
+
+/* ================================
+   Main Content Links
+   Requirement:
+   - Blue and bold
+   - Hover underline
+   - Visited stays blue and bold
+   - Exclude header/menu/buttons/logos
+================================ */
+
+main
+  a:not(.tg-btn):not(.tg-btn-header):not(.cart-button):not(.logo-1):not(
+    .logo-2
+  ):link,
+/* Main Content Links */
+main
+  a:not(.tg-btn):not(.tg-btn-header):not(.cart-button):not(.logo-1):not(
+    .logo-2
+  ):link {
+  color: var(--golfnity-link-blue);
+  /* color: var(--golfnity-link-visited); */
+  font-weight: 700;
+  text-decoration: none;
+}
+
+main
+  a:not(.tg-btn):not(.tg-btn-header):not(.cart-button):not(.logo-1):not(
+    .logo-2
+  ):visited {
+  color: var(--golfnity-link-visited);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+main
+  a:not(.tg-btn):not(.tg-btn-header):not(.cart-button):not(.logo-1):not(
+    .logo-2
+  ):hover {
+  color: var(--golfnity-link-blue);
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+main
+  a:not(.tg-btn):not(.tg-btn-header):not(.cart-button):not(.logo-1):not(
+    .logo-2
+  ):active {
+  color: var(--golfnity-link-visited);
+  font-weight: 700;
+}
+
+/* Listing card title links */
+main .tg-listing-card-title a:link {
+  color: var(--golfnity-link-blue);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+main .tg-listing-card-title a:visited {
+  color: var(--golfnity-link-visited);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+main .tg-listing-card-title a:hover {
+  color: var(--golfnity-link-blue);
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+main .tg-listing-card-title a:active {
+  color: var(--golfnity-link-visited);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+/* ================================
+   Footer
+================================ */
+
+.golfnity-footer {
+  background: var(--golfnity-moss);
+  background-image: none;
+}
+
+.golfnity-footer,
+.golfnity-footer p,
+.golfnity-footer li,
+.golfnity-footer span,
+.golfnity-footer .tg-footer-widget-title,
+.golfnity-footer .tg-footer-copyright {
+  color: var(--golfnity-white);
+}
+
+/* Footer typography */
+.tg-footer-area {
+  color: var(--golfnity-white);
+}
+
+.tg-footer-area p,
+.tg-footer-area span,
+.tg-footer-area li,
+.tg-footer-area h1,
+.tg-footer-area h2,
+.tg-footer-area h3,
+.tg-footer-area h4,
+.tg-footer-area h5,
+.tg-footer-area h6 {
+  color: inherit;
+}
+
+/* Footer links */
+.tg-footer-area a:link,
+.tg-footer-area a:visited {
+  color: var(--golfnity-white);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.tg-footer-area a:hover {
+  color: var(--golfnity-white);
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.tg-footer-area a:active {
+  color: var(--golfnity-white);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+/* Footer information icons */
+.golfnity-footer .tg-footer-info svg,
+.golfnity-footer .tg-footer-info svg path,
+.golfnity-footer .tg-footer-info i,
+.tg-footer-area i,
+.tg-footer-area svg {
+  color: currentColor;
+  fill: none;
+  stroke: currentColor;
+}
+
+/* Footer social icons */
+.golfnity-footer .tg-footer-social a {
+  color: var(--golfnity-white);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.golfnity-footer .tg-footer-social a:hover {
+  color: var(--golfnity-moss);
+  background: var(--golfnity-gold);
+  text-decoration: none;
+}
+
+/* Footer email form */
+.golfnity-footer .tg-footer-form input {
+  color: var(--golfnity-moss);
+}
+
+.golfnity-footer .tg-footer-form input::placeholder {
+  color: rgba(27, 77, 62, 0.75);
+}
+
+/* Footer submit button */
+.golfnity-footer .tg-footer-form-btn {
+  background: var(--golfnity-gold);
+  color: var(--golfnity-moss);
+  border: 0;
+}
+
+.golfnity-footer .tg-footer-form-btn svg,
+.golfnity-footer .tg-footer-form-btn svg path,
+.golfnity-footer .tg-footer-form-btn i {
+  color: var(--golfnity-moss);
+  stroke: currentColor;
+}
+
+.golfnity-footer .tg-footer-form-btn:hover {
+  background: var(--golfnity-white);
+  color: var(--golfnity-moss);
+}
+
+/* ================================
+   Responsive
+================================ */
 
 @media (max-width: 767px) {
   .golfnity-logo-img {
     width: 140px;
     height: auto;
   }
+
+  .golfnity-header .tg-btn-header,
+  .golfnity-header.header-sticky .tg-btn-header {
+    font-size: 14px;
+  }
+}
+
+/* ================================
+   Banner CTA Button
+   Used on About / inner banner pages
+================================ */
+
+.tg-banner-4-content .tg-btn-transparent {
+  background: var(--golfnity-gold);
+  color: var(--golfnity-moss);
+  border: 0;
+  border-radius: 6px;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: none;
+}
+
+.tg-banner-4-content .tg-btn-transparent span,
+.tg-banner-4-content .tg-btn-transparent i,
+.tg-banner-4-content .tg-btn-transparent svg,
+.tg-banner-4-content .tg-btn-transparent svg path {
+  color: var(--golfnity-moss);
+  fill: currentColor;
+  stroke: currentColor;
+}
+
+.tg-banner-4-content .tg-btn-transparent:hover {
+  background: var(--golfnity-moss);
+  color: var(--golfnity-gold);
+  text-decoration: none;
+  transform: translateY(-2px);
+}
+
+.tg-banner-4-content .tg-btn-transparent:hover span,
+.tg-banner-4-content .tg-btn-transparent:hover i,
+.tg-banner-4-content .tg-btn-transparent:hover svg,
+.tg-banner-4-content .tg-btn-transparent:hover svg path {
+  color: var(--golfnity-gold);
+  fill: currentColor;
+  stroke: currentColor;
+}
+
+/* Home hero button */
+.tg-banner-2-content .tg-btn-transparent,
+.tg-banner-4-content .tg-btn-transparent {
+  background: var(--golfnity-gold);
+  color: var(--golfnity-moss);
+  border: 0;
+  border-radius: 6px;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: none;
+}
+
+.tg-banner-2-content .tg-btn-transparent .btn-text,
+.tg-banner-2-content .tg-btn-transparent .btn-icon,
+.tg-banner-2-content .tg-btn-transparent svg,
+.tg-banner-2-content .tg-btn-transparent svg path,
+.tg-banner-4-content .tg-btn-transparent .btn-text,
+.tg-banner-4-content .tg-btn-transparent .btn-icon,
+.tg-banner-4-content .tg-btn-transparent svg,
+.tg-banner-4-content .tg-btn-transparent svg path {
+  color: var(--golfnity-moss);
+  fill: currentColor;
+  stroke: currentColor;
+}
+
+.tg-banner-2-content .tg-btn-transparent:hover,
+.tg-banner-4-content .tg-btn-transparent:hover {
+  background: var(--golfnity-moss);
+  color: var(--golfnity-gold);
+  text-decoration: none;
+  transform: translateY(-2px);
+}
+
+.tg-banner-2-content .tg-btn-transparent:hover .btn-text,
+.tg-banner-2-content .tg-btn-transparent:hover .btn-icon,
+.tg-banner-2-content .tg-btn-transparent:hover svg,
+.tg-banner-2-content .tg-btn-transparent:hover svg path,
+.tg-banner-4-content .tg-btn-transparent:hover .btn-text,
+.tg-banner-4-content .tg-btn-transparent:hover .btn-icon,
+.tg-banner-4-content .tg-btn-transparent:hover svg,
+.tg-banner-4-content .tg-btn-transparent:hover svg path {
+  color: var(--golfnity-gold);
+  fill: currentColor;
+  stroke: currentColor;
+}
+
+/* ================================
+   Golfnity Footer Spacing
+================================ */
+
+.golfnity-footer.tg-footer-space {
+  padding-top: 130px;
+  padding-bottom: 30px;
+}
+
+.golfnity-footer .tg-footer-top {
+  margin-bottom: 30px;
+}
+
+.golfnity-footer .tg-footer-widget {
+  margin-bottom: 30px;
+}
+
+.golfnity-footer .tg-footer-copyright {
+  padding-top: 22px;
+  padding-bottom: 22px;
 }
