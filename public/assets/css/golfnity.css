@@ -1200,3 +1200,47 @@ main .tg-listing-card-title a:active {
   color: var(--golfnity-gold);
   transform: translateY(-3px);
 }
+
+/* ================================
+   Mobile Booking Form Overflow Fix
+================================ */
+
+@media (max-width: 575px) {
+  .tg-booking-form-input,
+  .tg-booking-form-input .tg-booking-form-input-content,
+  .tg-booking-form-input input,
+  .tg-booking-title-value {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+
+  .tg-booking-form-input {
+    overflow: hidden;
+  }
+
+  .tg-booking-title-value {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .tg-booking-form-input input[type="date"],
+  .tg-booking-form-input input[type="text"] {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    padding-right: 42px;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  .tg-booking-form-search,
+  .tg-booking-form-search button,
+  .tg-booking-form-search .tg-btn {
+    width: 100%;
+    max-width: 100%;
+  }
+}
