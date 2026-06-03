@@ -1211,3 +1211,20 @@ main .tg-listing-card-title a:active {
   color: var(--golfnity-gold);
   transform: translateY(-3px);
 }
+
+/* ================================
+   Tour Details Price Unit
+================================ */
+
+.tg-tour-details-video-feature-price p span.tg-tour-details-price-unit {
+  color: var(--golfnity-gold);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.tg-tour-details-video-feature-price p > span:first-of-type {
+  color: var(--golfnity-moss);
+  font-size: 30px;
+  font-weight: 700;
+}
