@@ -711,54 +711,64 @@ main .tg-listing-card-title a:active {
 ================================ */
 
 .tg-breadcrumb-list,
-.tg-breadcrumb-list ul,
-.tg-breadcrumb-list ul li,
-.tg-breadcrumb-list ul li a,
-.tg-breadcrumb-list ul li span,
-.tg-breadcrumb-list ul li i,
-.tg-breadcrumb-list .dvr {
-  color: var(--golfnity-moss);
-  font-weight: 700;
-}
-
-.tg-breadcrumb-list ul li a:hover {
-  color: var(--golfnity-moss-dark);
-  text-decoration: underline;
-}
-
-.tg-breadcrumb-list ul li a:visited {
-  color: var(--golfnity-moss);
-}
-/* ================================
-   Breadcrumb
-================================ */
-
-.tg-breadcrumb-list,
 .tg-breadcrumb-list-2,
+.tg-breadcrumb-list-3,
+.tg-breadcrumb-list-4 {
+  background: transparent;
+  border-radius: 0;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .tg-breadcrumb-list ul,
 .tg-breadcrumb-list-2 ul,
+.tg-breadcrumb-list-3 ul,
+.tg-breadcrumb-list-4 ul {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0;
+  margin: 0;
+}
+
 .tg-breadcrumb-list ul li,
 .tg-breadcrumb-list-2 ul li,
+.tg-breadcrumb-list-3 ul li,
+.tg-breadcrumb-list-4 ul li,
 .tg-breadcrumb-list ul li a,
 .tg-breadcrumb-list-2 ul li a,
+.tg-breadcrumb-list-3 ul li a,
+.tg-breadcrumb-list-4 ul li a,
 .tg-breadcrumb-list ul li span,
 .tg-breadcrumb-list-2 ul li span,
+.tg-breadcrumb-list-3 ul li span,
+.tg-breadcrumb-list-4 ul li span,
 .tg-breadcrumb-list ul li i,
 .tg-breadcrumb-list-2 ul li i,
+.tg-breadcrumb-list-3 ul li i,
+.tg-breadcrumb-list-4 ul li i,
 .tg-breadcrumb-list .dvr,
-.tg-breadcrumb-list-2 .dvr {
+.tg-breadcrumb-list-2 .dvr,
+.tg-breadcrumb-list-3 .dvr,
+.tg-breadcrumb-list-4 .dvr {
   color: var(--golfnity-moss);
   font-weight: 700;
 }
 
 .tg-breadcrumb-list ul li a:hover,
-.tg-breadcrumb-list-2 ul li a:hover {
+.tg-breadcrumb-list-2 ul li a:hover,
+.tg-breadcrumb-list-3 ul li a:hover,
+.tg-breadcrumb-list-4 ul li a:hover {
   color: var(--golfnity-moss-dark);
   text-decoration: underline;
 }
 
 .tg-breadcrumb-list ul li a:visited,
-.tg-breadcrumb-list-2 ul li a:visited {
+.tg-breadcrumb-list-2 ul li a:visited,
+.tg-breadcrumb-list-3 ul li a:visited,
+.tg-breadcrumb-list-4 ul li a:visited {
   color: var(--golfnity-moss);
 }
 
@@ -1067,15 +1077,16 @@ main .tg-listing-card-title a:active {
   border-radius: 8px;
 }
 
-.tg-breadcrumb-list ul,
-.tg-breadcrumb-list-2 ul,
-.tg-breadcrumb-list-3 ul,
-.tg-breadcrumb-list-4 ul {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin: 0;
+.tg-breadcrumb-list,
+.tg-breadcrumb-list-2,
+.tg-breadcrumb-list-3,
+.tg-breadcrumb-list-4 {
+  background: transparent;
+  border-radius: 0;
   padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .tg-breadcrumb-list ul li,
@@ -1199,4 +1210,21 @@ main .tg-listing-card-title a:active {
   background: var(--golfnity-moss-dark);
   color: var(--golfnity-gold);
   transform: translateY(-3px);
+}
+
+/* ================================
+   Tour Details Price Unit
+================================ */
+
+.tg-tour-details-video-feature-price p span.tg-tour-details-price-unit {
+  color: var(--golfnity-gold);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.tg-tour-details-video-feature-price p > span:first-of-type {
+  color: var(--golfnity-moss);
+  font-size: 30px;
+  font-weight: 700;
 }
