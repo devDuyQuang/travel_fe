@@ -5,12 +5,14 @@ import Image from "next/image";
 import Link from "next/link";
 import FeatureList from "./FeatureList";
 
+import type { Product } from "@/types/product";
+
 import thumb_1 from "@/assets/img/tour-details/thumb-4.jpg";
 import thumb_2 from "@/assets/img/tour-details/thumb-1.jpg";
 import thumb_3 from "@/assets/img/tour-details/thumb-2.jpg";
 import thumb_4 from "@/assets/img/tour-details/thumb-3.jpg";
 
-const FeatureDetailsArea = () => {
+const FeatureDetailsArea = ({ product }: { product: Product | null }) => {
   const [isVideoOpen, setIsVideoOpen] = useState(false);
 
   return (
@@ -21,12 +23,12 @@ const FeatureDetailsArea = () => {
             <div className="col-xl-9 col-lg-8">
               <div className="tg-tour-details-video-title-wrap">
                 <h2 className="tg-tour-details-video-title mb-15">
-                  Vatican Museums Sistine Chapel Skip the Line
+                  {product?.name ||
+                    "Vatican Museums Sistine Chapel Skip the Line"}
                 </h2>
                 <div className="tg-tour-details-video-location d-flex flex-wrap">
                   <span className="mr-25">
-                    <i className="fa-regular fa-location-dot"></i> Street
-                    Bintage,Veins City, italy
+                    {product?.location || "Street Bintage,Veins City, italy"}
                   </span>
                   <div className="tg-tour-details-video-ratings">
                     <span>
@@ -150,7 +152,7 @@ const FeatureDetailsArea = () => {
                     From <span>$59.00</span> / Person
                   </p> */}
                   <p>
-                    From <span>$59.00</span> /{" "}
+                    From <span>${product?.price || "59.00"}</span> /{" "}
                     <span className="tg-tour-details-price-unit">Pax</span>
                   </p>
                 </div>

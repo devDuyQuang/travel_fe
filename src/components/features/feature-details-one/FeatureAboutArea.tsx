@@ -5,6 +5,8 @@ import Review from "./about/Review"
 import ReviewDetails from "./about/ReviewDetails"
 import ReviewFormArea from "./about/ReviewFormArea"
 import FeatureSidebar from "./FeatureSidebar"
+import type { Product } from "@/types/product";
+
 
 const FeatureAboutArea = () => {
    return (

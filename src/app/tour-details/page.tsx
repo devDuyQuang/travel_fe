@@ -1,15 +1,12 @@
-import FeatureDetailsOne from "@/components/features/feature-details-one";
+import FeatureDetailsOne from "@/components/features/golf-details";
 import Wrapper from "@/layouts/Wrapper";
 
-export const metadata = {
-  title: "Feature DetailsOne Tourex - Tour & Travel Booking React Next js Template",
-};
-const page = () => {
+const Page = () => {
   return (
     <Wrapper>
-      <FeatureDetailsOne />
+      <FeatureDetailsOne product={null} />
     </Wrapper>
-  )
-}
+  );
+};
 
-export default page
+export default Page;

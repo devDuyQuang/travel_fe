@@ -999,6 +999,275 @@ main .tg-listing-card-title a:active {
   color: var(--golfnity-moss);
 }
 
+
+.tg-tour-details-feature-list-wrap {
+    padding: 20px 0;
+    border-top: 1px solid #eee;
+}
+
+.tg-tour-details-video-established {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    font-size: 22px;
+    font-weight: 600;
+    color: #222;
+}
+
+.golf-highlight-box {
+  display: flex;
+  align-items: stretch;
+  gap: 42px;
+  margin-bottom: 48px;
+  padding: 44px 0 36px;
+}
+
+.golf-highlight-line {
+  width: 6px;
+  background: #17563c;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.golf-highlight-box p {
+  flex: 1;
+  max-width: 900px;
+  margin: 0 auto;
+
+  color: #d4ab52;
+  font-size: clamp(24px, 2vw, 30px);
+  line-height: 1.75;
+  font-style: italic;
+  font-weight: 500;
+  text-align: center;
+
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 991px) {
+  .golf-highlight-box {
+    gap: 28px;
+    padding: 32px 0;
+  }
+
+  .golf-highlight-box p {
+    font-size: 22px;
+    line-height: 1.65;
+  }
+}
+
+@media (max-width: 575px) {
+  .golf-highlight-box {
+    gap: 18px;
+  }
+
+  .golf-highlight-line {
+    width: 4px;
+  }
+
+  .golf-highlight-box p {
+    font-size: 18px;
+    text-align: left;
+  }
+}
+
+
+/* CKEditor */
+
+.golf-information-content {
+  width: 100%;
+  margin: 35px 0 45px;
+  overflow-x: auto;
+}
+
+.golf-information-content table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #e2e5ea;
+  background: #fff;
+}
+
+.golf-information-content table th,
+.golf-information-content table td {
+  border: 1px solid #e2e5ea;
+  padding: 26px 28px;
+  font-size: 22px;
+  line-height: 1.45;
+  color: #2f3747;
+  vertical-align: middle;
+}
+
+.golf-information-content table th {
+  width: 260px;
+  background: #f3f4f6;
+  color: #123f32;
+  font-weight: 800;
+  text-align: left;
+}
+
+.golf-information-content table td {
+  font-weight: 400;
+}
+
+@media (max-width: 767px) {
+  .golf-information-content table th,
+  .golf-information-content table td {
+    padding: 16px;
+    font-size: 16px;
+  }
+
+  .golf-information-content table th {
+    width: 150px;
+  }
+}
+
+
+
+/* ===========================
+   Golf Content
+=========================== */
+
+.golf-content {
+    max-width: 100%;
+    color: #3d4654;
+    font-size: 20px;
+    line-height: 1.95;
+    word-break: break-word;
+}
+
+.golf-content h1,
+.golf-content h2,
+.golf-content h3,
+.golf-content h4,
+.golf-content h5,
+.golf-content h6 {
+    color: #123f32;
+    font-weight: 700;
+    margin: 45px 0 20px;
+    line-height: 1.4;
+}
+
+.golf-content h1 {
+    font-size: 42px;
+}
+
+.golf-content h2 {
+    font-size: 34px;
+}
+
+.golf-content h3 {
+    font-size: 30px;
+}
+
+.golf-content h4 {
+    font-size: 26px;
+}
+
+.golf-content p {
+    margin-bottom: 24px;
+    text-align: justify;
+}
+
+.golf-content strong,
+.golf-content b {
+    color: #123f32;
+    font-weight: 700;
+}
+
+.golf-content em,
+.golf-content i {
+    font-style: italic;
+}
+
+.golf-content ul,
+.golf-content ol {
+    margin: 20px 0 25px 30px;
+}
+
+.golf-content li {
+    margin-bottom: 10px;
+}
+
+.golf-content a {
+    color: #0b6b50;
+    text-decoration: none;
+}
+
+.golf-content a:hover {
+    text-decoration: underline;
+}
+
+.golf-content blockquote {
+    border-left: 5px solid #1d5c46;
+    background: #f7f9f8;
+    padding: 20px 25px;
+    margin: 30px 0;
+    font-style: italic;
+}
+
+.golf-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin: 25px auto;
+    display: block;
+}
+
+/* table */
+
+.golf-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 35px 0;
+}
+
+.golf-content table th,
+.golf-content table td {
+    border: 1px solid #e3e5e8;
+    padding: 22px 24px;
+    vertical-align: middle;
+}
+
+.golf-content table th {
+    width: 260px;
+    background: #f4f5f7;
+    color: #123f32;
+    font-weight: 700;
+    text-align: left;
+}
+
+.golf-content table td {
+    color: #3d4654;
+}
+
+/* Responsive */
+
+@media (max-width:991px){
+
+.golf-content{
+    font-size:17px;
+    line-height:1.8;
+}
+
+.golf-content h1{
+    font-size:34px;
+}
+
+.golf-content h2{
+    font-size:30px;
+}
+
+.golf-content h3{
+    font-size:26px;
+}
+
+.golf-content table th,
+.golf-content table td{
+    padding:14px;
+}
+
+}
 /* ================================
    Blog Read More Button
 ================================ */
@@ -1065,58 +1334,58 @@ main .tg-listing-card-title a:active {
    Breadcrumb Readability on Banner
 ================================ */
 
-.tg-breadcrumb-list,
-.tg-breadcrumb-list-2,
-.tg-breadcrumb-list-3,
-.tg-breadcrumb-list-4 {
+/* golfnity.css */
+
+.tg-breadcrumb-list-2 ul li{
+    color:#667085;
+    font-weight:500;
+}
+
+.tg-breadcrumb-list-2 ul li a{
+    color:#667085;
+    transition:.25s;
+}
+
+.tg-breadcrumb-list-2 ul li a:hover{
+    color:var(--golfnity-moss);
+}
+
+.tg-breadcrumb-list-2 ul li i{
+    color:#c5c8cf;
+}
+
+.tg-breadcrumb-list-2 li[aria-current="page"] span{
+    color:#495057;
+    font-weight:600;
+}
+
+.golf-rating-stars {
+  position: relative;
+  display: inline-block;
+  font-size: 18px;
+  line-height: 1;
+  letter-spacing: 1px;
+  vertical-align: middle;
+}
+
+.golf-rating-stars-bg {
+  color: #d7dce2;
+}
+
+.golf-rating-stars-fill {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  color: #ff9900;
+  pointer-events: none;
+}
+
+.tg-tour-details-video-ratings {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  background: rgba(230, 199, 111, 0.92);
-  padding: 8px 18px;
-  border-radius: 8px;
+  gap: 4px;
 }
-
-.tg-breadcrumb-list,
-.tg-breadcrumb-list-2,
-.tg-breadcrumb-list-3,
-.tg-breadcrumb-list-4 {
-  background: transparent;
-  border-radius: 0;
-  padding: 0;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.tg-breadcrumb-list ul li,
-.tg-breadcrumb-list-2 ul li,
-.tg-breadcrumb-list-3 ul li,
-.tg-breadcrumb-list-4 ul li,
-.tg-breadcrumb-list ul li a,
-.tg-breadcrumb-list-2 ul li a,
-.tg-breadcrumb-list-3 ul li a,
-.tg-breadcrumb-list-4 ul li a,
-.tg-breadcrumb-list ul li span,
-.tg-breadcrumb-list-2 ul li span,
-.tg-breadcrumb-list-3 ul li span,
-.tg-breadcrumb-list-4 ul li span,
-.tg-breadcrumb-list ul li i,
-.tg-breadcrumb-list-2 ul li i,
-.tg-breadcrumb-list-3 ul li i,
-.tg-breadcrumb-list-4 ul li i {
-  color: var(--golfnity-moss-dark);
-  font-weight: 700;
-}
-
-.tg-breadcrumb-list ul li a:hover,
-.tg-breadcrumb-list-2 ul li a:hover,
-.tg-breadcrumb-list-3 ul li a:hover,
-.tg-breadcrumb-list-4 ul li a:hover {
-  color: var(--golfnity-moss);
-  text-decoration: underline;
-}
-
 /* ================================
    Blog Ads Book Now Button
 ================================ */
@@ -1227,4 +1496,26 @@ main .tg-listing-card-title a:active {
   color: var(--golfnity-moss);
   font-size: 30px;
   font-weight: 700;
+}
+
+/* css cho phần ảnh ở tour-details/ba-na-hills-golf-club  */
+.golf-main-img,
+.golf-video-img,
+.golf-small-img {
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  border-radius: 15px;
+}
+
+.golf-main-img {
+  height: 520px;
+}
+
+.golf-video-img {
+  height: 310px;
+}
+
+.golf-small-img {
+  height: 190px;
 }
