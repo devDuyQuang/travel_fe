@@ -39,3 +39,5 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+golfnity-crawler/node_modules/
+golfnity-crawler/package-lock.json

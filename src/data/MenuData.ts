@@ -1,95 +1,51 @@
+import type { FrontendMenuItem } from "@/lib/menuApi";
 
-interface MenuItem {
-    id: number;
-    title: string;
-    link: string;
-    has_dropdown: boolean;
-    sub_menus?: {
-        link: string;
-        title: string;
-    }[];
-}
-
-const menu_data: MenuItem[] = [
-    {
-        id: 1,
-        title: "Home",
-        link: "/",
-        has_dropdown: false,
-
-        // has_dropdown: true,
-        // sub_menus: [
-        //   { link: "/home-three", title: "Home Three" },
-        // ],
-    },
-
-    {
-        id: 2,
-        title: "About",
-        link: "/about",
-        has_dropdown: false,
-
-        // title: "Features",
-        // link: "#",
-        // has_dropdown: true,
-        // sub_menus: [
-        //   { link: "/hotel-grid", title: "Hotel Grid" },
-        //   { link: "/tour-grid-1", title: "Tour Grid One" },
-        //   { link: "/tour-details", title: "Tour Details One" },
-        // ],
-    },
-
-    {
-        id: 3,
-        title: "Service",
-        link: "/tour-grid-1",
-        has_dropdown: false,
-
-        // ===== TEMPLATE VERSION =====
-        // link: "#",
-        // has_dropdown: true,
-        // sub_menus: [
-        //     {
-        //         link: "/tour-grid-1",
-        //         title: "Tour Grid",
-        //     },
-        //     {
-        //         link: "/tour-details",
-        //         title: "Tour Detail One",
-        //     },
-        // ],
-    },
-    {
-        id: 4,
-        title: "Blogs",
-        link: "/blog-grid",
-        has_dropdown: false,
-
-        // ===== TEMPLATE VERSION =====
-        // link: "#",
-        // has_dropdown: true,
-        // sub_menus: [
-        //     {
-        //         link: "/blog-grid",
-        //         title: "Blog Grid",
-        //     },
-        //     {
-        //         link: "/blog-details",
-        //         title: "Blog Detail",
-        //     },
-        //     {
-        //         link: "/blog-standard",
-        //         title: "Blog Standard",
-        //     },
-        // ],
-    },
-
-    {
-        id: 5,
-        has_dropdown: false,
-        title: "Contact",
-        link: "/contact",
-    },
+const menu_data: FrontendMenuItem[] = [
+  {
+    id: 2,
+    title: "Dịch vụ",
+    link: "/dat-tee-time",
+    has_dropdown: true,
+    sub_menus: [
+      { id: 21, title: "Đặt tee time", link: "/dat-tee-time" },
+      { id: 22, title: "Tour golf Việt Nam", link: "/tour-golf" },
+      { id: 23, title: "Khách sạn & nghỉ dưỡng", link: "/khach-san-nghi-duong" },
+      { id: 24, title: "Thuê xe & đưa đón", link: "/thue-xe-dua-don" },
+      { id: 25, title: "Tham quan & trải nghiệm", link: "/tham-quan-trai-nghiem" },
+    ],
+  },
+  {
+    id: 3,
+    title: "Giải pháp golf",
+    link: "/dich-vu/to-chuc-giai-golf",
+    has_dropdown: true,
+    sub_menus: [
+      { id: 31, title: "Tổ chức giải golf", link: "/dich-vu/to-chuc-giai-golf" },
+      { id: 32, title: "Tổ chức sự kiện golf", link: "/dich-vu/to-chuc-su-kien-golf" },
+      { id: 33, title: "Thi công phòng golf 3D", link: "/dich-vu/thi-cong-phong-golf-3d" },
+      { id: 34, title: "Thi công sân tập golf", link: "/dich-vu/thi-cong-san-tap-golf" },
+      { id: 35, title: "Thi công sân putting", link: "/dich-vu/thi-cong-san-putting" },
+      { id: 36, title: "Cho thuê mini golf", link: "/dich-vu/cho-thue-mini-golf" },
+    ],
+  },
+  {
+    id: 4,
+    title: "Tin tức",
+    link: "/blog-grid",
+    has_dropdown: false,
+  },
+  {
+    id: 5,
+    title: "Về Golfnity",
+    link: "/about",
+    has_dropdown: false,
+  },
+  {
+    id: 6,
+    title: "Liên hệ",
+    link: "/contact",
+    has_dropdown: false,
+  },
 ];
 
 export default menu_data;

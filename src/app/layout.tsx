@@ -1,6 +1,7 @@
 "use client";
 import "../styles/index.css";
 import "../../public/assets/css/main.css";
+import "../../public/assets/css/golfnity.css";
 import { Provider } from "react-redux";
 import store from "@/redux/store";
 

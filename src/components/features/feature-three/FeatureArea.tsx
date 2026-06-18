@@ -12,8 +12,13 @@ import ReactPaginate from "react-paginate";
 import { Rating } from "react-simple-star-rating";
 
 import shape from "@/assets/img/listing/listing-2/shape.png"
+import { toSlug } from "@/lib/slug";
 
-const FeatureArea = () => {
+interface FeatureAreaProps {
+   detailBasePath: string;
+}
+
+const FeatureArea = ({ detailBasePath }: FeatureAreaProps) => {
    const dispatch = useDispatch();
    const { products, setProducts } = UseProducts();
    const [isListView, setIsListView] = useState(false);
@@ -65,11 +70,14 @@ const FeatureArea = () => {
                      />
                      <div className="tg-listing-grid-item">
                         <div className={`row list-card ${isListView ? 'list-card-open' : ''}`}>
-                           {currentItems.map((item) => (
+                           {currentItems.map((item) => {
+                              const detailPath = `${detailBasePath}/${toSlug(item.title)}`;
+
+                              return (
                               <div key={item.id} className="col-xxl-4 col-xl-6 col-lg-6 col-md-6 tg-grid-full">
                                  <div className="tg-listing-card-item tg-listing-2-card-item mb-25">
                                     <div className="tg-listing-card-thumb tg-listing-2-card-thumb fix p-relative">
-                                       <Link href="/tour-details">
+                                       <Link href={detailPath}>
                                           <Image className="tg-card-border w-100" src={item.thumb} alt="listing" />
                                           {item.tag && <span className="tg-listing-item-price-discount shape">{item.tag}</span>}
                                           {item.featured && <span className="tg-listing-item-price-discount shape-3">
@@ -99,7 +107,7 @@ const FeatureArea = () => {
                                              <span className="shift">/night</span>
                                           </div>
                                        </div>
-                                       <h4 className="tg-listing-card-title"><a href="tour-details.html">{item.title}</a></h4>
+                                       <h4 className="tg-listing-card-title"><Link href={detailPath}>{item.title}</Link></h4>
                                        <div className="tg-listing-card-review mb-5">
                                           <Rating initialValue={item.review} size={16} readonly={true} />
                                           <span className="tg-listing-rating-icon"><i className="fa-sharp fa-solid fa-star"></i></span>
@@ -127,7 +135,8 @@ const FeatureArea = () => {
                                     </div>
                                  </div>
                               </div>
-                           ))}
+                              );
+                           })}
                         </div>
                         <div className="tg-pagenation-wrap text-center mt-50 mb-30">
                            <nav>

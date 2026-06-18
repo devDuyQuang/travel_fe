@@ -10,8 +10,13 @@ import { addToWishlist } from "@/redux/features/wishlistSlice";
 import FeatureTop from "./FeatureTop"
 import FeatureSidebar from "./FeatureSidebar";
 import ReactPaginate from "react-paginate";
+import { toSlug } from "@/lib/slug";
 
-const FeatureArea = () => {
+interface FeatureAreaProps {
+   detailBasePath: string;
+}
+
+const FeatureArea = ({ detailBasePath }: FeatureAreaProps) => {
    const dispatch = useDispatch();
    const { products, setProducts } = UseProducts();
    const [isListView, setIsListView] = useState(false);
@@ -63,11 +68,14 @@ const FeatureArea = () => {
                      />
                      <div className="tg-listing-grid-item">
                         <div className={`row list-card ${isListView ? 'list-card-open' : ''}`}>
-                           {currentItems.map((item) => (
+                           {currentItems.map((item) => {
+                              const detailPath = `${detailBasePath}/${toSlug(item.title)}`;
+
+                              return (
                               <div key={item.id} className="col-xxl-4 col-xl-6 col-lg-6 col-md-6 tg-grid-full">
                                  <div className="tg-listing-card-item tg-listing-4-card-item mb-25">
                                     <div className="tg-listing-card-thumb tg-listing-2-card-thumb mb-15 fix p-relative">
-                                       <Link href="/tour-details-2">
+                                       <Link href={detailPath}>
                                           <Image className="tg-card-border w-100" src={item.thumb} alt="listing" />
 
                                           {item.tag && <span className="tg-listing-item-price-discount shape">{item.tag}</span>}
@@ -87,7 +95,7 @@ const FeatureArea = () => {
                                        </div>
                                     </div>
                                     <div className="tg-listing-card-content p-relative">
-                                       <h4 className="tg-listing-card-title mb-5"><Link href="/tour-details-2">{item.title}</Link></h4>
+                                       <h4 className="tg-listing-card-title mb-5"><Link href={detailPath}>{item.title}</Link></h4>
                                        <span className="tg-listing-card-duration-map d-inline-block">
                                           <svg width="13" height="16" viewBox="0 0 13 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                              <path d="M12.3329 6.7071C12.3329 11.2324 6.55512 15.1111 6.55512 15.1111C6.55512 15.1111 0.777344 11.2324 0.777344 6.7071C0.777344 5.16402 1.38607 3.68414 2.46962 2.59302C3.55316 1.5019 5.02276 0.888916 6.55512 0.888916C8.08748 0.888916 9.55708 1.5019 10.6406 2.59302C11.7242 3.68414 12.3329 5.16402 12.3329 6.7071Z" stroke="currentColor" strokeWidth="1.15556" strokeLinecap="round" strokeLinejoin="round" />
@@ -100,7 +108,7 @@ const FeatureArea = () => {
                                           <span className="tg-listing-rating-percent">({item.total_review} Reviews)</span>
                                        </div>
                                        <div className="tg-listing-avai d-flex align-items-center justify-content-between">
-                                          <Link className="tg-listing-avai-btn" href="/tour-details-2">Check Availability</Link>
+                                          <Link className="tg-listing-avai-btn" href={detailPath}>Check Availability</Link>
                                           <div className="tg-listing-item-wishlist">
                                              <a onClick={() => handleAddToWishlist(item)} style={{ cursor: "pointer" }}>
                                                 <svg width="20" height="18" viewBox="0 0 20 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -112,7 +120,8 @@ const FeatureArea = () => {
                                     </div>
                                  </div>
                               </div>
-                           ))}
+                              );
+                           })}
                         </div>
                         <div className="tg-pagenation-wrap text-center mt-50 mb-30">
                            <nav>

@@ -1,0 +1,631 @@
+{
+  "url": "https://golfnity.vn/",
+  "title": "Golfnity - Đặt teetime, giải golf, phòng golf 3D và sân tập",
+  "meta_description": "Golfnity dịch vụ golf trọn gói , Golfnity chuyên đặt teetime, tổ chức giải golf, thi công phòng golf 3D, xây dựng sân tập golf và thiết bị golf",
+  "headings": [
+    {
+      "tag": "h1",
+      "text": "chuyên nghiệp & tin cậy"
+    },
+    {
+      "tag": "h1",
+      "text": "chuyên nghiệp & tin cậy"
+    },
+    {
+      "tag": "h2",
+      "text": "Đặt Teetime chơi golf"
+    },
+    {
+      "tag": "h2",
+      "text": "Tổ chức giải Golf"
+    },
+    {
+      "tag": "h2",
+      "text": "Thi công phòng Golf 3D"
+    },
+    {
+      "tag": "h2",
+      "text": "Thi công sân tập Golf"
+    },
+    {
+      "tag": "h2",
+      "text": "Cho thuê phòng Golf 3D"
+    },
+    {
+      "tag": "h2",
+      "text": "Thi công sân Putting"
+    },
+    {
+      "tag": "h2",
+      "text": "Thi công sân vườn"
+    },
+    {
+      "tag": "h2",
+      "text": "Cho thuê Mini Golf"
+    },
+    {
+      "tag": "h2",
+      "text": "Thuê xe du lịch"
+    },
+    {
+      "tag": "h2",
+      "text": "Xây dựng shop thể thao"
+    },
+    {
+      "tag": "h2",
+      "text": "Xây dựng shop thời trang"
+    },
+    {
+      "tag": "h2",
+      "text": "Thiết bị golf"
+    },
+    {
+      "tag": "h2",
+      "text": "Vì sao nên chọn chúng tôi"
+    },
+    {
+      "tag": "h2",
+      "text": "QUY TRÌNH THIẾT KẾ THI CÔNG"
+    },
+    {
+      "tag": "h2",
+      "text": "Nhận thông tin"
+    },
+    {
+      "tag": "h3",
+      "text": "Thiết kế"
+    },
+    {
+      "tag": "h3",
+      "text": "Thi công"
+    },
+    {
+      "tag": "h3",
+      "text": "Nghiệm thu"
+    },
+    {
+      "tag": "h2",
+      "text": "Thành tích và dự án Golf"
+    },
+    {
+      "tag": "h2",
+      "text": "Cam kết với quý khách hàng"
+    },
+    {
+      "tag": "h2",
+      "text": "Đánh giá của quý khách hàng"
+    },
+    {
+      "tag": "h2",
+      "text": "tin tức về golf"
+    },
+    {
+      "tag": "h2",
+      "text": "The Bluffs Grand Hồ Tràm Ưu đãi Play 12 Pay 9"
+    },
+    {
+      "tag": "h2",
+      "text": "Ưu đãi The Bluffs 27-Hole Challenge"
+    },
+    {
+      "tag": "h2",
+      "text": "Phòng Golf 3D CT Group – Golfnity"
+    },
+    {
+      "tag": "h2",
+      "text": "028 3535 4685"
+    },
+    {
+      "tag": "h3",
+      "text": "Về chúng tôi"
+    },
+    {
+      "tag": "h3",
+      "text": "Danh mục"
+    },
+    {
+      "tag": "h3",
+      "text": "Chính sách"
+    }
+  ],
+  "links": [
+    {
+      "text": "Skip to content",
+      "href": "#content"
+    },
+    {
+      "text": "Giới thiệu",
+      "href": "https://golfnity.vn/gioi-thieu/"
+    },
+    {
+      "text": "Hợp tác",
+      "href": "https://golfnity.vn/lien-he-hop-tac/"
+    },
+    {
+      "text": "Tin tức",
+      "href": "https://golfnity.vn/tin-tuc/"
+    },
+    {
+      "text": "Liên hệ",
+      "href": "https://golfnity.vn/lien-he/"
+    },
+    {
+      "text": "Trang chủ",
+      "href": "https://golfnity.vn/"
+    },
+    {
+      "text": "Teetime",
+      "href": "https://golfnity.vn/teetime/"
+    },
+    {
+      "text": "Giải Golf",
+      "href": "https://golfnity.vn/to-chuc-giai-golf/"
+    },
+    {
+      "text": "Thi công",
+      "href": "https://golfnity.vn/thi-cong/"
+    },
+    {
+      "text": "Phòng Golf 3D",
+      "href": "https://golfnity.vn/thi-cong-golf-3d/"
+    },
+    {
+      "text": "Sân tập Golf",
+      "href": "https://golfnity.vn/thi-cong-san-tap-golf/"
+    },
+    {
+      "text": "Sân Putting",
+      "href": "https://golfnity.vn/thi-cong-san-putting/"
+    },
+    {
+      "text": "Sân vườn",
+      "href": "https://golfnity.vn/thi-cong-san-vuon/"
+    },
+    {
+      "text": "Xây dựng",
+      "href": "https://golfnity.vn/xay-dung/"
+    },
+    {
+      "text": "Shop thời trang",
+      "href": "https://golfnity.vn/xay-dung-shop-thoi-trang/"
+    },
+    {
+      "text": "Shop thể thao",
+      "href": "https://golfnity.vn/xay-dung-shop-the-thao/"
+    },
+    {
+      "text": "Cho thuê",
+      "href": "https://golfnity.vn/cho-thue/"
+    },
+    {
+      "text": "Thuê Golf 3D",
+      "href": "https://golfnity.vn/cho-thue-phong-golf-3d/"
+    },
+    {
+      "text": "Thuê Mini Golf",
+      "href": "https://golfnity.vn/cho-thue-mini-golf/"
+    },
+    {
+      "text": "Thuê xe du lịch",
+      "href": "https://golfnity.vn/thue-xe-du-lich/"
+    },
+    {
+      "text": "Thuê xe gia đình",
+      "href": "https://golfnity.vn/thue-xe-gia-dinh/"
+    },
+    {
+      "text": "Thiết bị",
+      "href": "https://golfnity.vn/thiet-bi-golf/"
+    },
+    {
+      "text": "admin",
+      "href": "https://golfnity.vn/author/admin/"
+    },
+    {
+      "text": "Đặt Teetime chơi golf",
+      "href": "https://golfnity.vn/teetime/"
+    },
+    {
+      "text": "Xem thêm",
+      "href": "https://golfnity.vn/teetime/"
+    },
+    {
+      "text": "Tổ chức giải Golf",
+      "href": "https://golfnity.vn/to-chuc-giai-golf/"
+    },
+    {
+      "text": "Xem thêm",
+      "href": "https://golfnity.vn/to-chuc-giai-golf/"
+    },
+    {
+      "text": "Thi công phòng Golf 3D",
+      "href": "https://golfnity.vn/thi-cong-golf-3d/"
+    },
+    {
+      "text": "Xem thêm",
+      "href": "https://golfnity.vn/thi-cong-golf-3d/"
+    },
+    {
+      "text": "Thi công sân tập Golf",
+      "href": "https://golfnity.vn/thi-cong-san-tap-golf/"
+    },
+    {
+      "text": "Xem thêm",
+      "href": "https://golfnity.vn/thi-cong-san-tap-golf/"
+    },
+    {
+      "text": "Cho thuê phòng Golf 3D",
+      "href": "https://golfnity.vn/cho-thue-phong-golf-3d/"
+    },
+    {
+      "text": "Xem thêm",
+      "href": "https://golfnity.vn/cho-thue-phong-golf-3d/"
+    },
+    {
+      "text": "Thi công sân Putting",
+      "href": "https://golfnity.vn/thi-cong-san-putting/"
+    },
+    {
+      "text": "Xem thêm",
+      "href": "https://golfnity.vn/thi-cong-san-putting/"
+    },
+    {
+      "text": "Thi công sân vườn",
+      "href": "https://golfnity.vn/thi-cong-san-vuon/"
+    },
+    {
+      "text": "Xem thêm",
+      "href": "https://golfnity.vn/thi-cong-san-vuon/"
+    },
+    {
+      "text": "Cho thuê Mini Golf",
+      "href": "https://golfnity.vn/cho-thue-mini-golf/"
+    },
+    {
+      "text": "Xem thêm",
+      "href": "https://golfnity.vn/cho-thue-mini-golf/"
+    },
+    {
+      "text": "Thuê xe du lịch",
+      "href": "https://golfnity.vn/thue-xe-du-lich/"
+    },
+    {
+      "text": "Xem thêm",
+      "href": "https://golfnity.vn/thue-xe-du-lich/"
+    },
+    {
+      "text": "Xây dựng shop thể thao",
+      "href": "https://golfnity.vn/xay-dung-shop-the-thao/"
+    },
+    {
+      "text": "Xem thêm",
+      "href": "https://golfnity.vn/xay-dung-shop-the-thao/"
+    },
+    {
+      "text": "Xây dựng shop thời trang",
+      "href": "https://golfnity.vn/xay-dung-shop-thoi-trang/"
+    },
+    {
+      "text": "Xem thêm",
+      "href": "https://golfnity.vn/xay-dung-shop-thoi-trang/"
+    },
+    {
+      "text": "Thiết bị golf",
+      "href": "https://golfnity.vn/thiet-bi-golf/"
+    },
+    {
+      "text": "Xem thêm",
+      "href": "https://golfnity.vn/thiet-bi-golf/"
+    },
+    {
+      "text": "LIÊN HỆ NGAY",
+      "href": "tel:0939877670"
+    },
+    {
+      "text": "Tin tức",
+      "href": "https://golfnity.vn/tin-tuc/"
+    },
+    {
+      "text": "The Bluffs Grand Hồ Tràm Ưu đãi Play 12 Pay 9",
+      "href": "https://golfnity.vn/the-bluffs-grand-ho-tram-uu-dai-play-12-pay-9/"
+    },
+    {
+      "text": "Đọc thêm",
+      "href": "https://golfnity.vn/the-bluffs-grand-ho-tram-uu-dai-play-12-pay-9/"
+    },
+    {
+      "text": "Ưu đãi The Bluffs 27-Hole Challenge",
+      "href": "https://golfnity.vn/uu-dai-the-bluffs-27-hole-challenge/"
+    },
+    {
+      "text": "Đọc thêm",
+      "href": "https://golfnity.vn/uu-dai-the-bluffs-27-hole-challenge/"
+    },
+    {
+      "text": "Phòng Golf 3D CT Group – Golfnity",
+      "href": "https://golfnity.vn/phong-golf-3d-ct-group/"
+    },
+    {
+      "text": "Đọc thêm",
+      "href": "https://golfnity.vn/phong-golf-3d-ct-group/"
+    },
+    {
+      "text": "Giới thiệu",
+      "href": "https://golfnity.vn/gioi-thieu/"
+    },
+    {
+      "text": "Liên hệ hợp tác",
+      "href": "https://golfnity.vn/lien-he-hop-tac/"
+    },
+    {
+      "text": "Điều khoản dịch vụ",
+      "href": "https://golfnity.vn/dieu-khoan-dich-vu/"
+    },
+    {
+      "text": "Báo chí nói về chúng tôi",
+      "href": "https://golfnity.vn/bao-chi-noi-ve-chung-toi/"
+    },
+    {
+      "text": "Thành tựu và giải thưởng",
+      "href": "https://golfnity.vn/thanh-tuu-va-giai-thuong/"
+    },
+    {
+      "text": "Thi công phòng Golf 3D",
+      "href": "https://golfnity.vn/thi-cong-golf-3d/"
+    },
+    {
+      "text": "Thi công sân tập Golf",
+      "href": "https://golfnity.vn/thi-cong-san-tap-golf/"
+    },
+    {
+      "text": "Đặt Teetime chơi golf",
+      "href": "https://golfnity.vn/teetime/"
+    },
+    {
+      "text": "Tổ chức giải Golf",
+      "href": "https://golfnity.vn/to-chuc-giai-golf/"
+    },
+    {
+      "text": "Cho thuê phòng Golf 3D",
+      "href": "https://golfnity.vn/cho-thue-phong-golf-3d/"
+    },
+    {
+      "text": "Liên hệ",
+      "href": "https://golfnity.vn/lien-he/"
+    },
+    {
+      "text": "Hướng dẫn mua hàng",
+      "href": "https://golfnity.vn/huong-dan-mua-hang/"
+    },
+    {
+      "text": "Chính sách bảo hành",
+      "href": "https://golfnity.vn/chinh-sach-bao-hanh/"
+    },
+    {
+      "text": "Chính sách giao hàng",
+      "href": "https://golfnity.vn/chinh-sach-giao-hang/"
+    },
+    {
+      "text": "Chính sách bảo mật",
+      "href": "https://golfnity.vn/chinh-sach-bao-mat/"
+    },
+    {
+      "text": "Page load link",
+      "href": "#"
+    },
+    {
+      "text": "0939 877 670",
+      "href": "tel:0939877670"
+    },
+    {
+      "text": "Go to Top",
+      "href": "#"
+    }
+  ],
+  "images": [
+    {
+      "src": "https://golfnity.vn/wp-content/uploads/2026/04/golfnity-logo2x.png",
+      "alt": ""
+    },
+    {
+      "src": "https://golfnity.vn/wp-content/uploads/2026/04/Dat-teetime-choi-golf.webp",
+      "alt": "Đặt teetime chơi golf"
+    },
+    {
+      "src": "https://golfnity.vn/wp-content/uploads/2026/04/to-chuc-giai-golf.jpg",
+      "alt": "Tổ chức giải đấu golf tại Golfnity"
+    },
+    {
+      "src": "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
+      "alt": ""
+    },
+    {
+      "src": "https://golfnity.vn/wp-content/uploads/2026/05/san-tap-golf-01.jpg",
+      "alt": "Sân tập Golf"
+    },
+    {
+      "src": "https://golfnity.vn/wp-content/uploads/2026/05/cho-thue-phong-golf-su-kien.webp",
+      "alt": "Cho thuê phòng Golf 3D"
+    },
+    {
+      "src": "https://golfnity.vn/wp-content/uploads/2026/04/san-putting-2.jpg",
+      "alt": "Thi công sân putting trong nhà"
+    },
+    {
+      "src": "https://golfnity.vn/wp-content/uploads/2026/04/co-nhan-tao-san-vuon-1.jpg",
+      "alt": "Thi công cỏ nhân tạo sân vườn"
+    },
+    {
+      "src": "https://golfnity.vn/wp-content/uploads/2026/05/mini-golf-trong-nha.webp",
+      "alt": "Cho thuê Mini Golf trong nhà"
+    },
+    {
+      "src": "https://golfnity.vn/wp-content/uploads/2026/04/thue-xe-du-lich.jpg",
+      "alt": "Cho thuê xe du lịch"
+    },
+    {
+      "src": "https://golfnity.vn/wp-content/uploads/2026/04/thi-cong-shop-the-thao.jpg",
+      "alt": "Thi công shop thể thao"
+    },
+    {
+      "src": "https://golfnity.vn/wp-content/uploads/2026/04/thi-cong-shop-thoi-trang.jpg",
+      "alt": "Thi công shop thời trang"
+    },
+    {
+      "src": "https://golfnity.vn/wp-content/uploads/2026/04/cam-bien-sktytrak-plus-cho-phong-golf-3d.webp",
+      "alt": "Cảm biến SkyTrak Plus cho phòng Golf 3D"
+    },
+    {
+      "src": "https://golfnity.vn/wp-content/uploads/2026/04/Thi-cong-phong-golf-3D-chi-tu-150-trieu-1.webp",
+      "alt": "Thi công phòng golf 3D chỉ từ 150 triệu"
+    },
+    {
+      "src": "https://golfnity.vn/wp-content/uploads/2026/05/Cam-ket-voi-khach-hang.webp",
+      "alt": ""
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27534%27%20height%3D%27401%27%20viewBox%3D%270%200%20534%20401%27%3E%3Crect%20width%3D%27534%27%20height%3D%27401%27%20fill-opacity%3D%220%22%2F%3E%3C%2Fsvg%3E",
+      "alt": ""
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27301%27%20height%3D%27226%27%20viewBox%3D%270%200%20301%20226%27%3E%3Crect%20width%3D%27301%27%20height%3D%27226%27%20fill-opacity%3D%220%22%2F%3E%3C%2Fsvg%3E",
+      "alt": ""
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27301%27%20height%3D%27226%27%20viewBox%3D%270%200%20301%20226%27%3E%3Crect%20width%3D%27301%27%20height%3D%27226%27%20fill-opacity%3D%220%22%2F%3E%3C%2Fsvg%3E",
+      "alt": "Phòng golf 3D kết hợp xem phim 7.1"
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27301%27%20height%3D%27226%27%20viewBox%3D%270%200%20301%20226%27%3E%3Crect%20width%3D%27301%27%20height%3D%27226%27%20fill-opacity%3D%220%22%2F%3E%3C%2Fsvg%3E",
+      "alt": "Phòng golf 3D trong sân tập golf tại Long Thành"
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27301%27%20height%3D%27226%27%20viewBox%3D%270%200%20301%20226%27%3E%3Crect%20width%3D%27301%27%20height%3D%27226%27%20fill-opacity%3D%220%22%2F%3E%3C%2Fsvg%3E",
+      "alt": "Trung tâm golf quận 7"
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27301%27%20height%3D%27226%27%20viewBox%3D%270%200%20301%20226%27%3E%3Crect%20width%3D%27301%27%20height%3D%27226%27%20fill-opacity%3D%220%22%2F%3E%3C%2Fsvg%3E",
+      "alt": ""
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27301%27%20height%3D%27226%27%20viewBox%3D%270%200%20301%20226%27%3E%3Crect%20width%3D%27301%27%20height%3D%27226%27%20fill-opacity%3D%220%22%2F%3E%3C%2Fsvg%3E",
+      "alt": ""
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27301%27%20height%3D%27226%27%20viewBox%3D%270%200%20301%20226%27%3E%3Crect%20width%3D%27301%27%20height%3D%27226%27%20fill-opacity%3D%220%22%2F%3E%3C%2Fsvg%3E",
+      "alt": "Phòng golf 3D cho nhân viên MVOT"
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27301%27%20height%3D%27226%27%20viewBox%3D%270%200%20301%20226%27%3E%3Crect%20width%3D%27301%27%20height%3D%27226%27%20fill-opacity%3D%220%22%2F%3E%3C%2Fsvg%3E",
+      "alt": ""
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27301%27%20height%3D%27226%27%20viewBox%3D%270%200%20301%20226%27%3E%3Crect%20width%3D%27301%27%20height%3D%27226%27%20fill-opacity%3D%220%22%2F%3E%3C%2Fsvg%3E",
+      "alt": "Mr. Tùng - Chateau Villa. Q7"
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27301%27%20height%3D%27203%27%20viewBox%3D%270%200%20301%20203%27%3E%3Crect%20width%3D%27301%27%20height%3D%27203%27%20fill-opacity%3D%220%22%2F%3E%3C%2Fsvg%3E",
+      "alt": "Mr. Khương- Vinagame"
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27301%27%20height%3D%27226%27%20viewBox%3D%270%200%20301%20226%27%3E%3Crect%20width%3D%27301%27%20height%3D%27226%27%20fill-opacity%3D%220%22%2F%3E%3C%2Fsvg%3E",
+      "alt": ""
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27301%27%20height%3D%27301%27%20viewBox%3D%270%200%20301%20301%27%3E%3Crect%20width%3D%27301%27%20height%3D%27301%27%20fill-opacity%3D%220%22%2F%3E%3C%2Fsvg%3E",
+      "alt": "Mr. Hank Choi Korean - Đồng Nai"
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27301%27%20height%3D%27245%27%20viewBox%3D%270%200%20301%20245%27%3E%3Crect%20width%3D%27301%27%20height%3D%27245%27%20fill-opacity%3D%220%22%2F%3E%3C%2Fsvg%3E",
+      "alt": "Mr. Yamada Japan - Đà Lạt"
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27301%27%20height%3D%27282%27%20viewBox%3D%270%200%20301%20282%27%3E%3Crect%20width%3D%27301%27%20height%3D%27282%27%20fill-opacity%3D%220%22%2F%3E%3C%2Fsvg%3E",
+      "alt": "Mr. Đăng - quận 2"
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27415%27%20height%3D%27282%27%20viewBox%3D%270%200%20415%20282%27%3E%3Crect%20width%3D%27415%27%20height%3D%27282%27%20fill-opacity%3D%220%22%2F%3E%3C%2Fsvg%3E",
+      "alt": "Mr. Lê - Phú Mỹ Hưng, Q7"
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27301%27%20height%3D%27271%27%20viewBox%3D%270%200%20301%20271%27%3E%3Crect%20width%3D%27301%27%20height%3D%27271%27%20fill-opacity%3D%220%22%2F%3E%3C%2Fsvg%3E",
+      "alt": "Mr. Khánh - Vinhomes Golden River, Q1"
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27301%27%20height%3D%27264%27%20viewBox%3D%270%200%20301%20264%27%3E%3Crect%20width%3D%27301%27%20height%3D%27264%27%20fill-opacity%3D%220%22%2F%3E%3C%2Fsvg%3E",
+      "alt": ""
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27301%27%20height%3D%27271%27%20viewBox%3D%270%200%20301%20271%27%3E%3Crect%20width%3D%27301%27%20height%3D%27271%27%20fill-opacity%3D%220%22%2F%3E%3C%2Fsvg%3E",
+      "alt": "Mr. Quân - quận 7"
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27301%27%20height%3D%27271%27%20viewBox%3D%270%200%20301%20271%27%3E%3Crect%20width%3D%27301%27%20height%3D%27271%27%20fill-opacity%3D%220%22%2F%3E%3C%2Fsvg%3E",
+      "alt": "Mr. Thanh- Đồng Nai"
+    },
+    {
+      "src": "https://golfnity.vn/wp-content/uploads/2026/04/cafef-3.jpg",
+      "alt": ""
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27177%27%20height%3D%27100%27%20viewBox%3D%270%200%20177%20100%27%3E%3Crect%20width%3D%27177%27%20height%3D%27100%27%20fill-opacity%3D%220%22%2F%3E%3C%2Fsvg%3E",
+      "alt": ""
+    },
+    {
+      "src": "https://golfnity.vn/wp-content/uploads/2026/04/flightscope-1.jpg",
+      "alt": ""
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27109%27%20height%3D%27100%27%20viewBox%3D%270%200%20109%20100%27%3E%3Crect%20width%3D%27109%27%20height%3D%27100%27%20fill-opacity%3D%220%22%2F%3E%3C%2Fsvg%3E",
+      "alt": ""
+    },
+    {
+      "src": "https://golfnity.vn/wp-content/uploads/2026/04/foresight-sports.jpg",
+      "alt": ""
+    },
+    {
+      "src": "https://golfnity.vn/wp-content/uploads/2026/04/trackman-1.jpg",
+      "alt": ""
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27141%27%20height%3D%27100%27%20viewBox%3D%270%200%20141%20100%27%3E%3Crect%20width%3D%27141%27%20height%3D%27100%27%20fill-opacity%3D%220%22%2F%3E%3C%2Fsvg%3E",
+      "alt": ""
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27195%27%20height%3D%27100%27%20viewBox%3D%270%200%20195%20100%27%3E%3Crect%20width%3D%27195%27%20height%3D%27100%27%20fill-opacity%3D%220%22%2F%3E%3C%2Fsvg%3E",
+      "alt": ""
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27182%27%20height%3D%27100%27%20viewBox%3D%270%200%20182%20100%27%3E%3Crect%20width%3D%27182%27%20height%3D%27100%27%20fill-opacity%3D%220%22%2F%3E%3C%2Fsvg%3E",
+      "alt": ""
+    },
+    {
+      "src": "https://golfnity.vn/wp-content/uploads/2026/04/cafebiz-1.jpg",
+      "alt": ""
+    },
+    {
+      "src": "https://golfnity.vn/wp-content/uploads/2026/06/play-12-pay-9-san-golf-ho-tram.webp",
+      "alt": "Play 12 Pay 9 sân golf Hồ Tràm"
+    },
+    {
+      "src": "https://golfnity.vn/wp-content/uploads/2026/06/27-hole-ho-tram-bia.webp",
+      "alt": "Ưu đãi chơi golf 27 hố The Bluffs Hồ Tràm"
+    },
+    {
+      "src": "https://golfnity.vn/wp-content/uploads/2026/06/bia-du-an-golf-3d-CT-Group.webp",
+      "alt": ""
+    },
+    {
+      "src": "https://golfnity.vn/wp-content/uploads/2026/04/golfnity-logo2x.png",
+      "alt": ""
+    },
+    {
+      "src": "https://golfnity.vn/wp-content/uploads/2026/04/Payment.png",
+      "alt": ""
+    },
+    {
+      "src": "https://golfnity.vn/wp-content/uploads/2026/04/Thi-cong-phong-golf-3D-chi-tu-150-trieu-1.webp",
+      "alt": "Thi công phòng golf 3D chỉ từ 150 triệu"
+    }
+  ]
+}

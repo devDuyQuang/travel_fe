@@ -1,23 +1,25 @@
-import BreadCrumb from "./BreadCrumb"
-import TourDetailsArea from "./TourDetailsArea"
-import TourAboutDetails from "./TourAboutDetails"
-import HeaderSix from "@/layouts/headers/HeaderSix"
-import Listing from "./Listing"
-import FooterFive from "@/layouts/footers/FooterFive";
+import BreadCrumb from "./BreadCrumb";
+import TourDetailsArea from "./TourDetailsArea";
+import TourAboutDetails from "./TourAboutDetails";
+import HeaderThree from "@/layouts/headers/HeaderThree";
+import Listing from "./Listing";
+import FooterThree from "@/layouts/footers/FooterThree";
 
 const FeatureDetailsTwo = () => {
-   return (
-      <>
-         <HeaderSix />
-         <main>
-            <BreadCrumb />
-            <TourDetailsArea />
-            <TourAboutDetails />
-            <Listing />
-         </main>
-         <FooterFive />
-      </>
-   )
-}
+  return (
+    <>
+      <HeaderThree variant="transparent" />
 
-export default FeatureDetailsTwo
+      <main>
+        <BreadCrumb />
+        <TourDetailsArea />
+        <TourAboutDetails />
+        <Listing />
+      </main>
+
+      <FooterThree />
+    </>
+  );
+};
+
+export default FeatureDetailsTwo;

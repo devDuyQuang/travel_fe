@@ -2,7 +2,7 @@ import HeaderThree from "@/layouts/headers/HeaderThree";
 import Breadcrumb from "./Breadcrumb";
 import FeatureDetailsArea from "./FeatureDetailsArea";
 import FeatureAboutArea from "./FeatureAboutArea";
-import FooterSix from "@/layouts/footers/FooterSix";
+import FooterThree from "@/layouts/footers/FooterThree";
 import type { Product } from "@/types/product";
 
 type FeatureDetailsOneProps = {
@@ -12,15 +12,15 @@ type FeatureDetailsOneProps = {
 const FeatureDetailsOne = ({ product = null }: FeatureDetailsOneProps) => {
   return (
     <>
-      <HeaderThree />
+      <HeaderThree variant="transparent" />
 
       <main>
         <Breadcrumb />
-       <FeatureDetailsArea product={null} />
+        <FeatureDetailsArea product={product} />
         <FeatureAboutArea />
       </main>
 
-      <FooterSix />
+      <FooterThree />
     </>
   );
 };

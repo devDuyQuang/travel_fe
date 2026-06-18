@@ -150,10 +150,11 @@ import TotalCart from "./Menu/TotalCart";
 // import logo_2 from "@/assets/img/logo/logo-green.png";
 
 import golfnityLogo from "@/assets/img/logo/golfnity-logo2x.png";
+type HeaderThreeProps = {
+  variant?: "transparent" | "solid";
+};
 
-import "@/assets/css/golfnity.css";
-
-const HeaderThree = () => {
+const HeaderThree = ({ variant = "transparent" }: HeaderThreeProps) => {
   const { sticky } = UseSticky();
   const [offCanvas, setOffCanvas] = useState<boolean>(false);
   const [sidebar, setSidebar] = useState<boolean>(false);
@@ -162,15 +163,24 @@ const HeaderThree = () => {
     <>
       <header className="tg-header-height">
         <div
-          className={`tg-header__area tg-header-lg-space z-index-999 tg-transparent golfnity-header ${
-            sticky ? "header-sticky" : ""
-          }`}
+          className={[
+            "tg-header__area",
+            "tg-header-lg-space",
+            "z-index-999",
+            "golfnity-header",
+            variant === "transparent"
+              ? "tg-transparent golfnity-header--transparent"
+              : "golfnity-header--solid",
+            sticky ? "header-sticky" : "",
+          ]
+            .filter(Boolean)
+            .join(" ")}
           id="header-sticky"
         >
           <div className="container-fluid container-1860">
             <div className="row align-items-center">
-              <div className="col-lg-7 col-5">
-                <div className="tgmenu__wrap d-flex align-items-center">
+              <div className="col-xl-8 col-5">
+                <div className="tgmenu__wrap golfnity-header-main d-flex align-items-center">
                   <div className="logo">
                     <Link className="logo-1" href="/">
                       <Image
@@ -195,7 +205,7 @@ const HeaderThree = () => {
                     </Link>
                   </div>
 
-                  <nav className="tgmenu__nav tgmenu-1-space ml-180">
+                  <nav className="tgmenu__nav golfnity-header-nav">
                     <div className="tgmenu__navbar-wrap tgmenu__main-menu d-none d-xl-flex">
                       <NavMenu />
                     </div>
@@ -203,7 +213,7 @@ const HeaderThree = () => {
                 </div>
               </div>
 
-              <div className="col-lg-5 col-7">
+              <div className="col-xl-4 col-7">
                 <div className="tg-menu-right-action d-flex align-items-center justify-content-end">
                   <div className="tg-header-contact-info d-flex align-items-center">
                     <span className="tg-header-contact-icon mr-5 d-none d-xl-block">

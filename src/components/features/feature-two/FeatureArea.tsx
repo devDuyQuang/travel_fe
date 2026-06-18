@@ -9,8 +9,13 @@ import { addToWishlist } from "@/redux/features/wishlistSlice";
 import FeatureTop from "./FeatureTop";
 import FeatureSidebar from "./FeatureSidebar";
 import ReactPaginate from "react-paginate";
+import { toSlug } from "@/lib/slug";
 
-const FeatureArea = () => {
+interface FeatureAreaProps {
+  detailBasePath: string;
+}
+
+const FeatureArea = ({ detailBasePath }: FeatureAreaProps) => {
   const dispatch = useDispatch();
   const { products, setProducts } = UseProducts();
   const [isListView, setIsListView] = useState(false);
@@ -69,14 +74,17 @@ const FeatureArea = () => {
                 >
                   {currentItems
                     .filter((items) => items.page === "shop_2")
-                    .map((item) => (
+                    .map((item) => {
+                      const detailPath = `${detailBasePath}/${toSlug(item.title)}`;
+
+                      return (
                       <div
                         key={item.id}
                         className="col-xxl-4 col-xl-6 col-lg-6 col-md-6 tg-grid-full"
                       >
                         <div className="tg-listing-card-item mb-30">
                           <div className="tg-listing-card-thumb fix mb-15 p-relative">
-                            <Link href="/tour-details">
+                            <Link href={detailPath}>
                               <Image
                                 className="tg-card-border w-100"
                                 src={item.thumb}
@@ -139,7 +147,7 @@ const FeatureArea = () => {
                           <div className="tg-listing-main-content">
                             <div className="tg-listing-card-content">
                               <h4 className="tg-listing-card-title">
-                                <Link href="/tour-details">{item.title}</Link>
+                                <Link href={detailPath}>{item.title}</Link>
                               </h4>
                               <div className="tg-listing-card-duration-tour">
                                 <span className="tg-listing-card-duration-map mb-5">
@@ -214,7 +222,8 @@ const FeatureArea = () => {
                           </div>
                         </div>
                       </div>
-                    ))}
+                      );
+                    })}
                 </div>
                 <div className="tg-pagenation-wrap text-center mt-50 mb-30">
                   <nav>

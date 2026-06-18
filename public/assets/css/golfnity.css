@@ -1,20 +1,16 @@
-/* :root {
-  --golfnity-moss: #1b4d3e;
-  --golfnity-moss-dark: #12382d;
-  --golfnity-gold: #e6c76f;
-  --golfnity-white: #ffffff;
-  --golfnity-link-blue: #0b4ea2;
-} */
-
 :root {
-  --golfnity-moss: #1b4d3e;
-  --golfnity-moss-dark: #12382d;
+  --golfnity-moss: #245f52;
+  --golfnity-moss-dark: #1b4d3e;
   --golfnity-gold: #e6c76f;
   --golfnity-white: #ffffff;
   --golfnity-link-blue: #0b4ea2;
   --golfnity-link-visited: #075985;
   --golfnity-gold-dark: #c9a227;
-  /* --golfnity-link-visited: #dc2626; */
+  --tg-theme-primary: var(--golfnity-gold);
+  --tg-theme-secondary: var(--golfnity-moss);
+  --tg-link-color: var(--golfnity-link-blue);
+  --tg-link-hover-color: var(--golfnity-link-blue);
+  --tg-link-visited-color: var(--golfnity-link-visited);
 }
 
 /* ================================
@@ -110,6 +106,109 @@ button.tg-hero-prev:hover svg {
 .golfnity-header .tgmenu__navbar-wrap > ul > li.active > a,
 .golfnity-header.header-sticky .tgmenu__main-menu ul > li.active > a {
   color: var(--golfnity-gold);
+}
+
+@media (min-width: 1200px) {
+  .golfnity-header .golfnity-header-main {
+    flex-wrap: nowrap;
+    min-width: 0;
+  }
+
+  .golfnity-header .golfnity-header-main .logo {
+    flex: 0 0 auto;
+  }
+
+  .golfnity-header .golfnity-header-nav {
+    flex: 1 1 auto;
+    min-width: 0;
+    margin-left: 36px;
+  }
+
+  .golfnity-header .tgmenu__navbar-wrap > ul {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    margin: 0;
+  }
+
+  .golfnity-header .tgmenu__navbar-wrap > ul > li {
+    flex: 0 0 auto;
+  }
+
+  .golfnity-header .tgmenu__navbar-wrap > ul > li > a {
+    padding-right: 9px;
+    padding-left: 9px;
+    font-size: 16px;
+    white-space: nowrap;
+  }
+}
+
+@media (min-width: 1200px) and (max-width: 1399px) {
+  .golfnity-header .golfnity-logo-img {
+    width: 145px;
+  }
+
+  .golfnity-header .golfnity-header-nav {
+    margin-left: 20px;
+  }
+
+  .golfnity-header .tgmenu__navbar-wrap > ul > li > a {
+    padding-right: 6px;
+    padding-left: 6px;
+    font-size: 14px;
+  }
+
+  .golfnity-header .tg-header-contact-info {
+    display: none !important;
+  }
+}
+
+.golfnity-header .tgmenu__navbar-wrap ul li .sub-menu {
+  min-width: 270px;
+  padding: 12px 0;
+  background: var(--golfnity-white);
+  border-top: 3px solid var(--golfnity-gold);
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 18px 40px rgba(18, 56, 45, 0.2);
+  overflow: hidden;
+}
+
+.golfnity-header .tgmenu__navbar-wrap ul li .sub-menu li a {
+  padding: 9px 22px;
+  color: var(--golfnity-moss);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.45;
+  text-decoration: none;
+}
+
+.golfnity-header .tgmenu__navbar-wrap ul li .sub-menu li:hover > a,
+.golfnity-header .tgmenu__navbar-wrap ul li .sub-menu li a.active {
+  color: var(--golfnity-moss-dark);
+  background: rgba(230, 199, 111, 0.2);
+  text-decoration: none;
+}
+
+.tgmobile__menu .navigation li.menu-item-has-children .dropdown-btn {
+  background: rgba(36, 95, 82, 0.1);
+}
+
+.tgmobile__menu .navigation li.menu-item-has-children .dropdown-btn.open {
+  background: var(--golfnity-moss);
+}
+
+.tgmobile__menu .navigation li.menu-item-has-children .dropdown-btn .plus-line,
+.tgmobile__menu
+  .navigation
+  li.menu-item-has-children
+  .dropdown-btn
+  .plus-line::after {
+  background: var(--golfnity-moss);
+}
+
+.tgmobile__menu .navigation .sub-menu a {
+  color: var(--golfnity-moss);
+  font-weight: 600;
+  text-transform: none;
 }
 
 /* ================================
@@ -299,6 +398,17 @@ button.tg-hero-prev:hover svg {
 .golfnity-header.header-sticky .tgmenu-offcanvas-open-btn:hover span {
   background-color: var(--golfnity-white);
 }
+/* Header trang bên trong */
+.golfnity-header--solid:not(.header-sticky) {
+  position: relative;
+  background: var(--golfnity-moss);
+}
+
+/* Header trang chủ hoặc trang có hero banner */
+.golfnity-header--transparent:not(.header-sticky) {
+  background: transparent;
+}
+
 
 /* ================================
    CTA App Banner
@@ -318,43 +428,30 @@ button.tg-hero-prev:hover svg {
    - Exclude header/menu/buttons/logos
 ================================ */
 
-main
-  a:not(.tg-btn):not(.tg-btn-header):not(.cart-button):not(.logo-1):not(
-    .logo-2
-  ):link,
-/* Main Content Links */
-main
-  a:not(.tg-btn):not(.tg-btn-header):not(.cart-button):not(.logo-1):not(
-    .logo-2
-  ):link {
+main a:not([class]):link,
+main a.golfnity-link:link {
   color: var(--golfnity-link-blue);
-  /* color: var(--golfnity-link-visited); */
   font-weight: 700;
   text-decoration: none;
 }
 
-main
-  a:not(.tg-btn):not(.tg-btn-header):not(.cart-button):not(.logo-1):not(
-    .logo-2
-  ):visited {
+main a:not([class]):visited,
+main a.golfnity-link:visited {
   color: var(--golfnity-link-visited);
   font-weight: 700;
   text-decoration: none;
 }
 
-main
-  a:not(.tg-btn):not(.tg-btn-header):not(.cart-button):not(.logo-1):not(
-    .logo-2
-  ):hover {
+main a:not([class]):hover,
+main a.golfnity-link:hover {
   color: var(--golfnity-link-blue);
   font-weight: 700;
   text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
-main
-  a:not(.tg-btn):not(.tg-btn-header):not(.cart-button):not(.logo-1):not(
-    .logo-2
-  ):active {
+main a:not([class]):active,
+main a.golfnity-link:active {
   color: var(--golfnity-link-visited);
   font-weight: 700;
 }
@@ -1498,6 +1595,7 @@ main .tg-listing-card-title a:active {
   font-weight: 700;
 }
 
+
 /* css cho phần ảnh ở tour-details/ba-na-hills-golf-club  */
 .golf-main-img,
 .golf-video-img,
@@ -1518,4 +1616,96 @@ main .tg-listing-card-title a:active {
 
 .golf-small-img {
   height: 190px;
+}
+/* ================================
+   Shared Brand Conventions
+   Keep these rules after component-specific overrides.
+================================ */
+
+main .tg-btn,
+main .tg-btn:link,
+main .tg-btn:visited,
+main .bk-search-button,
+main .tg-listing-avai-btn,
+main .tg-listing-avai-btn:link,
+main .tg-listing-avai-btn:visited {
+  background: var(--golfnity-moss);
+  border-color: var(--golfnity-moss);
+  color: var(--golfnity-gold);
+  text-decoration: none;
+  transition:
+    background-color 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+main .tg-btn.tg-btn :is(.btn-text, .btn-icon, i, svg, svg path),
+main .bk-search-button.bk-search-button :is(i, svg, svg path),
+main .tg-listing-avai-btn.tg-listing-avai-btn :is(i, svg, svg path) {
+  color: inherit;
+  stroke: currentColor;
+}
+
+main .tg-btn:hover,
+main .tg-btn:focus-visible,
+main .bk-search-button:hover,
+main .bk-search-button:focus-visible,
+main .tg-listing-avai-btn:hover,
+main .tg-listing-avai-btn:focus-visible {
+  background: var(--golfnity-moss-dark);
+  border-color: var(--golfnity-moss-dark);
+  color: var(--golfnity-gold);
+  text-decoration: none;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(18, 56, 45, 0.22);
+}
+
+main .tg-banner-btn .tg-banner-cta,
+main .tg-banner-btn .tg-banner-cta:link,
+main .tg-banner-btn .tg-banner-cta:visited {
+  border: 1px solid rgba(230, 199, 111, 0.65);
+  box-shadow: 0 8px 20px rgba(18, 56, 45, 0.28);
+}
+
+main .tg-banner-btn .tg-banner-cta:hover,
+main .tg-banner-btn .tg-banner-cta:focus-visible {
+  border-color: var(--golfnity-gold);
+  box-shadow: 0 10px 24px rgba(18, 56, 45, 0.34);
+}
+
+main :is(.golfnity-label, .tg-blog-tag, .tg-destination-tag span) {
+  background: var(--golfnity-gold);
+  color: var(--golfnity-white);
+}
+
+.golfnity-service-highlights {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.golfnity-service-highlights li {
+  position: relative;
+  margin-bottom: 12px;
+  padding-left: 28px;
+  color: var(--golfnity-moss-dark);
+  font-weight: 600;
+}
+
+.golfnity-service-highlights li::before {
+  content: "\2713";
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: var(--golfnity-gold-dark);
+  font-weight: 700;
+}
+
+.golfnity-service-cta {
+  padding: 40px;
+  background: rgba(230, 199, 111, 0.16);
+  border: 1px solid rgba(230, 199, 111, 0.55);
+  border-radius: 16px;
 }

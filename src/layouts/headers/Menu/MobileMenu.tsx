@@ -100,6 +100,15 @@ const MobileMenu = () => {
   }, []);
 
   const isActive = (link: string) => {
+    if (
+      !link ||
+      link.includes("?") ||
+      link.startsWith("http://") ||
+      link.startsWith("https://")
+    ) {
+      return false;
+    }
+
     return currentRoute === link;
   };
 

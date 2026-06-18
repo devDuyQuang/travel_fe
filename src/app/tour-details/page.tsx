@@ -1,5 +1,9 @@
-import FeatureDetailsOne from "@/components/features/golf-details";
+import FeatureDetailsOne from "@/components/features/feature-details-one";
 import Wrapper from "@/layouts/Wrapper";
+
+export const metadata = {
+  title: "Chi tiết dịch vụ | Golfnity",
+};
 
 const Page = () => {
   return (

@@ -1,17 +1,29 @@
 import FeatureArea from "./FeatureArea"
-import BreadCrumb from "./BreadCrumb"
-import HeaderSix from "@/layouts/headers/HeaderSix"
-import FooterSix from "@/layouts/footers/FooterSix";
+import BookingForm from "./BreadCrumb"
+import HeaderThree from "@/layouts/headers/HeaderThree"
+import FooterThree from "@/layouts/footers/FooterThree";
+import BreadCrumb from "@/components/common/BreadCrumb";
 
-const FeatureOne = () => {
+interface FeatureOneProps {
+   title?: string;
+   subTitle?: string;
+   detailBasePath?: string;
+}
+
+const FeatureOne = ({
+   title = "Khách sạn & nghỉ dưỡng",
+   subTitle = "Khách sạn & nghỉ dưỡng",
+   detailBasePath = "/khach-san-nghi-duong",
+}: FeatureOneProps) => {
    return (
       <>
-         <HeaderSix />
+         <HeaderThree />
          <main>
-            <BreadCrumb />
-            <FeatureArea />
+            <BreadCrumb title={title} sub_title={subTitle} />
+            <BookingForm />
+            <FeatureArea detailBasePath={detailBasePath} />
          </main>
-         <FooterSix />
+         <FooterThree />
       </>
    )
 }

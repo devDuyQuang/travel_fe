@@ -2,7 +2,7 @@ import FeatureDetailsTwo from "@/components/features/feature-details-two";
 import Wrapper from "@/layouts/Wrapper";
 
 export const metadata = {
-  title: "Feature Details Two Tourex - Tour & Travel Booking React Next js Template",
+  title: "Chi tiết dịch vụ | Golfnity",
 };
 const page = () => {
   return (

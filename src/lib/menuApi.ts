@@ -32,11 +32,7 @@ function normalizePath(item: ApiMenuItem): string {
   if (!raw) return "/";
 
   if (raw.startsWith("http://") || raw.startsWith("https://")) {
-    try {
-      return new URL(raw).pathname || "/";
-    } catch {
-      return "/";
-    }
+    return raw;
   }
 
   return raw.startsWith("/") ? raw : `/${raw}`;

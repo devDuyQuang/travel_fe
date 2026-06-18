@@ -1,19 +1,29 @@
 import HeaderThree from "@/layouts/headers/HeaderThree"
 import FeatureArea from "./FeatureArea"
-import BreadCrumb from "./BreadCrumb"
 import BannerForm from "./BannerForm"
-import FooterFive from "@/layouts/footers/FooterFive";
+import FooterThree from "@/layouts/footers/FooterThree";
+import BreadCrumb from "@/components/common/BreadCrumb";
 
-const FeatureTwo = () => {
+interface FeatureTwoProps {
+   title?: string;
+   subTitle?: string;
+   detailBasePath?: string;
+}
+
+const FeatureTwo = ({
+   title = "Đặt tee time",
+   subTitle = "Đặt tee time",
+   detailBasePath = "/dat-tee-time",
+}: FeatureTwoProps) => {
    return (
       <>
          <HeaderThree />
          <main>
-            <BreadCrumb />
+            <BreadCrumb title={title} sub_title={subTitle} />
             <BannerForm />
-            <FeatureArea />
+            <FeatureArea detailBasePath={detailBasePath} />
          </main>
-         <FooterFive />
+         <FooterThree />
       </>
    )
 }
