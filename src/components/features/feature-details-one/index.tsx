@@ -7,6 +7,7 @@ import type { Product } from "@/types/product";
 
 type FeatureDetailsOneProps = {
   product?: Product | null;
+  relatedProducts?: Product[];
 };
 
 const FeatureDetailsOne = ({ product = null }: FeatureDetailsOneProps) => {
@@ -15,9 +16,9 @@ const FeatureDetailsOne = ({ product = null }: FeatureDetailsOneProps) => {
       <HeaderThree variant="transparent" />
 
       <main>
-        <Breadcrumb />
+        <Breadcrumb product={product} />
         <FeatureDetailsArea product={product} />
-        <FeatureAboutArea />
+        <FeatureAboutArea product={product} />
       </main>
 
       <FooterThree />

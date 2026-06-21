@@ -1,10 +1,14 @@
 
-const Amenities = () => {
+import type { Product } from "@/types/product";
+
+const Amenities = ({ product }: { product?: Product | null }) => {
+   const cmsAmenities = product?.attributes?.amenities || product?.facilities;
    return (
       <div className="tg-tour-about-inner  tg-tour-about-2-inner mb-30">
          <h4 className="tg-tour-about-title mb-10">Amenities</h4>
-         <p className="text-capitalize lh-28 mb-15">Castle in one day is next to impossible. Designed specifically for trave arelimited time in London
-            ws you to check off a range of southern England‘s are historical</p>
+         <p className="text-capitalize lh-28 mb-15">
+            {cmsAmenities ? String(cmsAmenities) : "Castle in one day is next to impossible. Designed specifically for travelers with limited time."}
+         </p>
          <div className="row">
             <div className="col-lg-4 col-md-4 col-sm-6">
                <div className="tg-tour-about-list  tg-tour-about-list-2">

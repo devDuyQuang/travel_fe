@@ -77,7 +77,7 @@ const Cta = () => {
                               <Button text="See Details" />
                            </Link> */}
                   <Link
-                    href="/tour-details"
+                    href="/dich-vu/dat-tee-time"
                     className="tg-btn tg-btn-switch-animation tg-banner-cta"
                   >
                     <span className="d-flex align-items-center justify-content-center">

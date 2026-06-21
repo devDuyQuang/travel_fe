@@ -6,6 +6,7 @@ import UseCartInfo from '@/hooks/UseCartInfo';
 import { useDispatch, useSelector } from "react-redux";
 import { remove_cart_product } from '@/redux/features/cartSlice';
 import { useEffect, useState } from "react";
+import { buildProductDetailHref } from "@/lib/productLinks";
 
 const HeaderCart = () => {
 
@@ -26,23 +27,30 @@ const HeaderCart = () => {
             <div className="mb-30">
                <div className="empty_bag text-center">
                   <p className="py-3">Your Bag is Empty</p>
-                  <Link href={"/shop"} className="swiftcart-btn-black swiftcart-btn-black-large">
-                     Go To Shop
+                  <Link href={"/dich-vu/dat-tee-time"} className="swiftcart-btn-black swiftcart-btn-black-large">
+                     Xem dịch vụ
                   </Link>
                </div>
             </div>
          ) : (
             <>
-               {productItem.map((item: any, i: any) => (
+               {productItem.map((item: any, i: any) => {
+                  const detailHref = item.cmsProduct
+                     ? buildProductDetailHref(item.cmsProduct)
+                     : item.slug
+                       ? `/${item.slug}`
+                       : "/contact";
+
+                  return (
                   <div key={i} className="cart-content-wrap d-flex align-items-center justify-content-between">
                      <div className="cart-img-info d-flex align-items-center">
                         <div className="cart-thumb">
-                           <Link href="/shop-details">
+                           <Link href={detailHref}>
                               <Image src={item.thumb} alt="" />
                            </Link>
                         </div>
                         <div className="cart-content">
-                           <h5 className="cart-title"><Link href="/shop-details">{item.title}</Link></h5>
+                           <h5 className="cart-title"><Link href={detailHref}>{item.title}</Link></h5>
                            <span> ${item.price} <del>${item.delete_price}</del></span>
                         </div>
                      </div>
@@ -50,7 +58,8 @@ const HeaderCart = () => {
                         <span><i className="fa-light fa-trash-can"></i></span>
                      </div>
                   </div>
-               ))}
+                  );
+               })}
                <div className="cart-total-price d-flex align-items-center justify-content-between">
                   <span>Total:</span>
                   <span>${total.toFixed(2)}</span>

@@ -7,6 +7,9 @@ import Button from '@/components/common/Button'
 import listing_data from '@/data/ListingData'
 
 import shape from '@/assets/img/banner/banner-2/shape.png'
+import type { Product } from '@/types/product'
+import { resolveMediaUrl } from '@/services/post.service'
+import { buildProductDetailHref } from '@/lib/productLinks'
 
 const setting = {
    spaceBetween: 24,
@@ -37,7 +40,32 @@ const setting = {
    },
 };
 
-const Listing = () => {
+const Listing = ({ products = [] }: { products?: Product[] }) => {
+   const templateItems = listing_data.filter((items) => items.page === "home_5").slice(0, 5);
+   const items = products.length > 0
+      ? products.slice(0, 5).map((product, index) => {
+         const fallback = templateItems[index % templateItems.length];
+         const image = resolveMediaUrl(product.image_url);
+         const price = Number(product.price);
+         return {
+            ...fallback,
+            id: product.id,
+            product,
+            title: product.name?.trim() || fallback.title,
+            thumb: image
+               ? { src: image, width: fallback.thumb.width, height: fallback.thumb.height }
+               : fallback.thumb,
+            tag: product.badge?.trim() || fallback.tag,
+            price: Number.isFinite(price) && price > 0 ? price : fallback.price,
+            location: product.location?.trim() || fallback.location,
+            total_review:
+               Number(product.review_count) > 0
+                  ? Number(product.review_count)
+                  : fallback.total_review,
+         };
+      })
+      : templateItems.map((item) => ({ ...item, product: null as Product | null }));
+
    return (
       <div className="tg-listing-area pt-90 pb-115 p-relative z-index-9">
          <Image className="tg-listing-3-shape tg-listing-4-shape d-none d-xl-block" src={shape} alt="" />
@@ -60,11 +88,16 @@ const Listing = () => {
             <div className="row">
                <div className="col-12">
                   <Swiper {...setting} modules={[Autoplay, Pagination]} wrapperClass="mb-35" className="swiper-container tg-listing-slider p-relative fix">
-                     {listing_data.filter((items) => items.page === "home_5").slice(0, 5).map((item) => (
+                     {items.map((item) => {
+                        const detailHref = item.product
+                           ? buildProductDetailHref(item.product)
+                           : "#";
+
+                        return (
                         <SwiperSlide key={item.id} className="swiper-slide">
                            <div className="tg-listing-card-item tg-listing-4-card-item mb-25">
                               <div className="tg-listing-card-thumb tg-listing-2-card-thumb mb-15 fix p-relative">
-                                 <Link href="#">
+                                 <Link href={detailHref}>
                                     <Image className="tg-card-border w-100" src={item.thumb} alt="listing" />
                                     {item.tag && <span className="tg-listing-item-price-discount shape">{item.tag}</span>}
                                  </Link>
@@ -74,7 +107,7 @@ const Listing = () => {
                                  </div>
                               </div>
                               <div className="tg-listing-card-content p-relative">
-                                 <h4 className="tg-listing-card-title mb-5"><Link href="#">{item.title}</Link></h4>
+                                 <h4 className="tg-listing-card-title mb-5"><Link href={detailHref}>{item.title}</Link></h4>
                                  <span className="tg-listing-card-duration-map d-inline-block">
                                     <svg width="13" height="16" viewBox="0 0 13 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                        <path d="M12.3329 6.7071C12.3329 11.2324 6.55512 15.1111 6.55512 15.1111C6.55512 15.1111 0.777344 11.2324 0.777344 6.7071C0.777344 5.16402 1.38607 3.68414 2.46962 2.59302C3.55316 1.5019 5.02276 0.888916 6.55512 0.888916C8.08748 0.888916 9.55708 1.5019 10.6406 2.59302C11.7242 3.68414 12.3329 5.16402 12.3329 6.7071Z" stroke="currentColor" strokeWidth="1.15556" strokeLinecap="round" strokeLinejoin="round" />
@@ -91,7 +124,7 @@ const Listing = () => {
                                     <span className="tg-listing-rating-percent">({item.total_review} Reviews)</span>
                                  </div>
                                  <div className="tg-listing-avai d-flex align-items-center justify-content-between">
-                                    <Link className="tg-listing-avai-btn" href="#">Check Availability</Link>
+                                    <Link className="tg-listing-avai-btn" href={detailHref}>Check Availability</Link>
                                     <div className="tg-listing-item-wishlist">
                                        <Link href="#">
                                           <svg width="20" height="18" viewBox="0 0 20 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -103,7 +136,8 @@ const Listing = () => {
                               </div>
                            </div>
                         </SwiperSlide>
-                     ))}
+                        );
+                     })}
                      <div className="tg-listing-4-pagination swiper-pagination"></div>
                   </Swiper>
                </div>

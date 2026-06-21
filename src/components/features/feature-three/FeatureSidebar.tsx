@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { Rating } from 'react-simple-star-rating';
 import PriceRange from "./PriceRange";
 import DestinationForm from "./DestinationForm";
+import type { Product } from "@/redux/features/productSlice";
 
 interface FilterCriteria {
   duration: string;
@@ -16,13 +17,15 @@ interface FilterCriteria {
 }
 
 interface FeatureSidebarProps {
-  setProducts: (products: any[]) => void;
+  setProducts: (products: Product[]) => void;
+  sourceProducts?: Product[];
 }
 
-const FeatureSidebar = ({ setProducts }: FeatureSidebarProps) => {
- 
+const FeatureSidebar = ({ setProducts, sourceProducts }: FeatureSidebarProps) => {
+
   const allProducts = useSelector(selectProducts);
-  const filterdProduct = allProducts.filter(product => product.page === 'shop_3');
+  const filterSource = sourceProducts || allProducts;
+  const filterdProduct = filterSource.filter(product => product.page === 'shop_3');
 
   const [durationSelected, setDurationSelected] = useState('');
   const [amenitiesSelected, setAmenitiesSelected] = useState('');
@@ -62,7 +65,7 @@ const FeatureSidebar = ({ setProducts }: FeatureSidebarProps) => {
   };
 
   const filterProducts = ({ duration, amenities, language, rating }: FilterCriteria) => {
-    let filteredProducts = allProducts;
+    let filteredProducts = filterSource;
 
     if (duration && duration !== 'All Duration') {
       filteredProducts = filteredProducts.filter(product => product.duration === duration);
@@ -85,16 +88,17 @@ const FeatureSidebar = ({ setProducts }: FeatureSidebarProps) => {
 
 
   // handle Price
-  const maxPrice = shop_data.reduce((max, item) => {
+  const priceSource = sourceProducts || shop_data as unknown as Product[];
+  const maxPrice = priceSource.reduce((max, item) => {
     return item.price > max ? item.price : max;
   }, 0);
 
   const [priceValue, setPriceValue] = useState([0, maxPrice]);
 
   useEffect(() => {
-    const filterPrice = shop_data.filter((j) => j.price >= priceValue[0] && j.price <= priceValue[1]);
+    const filterPrice = priceSource.filter((j) => j.price >= priceValue[0] && j.price <= priceValue[1]);
     setProducts(filterPrice);
-  }, [priceValue, setProducts]);
+  }, [priceValue, setProducts, priceSource]);
 
   const handleChanges = (val: number[]) => {
     setPriceValue(val)

@@ -1,8 +1,11 @@
 "use client";
 import NiceSelect from "@/ui/NiceSelect";
+import type { Product } from "@/types/product";
 
-const FeatureSidebar = () => {
+const FeatureSidebar = ({ product }: { product?: Product | null }) => {
   const selectHandler = () => {};
+  const price = Number(product?.price) > 0 ? Number(product?.price) : 20;
+  const totalPrice = Number(product?.price) > 0 ? Number(product?.price) : 300;
 
   return (
     <form onSubmit={(e) => e.preventDefault()}>
@@ -72,7 +75,7 @@ const FeatureSidebar = () => {
           <div className="tg-tour-about-tickets-adult">
             <span>Adult</span>
             <p className="mb-0">
-              (14+ years) <span>$20</span>
+              (14+ years) <span>${price}</span>
             </p>
           </div>
           <div className="tg-tour-about-tickets-quantity">
@@ -99,7 +102,7 @@ const FeatureSidebar = () => {
           <div className="tg-tour-about-tickets-adult">
             <span>Youth </span>
             <p className="mb-0">
-              (13-17 years) <span>$20</span>
+              (13-17 years) <span>${price}</span>
             </p>
           </div>
           <div className="tg-tour-about-tickets-quantity">
@@ -126,7 +129,7 @@ const FeatureSidebar = () => {
           <div className="tg-tour-about-tickets-adult">
             <span>Children </span>
             <p className="mb-0">
-              (13-17 years) <span>$15</span>
+              (13-17 years) <span>${price}</span>
             </p>
           </div>
           <div className="tg-tour-about-tickets-quantity">
@@ -195,7 +198,7 @@ const FeatureSidebar = () => {
         <span className="tg-tour-about-sidebar-title d-inline-block">
           Total Cost:
         </span>
-        <h5 className="total-price">$300.00</h5>
+        <h5 className="total-price">${totalPrice}</h5>
       </div>
       <button type="submit" className="tg-btn tg-btn-switch-animation w-100">
         Book now

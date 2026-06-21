@@ -4,14 +4,14 @@ const menu_data: FrontendMenuItem[] = [
   {
     id: 2,
     title: "Dịch vụ",
-    link: "/dat-tee-time",
+    link: "/dich-vu/dat-tee-time",
     has_dropdown: true,
     sub_menus: [
-      { id: 21, title: "Đặt tee time", link: "/dat-tee-time" },
-      { id: 22, title: "Tour golf Việt Nam", link: "/tour-golf" },
-      { id: 23, title: "Khách sạn & nghỉ dưỡng", link: "/khach-san-nghi-duong" },
-      { id: 24, title: "Thuê xe & đưa đón", link: "/thue-xe-dua-don" },
-      { id: 25, title: "Tham quan & trải nghiệm", link: "/tham-quan-trai-nghiem" },
+      { id: 21, title: "Đặt tee time", link: "/dich-vu/dat-tee-time" },
+      { id: 22, title: "Tour golf Việt Nam", link: "/dich-vu/tour-golf-viet-nam" },
+      { id: 23, title: "Khách sạn & nghỉ dưỡng", link: "/dich-vu/khach-san-nghi-duong" },
+      { id: 24, title: "Thuê xe & đưa đón", link: "/dich-vu/thue-xe-dua-don" },
+      { id: 25, title: "Tham quan & trải nghiệm", link: "/dich-vu/tham-quan-trai-nghiem" },
     ],
   },
   {

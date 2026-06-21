@@ -1,6 +1,12 @@
 import Link from "next/link"
+import type { Product } from "@/types/product";
 
-const Breadcrumb = () => {
+const Breadcrumb = ({ product }: { product: Product | null }) => {
+   const categoryName = product?.category?.name || "Tour Grid";
+   const categoryPath = product?.category?.slug
+      ? `/dich-vu/${product.category.slug}`
+      : "/tour-grid-1";
+
    return (
       <>
          <div className="tg-breadcrumb-spacing-3 include-bg p-relative fix" style={{ backgroundImage: `url(/assets/img/breadcrumb/breadcrumb-2.jpg)` }}>
@@ -14,9 +20,9 @@ const Breadcrumb = () => {
                         <ul>
                            <li><Link href="/">Home</Link></li>
                            <li><i className="fa-sharp fa-solid fa-angle-right"></i></li>
-                           <li><Link href="/tour-grid-1">Tour Grid</Link></li>
+                           <li><Link href={categoryPath}>{categoryName}</Link></li>
                            <li><i className="fa-sharp fa-solid fa-angle-right"></i></li>
-                           <li><span>Vatican Museums Sistine Chapel Skip the Line</span></li>
+                           <li><span>{product?.name || "Vatican Museums Sistine Chapel Skip the Line"}</span></li>
                         </ul>
                      </div>
                   </div>

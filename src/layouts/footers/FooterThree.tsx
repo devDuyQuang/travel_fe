@@ -3,8 +3,12 @@ import Image from "next/image";
 import Link from "next/link";
 
 import logo from "@/assets/img/logo/golfnity-logo2x.png";
+import useSiteSettings from "@/hooks/useSiteSettings";
 
 const FooterThree = () => {
+  const siteSettings = useSiteSettings();
+  const footerLogo = siteSettings.logo || logo;
+
   return (
     <>
       <footer>
@@ -21,7 +25,7 @@ const FooterThree = () => {
                     <div className="tg-footer-logo mb-20">
                       <Link href="/">
                         <Image
-                          src={logo}
+                          src={footerLogo}
                           alt="Golfnity"
                           width={200}
                           height={61}
@@ -31,8 +35,7 @@ const FooterThree = () => {
                       </Link>
                     </div>
                     <p className="mb-20">
-                      Pharetra maecenas felis vestibulum convallis mollis nullam
-                      congue sit.d rivers of Finland Quebec.
+                      {siteSettings.description}
                     </p>
                     <div className="tg-footer-form mb-30">
                       <form onSubmit={(e) => e.preventDefault()}>
@@ -95,23 +98,23 @@ const FooterThree = () => {
                 <div className="col-xl-3 col-lg-3 col-md-6 col-sm-6">
                   <div className="tg-footer-widget tg-footer-link ml-80 mb-40">
                     <h3 className="tg-footer-widget-title mb-25">
-                      Quick Links
+                      Liên kết nhanh
                     </h3>
                     <ul>
                       <li>
-                        <Link href="/">Home</Link>
+                        <Link href="/">Trang chủ</Link>
                       </li>
                       <li>
-                        <Link href="/about">About Us</Link>
+                        <Link href="/about">Về Golfnity</Link>
                       </li>
                       <li>
-                        <Link href="#">Services</Link>
+                        <Link href="/dich-vu/dat-tee-time">Dịch vụ</Link>
                       </li>
                       <li>
-                        <Link href="#">Tour Guide</Link>
+                        <Link href="/blog-grid">Tin tức</Link>
                       </li>
                       <li>
-                        <Link href="/contact"> Contact Us</Link>
+                        <Link href="/contact">Liên hệ</Link>
                       </li>
                     </ul>
                   </div>
@@ -119,13 +122,13 @@ const FooterThree = () => {
                 <div className="col-xl-3 col-lg-3 col-md-6 col-sm-6">
                   <div className="tg-footer-widget tg-footer-info mb-40">
                     <h3 className="tg-footer-widget-title mb-25">
-                      Information
+                      Thông tin liên hệ
                     </h3>
                     <ul>
                       <li>
                         <Link
                           className="d-flex"
-                          href="https://www.google.com/maps/@41.6758525,-86.2531698,18.17z"
+                          href="/contact"
                         >
                           <span className="mr-15">
                             <svg
@@ -151,16 +154,18 @@ const FooterThree = () => {
                               />
                             </svg>
                           </span>
-                          58 Street Commercial Road
-                          <br /> Fratton, Australia
+                          {siteSettings.address || "Xem thông tin liên hệ Golfnity"}
                         </Link>
                       </li>
                       <li>
-                        <Link className="d-flex" href="tel:+1238889999">
+                        <Link
+                          className="d-flex"
+                          href={siteSettings.phone ? `tel:${siteSettings.phone}` : "/contact"}
+                        >
                           <span className="mr-15">
                             <i className="fa-sharp text-white fa-solid fa-phone"></i>
                           </span>
-                          +123 888 9999
+                          {siteSettings.phone || "Liên hệ tư vấn"}
                         </Link>
                       </li>
                       <li className="d-flex">
@@ -182,12 +187,7 @@ const FooterThree = () => {
                           </svg>
                         </span>
                         <p className="mb-0">
-                          Mon – Sat: 8 am – 5 pm,
-                          <br />
-                          Sunday:{" "}
-                          <span className="text-white d-inline-block">
-                            CLOSED
-                          </span>
+                          {siteSettings.workingTime || "Thời gian hỗ trợ theo yêu cầu"}
                         </p>
                       </li>
                     </ul>
@@ -196,23 +196,23 @@ const FooterThree = () => {
                 <div className="col-xl-3 col-lg-3 col-md-6 col-sm-6">
                   <div className="tg-footer-widget tg-footer-link mb-40">
                     <h3 className="tg-footer-widget-title mb-25">
-                      Utility Pages
+                      Golfnity
                     </h3>
                     <ul>
                       <li>
-                        <Link href="#">Style Guide</Link>
+                        <Link href="/about">Giới thiệu</Link>
                       </li>
                       <li>
-                        <Link href="#">Password Protected</Link>
+                        <Link href="/dich-vu/tour-golf-viet-nam">Tour golf</Link>
                       </li>
                       <li>
-                        <Link href="#">404 Error</Link>
+                        <Link href="/dich-vu/khach-san-nghi-duong">Khách sạn & nghỉ dưỡng</Link>
                       </li>
                       <li>
-                        <Link href="#">Changelog</Link>
+                        <Link href="/dich-vu/thue-xe-dua-don">Thuê xe & đưa đón</Link>
                       </li>
                       <li>
-                        <Link href="#">License</Link>
+                        <Link href="/dich-vu/tham-quan-trai-nghiem">Trải nghiệm</Link>
                       </li>
                     </ul>
                   </div>
@@ -222,7 +222,7 @@ const FooterThree = () => {
           </div>
           <div className="tg-footer-copyright text-center">
             <span>
-              Copyright <Link href="#">©Tourex</Link> | All Right Reserved
+              {siteSettings.copyright}
             </span>
           </div>
         </div>

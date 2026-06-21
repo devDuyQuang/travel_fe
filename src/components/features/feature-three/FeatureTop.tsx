@@ -12,6 +12,7 @@ interface ProductTopProps {
    isListView: boolean;
    handleListViewClick: () => void;
    handleGridViewClick: () => void;
+   sourceProducts?: Product[];
 }
 
 interface Option {
@@ -19,10 +20,10 @@ interface Option {
    text: string;
 }
 
-const FeatureTop = ({ startOffset, endOffset, totalItems, setProducts, isListView, handleListViewClick, handleGridViewClick }: ProductTopProps) => {
+const FeatureTop = ({ startOffset, endOffset, totalItems, setProducts, isListView, handleListViewClick, handleGridViewClick, sourceProducts }: ProductTopProps) => {
 
    const allProducts = useSelector(selectProducts);
-   const filteredAllProduct = allProducts
+   const filteredAllProduct = sourceProducts || allProducts
    const [selected, setSelected] = useState('');
 
    const niceSelectHandler = (item: Option) => {

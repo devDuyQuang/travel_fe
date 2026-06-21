@@ -77,29 +77,24 @@ const FeatureDetailsArea = ({ product }: { product: Product | null }) => {
   const reviewCount = product?.review_count || "5 Reviews";
   const videoId = getYoutubeVideoId(product?.video_url);
 
-  const imageMain = getImageUrl(product?.image);
+  const imageMain = getImageUrl(product?.image_url);
   const imageVideo = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
 
-  const imageSmall1 =
-    getImageUrl(product?.gallery_image_1) ||
-    getImageUrl(product?.gallery_images?.[0]?.image);
-
-  const imageSmall2 =
-    getImageUrl(product?.gallery_image_2) ||
-    getImageUrl(product?.gallery_images?.[1]?.image);
+  const imageSmall1 = getImageUrl(product?.gallery?.[0]);
+  const imageSmall2 = getImageUrl(product?.gallery?.[1]);
 
   const slides = useMemo(() => {
     const urls = [
       imageMain,
       imageSmall1,
       imageSmall2,
-      ...(product?.gallery_images || []).map((item) => getImageUrl(item.image)),
+      ...(product?.gallery || []).map((item) => getImageUrl(item)),
     ].filter(Boolean) as string[];
 
     const uniqueUrls = Array.from(new Set(urls));
 
     return uniqueUrls.map((src) => ({ src }));
-  }, [product?.gallery_images, imageMain, imageSmall1, imageSmall2]);
+  }, [product?.gallery, imageMain, imageSmall1, imageSmall2]);
 
   const openLightbox = (index: number) => {
     setLightboxIndex(index);
@@ -121,7 +116,7 @@ const FeatureDetailsArea = ({ product }: { product: Product | null }) => {
                   </span>
 
                   <div className="tg-tour-details-video-ratings">
-                    {renderStarRating(product?.star_rating)}
+                    {renderStarRating(product?.rating)}
                     <span className="review">({reviewCount})</span>
                   </div>
                 </div>
@@ -241,7 +236,7 @@ const FeatureDetailsArea = ({ product }: { product: Product | null }) => {
               <div className="col-lg-8">
                 <div className="tg-tour-details-video-established mb-15">
                   <span>
-                    {product?.established_text}
+                    {String(product?.attributes?.established_text || "")}
                   </span>
                 </div>
               </div>

@@ -7,6 +7,10 @@ import Link from "next/link";
 import listing_data from "@/data/ListingData";
 import { useDispatch } from "react-redux";
 import { addToWishlist } from "@/redux/features/wishlistSlice";
+import { getProducts } from "@/services/product.service";
+import { resolveMediaUrl } from "@/services/post.service";
+import { buildProductDetailHref } from "@/lib/productLinks";
+import type { Product } from "@/types/product";
 
 import shape_1 from "@/assets/img/listing/about-shape.png";
 import shape_2 from "@/assets/img/listing/about-shape-2.png";
@@ -156,6 +160,46 @@ const Listing = () => {
   }, [filterKey]);
 
   const [selectedFilter, setSelectedFilter] = useState("*");
+  const templateItems = listing_data.filter((item) => item.page === "home_3");
+  const [displayItems, setDisplayItems] = useState<
+    Array<(typeof templateItems)[number] & { product: Product | null }>
+  >(
+    templateItems.map((item) => ({
+      ...item,
+      product: null as Product | null,
+    })),
+  );
+
+  useEffect(() => {
+    getProducts(templateItems.length).then((products) => {
+      if (products.length === 0) return;
+
+      setDisplayItems(products.map((product, index) => {
+        const fallback = templateItems[index % templateItems.length];
+        const image = resolveMediaUrl(product.image_url);
+        const price = Number(product.price);
+        const discount = Number(product.price_discount);
+
+        return {
+          ...fallback,
+          id: product.id,
+          title: product.name?.trim() || fallback.title,
+          product,
+          thumb: image
+            ? { src: image, width: fallback.thumb.width, height: fallback.thumb.height }
+            : fallback.thumb,
+          location: product.location?.trim() || fallback.location,
+          time: product.duration?.trim() || fallback.time,
+          price: Number.isFinite(price) && price > 0 ? price : fallback.price,
+          delete_price:
+            Number.isFinite(discount) && discount > 0
+              ? discount
+              : fallback.delete_price,
+          tag: product.badge?.trim() || fallback.tag,
+        };
+      }));
+    });
+  }, []);
 
   const handleFilterKeyChange = (key: string) => () => {
     setFilterKey(key);
@@ -251,16 +295,19 @@ const Listing = () => {
           </div>
         </div>
         <div className="row isotope-wrapper project-active-two">
-          {listing_data
-            .filter((items) => items.page === "home_3")
-            .map((item) => (
+          {displayItems.map((item) => {
+            const detailHref = item.product
+              ? buildProductDetailHref(item.product)
+              : "/tour-details";
+
+            return (
               <div
                 key={item.id}
                 className={`col-xxl-3 col-xl-4 col-lg-4 col-md-6 grid-item grid-sizer ${item.category} isotope-filter-item`}
               >
                 <div className="tg-listing-card-item mb-30">
                   <div className="tg-listing-card-thumb fix mb-15 p-relative">
-                    <Link href="/tour-details">
+                    <Link href={detailHref}>
                       <Image
                         className="tg-card-border w-100"
                         src={item.thumb}
@@ -317,7 +364,7 @@ const Listing = () => {
                   </div>
                   <div className="tg-listing-card-content">
                     <h4 className="tg-listing-card-title">
-                      <Link href="/tour-details">{item.title}</Link>
+                      <Link href={detailHref}>{item.title}</Link>
                     </h4>
                     <div className="tg-listing-card-duration-tour">
                       <span className="tg-listing-card-duration-map mb-5">
@@ -391,7 +438,8 @@ const Listing = () => {
                   </div>
                 </div>
               </div>
-            ))}
+            );
+          })}
         </div>
       </div>
     </div>

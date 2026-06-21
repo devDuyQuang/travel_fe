@@ -1,10 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import products from '@/data/ShopData';
+import type { StaticImageData } from "next/image";
+import type { Product as CmsProduct } from "@/types/product";
 
 export interface Product {
    id: number;
+   slug?: string;
+   isCmsItem?: boolean;
+   cmsProduct?: CmsProduct;
    page: string;
-   thumb: string;
+   thumb: string | StaticImageData;
    tag?: string;
    featured?: string;
    offer?: string;
@@ -20,6 +25,8 @@ export interface Product {
    destination: string;
    duration: string;
    desc:string;
+   description?: string | null;
+   content?: string | null;
    guest:string;
    quantity: number;
 }

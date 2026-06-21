@@ -1,5 +1,9 @@
+"use client";
+
 import Image, { StaticImageData } from "next/image"
 import Link from "next/link"
+import { useEffect, useState } from "react";
+import { getPosts, resolveMediaUrl } from "@/services/post.service";
 
 import blog_1 from "@/assets/img/blog/blog-1.jpg"
 import blog_2 from "@/assets/img/blog/blog-2.jpg"
@@ -15,9 +19,18 @@ interface DataType {
    title: string;
    date: string;
    time: string;
+   slug?: string | null;
 }
 
 const blog_data: DataType[] = [
+   {
+      id: 0,
+      thumb: blog_1,
+      tag: "Travel River",
+      title: "Spiritual Sojourn: Pilgrimagee Tours for Soul Seekers",
+      date: "26th Sep, 2024",
+      time: "5 mins Read"
+   },
    {
       id: 1,
       thumb: blog_2,
@@ -37,6 +50,31 @@ const blog_data: DataType[] = [
 ];
 
 const Blog = () => {
+   const [items, setItems] = useState<DataType[]>(blog_data);
+
+   useEffect(() => {
+      getPosts(3).then((posts) => {
+         if (posts.length === 0) return;
+
+         setItems(posts.map((post, index) => {
+            const fallback = blog_data[index % blog_data.length];
+            const image = resolveMediaUrl(post.image_url || post.image);
+            return {
+               ...fallback,
+               id: post.id,
+               title: post.name?.trim() || fallback.title,
+               thumb: image
+                  ? { src: image, width: fallback.thumb.width, height: fallback.thumb.height }
+                  : fallback.thumb,
+               slug: post.slug?.trim() || null,
+            };
+         }));
+      });
+   }, []);
+
+   const featured = items[0] || blog_data[0];
+   const secondary = items.slice(1, 3);
+
    return (
       <div className="tg-blog-area tg-blog-space tg-grey-bg pt-135 p-relative z-index-1">
          <Image className="tg-blog-shape" src={shape_1} alt="shape" />
@@ -55,12 +93,11 @@ const Blog = () => {
                <div className="col-lg-5 wow fadeInLeft" data-wow-delay=".4s" data-wow-duration=".9s">
                   <div className="tg-blog-item mb-25">
                      <div className="tg-blog-thumb fix">
-                        <Link href="/blog-details"><Image className="w-100" src={blog_1} alt="blog" /></Link>
+                        <Link href={featured.slug ? `/${featured.slug}` : "/blog-details"}><Image className="w-100" src={featured.thumb} alt="blog" /></Link>
                      </div>
                      <div className="tg-blog-content  p-relative">
-                        <span className="tg-blog-tag p-absolute">Travel River</span>
-                        <h3 className="tg-blog-title"><Link href="/blog-details">Spiritual Sojourn: Pilgrimagee Tours
-                           for Soul Seekers</Link></h3>
+                        <span className="tg-blog-tag p-absolute">{featured.tag}</span>
+                        <h3 className="tg-blog-title"><Link href={featured.slug ? `/${featured.slug}` : "/blog-details"}>{featured.title}</Link></h3>
                         <div className="tg-blog-date">
                            <span className="mr-20"><i className="fa-light fa-calendar"></i> 26th Sep, 2024</span>
                            <span><i className="fa-regular fa-clock"></i> 5 mins Read</span>
@@ -71,19 +108,19 @@ const Blog = () => {
 
                <div className="col-lg-7">
                   <div className="row">
-                     {blog_data.map((item) => (
+                     {secondary.map((item) => (
                         <div key={item.id} className="col-12 wow fadeInRight" data-wow-delay=".4s" data-wow-duration=".9s">
                            <div className="tg-blog-item mb-20">
                               <div className="row align-items-center">
                                  <div className="col-lg-5">
                                     <div className="tg-blog-thumb fix">
-                                       <Link href="/blog-details"><Image className="w-100" src={item.thumb} alt="blog" /></Link>
+                                       <Link href={item.slug ? `/${item.slug}` : "/blog-details"}><Image className="w-100" src={item.thumb} alt="blog" /></Link>
                                     </div>
                                  </div>
                                  <div className="col-lg-7">
                                     <div className="tg-blog-contents">
                                        <span className="tg-blog-tag d-inline-block mb-10">{item.tag}</span>
-                                       <h3 className="tg-blog-title title-2 mb-0"><Link href="blog-details">{item.title}</Link></h3>
+                                       <h3 className="tg-blog-title title-2 mb-0"><Link href={item.slug ? `/${item.slug}` : "/blog-details"}>{item.title}</Link></h3>
                                        <div className="tg-blog-date">
                                           <span className="mr-20"><i className="fa-light fa-calendar"></i>{item.date}</span>
                                           <span><i className="fa-regular fa-clock"></i> {item.time}</span>

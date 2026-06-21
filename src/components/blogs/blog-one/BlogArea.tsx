@@ -6,19 +6,37 @@ import { useState } from "react";
 import ReactPaginate from "react-paginate";
 import BlogSidebar from "../blog-sidebar";
 import Button from "@/components/common/Button";
+import type { CmsPost } from "@/types/cms-post";
+import { resolveMediaUrl } from "@/services/post.service";
 
-const BlogArea = () => {
+const BlogArea = ({ posts = [] }: { posts?: CmsPost[] }) => {
 
    const blog = blog_data.filter((items) => items.page === "inner_1");
+   const items = posts.length > 0
+      ? posts.map((post, index) => {
+         const fallback = blog[index % blog.length];
+         const image = resolveMediaUrl(post.image_url || post.image);
+         return {
+            ...fallback,
+            id: post.id,
+            title: post.name?.trim() || fallback.title,
+            desc: post.description?.trim() || fallback.desc,
+            thumb: image
+               ? { src: image, width: fallback.thumb.width, height: fallback.thumb.height }
+               : fallback.thumb,
+            slug: post.slug?.trim() || null,
+         };
+      })
+      : blog.map((item) => ({ ...item, slug: null }));
 
    const itemsPerPage = 8;
    const [itemOffset, setItemOffset] = useState(0);
    const endOffset = itemOffset + itemsPerPage;
-   const currentItems = blog.slice(itemOffset, endOffset);
-   const pageCount = Math.ceil(blog.length / itemsPerPage);
+   const currentItems = items.slice(itemOffset, endOffset);
+   const pageCount = Math.ceil(items.length / itemsPerPage);
    // click to request another page.
    const handlePageClick = (event: { selected: number }) => {
-      const newOffset = (event.selected * itemsPerPage) % blog.length;
+      const newOffset = (event.selected * itemsPerPage) % items.length;
       setItemOffset(newOffset);
    };
 
@@ -33,11 +51,11 @@ const BlogArea = () => {
                            <div key={item.id} className="col-xl-6 col-lg-12 col-md-6">
                               <div className="tg-blog-grid-item mb-30">
                                  <div className="tg-blog-standard-thumb mb-15">
-                                    <Link href="/blog-details"><Image className="w-100" src={item.thumb} alt="blog" /></Link>
+                                    <Link href={item.slug ? `/${item.slug}` : "/blog-details"}><Image className="w-100" src={item.thumb} alt="blog" /></Link>
                                  </div>
                                  <div className="tg-blog-standard-content">
                                     <h2 className="tg-blog-standard-title">
-                                       <Link href="/blog-details">{item.title}</Link>
+                                       <Link href={item.slug ? `/${item.slug}` : "/blog-details"}>{item.title}</Link>
                                     </h2>
                                     <div className="tg-blog-standard-date mb-10">
                                        <span>
@@ -61,7 +79,7 @@ const BlogArea = () => {
                                     </div>
                                     <p className="mb-20 tg-blog-standard-para">{item.desc}</p>
                                     <div className="tg-blog-sidebar-btn">
-                                       <Link href="/blog-details" className="tg-btn tg-btn-switch-animation">
+                                       <Link href={item.slug ? `/${item.slug}` : "/blog-details"} className="tg-btn tg-btn-switch-animation">
                                           <Button text="Read More" />
                                        </Link>
                                     </div>

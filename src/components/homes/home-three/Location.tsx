@@ -16,7 +16,7 @@ const Location = () => {
         <div className="row">
           <div className="col-lg-12">
             <div className="tg-location-section-title text-center mb-30">
-              {/* <h5
+              <h5
                 className="tg-section-subtitle mb-15 wow fadeInUp"
                 data-wow-delay=".4s"
                 data-wow-duration=".9s"
@@ -30,8 +30,8 @@ const Location = () => {
               >
                 Popular Travel Destinations <br />
                 Available Worldwide
-              </h2> */}
-              {/* <p
+              </h2>
+              <p
                 className="text-capitalize wow fadeInUp"
                 data-wow-delay=".6s"
                 data-wow-duration=".9s"
@@ -39,10 +39,10 @@ const Location = () => {
                 Are you tired of the typical tourist destinations and looking
                 <br />
                 to step out of your comfort zonetravel
-              </p> */}
+              </p>
             </div>
           </div>
-          {/* {location_data
+          {location_data
             .filter((items) => items.page === "home_3")
             .map((item) => (
               <div
@@ -65,7 +65,7 @@ const Location = () => {
                         {item.total} Tours
                       </span>
                       <h3 className="tg-location-title mb-0">
-                        <Link href="/map-listing">{item.title}</Link>
+                        <Link href="/dich-vu/tham-quan-trai-nghiem">{item.title}</Link>
                       </h3>
                     </div>
                     <div className="tg-location-border one"></div>
@@ -73,7 +73,7 @@ const Location = () => {
                   </div>
                 </div>
               </div>
-            ))} */}
+            ))}
         </div>
       </div>
     </div>

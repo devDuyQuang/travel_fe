@@ -17,14 +17,35 @@ import thumb_s2 from "@/assets/img/tour-details/details-2/slider-2.jpg"
 import thumb_s3 from "@/assets/img/tour-details/details-2/slider-3.jpg"
 import thumb_s4 from "@/assets/img/tour-details/details-2/slider-4.jpg"
 import thumb_s5 from "@/assets/img/tour-details/details-2/slider-5.jpg"
+import type { Product } from "@/types/product";
 
 const slider_b: StaticImageData[] = [thumb_1, thumb_2, thumb_3, thumb_4, thumb_5, thumb_6];
 const slider_s: StaticImageData[] = [thumb_s1, thumb_s2, thumb_s3, thumb_s4, thumb_s5, thumb_s1];
 
 
-const AboutSlider = () => {
+const AboutSlider = ({ product }: { product: Product | null }) => {
 
    const [thumbsSwiper, setThumbsSwiper] = useState<SwiperType | null>(null);
+   const cmsImages = [
+      product?.image_url,
+      ...(product?.gallery || []),
+   ].filter((image): image is string => Boolean(image?.trim()));
+   const sliderImages = cmsImages.length > 0
+      ? slider_b.map((fallback, index) => {
+         const image = cmsImages[index];
+         return image
+            ? { src: image, width: fallback.width, height: fallback.height }
+            : fallback;
+      })
+      : slider_b;
+   const thumbnailImages = cmsImages.length > 0
+      ? slider_s.map((fallback, index) => {
+         const image = cmsImages[index];
+         return image
+            ? { src: image, width: fallback.width, height: fallback.height }
+            : fallback;
+      })
+      : slider_s;
 
    return (
       <div className="tg-tour-details-gallery-slider-wrap mb-40">
@@ -41,7 +62,7 @@ const AboutSlider = () => {
             className="swiper-container tg-tour-details-gallery-active mb-20"
          >
 
-            {slider_b.map((item, i) => (
+            {sliderImages.map((item, i) => (
                <SwiperSlide key={i} className="swiper-slide">
                   <div className="tg-tour-details-gallery-thumb">
                      <Image className="w-100" src={item} alt="" />
@@ -77,7 +98,7 @@ const AboutSlider = () => {
                      0: { spaceBetween: 10 },
                   }}
                >
-                  {slider_s.map((item, i) => (
+                  {thumbnailImages.map((item, i) => (
                      <SwiperSlide key={i} className="swiper-slide">
                         <div className="tg-tour-details-gallery-thumb">
                            <Image className="w-100" src={item} alt="" />

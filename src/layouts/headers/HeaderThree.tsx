@@ -150,6 +150,7 @@ import TotalCart from "./Menu/TotalCart";
 // import logo_2 from "@/assets/img/logo/logo-green.png";
 
 import golfnityLogo from "@/assets/img/logo/golfnity-logo2x.png";
+import useSiteSettings from "@/hooks/useSiteSettings";
 type HeaderThreeProps = {
   variant?: "transparent" | "solid";
 };
@@ -158,6 +159,8 @@ const HeaderThree = ({ variant = "transparent" }: HeaderThreeProps) => {
   const { sticky } = UseSticky();
   const [offCanvas, setOffCanvas] = useState<boolean>(false);
   const [sidebar, setSidebar] = useState<boolean>(false);
+  const siteSettings = useSiteSettings();
+  const logo = siteSettings.logo || golfnityLogo;
 
   return (
     <>
@@ -184,7 +187,7 @@ const HeaderThree = ({ variant = "transparent" }: HeaderThreeProps) => {
                   <div className="logo">
                     <Link className="logo-1" href="/">
                       <Image
-                        src={golfnityLogo}
+                        src={logo}
                         alt="Golfnity"
                         width={200}
                         height={61}
@@ -195,7 +198,7 @@ const HeaderThree = ({ variant = "transparent" }: HeaderThreeProps) => {
 
                     <Link className="logo-2 d-none" href="/">
                       <Image
-                        src={golfnityLogo}
+                        src={logo}
                         alt="Golfnity"
                         width={200}
                         height={61}
@@ -220,8 +223,10 @@ const HeaderThree = ({ variant = "transparent" }: HeaderThreeProps) => {
                       <PhoneIcon />
                     </span>
                     <div className="tg-header-contact-number d-none d-xl-block">
-                      <span>Call Us:</span>
-                      <Link href="tel:+123595966">+123 5959 66</Link>
+                      <span>Hotline:</span>
+                      <Link href={siteSettings.phone ? `tel:${siteSettings.phone}` : "/contact"}>
+                        {siteSettings.phone || "Liên hệ tư vấn"}
+                      </Link>
                     </div>
                   </div>
 

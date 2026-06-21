@@ -26,6 +26,14 @@ type ApiMenuItem = {
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://api.localhost:8000";
 
+const serviceCategoryPaths: Record<string, string> = {
+  "/dat-tee-time": "/dich-vu/dat-tee-time",
+  "/tour-golf": "/dich-vu/tour-golf-viet-nam",
+  "/khach-san-nghi-duong": "/dich-vu/khach-san-nghi-duong",
+  "/thue-xe-dua-don": "/dich-vu/thue-xe-dua-don",
+  "/tham-quan-trai-nghiem": "/dich-vu/tham-quan-trai-nghiem",
+};
+
 function normalizePath(item: ApiMenuItem): string {
   const raw = item.public_url || item.path || item.url || item.link || "/";
 
@@ -35,7 +43,9 @@ function normalizePath(item: ApiMenuItem): string {
     return raw;
   }
 
-  return raw.startsWith("/") ? raw : `/${raw}`;
+  const path = raw.startsWith("/") ? raw : `/${raw}`;
+
+  return serviceCategoryPaths[path] || path;
 }
 
 function normalizeMenuItem(item: ApiMenuItem, index: number): FrontendMenuItem {

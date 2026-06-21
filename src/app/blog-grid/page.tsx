@@ -1,13 +1,16 @@
 import BlogOne from "@/components/blogs/blog-one";
 import Wrapper from "@/layouts/Wrapper";
+import { getPosts } from "@/services/post.service";
 
 export const metadata = {
-  title: "Blog One Tourex - Tour & Travel Booking React Next js Template",
+  title: "Tin tức | Golfnity",
 };
-const page = () => {
+const page = async () => {
+  const posts = await getPosts();
+
   return (
     <Wrapper>
-      <BlogOne />
+      <BlogOne posts={posts} />
     </Wrapper>
   )
 }

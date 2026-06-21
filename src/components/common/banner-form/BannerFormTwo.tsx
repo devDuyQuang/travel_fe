@@ -1,6 +1,7 @@
 "use client"
 import { useEffect, useRef, useState } from "react";
 import Flatpickr from 'react-flatpickr';
+import type { ServiceSearchLabels } from "@/types/service-layout";
 
 interface DataType {
    id: number;
@@ -26,7 +27,15 @@ const guest_data: DataType[] = [
    },
 ];
 
-const BannerFormTwo = () => {
+const defaultLabels: ServiceSearchLabels = {
+   location: "Địa điểm",
+   locationPlaceholder: "Bạn muốn đi đâu?",
+   startDate: "Ngày bắt đầu",
+   endDate: "Ngày kết thúc",
+   guests: "Số khách",
+};
+
+const BannerFormTwo = ({ labels = defaultLabels }: { labels?: ServiceSearchLabels }) => {
 
    const [location, setLocation] = useState(false);
    const [checkInDate, setCheckInDate] = useState<Date | Date[]>(new Date());
@@ -81,10 +90,10 @@ const BannerFormTwo = () => {
       <form onSubmit={(e) => e.preventDefault()}>
          <div className="tg-booking-form-input-group d-flex align-items-end justify-content-between">
             <div className="tg-booking-form-parent-inner tg-hero-quantity p-relative mr-15 mb-10">
-            <span className="tg-booking-form-title mb-5">Check in:</span>
+            <span className="tg-booking-form-title mb-5">{labels.location}:</span>
                {/* <span className="tg-booking-form-title mb-5">Destinations:</span> */}
                <div ref={locationRef} onClick={() => setLocation((prev) => !prev)} className={`tg-booking-add-input-field tg-booking-quantity-toggle ${location ? "active" : ""} `}>
-                  <span className="tg-booking-title-value">Where are you going . . .</span>
+                  <span className="tg-booking-title-value">{labels.locationPlaceholder}</span>
                   <span className="location">
                      <svg width="13" height="16" viewBox="0 0 13 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M12.3329 6.7071C12.3329 11.2324 6.55512 15.1111 6.55512 15.1111C6.55512 15.1111 0.777344 11.2324 0.777344 6.7071C0.777344 5.16402 1.38607 3.68414 2.46962 2.59302C3.55316 1.5019 5.02276 0.888916 6.55512 0.888916C8.08748 0.888916 9.55708 1.5019 10.6406 2.59302C11.7242 3.68414 12.3329 5.16402 12.3329 6.7071Z" stroke="currentColor" strokeWidth="1.15556" strokeLinecap="round" strokeLinejoin="round" />
@@ -118,7 +127,7 @@ const BannerFormTwo = () => {
                </div>
             </div>
             <div className="tg-booking-form-parent-inner mr-15 mb-15">
-               <span className="tg-booking-form-title mb-5">Check in:</span>
+               <span className="tg-booking-form-title mb-5">{labels.startDate}:</span>
                <div className="tg-booking-add-input-date p-relative">
                   <span>
                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -137,8 +146,8 @@ const BannerFormTwo = () => {
                   />
                </div>
             </div>
-            <div className="tg-booking-form-parent-inner mr-15  mb-15">
-               <span className="tg-booking-form-title mb-5">Check Out:</span>
+            {labels.endDate && <div className="tg-booking-form-parent-inner mr-15  mb-15">
+               <span className="tg-booking-form-title mb-5">{labels.endDate}:</span>
                <div className="tg-booking-add-input-date p-relative">
                   <span>
                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -156,9 +165,9 @@ const BannerFormTwo = () => {
                      placeholder="dd/mm/yyyy"
                   />
                </div>
-            </div>
+            </div>}
             <div className="tg-booking-form-parent-inner tg-hero-quantity p-relative mr-15 mb-15">
-               <span className="tg-booking-form-title mb-5">Guest:</span>
+               <span className="tg-booking-form-title mb-5">{labels.guests}:</span>
                <div ref={guestRef} onClick={() => setGuest((prev) => !prev)} className={`tg-booking-add-input-field tg-booking-quantity-toggle ${guest ? "active" : ""}`}>
                   <span className="location">
                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">

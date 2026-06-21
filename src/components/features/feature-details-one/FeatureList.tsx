@@ -1,4 +1,5 @@
 import { JSX } from "react"
+import type { Product } from "@/types/product";
 
 interface DataType {
    id: number;
@@ -42,10 +43,52 @@ const list_data: DataType[] = [
    },
 ];
 
-const FeatureList = () => {
+const FeatureList = ({ product }: { product?: Product | null }) => {
+   const attributes = product?.attributes || {};
+   const layout = product?.category?.layout_key;
+   const fieldsByLayout: Record<string, Array<[string, unknown]>> = {
+      tee_time: [
+         ["Duration", product?.duration],
+         ["Type", attributes.course_type || product?.category?.name],
+         ["Group Size", null],
+         ["Languages", null],
+      ],
+      tour: [
+         ["Thời lượng", product?.duration || (attributes.days ? `${attributes.days} ngày` : null)],
+         ["Điểm đến", attributes.destination],
+         ["Số khách", attributes.max_guests],
+         ["Ngôn ngữ", attributes.languages],
+      ],
+      accommodation: [
+         ["Loại hình", attributes.property_type],
+         ["Hạng phân loại", attributes.classification_rating],
+         ["Sức chứa", attributes.max_guests],
+         ["Nhận / trả phòng", [attributes.check_in_time, attributes.check_out_time].filter(Boolean).join(" / ")],
+      ],
+      transport: [
+         ["Loại xe", attributes.vehicle_type],
+         ["Số chỗ", attributes.seat_count],
+         ["Hộp số", attributes.transmission],
+         ["Có tài xế", attributes.driver_included === true ? "Có" : attributes.driver_included === false ? "Không" : null],
+      ],
+      attraction: [
+         ["Loại vé", attributes.ticket_type],
+         ["Thời lượng", attributes.visit_duration || product?.duration],
+         ["Giờ mở cửa", attributes.opening_time],
+         ["Độ tuổi tối thiểu", attributes.minimum_age],
+      ],
+   };
+   const layoutFields = fieldsByLayout[layout || ""] || [];
+   const displayData = list_data.map((item, index) => {
+      const [label, value] = layoutFields[index] || [];
+      return value !== null && value !== undefined && value !== ""
+         ? { ...item, sub_title: label, title: String(value) }
+         : item;
+   });
+
    return (
       <ul>
-         {list_data.map((item) => (
+         {displayData.map((item) => (
             <li key={item.id}>
                <span className="icon">{item.icon}</span>
                <div>

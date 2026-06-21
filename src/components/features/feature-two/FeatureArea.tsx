@@ -2,7 +2,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import UseProducts from "@/hooks/UseProducts";
+import UseServiceItems from "@/hooks/UseServiceItems";
 import { useState, useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { addToWishlist } from "@/redux/features/wishlistSlice";
@@ -10,14 +10,23 @@ import FeatureTop from "./FeatureTop";
 import FeatureSidebar from "./FeatureSidebar";
 import ReactPaginate from "react-paginate";
 import { toSlug } from "@/lib/slug";
+import type { Product as CmsProduct } from "@/types/product";
+import type { Product } from "@/redux/features/productSlice";
+import { getServiceItemDetailPath } from "@/lib/serviceCmsAdapter";
 
 interface FeatureAreaProps {
   detailBasePath: string;
+   items?: CmsProduct[];
 }
 
-const FeatureArea = ({ detailBasePath }: FeatureAreaProps) => {
+const FeatureArea = ({ detailBasePath, items }: FeatureAreaProps) => {
   const dispatch = useDispatch();
-  const { products, setProducts } = UseProducts();
+  const {
+    products,
+    setProducts,
+    sourceProducts,
+    hasCmsItems,
+  } = UseServiceItems(items, "shop_2");
   const [isListView, setIsListView] = useState(false);
 
   const itemsPerPage = 9;
@@ -39,7 +48,7 @@ const FeatureArea = ({ detailBasePath }: FeatureAreaProps) => {
   };
 
   const handleAddToWishlist = useCallback(
-    (item: any) => {
+    (item: Product) => {
       dispatch(addToWishlist(item));
     },
     [dispatch],
@@ -56,7 +65,7 @@ const FeatureArea = ({ detailBasePath }: FeatureAreaProps) => {
     <div className="tg-listing-grid-area mb-85">
       <div className="container">
         <div className="row">
-          <FeatureSidebar setProducts={setProducts} />
+          <FeatureSidebar setProducts={setProducts} sourceProducts={hasCmsItems ? sourceProducts : undefined} />
           <div className="col-xl-9 col-lg-8">
             <div className="tg-listing-item-box-wrap ml-10">
               <FeatureTop
@@ -64,6 +73,7 @@ const FeatureArea = ({ detailBasePath }: FeatureAreaProps) => {
                 endOffset={Math.min(endOffset, totalItems)}
                 totalItems={totalItems}
                 setProducts={setProducts}
+                sourceProducts={hasCmsItems ? sourceProducts : undefined}
                 isListView={isListView}
                 handleListViewClick={handleListViewClick}
                 handleGridViewClick={handleGridViewClick}
@@ -75,7 +85,10 @@ const FeatureArea = ({ detailBasePath }: FeatureAreaProps) => {
                   {currentItems
                     .filter((items) => items.page === "shop_2")
                     .map((item) => {
-                      const detailPath = `${detailBasePath}/${toSlug(item.title)}`;
+                      const detailPath = getServiceItemDetailPath(
+                        item,
+                        `${detailBasePath}/${toSlug(item.title)}`,
+                      );
 
                       return (
                       <div

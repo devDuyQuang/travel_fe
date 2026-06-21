@@ -3,6 +3,7 @@ export type ProductCategory = {
   name: string;
   slug: string;
   type: string;
+  layout_key?: string | null;
 };
 
 export type ProductGalleryImage = {
@@ -11,47 +12,54 @@ export type ProductGalleryImage = {
   original_name?: string;
 };
 
+export type ProductSeo = {
+  title?: string | null;
+  description?: string | null;
+  canonical_url?: string | null;
+};
+
+export type ProductAttributes = Record<
+  string,
+  string | number | boolean | null | undefined
+>;
+
 export type Product = {
   id: number;
   name: string;
   slug: string;
 
-  description?: string | null;
+  badge?: string | null;
+  short_description?: string | null;
+  content?: string | null;
+  image_url?: string | null;
+  gallery?: string[];
+  video_url?: string | null;
   location?: string | null;
   duration?: string | null;
-
-  review_rating?: string | null;
-  review_count?: string | null;
-  star_rating?: number | null;
-
-  established_year?: number | null;
-  highlight?: string | null;
-  facility?: string | null;
-  content?: string | null;
-
-  image?: string | null;
-  image_original_name?: string | null;
-
-  badge_text?: string | null;
-
-  gallery_image_1?: string | null;
-  gallery_image_1_original_name?: string | null;
-
-  gallery_image_2?: string | null;
-  gallery_image_2_original_name?: string | null;
-
-  gallery_images?: ProductGalleryImage[];
-
-  video_url?: string | null;
-
   price?: string | null;
   price_discount?: string | null;
-
-  golf_information?: string | null;
-
+  rating?: string | number | null;
+  review_count?: number | null;
+  is_featured?: boolean;
+  sort_order?: number;
+  highlights?: string | null;
+  facilities?: string | null;
+  attributes?: ProductAttributes;
+  seo?: ProductSeo;
   category?: ProductCategory | null;
-  established_text?: string | null;
-
-  
+  status?: number;
   created_at?: string;
+  updated_at?: string;
+};
+
+export type ProductListResponse = {
+  success: boolean;
+  data?: Product[] | {
+    data?: Product[];
+  };
+};
+
+export type ProductDetailResponse = {
+  success: boolean;
+  data?: Product | null;
 };

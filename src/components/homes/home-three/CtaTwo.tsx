@@ -33,7 +33,7 @@ const CtaTwo = () => {
               data-wow-duration=".9s"
             >
               <Link
-                href="/tour-details"
+                href="/contact"
                 className="tg-btn tg-btn-transparent tg-btn-switch-animation"
               >
                 <Button text="Book Your Trip Now" />

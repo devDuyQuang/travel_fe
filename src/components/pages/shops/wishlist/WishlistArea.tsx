@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { addToCart } from '@/redux/features/cartSlice';
 import UseWishlistInfo from '@/hooks/UseWishlistInfo';
 import { removeFromWishlist } from "@/redux/features/wishlistSlice";
+import { buildProductDetailHref } from "@/lib/productLinks";
 
 const WishlistArea = () => {
   const { wishlistItems } = UseWishlistInfo();
@@ -39,13 +40,18 @@ const WishlistArea = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {wishlistItems.map((item: any, i: any) =>
+                        {wishlistItems.map((item: any, i: any) => {
+                          const detailHref = item.cmsProduct
+                            ? buildProductDetailHref(item.cmsProduct)
+                            : "/shop-details";
+
+                          return (
                           <tr key={i}>
                             <td className="product-thumbnail">
-                              <Link className="thumb" href="/shop-details">
+                              <Link className="thumb" href={detailHref}>
                                 <Image src={item.thumb} alt="" />
                               </Link>
-                              <Link className="texts" href="/shop-details">{item.title}</Link>
+                              <Link className="texts" href={detailHref}>{item.title}</Link>
                             </td>
                             <td className="product-price2">
                               <span className="amount">${item.price}.00</span>
@@ -57,7 +63,8 @@ const WishlistArea = () => {
                               <a onClick={() => dispatch(removeFromWishlist(item))} style={{ cursor: "pointer" }}><i className="fa fa-times"></i></a>
                             </td>
                           </tr>
-                        )}
+                          );
+                        })}
                       </tbody>
                     </table>
                   </div>

@@ -1,6 +1,7 @@
 import Link from "next/link";
+import type { Product } from "@/types/product";
 
-const BreadCrumb = () => {
+const BreadCrumb = ({ product }: { product: Product | null }) => {
   return (
     <>
       <div
@@ -25,15 +26,15 @@ const BreadCrumb = () => {
                     <i className="fa-sharp fa-solid fa-angle-right"></i>
                   </li>
                   <li>
-                    <Link href="/khach-san-nghi-duong">
-                      Khách sạn & nghỉ dưỡng
+                    <Link href={product?.category?.slug ? `/dich-vu/${product.category.slug}` : "/khach-san-nghi-duong"}>
+                      {product?.category?.name || "Khách sạn & nghỉ dưỡng"}
                     </Link>
                   </li>
                   <li>
                     <i className="fa-sharp fa-solid fa-angle-right"></i>
                   </li>
                   <li>
-                    <span>Vatican Museums Sistine Chapel Skip the Line</span>
+                    <span>{product?.name || "Vatican Museums Sistine Chapel Skip the Line"}</span>
                   </li>
                 </ul>
               </div>

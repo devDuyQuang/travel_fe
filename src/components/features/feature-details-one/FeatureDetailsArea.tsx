@@ -14,6 +14,20 @@ import thumb_4 from "@/assets/img/tour-details/thumb-3.jpg";
 
 const FeatureDetailsArea = ({ product }: { product: Product | null }) => {
   const [isVideoOpen, setIsVideoOpen] = useState(false);
+  const gallery = product?.gallery?.filter((image) => image.trim()) || [];
+  const primaryImage = product?.image_url
+    ? {
+        src: product.image_url,
+        width: thumb_1.width,
+        height: thumb_1.height,
+      }
+    : thumb_1;
+  const secondaryImages = [thumb_2, thumb_3, thumb_4].map((fallback, index) => {
+    const image = gallery[index];
+    return image
+      ? { src: image, width: fallback.width, height: fallback.height }
+      : fallback;
+  });
 
   return (
     <>
@@ -31,22 +45,12 @@ const FeatureDetailsArea = ({ product }: { product: Product | null }) => {
                     {product?.location || "Street Bintage,Veins City, italy"}
                   </span>
                   <div className="tg-tour-details-video-ratings">
-                    <span>
-                      <i className="fa-sharp fa-solid fa-star"></i>
-                    </span>
-                    <span>
-                      <i className="fa-sharp fa-solid fa-star"></i>
-                    </span>
-                    <span>
-                      <i className="fa-sharp fa-solid fa-star"></i>
-                    </span>
-                    <span>
-                      <i className="fa-sharp fa-solid fa-star"></i>
-                    </span>
-                    <span>
-                      <i className="fa-sharp fa-solid fa-star"></i>
-                    </span>
-                    <span className="review">(5 Reviews)</span>
+                    {Array.from({ length: 5 }).map((_, index) => (
+                      <span key={index} className={index < Math.round(Number(product?.rating || 5)) ? "" : "opacity-25"}>
+                        <i className="fa-sharp fa-solid fa-star"></i>
+                      </span>
+                    ))}
+                    <span className="review">({product?.review_count || "5"} Reviews)</span>
                   </div>
                 </div>
               </div>
@@ -94,14 +98,14 @@ const FeatureDetailsArea = ({ product }: { product: Product | null }) => {
           <div className="row gx-15 mb-25">
             <div className="col-lg-7">
               <div className="tg-tour-details-video-thumb mb-15">
-                <Image className="w-100" src={thumb_1} alt="" />
+                <Image className="w-100" src={primaryImage} alt="" />
               </div>
             </div>
             <div className="col-lg-5">
               <div className="row  gx-15">
                 <div className="col-12">
                   <div className="tg-tour-details-video-thumb p-relative mb-15">
-                    <Image className="w-100" src={thumb_2} alt="" />
+                    <Image className="w-100" src={secondaryImages[0]} alt="" />
                     <div className="tg-tour-details-video-inner text-center">
                       <a
                         onClick={() => setIsVideoOpen(true)}
@@ -128,12 +132,12 @@ const FeatureDetailsArea = ({ product }: { product: Product | null }) => {
                 </div>
                 <div className="col-lg-6 col-md-6">
                   <div className="tg-tour-details-video-thumb mb-15">
-                    <Image className="w-100" src={thumb_3} alt="" />
+                    <Image className="w-100" src={secondaryImages[1]} alt="" />
                   </div>
                 </div>
                 <div className="col-lg-6 col-md-6">
                   <div className="tg-tour-details-video-thumb mb-15">
-                    <Image className="w-100" src={thumb_4} alt="" />
+                    <Image className="w-100" src={secondaryImages[2]} alt="" />
                   </div>
                 </div>
               </div>
@@ -143,7 +147,7 @@ const FeatureDetailsArea = ({ product }: { product: Product | null }) => {
             <div className="row align-items-center">
               <div className="col-lg-8">
                 <div className="tg-tour-details-video-feature-list">
-                  <FeatureList />
+                  <FeatureList product={product} />
                 </div>
               </div>
               <div className="col-lg-4">
