@@ -5,14 +5,14 @@ const nextConfig: NextConfig = {
     dangerouslyAllowLocalIP: true,
     remotePatterns: [
       {
+        protocol: "https",
+        hostname: "api.voduyquang.com",
+        pathname: "/storage/**",
+      },
+      {
         protocol: "http",
         hostname: "api.localhost",
         port: "8000",
-        pathname: "/storage/**",
-      },
-       {
-        protocol: "https",
-        hostname: "api.voduyquang.com",
         pathname: "/storage/**",
       },
     ],
