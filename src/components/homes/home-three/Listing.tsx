@@ -137,11 +137,12 @@ const tab_title: TabData[] = [
 
 const Listing = () => {
   const isotope = useRef<Isotope | null>(null);
+  const isotopeWrapper = useRef<HTMLDivElement | null>(null);
   const [filterKey, setFilterKey] = useState("*");
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      isotope.current = new Isotope(".isotope-wrapper", {
+    if (isotopeWrapper.current) {
+      isotope.current = new Isotope(isotopeWrapper.current, {
         itemSelector: ".isotope-filter-item",
         layoutMode: "fitRows",
       });
@@ -152,12 +153,6 @@ const Listing = () => {
       };
     }
   }, []);
-
-  // Handling filter key change
-  useEffect(() => {
-    if (filterKey === "*") isotope.current?.arrange?.({ filter: "*" });
-    else isotope.current?.arrange?.({ filter: `.${filterKey}` });
-  }, [filterKey]);
 
   const [selectedFilter, setSelectedFilter] = useState("*");
   const templateItems = listing_data.filter((item) => item.page === "home_3");
@@ -200,6 +195,17 @@ const Listing = () => {
       }));
     });
   }, []);
+
+  useEffect(() => {
+    const frame = window.requestAnimationFrame(() => {
+      isotope.current?.reloadItems();
+      isotope.current?.arrange({
+        filter: filterKey === "*" ? "*" : `.${filterKey}`,
+      });
+    });
+
+    return () => window.cancelAnimationFrame(frame);
+  }, [displayItems, filterKey]);
 
   const handleFilterKeyChange = (key: string) => () => {
     setFilterKey(key);
@@ -294,7 +300,10 @@ const Listing = () => {
             </div>
           </div>
         </div>
-        <div className="row isotope-wrapper project-active-two">
+        <div
+          ref={isotopeWrapper}
+          className="row isotope-wrapper project-active-two"
+        >
           {displayItems.map((item) => {
             const detailHref = item.product
               ? buildProductDetailHref(item.product)
@@ -312,6 +321,7 @@ const Listing = () => {
                         className="tg-card-border w-100"
                         src={item.thumb}
                         alt="listing"
+                        onLoad={() => isotope.current?.layout()}
                       />
                       {item.tag && (
                         <span className="tg-listing-item-price-discount shape">

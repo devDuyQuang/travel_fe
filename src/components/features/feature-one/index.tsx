@@ -1,7 +1,7 @@
 import FeatureArea from "./FeatureArea"
 import BookingForm from "./BreadCrumb"
 import HeaderThree from "@/layouts/headers/HeaderThree"
-import FooterThree from "@/layouts/footers/FooterThree";
+import FooterSix from "@/layouts/footers/FooterSix";
 import BreadCrumb from "@/components/common/BreadCrumb";
 import type { Product } from "@/types/product";
 import type { ServiceSearchLabels } from "@/types/service-layout";
@@ -29,7 +29,7 @@ const FeatureOne = ({
             <BookingForm labels={searchLabels} />
             <FeatureArea detailBasePath={detailBasePath} items={items} />
          </main>
-         <FooterThree />
+         <FooterSix />
       </>
    )
 }

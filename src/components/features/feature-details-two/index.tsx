@@ -3,7 +3,7 @@ import TourDetailsArea from "./TourDetailsArea";
 import TourAboutDetails from "./TourAboutDetails";
 import HeaderThree from "@/layouts/headers/HeaderThree";
 import Listing from "./Listing";
-import FooterThree from "@/layouts/footers/FooterThree";
+import FooterFive from "@/layouts/footers/FooterFive";
 import type { Product } from "@/types/product";
 
 type FeatureDetailsTwoProps = {
@@ -23,7 +23,7 @@ const FeatureDetailsTwo = ({ product = null, relatedProducts = [] }: FeatureDeta
         <Listing products={relatedProducts} />
       </main>
 
-      <FooterThree />
+      <FooterFive />
     </>
   );
 };

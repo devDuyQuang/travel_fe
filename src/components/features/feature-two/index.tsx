@@ -1,7 +1,7 @@
 import HeaderThree from "@/layouts/headers/HeaderThree"
 import FeatureArea from "./FeatureArea"
 import BannerForm from "./BannerForm"
-import FooterThree from "@/layouts/footers/FooterThree";
+import FooterFive from "@/layouts/footers/FooterFive";
 import BreadCrumb from "@/components/common/BreadCrumb";
 import type { Product } from "@/types/product";
 import type { ServiceSearchLabels } from "@/types/service-layout";
@@ -29,7 +29,7 @@ const FeatureTwo = ({
             <BannerForm labels={searchLabels} />
             <FeatureArea detailBasePath={detailBasePath} items={items} />
          </main>
-         <FooterThree />
+         <FooterFive />
       </>
    )
 }

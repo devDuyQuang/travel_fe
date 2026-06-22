@@ -1709,3 +1709,31 @@ main :is(.golfnity-label, .tg-blog-tag, .tg-destination-tag span) {
   border: 1px solid rgba(230, 199, 111, 0.55);
   border-radius: 16px;
 }
+
+/* About CTA keeps the purchased theme composition at wide desktop/zoom levels. */
+.about-cta-banner {
+  width: 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+
+main .about-cta-button,
+main .about-cta-button:link,
+main .about-cta-button:visited {
+  background: var(--golfnity-white);
+  color: var(--golfnity-moss);
+}
+
+main .about-cta-button > span,
+main .about-cta-button .btn-text,
+main .about-cta-button .btn-icon {
+  visibility: visible;
+  color: inherit;
+}
+
+main .about-cta-button:hover,
+main .about-cta-button:focus-visible {
+  background: var(--golfnity-gold);
+  color: var(--golfnity-moss);
+}

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import HeaderThree from "@/layouts/headers/HeaderThree";
-import FooterThree from "@/layouts/footers/FooterThree";
+import FooterFive from "@/layouts/footers/FooterFive";
 import { resolveMediaUrl } from "@/services/post.service";
 import type { CmsPost } from "@/types/cms-post";
 
@@ -55,7 +55,7 @@ const CmsPostDetail = ({ post }: { post: CmsPost }) => {
           </div>
         </div>
       </main>
-      <FooterThree />
+      <FooterFive />
     </>
   );
 };

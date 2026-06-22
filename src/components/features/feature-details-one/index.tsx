@@ -2,7 +2,7 @@ import HeaderThree from "@/layouts/headers/HeaderThree";
 import Breadcrumb from "./Breadcrumb";
 import FeatureDetailsArea from "./FeatureDetailsArea";
 import FeatureAboutArea from "./FeatureAboutArea";
-import FooterThree from "@/layouts/footers/FooterThree";
+import FooterSix from "@/layouts/footers/FooterSix";
 import type { Product } from "@/types/product";
 
 type FeatureDetailsOneProps = {
@@ -21,7 +21,7 @@ const FeatureDetailsOne = ({ product = null }: FeatureDetailsOneProps) => {
         <FeatureAboutArea product={product} />
       </main>
 
-      <FooterThree />
+      <FooterSix />
     </>
   );
 };
