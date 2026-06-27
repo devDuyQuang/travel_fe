@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
-import shop_data from "@/data/ShopData";
+import shop_data from "@/data/BookingTemplateData";
 import { selectProducts } from "@/redux/features/productSlice";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -92,6 +92,7 @@ const FeatureSidebar = ({ setProducts, sourceProducts }: FeatureSidebarProps) =>
   const maxPrice = priceSource.reduce((max, item) => {
     return item.price > max ? item.price : max;
   }, 0);
+  const hasPriceFilter = maxPrice > 0;
 
   const [priceValue, setPriceValue] = useState([0, maxPrice]);
 
@@ -112,23 +113,27 @@ const FeatureSidebar = ({ setProducts, sourceProducts }: FeatureSidebarProps) =>
           {/* destination */}
           <DestinationForm />
 
-          {/* price range */}
-          <div className="tg-filter-price-input">
-            <h4 className="tg-filter-title mb-20">Price By Filter</h4>
-            <PriceRange
-              MAX={maxPrice}
-              MIN={0}
-              STEP={1}
-              values={priceValue}
-              handleChanges={handleChanges}
-            />
-            <div className="d-flex align-items-center mt-15">
-              <span className="input-range" onChange={() => handleChanges}>
-                ${priceValue[0]} - ${priceValue[1]}
-              </span>
-            </div>
-          </div>
-          <span className="tg-filter-border mt-25 mb-25"></span>
+          {hasPriceFilter && (
+            <>
+              {/* price range */}
+              <div className="tg-filter-price-input">
+                <h4 className="tg-filter-title mb-20">Price By Filter</h4>
+                <PriceRange
+                  MAX={maxPrice}
+                  MIN={0}
+                  STEP={1}
+                  values={priceValue}
+                  handleChanges={handleChanges}
+                />
+                <div className="d-flex align-items-center mt-15">
+                  <span className="input-range" onChange={() => handleChanges}>
+                    ${priceValue[0]} - ${priceValue[1]}
+                  </span>
+                </div>
+              </div>
+              <span className="tg-filter-border mt-25 mb-25"></span>
+            </>
+          )}
 
           {/* duration */}
           <h4 className="tg-filter-title mb-15">Duration</h4>

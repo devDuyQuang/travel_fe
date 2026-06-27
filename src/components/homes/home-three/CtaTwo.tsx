@@ -1,11 +1,19 @@
+"use client";
+
 import Button from "@/components/common/Button";
 import Link from "next/link";
+import { homepageMediaUrl, homepageText, useHomepageSettings } from "@/hooks/useHomepageSettings";
 
 const CtaTwo = () => {
+  const setting = useHomepageSettings().cta_home;
+  if (setting?.enabled === false) return null;
+  const background = homepageMediaUrl(setting?.background) || "/assets/img/banner/banner.png";
+  const decorativeText = homepageText(setting?.decorative_text, "Explore The World");
+
   return (
     <div
       className="tg-banner-area include-bg"
-      style={{ backgroundImage: `url(/assets/img/banner/banner.png)` }}
+      style={{ backgroundImage: `url(${background})` }}
     >
       <div className="container">
         <div className="col-lg-12">
@@ -16,15 +24,16 @@ const CtaTwo = () => {
                 data-wow-delay=".4s"
                 data-wow-duration=".9s"
               >
-                Next Adventure Destination
+                {homepageText(setting?.subtitle, "Next Adventure Destination")}
               </h5>
               <h2
                 className="tg-section-title-white mb-25 wow fadeInUp"
                 data-wow-delay=".5s"
                 data-wow-duration=".9s"
               >
-                Popular Travel Destinations <br />
-                Available Worldwide
+                {setting?.title?.trim()
+                  ? setting.title.trim()
+                  : <>Popular Travel Destinations <br />Available Worldwide</>}
               </h2>
             </div>
             <div
@@ -33,10 +42,10 @@ const CtaTwo = () => {
               data-wow-duration=".9s"
             >
               <Link
-                href="/contact"
+                href={homepageText(setting?.button_link, "/contact")}
                 className="tg-btn tg-btn-transparent tg-btn-switch-animation"
               >
-                <Button text="Book Your Trip Now" />
+                <Button text={homepageText(setting?.button_text, "Book Your Trip Now")} />
               </Link>
             </div>
           </div>
@@ -51,7 +60,7 @@ const CtaTwo = () => {
                 data-wow-delay=".5s"
                 data-wow-duration=".9s"
               >
-                <h2>Explore The World</h2>
+                <h2>{decorativeText}</h2>
               </div>
             </div>
           </div>

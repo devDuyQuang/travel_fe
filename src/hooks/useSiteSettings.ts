@@ -15,22 +15,28 @@ export type SiteSettings = {
   email: string;
   phone: string;
   address: string;
+  website: string;
   workingTime: string;
+  map: string;
   logo: string | null;
+  socials: Array<{ name: string; link: string; icon: string }>;
 };
 
 const API_URL =
   process.env.NEXT_PUBLIC_API_URL || "http://api.localhost:8000";
 
 const fallbackSettings: SiteSettings = {
-  company: "Golfnity",
+  company: "WAYLUNE",
   description: "Nền tảng dịch vụ golf và trải nghiệm dành cho golfer.",
-  copyright: `© ${new Date().getFullYear()} Golfnity`,
+  copyright: `© ${new Date().getFullYear()} WAYLUNE`,
   email: "",
   phone: "",
   address: "",
+  website: "",
   workingTime: "",
+  map: "",
   logo: null,
+  socials: [],
 };
 
 function text(value: unknown) {
@@ -41,11 +47,11 @@ function mediaUrl(value: unknown) {
   const path = text(value);
   if (!path) return null;
   if (/^https?:\/\//i.test(path)) return path;
+  if (path.startsWith("/assets/") || path.startsWith("/_next/")) return path;
 
   const baseUrl = API_URL.replace(/\/$/, "");
-  return path.startsWith("/")
-    ? `${baseUrl}${path}`
-    : `${baseUrl}/storage/${path.replace(/^storage\//, "")}`;
+  const normalizedPath = path.replace(/^\/+/, "");
+  return `${baseUrl}/storage/${normalizedPath.replace(/^storage\//, "")}`;
 }
 
 export default function useSiteSettings() {
@@ -55,9 +61,10 @@ export default function useSiteSettings() {
     let mounted = true;
     const keys = [
       "site",
-      "site_assets_clinic",
-      "topbar_info_clinic",
-      "floating_info_clinic",
+      "site_assets_travel",
+      "topbar_info_travel",
+      "floating_info_travel",
+      "floating_info",
     ].join(",");
 
     fetch(`${API_URL}/setting?keys=${encodeURIComponent(keys)}`, {
@@ -72,7 +79,21 @@ export default function useSiteSettings() {
         if (!mounted) return;
 
         const site = payload.data?.site || {};
-        const assets = payload.data?.site_assets_clinic || {};
+        const assets = payload.data?.site_assets_travel || {};
+        const floating =
+          payload.data?.floating_info || payload.data?.floating_info_travel || {};
+        const socials = Array.isArray(floating.socials)
+          ? floating.socials
+              .map((social) => {
+                const item = social as Record<string, unknown>;
+                return {
+                  name: text(item.name),
+                  link: text(item.link),
+                  icon: text(item.icon),
+                };
+              })
+              .filter((social) => social.link)
+          : [];
 
         setSettings({
           company: text(site.company) || fallbackSettings.company,
@@ -81,8 +102,11 @@ export default function useSiteSettings() {
           email: text(site.email_description),
           phone: text(site.phone_description),
           address: text(site.address_description),
+          website: text(site.website),
           workingTime: text(site.time_description),
+          map: text(site.map),
           logo: mediaUrl(assets.logo),
+          socials,
         });
       })
       .catch(() => {

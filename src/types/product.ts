@@ -38,6 +38,14 @@ export type Product = {
   duration?: string | null;
   price?: string | null;
   price_discount?: string | null;
+  product_type?: string | null;
+  sku?: string | null;
+  regular_price?: string | null;
+  sale_price?: string | null;
+  display_price?: string | null;
+  stock_quantity?: number | null;
+  manage_stock?: boolean;
+  stock_status?: string | null;
   rating?: string | number | null;
   review_count?: number | null;
   is_featured?: boolean;
@@ -56,6 +64,10 @@ export type ProductListResponse = {
   success: boolean;
   data?: Product[] | {
     data?: Product[];
+    current_page?: number;
+    last_page?: number;
+    per_page?: number;
+    total?: number;
   };
 };
 

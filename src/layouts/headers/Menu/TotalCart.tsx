@@ -1,18 +1,15 @@
-import { useSelector } from "react-redux";
+"use client";
+
 import { useEffect, useState } from "react";
-import { RootState } from "@/redux/store";
+import UseCartInfo from "@/hooks/UseCartInfo";
 
 const TotalCart = () => {
-   const productItem = useSelector((state: RootState) => state.cart.cart);
-   const [isClient, setIsClient] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const { quantity } = UseCartInfo();
 
-   useEffect(() => {
-      setIsClient(true);
-   }, []);
+  useEffect(() => setMounted(true), []);
 
-   if (!isClient) return null;
-
-   return <>{productItem.length}</>;
+  return <>{mounted ? quantity : 0}</>;
 };
 
 export default TotalCart;

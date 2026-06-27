@@ -16,6 +16,7 @@ const store = configureStore({
 });
 
 store.dispatch(hydrateCart());
+
 export type RootState = ReturnType<typeof store.getState>;
 
 export default store;

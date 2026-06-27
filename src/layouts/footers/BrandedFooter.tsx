@@ -4,6 +4,9 @@ import Image from "next/image";
 import Link from "next/link";
 import useSiteSettings from "@/hooks/useSiteSettings";
 import logo from "@/assets/img/logo/golfnity-logo2x.png";
+import { useEffect, useState } from "react";
+import { getHeaderMenus } from "@/lib/menuApi";
+import type { FrontendMenuItem } from "@/lib/menuApi";
 
 type BrandedFooterProps = {
   areaClassName: string;
@@ -15,7 +18,27 @@ const BrandedFooter = ({
   topClassName,
 }: BrandedFooterProps) => {
   const siteSettings = useSiteSettings();
+  const [footerMenus, setFooterMenus] = useState<FrontendMenuItem[]>([]);
   const footerLogo = siteSettings.logo || logo;
+  const socials = siteSettings.socials.length
+    ? siteSettings.socials
+    : [
+        { name: "Facebook", link: "#", icon: "fa-brands fa-facebook-f" },
+        { name: "Twitter", link: "#", icon: "fa-brands fa-twitter" },
+        { name: "Instagram", link: "#", icon: "fa-brands fa-instagram" },
+        { name: "Pinterest", link: "#", icon: "fa-brands fa-pinterest-p" },
+        { name: "YouTube", link: "#", icon: "fa-brands fa-youtube" },
+      ];
+
+  useEffect(() => {
+    let mounted = true;
+    getHeaderMenus().then((items) => {
+      if (mounted && items.length) setFooterMenus(items);
+    });
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   return (
     <footer>
@@ -68,21 +91,11 @@ const BrandedFooter = ({
                     </form>
                   </div>
                   <div className="tg-footer-social">
-                    <Link href="#" aria-label="Facebook">
-                      <i className="fa-brands fa-facebook-f"></i>
-                    </Link>
-                    <Link href="#" aria-label="Twitter">
-                      <i className="fa-brands fa-twitter"></i>
-                    </Link>
-                    <Link href="#" aria-label="Instagram">
-                      <i className="fa-brands fa-instagram"></i>
-                    </Link>
-                    <Link href="#" aria-label="Pinterest">
-                      <i className="fa-brands fa-pinterest-p"></i>
-                    </Link>
-                    <Link href="#" aria-label="YouTube">
-                      <i className="fa-brands fa-youtube"></i>
-                    </Link>
+                    {socials.map((social) => (
+                      <Link key={`${social.name}-${social.link}`} href={social.link} aria-label={social.name || "Mạng xã hội"}>
+                        <i className={social.icon || "fa-solid fa-link"}></i>
+                      </Link>
+                    ))}
                   </div>
                 </div>
               </div>
@@ -93,11 +106,18 @@ const BrandedFooter = ({
                     Liên kết nhanh
                   </h3>
                   <ul>
-                    <li><Link href="/">Trang chủ</Link></li>
-                    <li><Link href="/about">Về Golfnity</Link></li>
-                    <li><Link href="/dich-vu/dat-tee-time">Dịch vụ</Link></li>
-                    <li><Link href="/blog-grid">Tin tức</Link></li>
-                    <li><Link href="/contact">Liên hệ</Link></li>
+                    {(footerMenus.length
+                      ? footerMenus.slice(0, 5)
+                      : [
+                          { id: 1, title: "Trang chủ", link: "/", has_dropdown: false },
+                          { id: 2, title: "Về WAYLUNE", link: "/ve-golfnity", has_dropdown: false },
+                          { id: 3, title: "Dịch vụ", link: "/dich-vu/dat-tee-time", has_dropdown: false },
+                          { id: 4, title: "Tin tức", link: "/tin-tuc", has_dropdown: false },
+                          { id: 5, title: "Liên hệ", link: "/contact", has_dropdown: false },
+                        ]
+                    ).map((menu) => (
+                      <li key={menu.id}><Link href={menu.link || "#"}>{menu.title}</Link></li>
+                    ))}
                   </ul>
                 </div>
               </div>
@@ -113,7 +133,7 @@ const BrandedFooter = ({
                         <span className="mr-15">
                           <i className="fa-sharp fa-solid fa-location-dot"></i>
                         </span>
-                        {siteSettings.address || "Xem thông tin liên hệ Golfnity"}
+                        {siteSettings.address || "Xem thông tin liên hệ WAYLUNE"}
                       </Link>
                     </li>
                     <li>
@@ -150,7 +170,7 @@ const BrandedFooter = ({
                     {siteSettings.company}
                   </h3>
                   <ul>
-                    <li><Link href="/about">Giới thiệu</Link></li>
+                    <li><Link href="/ve-golfnity">Giới thiệu</Link></li>
                     <li><Link href="/dich-vu/tour-golf-viet-nam">Tour golf</Link></li>
                     <li><Link href="/dich-vu/khach-san-nghi-duong">Khách sạn & nghỉ dưỡng</Link></li>
                     <li><Link href="/dich-vu/thue-xe-dua-don">Thuê xe & đưa đón</Link></li>

@@ -1,10 +1,17 @@
+"use client";
+
 import location_data from "@/data/LocationData";
 import Image from "next/image";
 import Link from "next/link";
 
 import shape from "@/assets/img/location/shape-2.png";
+import { homepageText, useHomepageSettings } from "@/hooks/useHomepageSettings";
 
 const Location = () => {
+  const setting = useHomepageSettings().destinations_home;
+  if (setting?.enabled === false) return null;
+  const limit = Math.max(1, Math.min(12, setting?.limit || 4));
+
   return (
     <div className="tg-location-area p-relative pb-40 tg-grey-bg pt-140">
       <Image
@@ -21,29 +28,32 @@ const Location = () => {
                 data-wow-delay=".4s"
                 data-wow-duration=".9s"
               >
-                Next Adventure Destination
+                {homepageText(setting?.subtitle, "Next Adventure Destination")}
               </h5>
               <h2
                 className="mb-15 text-capitalize wow fadeInUp"
                 data-wow-delay=".5s"
                 data-wow-duration=".9s"
               >
-                Popular Travel Destinations <br />
-                Available Worldwide
+                {setting?.title?.trim()
+                  ? setting.title.trim()
+                  : <>Popular Travel Destinations <br />Available Worldwide</>}
               </h2>
               <p
                 className="text-capitalize wow fadeInUp"
                 data-wow-delay=".6s"
                 data-wow-duration=".9s"
               >
-                Are you tired of the typical tourist destinations and looking
-                <br />
-                to step out of your comfort zonetravel
+                {setting?.description?.trim()
+                  ? setting.description.trim()
+                  : <>Are you tired of the typical tourist destinations and looking
+                    <br />to step out of your comfort zonetravel</>}
               </p>
             </div>
           </div>
           {location_data
             .filter((items) => items.page === "home_3")
+            .slice(0, limit)
             .map((item) => (
               <div
                 key={item.id}

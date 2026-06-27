@@ -3,71 +3,94 @@ import { toast } from 'react-toastify';
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
-import emailjs from '@emailjs/browser';
-import { useRef } from 'react';
+import { useState } from 'react';
 
 interface FormData {
    user_name: string;
    user_email: string;
-   web: string;
+   phone: string;
    message: string;
 }
 
+const API_URL =
+   process.env.NEXT_PUBLIC_API_URL || "http://api.localhost:8000";
+
 const schema = yup
    .object({
-      user_name: yup.string().required().label("Name"),
-      user_email: yup.string().required().email().label("Email"),
-      web: yup.string().required().label("Website"),
-      message: yup.string().required().label("Message"),
+      user_name: yup.string().trim().required("Vui lòng nhập họ và tên."),
+      user_email: yup
+         .string()
+         .trim()
+         .required("Vui lòng nhập email.")
+         .email("Email không đúng định dạng."),
+      phone: yup
+         .string()
+         .trim()
+         .required("Vui lòng nhập số điện thoại.")
+         .matches(/^[0-9+\-\s().]{8,20}$/, "Số điện thoại không đúng định dạng."),
+      message: yup.string().trim().required("Vui lòng nhập nội dung cần tư vấn."),
    })
    .required();
 
 const ContactForm = () => {
 
    const { register, handleSubmit, reset, formState: { errors }, } = useForm<FormData>({ resolver: yupResolver(schema), });
+   const [isSubmitting, setIsSubmitting] = useState(false);
 
-   const form = useRef<HTMLFormElement>(null);
+   const submitContact = async (data: FormData) => {
+      setIsSubmitting(true);
+      try {
+         const [firstName, ...restName] = data.user_name.trim().split(/\s+/);
+         const response = await fetch(`${API_URL}/contact`, {
+            method: "POST",
+            headers: {
+               Accept: "application/json",
+               "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+               first_name: firstName || data.user_name.trim(),
+               last_name: restName.join(" "),
+               email: data.user_email.trim(),
+               phone: data.phone.trim(),
+               message: data.message.trim(),
+            }),
+         });
+         const payload = await response.json().catch(() => null) as { success?: boolean; message?: string } | null;
 
-   const sendEmail = () => {
-      if (form.current) {
-         emailjs.sendForm('themedox', 'template_vvhaqp9', form.current, 'QOBCxT0bzNKEs-CwW')
-            .then(() => {
-               toast.success('Message sent successfully', { position: 'top-center' });
-               reset();
-            })
-            .catch(() => {
-               toast.error('Failed to send message. Please try again.', { position: 'top-center' });
-            });
-      } else {
-         toast.error('Form reference is null.', { position: 'top-center' });
+         if (!response.ok || payload?.success === false) {
+            throw new Error(payload?.message || "Không thể gửi yêu cầu. Vui lòng thử lại.");
+         }
+
+         toast.success('Yêu cầu của bạn đã được gửi. WAYLUNE sẽ liên hệ lại trong thời gian sớm nhất.', { position: 'top-center' });
+         reset();
+      } catch (error) {
+         toast.error(error instanceof Error ? error.message : 'Không thể gửi yêu cầu. Vui lòng thử lại.', { position: 'top-center' });
+      } finally {
+         setIsSubmitting(false);
       }
    };
 
    return (
-      <form ref={form} onSubmit={handleSubmit(sendEmail)} id="contact-form">
+      <form onSubmit={handleSubmit(submitContact)} id="contact-form">
          <div className="row">
             <div className="col-lg-6 mb-25">
-               <input className="input" type="text" {...register("user_name")} placeholder="Name" />
+               <input className="input" type="text" {...register("user_name")} placeholder="Nhập họ và tên" autoComplete="name" />
                <p className="form_error">{errors.user_name?.message}</p>
             </div>
             <div className="col-lg-6 mb-25">
-               <input className="input" type="email" {...register("user_email")} placeholder="E-mail" />
+               <input className="input" type="email" {...register("user_email")} placeholder="Nhập email" autoComplete="email" />
                <p className="form_error">{errors.user_email?.message}</p>
             </div>
             <div className="col-lg-12 mb-25">
-               <input className="input" type="text" {...register("web")} placeholder="Website" />
-               <p className="form_error">{errors.web?.message}</p>
+               <input className="input" type="tel" {...register("phone")} placeholder="Nhập số điện thoại" autoComplete="tel" />
+               <p className="form_error">{errors.phone?.message}</p>
             </div>
             <div className="col-lg-12">
-               <textarea className="textarea mb-5" {...register("message")} placeholder="Comments"></textarea>
+               <textarea className="textarea mb-5" {...register("message")} placeholder="Hãy cho WAYLUNE biết dịch vụ hoặc hành trình bạn đang quan tâm"></textarea>
                <p className="form_error">{errors.message?.message}</p>
-               <div className="review-checkbox d-flex align-items-center mb-25">
-                  <input name="checkbox" className="tg-checkbox" type="checkbox" id="australia" />
-                  <label htmlFor="australia" className="tg-label">
-                     Save my name, email, and website in this browser for the next time I comment.
-                  </label>
-               </div>
-               <button type="submit" className="tg-btn" name="message">Send Message</button>
+               <button type="submit" className="tg-btn" name="message" disabled={isSubmitting}>
+                  {isSubmitting ? "Đang gửi..." : "GỬI YÊU CẦU"}
+               </button>
                <p className="ajax-response mb-0 pt-10"></p>
             </div>
          </div>

@@ -6,9 +6,21 @@ import Image from "next/image";
 import Link from "next/link";
 
 import shape from "@/assets/img/banner/shape.png";
+import { homepageMediaUrl, homepageText, useHomepageSettings } from "@/hooks/useHomepageSettings";
+
+function youtubeVideoId(value?: string) {
+  if (!value?.trim()) return "eEzD-Y97ges";
+  const raw = value.trim();
+  const match = raw.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([^?&/]+)/i);
+  return match?.[1] || raw;
+}
 
 const Cta = () => {
   const [isVideoOpen, setIsVideoOpen] = useState(false);
+  const setting = useHomepageSettings().promo_home;
+  if (setting?.enabled === false) return null;
+  const cover = homepageMediaUrl(setting?.cover_image) || "/assets/img/banner/thumb.jpg";
+  const videoId = youtubeVideoId(setting?.video_url);
 
   return (
     <>
@@ -18,7 +30,7 @@ const Cta = () => {
             <div className="col-lg-7">
               <div
                 className="tg-banner-video-wrap include-bg"
-                style={{ backgroundImage: `url(/assets/img/banner/thumb.jpg)` }}
+                style={{ backgroundImage: `url(${cover})` }}
               >
                 <div className="tg-banner-video-inner text-center">
                   {/* <a
@@ -70,18 +82,21 @@ const Cta = () => {
             <div className="col-lg-5">
               <div className="tg-banner-content p-relative z-index-1 text-center">
                 <Image className="tg-banner-shape" src={shape} alt="shape" />
-                <h4 className="tg-banner-subtitle mb-10">Enjoy Summer Deals</h4>
-                <h2 className="tg-banner-title mb-25">Up to 40% Discount!</h2>
+                <h4 className="tg-banner-subtitle mb-10">{homepageText(setting?.subtitle, "Enjoy Summer Deals")}</h4>
+                <h2 className="tg-banner-title mb-25">{homepageText(setting?.title, "Up to 40% Discount!")}</h2>
+                {setting?.description?.trim() && (
+                  <p className="mb-20">{setting.description.trim()}</p>
+                )}
                 <div className="tg-banner-btn">
                   {/* <Link href="/tour-details" className="tg-btn tg-btn-switch-animation">
                               <Button text="See Details" />
                            </Link> */}
                   <Link
-                    href="/dich-vu/dat-tee-time"
+                    href={homepageText(setting?.button_link, "/dich-vu/dat-tee-time")}
                     className="tg-btn tg-btn-switch-animation tg-banner-cta"
                   >
                     <span className="d-flex align-items-center justify-content-center">
-                      <span className="btn-text">See Details</span>
+                      <span className="btn-text">{homepageText(setting?.button_text, "See Details")}</span>
 
                       <span className="btn-icon">
                         <i className="fa-regular fa-arrow-right"></i>
@@ -102,7 +117,7 @@ const Cta = () => {
       <VideoPopup
         isVideoOpen={isVideoOpen}
         setIsVideoOpen={setIsVideoOpen}
-        videoId="eEzD-Y97ges"
+        videoId={videoId}
       />
     </>
   );

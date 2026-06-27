@@ -2,6 +2,7 @@ import type {
   CmsCategoryDetailResponse,
   CmsServiceCategory,
 } from "@/types/cms-post";
+import { isServiceLayoutKey } from "@/lib/serviceLayoutRegistry";
 
 const API_URL =
   process.env.NEXT_PUBLIC_API_URL || "http://api.localhost:8000";
@@ -35,5 +36,39 @@ export async function getServiceCategoryBySlug(
     };
   } catch {
     return null;
+  }
+}
+
+type CategoryListResponse = {
+  success?: boolean;
+  data?: Array<CmsServiceCategory & { children?: CmsServiceCategory[] }>;
+};
+
+function flattenCategories(
+  categories: Array<CmsServiceCategory & { children?: CmsServiceCategory[] }>,
+): CmsServiceCategory[] {
+  return categories.flatMap((category) => [
+    category,
+    ...flattenCategories(category.children || []),
+  ]);
+}
+
+export async function getServiceCategories(): Promise<CmsServiceCategory[]> {
+  try {
+    const params = new URLSearchParams({ type: "service", sort_name: "sort", sort_by: "asc" });
+    const response = await fetch(`${API_URL}/category?${params}`, {
+      cache: "no-store",
+      headers: { Accept: "application/json" },
+    });
+    if (!response.ok) return [];
+
+    const json = (await response.json()) as CategoryListResponse;
+    if (!Array.isArray(json.data)) return [];
+
+    return flattenCategories(json.data).filter(
+      (category) => category.type === "service" && isServiceLayoutKey(category.layout_key),
+    );
+  } catch {
+    return [];
   }
 }

@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import products from '@/data/ShopData';
+import products from '@/data/BookingTemplateData';
+import shopProducts from '@/data/ShopData';
 import type { StaticImageData } from "next/image";
 import type { Product as CmsProduct } from "@/types/product";
 
@@ -37,7 +38,10 @@ interface ProductState {
 }
 
 const initialState: ProductState = {
-   products: products as unknown as Product[],
+   products: [
+      ...products,
+      ...shopProducts.filter((product) => product.page === "shop_5"),
+   ] as unknown as Product[],
    product: null,
 };
 

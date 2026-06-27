@@ -13,9 +13,8 @@ export default function RootLayout({
   const isDev = process.env.NODE_ENV === "development";
 
   return (
-    <html lang="en" suppressHydrationWarning={isDev}>
+    <html lang="vi" suppressHydrationWarning={isDev}>
       <head>
-        <meta name="robots" content="noindex,nofollow" />
         {/* <meta
           name="keywords"
           content="Golfnity - Dịch vụ golf và trải nghiệm"
@@ -26,12 +25,12 @@ export default function RootLayout({
         /> */}
         <meta
           name="keywords"
-          content="Golf, Teetime, Golf Tour, Golf Booking, Golfnity"
+          content="Golf, Teetime, Golf Tour, Golf Booking, WAYLUNE"
         />
 
         <meta
           name="description"
-          content="Golfnity cung cấp dịch vụ đặt tee time, tour golf và các giải pháp golf chuyên nghiệp."
+          content="WAYLUNE cung cấp dịch vụ đặt tee time, tour golf và các giải pháp golf chuyên nghiệp."
         />
         <meta
           name="viewport"

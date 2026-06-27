@@ -3,14 +3,16 @@ import HeaderThree from '@/layouts/headers/HeaderThree'
 import React from 'react'
 import ShopArea from './ShopArea'
 import FooterSix from "@/layouts/footers/FooterSix";
+import type { Product, ProductCategory } from "@/types/product";
+import type { ProductListMeta } from "@/services/product.service";
 
-const Shop = () => {
+const Shop = ({ products = [], categories = [], meta }: { products?: Product[]; categories?: ProductCategory[]; meta?: ProductListMeta }) => {
    return (
       <>
          <HeaderThree />
          <main>
-            <BreadCrumb title="Shop Page" sub_title="Shop Archive Page" />
-            <ShopArea />
+            <BreadCrumb title="Cửa hàng golf" sub_title="Cửa hàng" />
+            <ShopArea products={products} categories={categories} meta={meta} />
          </main>
          <FooterSix />
       </>

@@ -11,12 +11,12 @@ import Testimonial from "./Testimonial"
 import dynamic from "next/dynamic"
 import HeaderThree from "@/layouts/headers/HeaderThree"
 import FooterThree from "@/layouts/footers/FooterThree"
-import Cta from "../home-one/Cta"
+import { HomepageSettingsProvider } from "@/hooks/useHomepageSettings"
 const Listing = dynamic(() => import("./Listing"), { ssr: false });
 
 const HomeThree = () => {
    return (
-      <>
+      <HomepageSettingsProvider>
          <HeaderThree />
          <main>
             <Banner />
@@ -29,10 +29,9 @@ const HomeThree = () => {
             <CtaTwo />
             <Testimonial />
             <Blog />
-            <Cta />
          </main>
          <FooterThree />
-      </>
+      </HomepageSettingsProvider>
    )
 }
 

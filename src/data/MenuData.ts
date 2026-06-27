@@ -31,13 +31,13 @@ const menu_data: FrontendMenuItem[] = [
   {
     id: 4,
     title: "Tin tức",
-    link: "/blog-grid",
+    link: "/tin-tuc",
     has_dropdown: false,
   },
   {
     id: 5,
-    title: "Về Golfnity",
-    link: "/about",
+    title: "Về WAYLUNE",
+    link: "/ve-golfnity",
     has_dropdown: false,
   },
   {

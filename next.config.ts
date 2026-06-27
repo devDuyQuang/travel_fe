@@ -10,10 +10,21 @@ const nextConfig: NextConfig = {
         pathname: "/storage/**",
       },
       {
+        protocol: "https",
+        hostname: "api.voduyquang.com",
+        pathname: "/uploads/**",
+      },
+      {
         protocol: "http",
         hostname: "api.localhost",
         port: "8000",
         pathname: "/storage/**",
+      },
+      {
+        protocol: "http",
+        hostname: "api.localhost",
+        port: "8000",
+        pathname: "/uploads/**",
       },
     ],
   },

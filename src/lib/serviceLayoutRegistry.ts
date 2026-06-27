@@ -34,9 +34,28 @@ export type ServiceLayoutConfig = {
   detail: ComponentType<DetailProps>;
   templatePage: ServiceTemplatePage;
   searchLabels: ServiceSearchLabels;
+  searchQuery: {
+    location: string;
+    startDate: string;
+    endDate?: string;
+    guests: string;
+    startDateMode?: "date" | "datetime";
+  };
 };
 
 export const defaultServiceLayoutKey: ServiceLayoutKey = "tour";
+export const serviceLayoutOrder: ServiceLayoutKey[] = [
+  "tee_time",
+  "tour",
+  "accommodation",
+  "transport",
+  "attraction",
+];
+
+export function getServiceLayoutOrder(value?: string | null) {
+  const index = serviceLayoutOrder.findIndex((key) => key === value);
+  return index >= 0 ? index : serviceLayoutOrder.length;
+}
 
 export const serviceLayoutRegistry = {
   tee_time: {
@@ -49,6 +68,11 @@ export const serviceLayoutRegistry = {
       startDate: "Ngày chơi",
       guests: "Số golfer",
     },
+    searchQuery: {
+      location: "location",
+      startDate: "play_date",
+      guests: "golfers",
+    },
   },
   tour: {
     listing: FeatureThree,
@@ -59,6 +83,11 @@ export const serviceLayoutRegistry = {
       locationPlaceholder: "Chọn điểm đến",
       startDate: "Ngày khởi hành",
       guests: "Số khách",
+    },
+    searchQuery: {
+      location: "destination",
+      startDate: "departure_date",
+      guests: "guests",
     },
   },
   accommodation: {
@@ -72,6 +101,12 @@ export const serviceLayoutRegistry = {
       endDate: "Ngày trả phòng",
       guests: "Số khách",
     },
+    searchQuery: {
+      location: "destination",
+      startDate: "check_in",
+      endDate: "check_out",
+      guests: "guests",
+    },
   },
   transport: {
     listing: FeatureThree,
@@ -81,7 +116,13 @@ export const serviceLayoutRegistry = {
       location: "Điểm đón",
       locationPlaceholder: "Chọn điểm đón",
       startDate: "Ngày giờ đón",
-      guests: "Số khách",
+      guests: "Số hành khách",
+    },
+    searchQuery: {
+      location: "pickup",
+      startDate: "pickup_at",
+      guests: "passengers",
+      startDateMode: "datetime",
     },
   },
   attraction: {
@@ -94,6 +135,11 @@ export const serviceLayoutRegistry = {
       startDate: "Ngày tham quan",
       guests: "Số vé",
     },
+    searchQuery: {
+      location: "destination",
+      startDate: "visit_date",
+      guests: "tickets",
+    },
   },
 } satisfies Record<ServiceLayoutKey, ServiceLayoutConfig>;
 
@@ -105,3 +151,11 @@ export function getServiceLayoutConfig(value?: string | null): ServiceLayoutConf
   const key = isServiceLayoutKey(value) ? value : defaultServiceLayoutKey;
   return serviceLayoutRegistry[key];
 }
+
+export const fallbackServiceCategories = [
+  { id: -1, name: "Đặt tee time", slug: "dat-tee-time", type: "service", layout_key: "tee_time" },
+  { id: -2, name: "Tour golf", slug: "tour-golf-viet-nam", type: "service", layout_key: "tour" },
+  { id: -3, name: "Lưu trú", slug: "khach-san-nghi-duong", type: "service", layout_key: "accommodation" },
+  { id: -4, name: "Thuê xe", slug: "thue-xe-dua-don", type: "service", layout_key: "transport" },
+  { id: -5, name: "Tham quan", slug: "tham-quan-trai-nghiem", type: "service", layout_key: "attraction" },
+] as const;

@@ -1,18 +1,7 @@
-import BlogOne from "@/components/blogs/blog-one";
-import Wrapper from "@/layouts/Wrapper";
-import { getPosts } from "@/services/post.service";
+import { permanentRedirect } from "next/navigation";
 
-export const metadata = {
-  title: "Tin tức | Golfnity",
+const BlogGridRedirectPage = () => {
+  permanentRedirect("/tin-tuc");
 };
-const page = async () => {
-  const posts = await getPosts();
 
-  return (
-    <Wrapper>
-      <BlogOne posts={posts} />
-    </Wrapper>
-  )
-}
-
-export default page
+export default BlogGridRedirectPage;

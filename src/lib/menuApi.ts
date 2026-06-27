@@ -27,6 +27,7 @@ type ApiMenuItem = {
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://api.localhost:8000";
 
 const serviceCategoryPaths: Record<string, string> = {
+  "/about": "/ve-golfnity",
   "/dat-tee-time": "/dich-vu/dat-tee-time",
   "/tour-golf": "/dich-vu/tour-golf-viet-nam",
   "/khach-san-nghi-duong": "/dich-vu/khach-san-nghi-duong",

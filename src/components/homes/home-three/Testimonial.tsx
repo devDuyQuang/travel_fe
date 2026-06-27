@@ -3,8 +3,9 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
 import Image from "next/image";
 import testi_data from '@/data/TestimonialData';
+import { homepageMediaUrl, homepageText, useHomepageSettings } from "@/hooks/useHomepageSettings";
 
-const setting = {
+const sliderSettings = {
    spaceBetween: 25,
    loop: true,
    speed: 500,
@@ -33,26 +34,76 @@ const setting = {
 };
 
 const Testimonial = () => {
+   const cmsSetting = useHomepageSettings().testimonials_home;
+   if (cmsSetting?.enabled === false) return null;
+   const configured = cmsSetting?.items
+      ?.filter((item) =>
+         item.enabled !== false &&
+         [item.name, item.role, item.content, item.image].some(
+            (value) => typeof value === "string" && value.trim(),
+         ),
+      )
+      .sort((a, b) => (a.sort ?? 0) - (b.sort ?? 0));
+   const items = configured?.length
+      ? configured.map((item, index) => {
+         const fallback = testi_data[index % testi_data.length];
+         return {
+            id: `cms-${index}`,
+            avatar: homepageMediaUrl(item.image) || fallback.avatar,
+            width: fallback.avatar.width,
+            height: fallback.avatar.height,
+            name: homepageText(item.name, fallback.name),
+            designation: homepageText(item.role, fallback.designation),
+            desc: homepageText(item.content, fallback.desc),
+            rating: Math.max(1, Math.min(5, Number(item.rating) || 5)),
+         };
+      })
+      : testi_data.map((item) => ({
+         ...item,
+         width: item.avatar.width,
+         height: item.avatar.height,
+         rating: 5,
+      }));
+   const sliderItems = items.length === 0
+      ? []
+      : Array.from(
+         { length: Math.max(1, Math.ceil(6 / items.length)) },
+         (_, copyIndex) =>
+            items.map((item) => ({
+               ...item,
+               slideId: `${item.id}-copy-${copyIndex}`,
+            })),
+      ).flat();
+
    return (
       <div className="tg-testimonial-area pt-105 pb-100">
          <div className="container">
             <div className="row">
                <div className="col-lg-12">
                   <div className="tg-location-section-title text-center mb-30">
-                     <h5 className="tg-section-subtitle mb-15 wow fadeInUp" data-wow-delay=".4s" data-wow-duration=".9s">Clients Feedback About Us</h5>
-                     <h2 className="mb-15 text-capitalize wow fadeInUp" data-wow-delay=".5s" data-wow-duration=".9s">See Those Lovely Words From Clients</h2>
-                     <p className="text-capitalize wow fadeInUp" data-wow-delay=".6s" data-wow-duration=".9s">Are you tired of the typical tourist destinations and looking<br />
-                        to step out of your comfort zonetravel</p>
+                     <h5 className="tg-section-subtitle mb-15 wow fadeInUp" data-wow-delay=".4s" data-wow-duration=".9s">{homepageText(cmsSetting?.subtitle, "Clients Feedback About Us")}</h5>
+                     <h2 className="mb-15 text-capitalize wow fadeInUp" data-wow-delay=".5s" data-wow-duration=".9s">{homepageText(cmsSetting?.title, "See Those Lovely Words From Clients")}</h2>
+                     <p className="text-capitalize wow fadeInUp" data-wow-delay=".6s" data-wow-duration=".9s">
+                        {cmsSetting?.description?.trim()
+                           ? cmsSetting.description.trim()
+                           : <>Are you tired of the typical tourist destinations and looking<br />
+                              to step out of your comfort zonetravel</>}
+                     </p>
                   </div>
                </div>
-               <Swiper {...setting} modules={[Autoplay]} className="swiper-container tg-testimonial-slider fix">
-                  {testi_data.map((item) => (
-                     <SwiperSlide key={item.id} className="swiper-slide">
+               <Swiper
+                  key={sliderItems.map((item) => item.slideId).join("|")}
+                  {...sliderSettings}
+                  modules={[Autoplay]}
+                  className="swiper-container tg-testimonial-slider fix"
+               >
+                  {sliderItems.map((item) => (
+                     <SwiperSlide key={item.slideId} className="swiper-slide">
                         <div className="tg-testimonial-item mb-30">
                            <div className="tg-testimonial-avatar-top d-flex align-items-start justify-content-between">
                               <div className="tg-testimonial-avatar-inner d-flex align-items-center mr-20 mb-20">
                                  <div className="tg-testimonial-avatar-thumb mr-15">
-                                    <Image className="rounded-circale" src={item.avatar} alt="avatar" />
+                                    <Image className="rounded-circale" src={item.avatar} width={item.width} height={item.height} alt="avatar" />
                                  </div>
                                  <div className="tg-testimonial-avatar-content">
                                     <h5>{item.name}</h5>
@@ -69,11 +120,14 @@ const Testimonial = () => {
                            </div>
                            <p className="tg-testimonial-avatar-para mb-10">{item.desc}</p>
                            <div className="tg-testimonial-ratings">
-                              <span><i className="fa-sharp fa-solid fa-star"></i></span>
-                              <span><i className="fa-sharp fa-solid fa-star"></i></span>
-                              <span><i className="fa-sharp fa-solid fa-star"></i></span>
-                              <span><i className="fa-sharp fa-solid fa-star"></i></span>
-                              <span><i className="fa-sharp fa-solid fa-star"></i></span>
+                              {Array.from({ length: 5 }).map((_, index) => (
+                                 <span
+                                    key={index}
+                                    style={{ color: index < item.rating ? "#ff9900" : "#ded9ce" }}
+                                 >
+                                    <i className="fa-sharp fa-solid fa-star"></i>
+                                 </span>
+                              ))}
                            </div>
                         </div>
                      </SwiperSlide>

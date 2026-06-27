@@ -1,16 +1,21 @@
 import Link from "next/link"
+import type { CmsTag } from "@/types/cms-post";
 
-const tags: string[] = ["City Tour", "Hiking", "News", "Camping", "Social Media", "Travel", "Traffic",];
+const Tags = ({ tags = [], search, category }: { tags?: CmsTag[]; search?: string; category?: string }) => {
+   if (!tags.length) return null;
 
-const Tags = () => {
    return (
       <div className="tg-blog-sidebar-tag tg-blog-sidebar-box">
-         <h5 className="tg-blog-sidebar-title mb-25">Tags</h5>
+         <h5 className="tg-blog-sidebar-title mb-25">Thẻ</h5>
          <div className="tg-blog-sidebar-tag-list">
             <ul>
-               {tags.map((tag, i) => (
-                  <li key={i}><Link href="#">{tag}</Link></li>
-               ))}
+               {tags.map((tag) => {
+                  const params = new URLSearchParams();
+                  params.set("tag", tag.slug);
+                  if (search?.trim()) params.set("search", search.trim());
+                  if (category?.trim()) params.set("category", category.trim());
+                  return <li key={tag.id}><Link href={`/tin-tuc?${params.toString()}`}>{tag.name}</Link></li>;
+               })}
             </ul>
          </div>
       </div>

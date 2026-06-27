@@ -1,4 +1,4 @@
-import shopData from "@/data/ShopData";
+import shopData from "@/data/BookingTemplateData";
 import type { ServiceTemplatePage } from "@/lib/serviceLayoutRegistry";
 import { resolveMediaUrl } from "@/services/post.service";
 import type { Product as CardItem } from "@/redux/features/productSlice";
@@ -81,9 +81,11 @@ export function mergeCmsProductsWithTemplate({
       price:
         positiveNumber(cmsItem.price) ??
         positiveNumber(cmsItem.attributes?.adult_price as string | number | null) ??
-        templateItem.price,
+        positiveNumber(cmsItem.attributes?.vehicle_price as string | number | null) ??
+        positiveNumber(cmsItem.attributes?.base_price as string | number | null) ??
+        0,
       delete_price:
-        positiveNumber(cmsItem.price_discount) ?? templateItem.delete_price,
+        positiveNumber(cmsItem.price_discount) ?? 0,
       review:
         positiveNumber(cmsItem.rating) ?? templateItem.review,
       total_review:
@@ -195,14 +197,11 @@ export function mergeCmsProductWithDetailTemplate({
     price:
       positiveNumber(cmsItem.price)?.toString() ??
       positiveNumber(cmsItem.attributes?.adult_price as string | number | null)?.toString() ??
-      (templateItem?.price === undefined
-        ? null
-        : String(templateItem.price)),
+      positiveNumber(cmsItem.attributes?.vehicle_price as string | number | null)?.toString() ??
+      positiveNumber(cmsItem.attributes?.base_price as string | number | null)?.toString() ??
+      null,
     price_discount:
-      positiveNumber(cmsItem.price_discount)?.toString() ??
-      (templateItem?.delete_price === undefined
-        ? null
-        : String(templateItem.delete_price)),
+      positiveNumber(cmsItem.price_discount)?.toString() ?? null,
     badge:
       textValue(cmsItem.badge) ||
       templateItem?.tag ||

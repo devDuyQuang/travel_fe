@@ -67,8 +67,18 @@ button.tg-hero-prev:hover svg {
 ================================ */
 
 .golfnity-header.header-sticky {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: block;
+  visibility: visible;
+  opacity: 1;
+  min-height: 86px;
   background: var(--golfnity-moss);
   backdrop-filter: none;
+  z-index: 9999;
+  transform: translateY(0);
 }
 
 /* ================================
@@ -407,6 +417,216 @@ button.tg-hero-prev:hover svg {
 /* Header trang chủ hoặc trang có hero banner */
 .golfnity-header--transparent:not(.header-sticky) {
   background: transparent;
+}
+
+/* ================================
+   Blog + Contact scoped polish
+================================ */
+
+.tg-blog-grid-area .tg-blog-standard-thumb {
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.tg-blog-grid-area .tg-blog-standard-thumb img,
+.tg-blog-post-thumb img {
+  object-fit: cover;
+}
+
+.tg-blog-grid-area .tg-blog-standard-thumb img {
+  aspect-ratio: 1.45 / 1;
+}
+
+.tg-blog-grid-area .tg-blog-standard-title {
+  display: -webkit-box;
+  min-height: 2.5em;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.tg-blog-grid-area .tg-blog-standard-para {
+  display: -webkit-box;
+  min-height: 5.1em;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.tg-blog-empty {
+  color: var(--tg-grey-1);
+  font-size: 18px;
+}
+
+.tg-blog-categories-list li a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: inherit;
+}
+
+.tg-blog-categories-list li.active a,
+.tg-blog-categories-list li a:hover {
+  color: var(--golfnity-moss);
+}
+
+.tg-pagenation-wrap li.disabled .p-btn {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.blog-detail-breadcrumb-line {
+  border-bottom: 1px solid rgba(18, 20, 32, 0.08);
+}
+
+.blog-details-lead {
+  color: var(--tg-grey-1);
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+.blog-details-content {
+  color: var(--tg-grey-1);
+  font-family: var(--tg-ff-body);
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.75;
+}
+
+.blog-details-content p {
+  margin: 0 0 20px;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 400;
+  line-height: inherit;
+}
+
+.blog-details-content strong,
+.blog-details-content b {
+  font-weight: 700;
+}
+
+.blog-details-content h2,
+.blog-details-content h3,
+.blog-details-content h4 {
+  margin: 30px 0 14px;
+  color: var(--tg-common-black);
+  font-family: var(--tg-ff-heading);
+  line-height: 1.25;
+}
+
+.blog-details-content h2 {
+  font-size: 30px;
+}
+
+.blog-details-content h3 {
+  font-size: 24px;
+}
+
+.blog-details-content ul,
+.blog-details-content ol {
+  margin: 0 0 22px;
+  padding-left: 24px;
+}
+
+.blog-details-content li {
+  margin-bottom: 8px;
+}
+
+.blog-details-content blockquote {
+  margin: 28px 0;
+  padding: 24px 28px;
+  border-left: 4px solid var(--golfnity-gold);
+  border-radius: 8px;
+  background: rgba(230, 199, 112, 0.12);
+  color: var(--tg-common-black);
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1.65;
+}
+
+.blog-details-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.blog-details-content table {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+}
+
+.blog-details-content th,
+.blog-details-content td {
+  padding: 10px 12px;
+  border: 1px solid rgba(18, 20, 32, 0.12);
+}
+
+.blog-author-fallback {
+  padding: 24px;
+  border: 1px solid rgba(18, 20, 32, 0.08);
+  border-radius: 8px;
+  background: #fff;
+}
+
+.blog-author-fallback h4 {
+  margin-bottom: 8px;
+  color: var(--golfnity-moss);
+}
+
+.blog-author-fallback p {
+  margin: 0;
+}
+
+.contact-map-link {
+  display: inline-block;
+  margin-top: 14px;
+  color: var(--golfnity-moss);
+  font-weight: 700;
+}
+
+.tg-contact-form .form_error {
+  margin: 6px 0 0;
+  color: #b42318;
+  font-size: 14px;
+}
+
+.tg-contact-form .tg-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.waylune-panel-member {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.waylune-panel-member img {
+  flex: 0 0 auto;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.waylune-panel-member strong,
+.waylune-panel-member span {
+  display: block;
+}
+
+.waylune-panel-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.waylune-panel-actions a,
+.waylune-panel-all {
+  color: var(--golfnity-gold);
+  font-weight: 700;
 }
 
 

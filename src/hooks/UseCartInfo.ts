@@ -1,47 +1,15 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-'use client'
-import { useEffect, useState } from "react";
+"use client";
+
 import { useSelector } from "react-redux";
-
-interface CartItem {
-   price: number;
-   quantity: number;
-}
-
-interface CartSummary {
-   quantity: number;
-   total: number;
-}
+import type { RootState } from "@/redux/store";
 
 const UseCartInfo = () => {
-   const [quantity, setQuantity] = useState<number>(0);
-   const [total, setTotal] = useState<number>(0);
+  const cart = useSelector((state: RootState) => state.cart.cart);
 
-   const cartItems = useSelector((state: any) => state.cart.cart);
+  return {
+    quantity: cart.reduce((sum, item) => sum + item.quantity, 0),
+    total: cart.reduce((sum, item) => sum + item.price * item.quantity, 0),
+  };
+};
 
-   useEffect(() => {
-      const cart: CartSummary = cartItems.reduce(
-         (cartTotal: CartSummary, cartItem: CartItem) => {
-            const { price, quantity } = cartItem;
-            const itemTotal = price * quantity;
-
-            cartTotal.total += itemTotal;
-            cartTotal.quantity += quantity;
-
-            return cartTotal;
-         },
-         {
-            total: 0,
-            quantity: 0,
-         }
-      );
-      setQuantity(cart.quantity);
-      setTotal(cart.total);
-   }, [cartItems]);
-   return {
-      quantity,
-      total,
-   };
-}
-
-export default UseCartInfo
+export default UseCartInfo;

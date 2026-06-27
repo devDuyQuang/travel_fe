@@ -6,6 +6,10 @@ export function buildProductDetailHref(product: Product): string {
 
   if (!slug) return "#";
 
+  if (product.product_type === "physical" || product.category?.type === "product") {
+    return `/cua-hang/${slug}`;
+  }
+
   if (!layoutKey) {
     return `/${slug}`;
   }

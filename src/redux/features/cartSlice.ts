@@ -1,76 +1,69 @@
-import { toast } from "react-toastify";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { setLocalStorage, getLocalStorage } from "@/utils/localstorage";
+import type { StaticImageData } from "next/image";
+import { toast } from "react-toastify";
+import { getLocalStorage, setLocalStorage } from "@/utils/localstorage";
+import type { Product as CmsProduct } from "@/types/product";
 
-interface Product {
-   id: string;
-   title: string;
-   quantity: number;
-}
-
-interface CartState {
-   cart: Product[];
-   orderQuantity: number;
-}
-
-// Initialize cart from localStorage
-const initialState: CartState = {
-   cart: getLocalStorage<Product>("cart") || [],
-   orderQuantity: 1,
+export type CartItem = {
+  id: number | string;
+  title: string;
+  price: number;
+  quantity: number;
+  thumb?: string | StaticImageData;
+  slug?: string;
+  delete_price?: number;
+  cmsProduct?: CmsProduct;
 };
 
+type CartState = {
+  cart: CartItem[];
+};
+
+const initialState: CartState = {
+  cart: [],
+};
+
+const persist = (items: CartItem[]) => setLocalStorage("cart", items);
+
 const cartSlice = createSlice({
-   name: "cart",
-   initialState,
-   reducers: {
-      addToCart: (state, { payload }: PayloadAction<Product>) => {
-         const productIndex = state.cart.findIndex((item) => item.id === payload.id);
-         if (productIndex >= 0) {
-            state.cart[productIndex].quantity += 1;
-            toast.info(`${payload.title} Increase Product Quantity`);
-         } else {
-            const tempProduct = { ...payload, quantity: 1 };
-            state.cart.push(tempProduct);
-            toast.success(`${payload.title} added to cart`);
-         }
-         setLocalStorage("cart", state.cart);
-      },
-
-      decrease_quantity: (state, { payload }: PayloadAction<Product>) => {
-         const productIndex = state.cart.findIndex((item) => item.id === payload.id);
-         if (state.cart[productIndex].quantity > 1) {
-            state.cart[productIndex].quantity -= 1;
-            toast.error(`${payload.title} Decrease cart quantity`);
-         }
-         setLocalStorage("cart", state.cart);
-      },
-
-      remove_cart_product: (state, { payload }: PayloadAction<Product>) => {
-         state.cart = state.cart.filter((item) => item.id !== payload.id);
-         toast.error(`Removed from cart`);
-         setLocalStorage("cart", state.cart);
-      },
-
-      clear_cart: (state) => {
-         const confirmMsg = window.confirm("Are you sure you want to clear the cart?");
-         if (confirmMsg) {
-            state.cart = [];
-            setLocalStorage("cart", []);
-         }
-      },
-
-      hydrateCart: (state) => {
-         state.cart = getLocalStorage<Product>("cart") || [];
-      },
-   },
+  name: "cart",
+  initialState,
+  reducers: {
+    addToCart: (state, { payload }: PayloadAction<CartItem>) => {
+      const existing = state.cart.find((item) => item.id === payload.id);
+      if (existing) {
+        existing.quantity += 1;
+      } else {
+        state.cart.push({ ...payload, quantity: Math.max(payload.quantity || 1, 1) });
+      }
+      persist(state.cart);
+      toast.success(`${payload.title} đã được thêm vào giỏ`);
+    },
+    decreaseQuantity: (state, { payload }: PayloadAction<CartItem>) => {
+      const existing = state.cart.find((item) => item.id === payload.id);
+      if (existing && existing.quantity > 1) existing.quantity -= 1;
+      persist(state.cart);
+    },
+    removeCartItem: (state, { payload }: PayloadAction<CartItem>) => {
+      state.cart = state.cart.filter((item) => item.id !== payload.id);
+      persist(state.cart);
+    },
+    clearCart: (state) => {
+      state.cart = [];
+      persist([]);
+    },
+    hydrateCart: (state) => {
+      state.cart = getLocalStorage<CartItem>("cart");
+    },
+  },
 });
 
 export const {
-   addToCart,
-   decrease_quantity,
-   remove_cart_product,
-   clear_cart,
-   hydrateCart
+  addToCart,
+  decreaseQuantity,
+  removeCartItem,
+  clearCart,
+  hydrateCart,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

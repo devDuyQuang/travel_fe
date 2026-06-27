@@ -14,7 +14,7 @@ import imgs_1 from "@/assets/img/shop/details/dt-small.png"
 import imgs_2 from "@/assets/img/shop/details/dt-small-2.png"
 import imgs_3 from "@/assets/img/shop/details/dt-small-3.png"
 import imgs_4 from "@/assets/img/shop/details/dt-small-4.png"
-import { addToCart, decrease_quantity } from "@/redux/features/cartSlice";
+import { addToCart, decreaseQuantity } from "@/redux/features/cartSlice";
 import { addToWishlist } from "@/redux/features/wishlistSlice";
 
 const navb_data: StaticImageData[] = [img_1, img_2, img_3, img_4];
@@ -114,7 +114,7 @@ const ShopDetailsArea = ({ single_product }: any) => {
                      <div className="tg-product-details-quantity mb-30">
                         <span className="quantity mb-5 d-inline-block">Quantity </span>
                         <div className="tg-booking-quantity-item">
-                           <span onClick={() => single_product ? dispatch(decrease_quantity(single_product)) : ""} className="decrement">
+                           <span onClick={() => single_product ? dispatch(decreaseQuantity(single_product)) : ""} className="decrement">
                               <svg width="14" height="2" viewBox="0 0 14 2" fill="none" xmlns="http://www.w3.org/2000/svg">
                                  <path d="M1 1H13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                               </svg>

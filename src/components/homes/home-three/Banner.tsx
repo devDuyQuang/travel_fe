@@ -3,6 +3,13 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, EffectFade, Autoplay } from "swiper/modules";
 import Button from "@/components/common/Button"
 import Link from "next/link"
+import { useMemo, useState } from "react";
+import {
+   homepageMediaUrl,
+   homepageText,
+   useHomepageSettings,
+} from "@/hooks/useHomepageSettings";
+import type { HomepageSlide } from "@/types/homepage";
 
 const banner_thumb: string[] = [
    "/assets/img/hero/hero-1.jpg",
@@ -29,15 +36,52 @@ const setting = {
 };
 
 const Banner = () => {
+   const settings = useHomepageSettings().hero_home;
+   const [activeIndex, setActiveIndex] = useState(0);
+   const slides = useMemo<Array<HomepageSlide & { image: string }>>(() => {
+      const configured = settings?.slides
+         ?.filter((slide) =>
+            slide.enabled !== false &&
+            [
+               slide.subtitle,
+               slide.title,
+               slide.description,
+               slide.price_prefix,
+               slide.price_currency,
+               slide.price,
+               slide.price_suffix,
+               slide.button_text,
+               slide.button_link,
+               slide.image,
+            ].some((value) => typeof value === "string" && value.trim()),
+         )
+         .sort((a, b) => (a.sort ?? 0) - (b.sort ?? 0));
+
+      if (!configured?.length) {
+         return banner_thumb.map((image) => ({ image }));
+      }
+
+      return configured.map((slide, index) => ({
+         ...slide,
+         image: homepageMediaUrl(slide.image) || banner_thumb[index % banner_thumb.length],
+      }));
+   }, [settings]);
+   const activeSlide = slides[activeIndex] || slides[0] || {};
+
    return (
       <div className="tg-hero-area fix p-relative">
          <div className="tg-hero-top-shadow"></div>
          <div className="shop-slider-wrapper">
-            <Swiper {...setting} modules={[Navigation, EffectFade, Autoplay]} className="swiper-container tg-hero-slider-active">
-               {banner_thumb.map((thumb, i) => (
+            <Swiper
+               {...setting}
+               modules={[Navigation, EffectFade, Autoplay]}
+               className="swiper-container tg-hero-slider-active"
+               onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
+            >
+               {slides.map((slide, i) => (
                   <SwiperSlide key={i} className="swiper-slide">
                      <div className="tg-hero-bg">
-                        <div className="tg-hero-thumb" style={{ backgroundImage: `url(${thumb})` }}></div>
+                        <div className="tg-hero-thumb" style={{ backgroundImage: `url(${slide.image})` }}></div>
                      </div>
                   </SwiperSlide>
                ))}
@@ -51,21 +95,25 @@ const Banner = () => {
                      <div className="col-xl-10">
                         <div className="tg-hero-content text-center">
                            <div className="tg-hero-title-box mb-10">
-                              <h5 className="tg-hero-subtitle mb-5 wow fadeInUp" data-wow-delay=".3s" data-wow-duration=".7s">* This offer valid till 22 August</h5>
-                              <h2 className="tg-hero-title wow fadeInUp" data-wow-delay=".4s" data-wow-duration=".9s">Maldives island</h2>
-                              <p className="tg-hero-para mb-0  wow fadeInUp" data-wow-delay=".6s" data-wow-duration="1.1s">when an unknown printer took ar galley offer type area <br /> year anddey make specimen book</p>
+                              <h5 className="tg-hero-subtitle mb-5 wow fadeInUp" data-wow-delay=".3s" data-wow-duration=".7s">{homepageText(activeSlide.subtitle, "* This offer valid till 22 August")}</h5>
+                              <h2 className="tg-hero-title wow fadeInUp" data-wow-delay=".4s" data-wow-duration=".9s">{homepageText(activeSlide.title, "Maldives island")}</h2>
+                              <p className="tg-hero-para mb-0 wow fadeInUp" data-wow-delay=".6s" data-wow-duration="1.1s">
+                                 {activeSlide.description?.trim()
+                                    ? activeSlide.description.trim()
+                                    : <>when an unknown printer took ar galley offer type area <br /> year anddey make specimen book</>}
+                              </p>
                            </div>
                            <div className="tg-hero-price-wrap mb-35 d-flex align-items-center justify-content-center  wow fadeInUp" data-wow-delay=".7s" data-wow-duration="1.3s">
-                              <p className="mr-15">Booking Start From</p>
+                              <p className="mr-15">{homepageText(activeSlide.price_prefix, "Booking Start From")}</p>
                               <div className="tg-hero-price d-flex">
-                                 <span className="hero-dolar">$</span>
-                                 <span className="hero-price">299</span>
-                                 <span className="night">/night</span>
+                                 <span className="hero-dolar">{homepageText(activeSlide.price_currency, "$")}</span>
+                                 <span className="hero-price">{homepageText(activeSlide.price, "299")}</span>
+                                 <span className="night">{homepageText(activeSlide.price_suffix, "/night")}</span>
                               </div>
                            </div>
                            <div className="tg-hero-btn-box  wow fadeInUp" data-wow-delay=".8s" data-wow-duration="1.5s">
-                              <Link href="/contact" className="tg-btn tg-btn-switch-animation">
-                                 <Button text="Take a Tour" />
+                              <Link href={homepageText(activeSlide.button_link, "/contact")} className="tg-btn tg-btn-switch-animation">
+                                 <Button text={homepageText(activeSlide.button_text, "Take a Tour")} />
                               </Link>
                            </div>
                         </div>

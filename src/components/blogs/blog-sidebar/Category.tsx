@@ -1,54 +1,37 @@
-interface DataType {
-   id: number;
-   title: string;
-   count: number;
-}
+import Link from "next/link";
+import type { CmsCategorySummary } from "@/types/cms-post";
 
-const cat_data: DataType[] = [
-   {
-      id: 1,
-      title: "Activity",
-      count: 15,
-   },
-   {
-      id: 2,
-      title: "Destinations",
-      count: 44,
-   },
-   {
-      id: 3,
-      title: "Beach Tour",
-      count: 11,
-   },
-   {
-      id: 4,
-      title: "City Tour",
-      count: 22,
-   },
-   {
-      id: 5,
-      title: "Flight",
-      count: 15,
-   },
-   {
-      id: 6,
-      title: "Lifestyle",
-      count: 20,
-   },
-];
+const Category = ({
+   categories = [],
+   currentCategory,
+   search,
+}: {
+   categories?: CmsCategorySummary[];
+   currentCategory?: string;
+   search?: string;
+}) => {
+   if (!categories.length) return null;
 
-const Category = () => {
    return (
       <div className="tg-blog-categories tg-blog-sidebar-box mb-40">
-         <h5 className="tg-blog-sidebar-title mb-5">Categories</h5>
+         <h5 className="tg-blog-sidebar-title mb-5">Danh mục</h5>
          <div className="tg-blog-categories-list">
             <ul>
-               {cat_data.map((item) => (
-                  <li key={item.id}>
-                     <span>{item.title}</span>
-                     <span>({item.count})</span>
+               {categories.map((item) => {
+                  const params = new URLSearchParams();
+                  params.set("category", item.slug);
+                  if (search?.trim()) params.set("search", search.trim());
+                  const count = item.posts_count ?? item.count;
+
+                  return (
+                  <li key={item.id} className={currentCategory === item.slug ? "active" : ""}>
+                     <Link href={`/tin-tuc?${params.toString()}`}>
+                        <span>{item.name}</span>
+                        {typeof count === "number" && <span>({count})</span>}
+                     </Link>
                   </li>
-               ))}
+                  );
+               })}
             </ul>
          </div>
       </div>

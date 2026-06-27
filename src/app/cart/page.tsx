@@ -1,15 +1,7 @@
-import Cart from "@/components/pages/shops/cart";
-import Wrapper from "@/layouts/Wrapper";
+import { permanentRedirect } from "next/navigation";
 
-export const metadata = {
-  title: "Cart Tourex - Tour & Travel Booking React Next js Template",
+const CartRedirectPage = () => {
+  permanentRedirect("/gio-hang");
 };
-const page = () => {
-  return (
-    <Wrapper>
-      <Cart />
-    </Wrapper>
-  )
-}
 
-export default page
+export default CartRedirectPage;

@@ -1,17 +1,15 @@
-import LoginArea from "./LoginArea"
-import FooterFive from "@/layouts/footers/FooterFive";
-import InnerHeader from "@/layouts/headers/InnerHeader"
+import FooterSix from "@/layouts/footers/FooterSix";
+import HeaderThree from "@/layouts/headers/HeaderThree";
+import LoginArea from "./LoginArea";
 
-const Login = () => {
-   return (
-      <>
-         <InnerHeader />
-         <main>
-            <LoginArea />
-         </main>
-         <FooterFive />
-      </>
-   )
-}
+const Login = () => (
+  <>
+    <HeaderThree variant="solid" />
+    <main>
+      <LoginArea />
+    </main>
+    <FooterSix />
+  </>
+);
 
-export default Login
+export default Login;

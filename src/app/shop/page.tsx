@@ -1,15 +1,7 @@
-import Shop from "@/components/pages/shops/shop";
-import Wrapper from "@/layouts/Wrapper";
+import { permanentRedirect } from "next/navigation";
 
-export const metadata = {
-  title: "Shop Tourex - Tour & Travel Booking React Next js Template",
+const ShopRedirectPage = () => {
+  permanentRedirect("/cua-hang");
 };
-const page = () => {
-  return (
-    <Wrapper>
-      <Shop />
-    </Wrapper>
-  )
-}
 
-export default page
+export default ShopRedirectPage;
