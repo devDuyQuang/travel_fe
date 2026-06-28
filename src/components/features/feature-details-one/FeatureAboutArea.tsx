@@ -40,7 +40,7 @@ const FeatureAboutArea = ({ product }: { product: Product | null }) => {
                   </div>
                </div>
                <div className="col-xl-3 col-lg-4">
-                  <div className="tg-tour-about-sidebar top-sticky mb-50">
+                  <div className="tg-tour-about-sidebar mb-50">
                      <FeatureSidebar product={product} />
                   </div>
                </div>

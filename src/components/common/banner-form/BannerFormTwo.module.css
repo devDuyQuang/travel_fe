@@ -1,0 +1,172 @@
+.homeBookingForm :global(.tg-booking-form-input-group) {
+  gap: 15px;
+}
+
+.homeBookingForm :global(.tg-booking-form-parent-inner) {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.homeBookingForm :global(.tg-booking-add-input-field),
+.homeBookingForm :global(.tg-booking-add-input-date) {
+  align-items: center;
+  display: flex;
+  height: 56px !important;
+  max-height: 56px !important;
+  min-height: 56px !important;
+  width: 100%;
+}
+
+.homeBookingForm :global(.home-location-select) {
+  cursor: pointer;
+  padding: 0 46px 0 24px !important;
+  position: relative;
+}
+
+.homeBookingForm :global(.home-location-value) {
+  color: #353844;
+  display: block;
+  font-size: 16px;
+  overflow: hidden;
+  padding-right: 42px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+}
+
+.homeBookingForm :global(.home-location-value.is-placeholder) {
+  color: #777b87;
+}
+
+.homeBookingForm :global(.home-location-menu) {
+  background: #ffffff;
+  border: 1px solid #e8dfcf;
+  border-radius: 10px;
+  box-shadow: 0 16px 40px rgba(11, 16, 32, 0.16);
+  display: grid;
+  gap: 2px;
+  left: 0;
+  max-height: 260px;
+  overflow: auto;
+  padding: 8px;
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  z-index: 50;
+}
+
+.homeBookingForm :global(.home-location-menu button) {
+  background: transparent;
+  border: 0;
+  border-radius: 7px;
+  color: #353844;
+  font-size: 14px;
+  padding: 9px 10px;
+  text-align: left;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease;
+}
+
+.homeBookingForm :global(.home-location-menu button:hover),
+.homeBookingForm :global(.home-location-menu button.is-active) {
+  background: rgba(36, 95, 82, 0.1);
+  color: #245f52;
+}
+
+.homeBookingForm :global(.flatpickr-wrapper) {
+  display: block;
+  height: 56px !important;
+  width: 100%;
+}
+
+.homeBookingForm :global(.home-date-input),
+.homeBookingForm :global(.home-guests-input) {
+  color: #353844;
+  font-size: 16px;
+  height: 56px !important;
+  line-height: 1.35;
+  max-height: 56px !important;
+  min-height: 56px !important;
+  padding-bottom: 0 !important;
+  padding-top: 0 !important;
+  width: 100% !important;
+}
+
+.homeBookingForm :global(.home-date-input) {
+  cursor: pointer;
+  padding-left: 24px !important;
+  padding-right: 48px !important;
+}
+
+.homeBookingForm :global(.home-guests-input) {
+  padding-left: 24px !important;
+  padding-right: 48px !important;
+}
+
+.homeBookingForm :global(.home-date-input::placeholder) {
+  color: #777b87;
+  opacity: 1;
+}
+
+.homeBookingForm :global(.tg-booking-add-input-date > span),
+.homeBookingForm
+  :global(.tg-booking-add-input-field > .location) {
+  height: 56px;
+  line-height: 56px;
+  pointer-events: none;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.homeBookingForm :global(.tg-booking-form-search-btn) {
+  flex: 0 0 190px;
+  min-width: 190px;
+}
+
+.homeBookingForm :global(.bk-search-button) {
+  align-items: center;
+  display: inline-flex;
+  gap: 8px;
+  height: 56px !important;
+  justify-content: center;
+  min-height: 56px !important;
+  padding-left: 20px;
+  padding-right: 20px;
+  white-space: nowrap;
+  width: 100%;
+}
+
+.homeBookingForm :global(.bk-search-button > span) {
+  align-items: center;
+  display: inline-flex;
+}
+
+@media (max-width: 1199px) {
+  .homeBookingForm :global(.tg-booking-form-input-group) {
+    flex-wrap: wrap;
+  }
+
+  .homeBookingForm :global(.tg-booking-form-parent-inner) {
+    flex: 1 1 calc(50% - 8px);
+  }
+
+  .homeBookingForm :global(.tg-booking-form-search-btn) {
+    flex: 1 1 190px;
+  }
+}
+
+@media (max-width: 991px) {
+  .homeBookingForm :global(.tg-booking-form-input-group) {
+    align-items: stretch !important;
+  }
+}
+
+@media (max-width: 575px) {
+  .homeBookingForm :global(.tg-booking-form-parent-inner),
+  .homeBookingForm :global(.tg-booking-form-search-btn) {
+    flex: 1 1 100%;
+    min-width: 100%;
+  }
+}

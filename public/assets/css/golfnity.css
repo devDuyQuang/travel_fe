@@ -1957,3 +1957,413 @@ main .about-cta-button:focus-visible {
   background: var(--golfnity-gold);
   color: var(--golfnity-moss);
 }
+
+
+
+/* =========================================================
+   BOOKING CALENDAR
+   Scoped override for Flatpickr used by booking forms only.
+   ========================================================= */
+
+.flatpickr-calendar.open.booking-calendar {
+  --booking-calendar-width: 320px;
+  --booking-calendar-padding: 12px;
+  --booking-calendar-day-size: 38px;
+
+  background: #ffffff;
+  border: 1px solid rgba(36, 95, 82, 0.16);
+  border-radius: 16px;
+  box-shadow:
+    0 20px 50px rgba(18, 37, 32, 0.16),
+    0 4px 14px rgba(18, 37, 32, 0.08);
+  box-sizing: border-box;
+  font-family: inherit;
+  margin-top: 8px;
+  max-width: calc(100vw - 24px);
+  overflow: hidden;
+  padding: var(--booking-calendar-padding);
+  width: var(--booking-calendar-width);
+  z-index: 100000;
+}
+
+.flatpickr-calendar.open.booking-calendar--hero {
+  --booking-calendar-width: 320px;
+  --booking-calendar-padding: 12px;
+  --booking-calendar-day-size: 38px;
+}
+
+.flatpickr-calendar.open.booking-calendar--sidebar {
+  --booking-calendar-width: 286px;
+  --booking-calendar-padding: 10px;
+  --booking-calendar-day-size: 34px;
+}
+
+/* Remove the default popup arrow. */
+.flatpickr-calendar.open.booking-calendar::before,
+.flatpickr-calendar.open.booking-calendar::after {
+  display: none !important;
+}
+
+/* Reset the theme's fixed internal dimensions. */
+.flatpickr-calendar.open.booking-calendar .flatpickr-months,
+.flatpickr-calendar.open.booking-calendar .flatpickr-innerContainer,
+.flatpickr-calendar.open.booking-calendar .flatpickr-rContainer,
+.flatpickr-calendar.open.booking-calendar .flatpickr-weekdays,
+.flatpickr-calendar.open.booking-calendar .flatpickr-weekdaycontainer,
+.flatpickr-calendar.open.booking-calendar .flatpickr-days,
+.flatpickr-calendar.open.booking-calendar .dayContainer {
+  box-sizing: border-box;
+  max-width: none;
+  min-width: 0;
+  width: 100%;
+}
+
+/* Month navigation */
+.flatpickr-calendar.open.booking-calendar .flatpickr-months {
+  height: 42px;
+  margin-bottom: 4px;
+  position: relative;
+}
+
+.flatpickr-calendar.open.booking-calendar
+  .flatpickr-months
+  .flatpickr-month {
+  height: 42px;
+}
+
+.flatpickr-calendar.open.booking-calendar
+  .flatpickr-months
+  .flatpickr-month
+  .flatpickr-current-month {
+  color: #171b24;
+  font-size: 16px;
+  font-weight: 700;
+  height: 42px;
+  left: 12.5%;
+  line-height: 1;
+  padding: 12px 0 0;
+  top: 0;
+  width: 75%;
+}
+
+.flatpickr-calendar.open.booking-calendar
+  .flatpickr-current-month
+  span.cur-month {
+  color: #171b24;
+  font-weight: 700;
+  margin-left: 0;
+}
+
+.flatpickr-calendar.open.booking-calendar
+  .flatpickr-current-month
+  input.cur-year {
+  color: #171b24;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  padding-left: 4px;
+}
+
+.flatpickr-calendar.open.booking-calendar
+  .flatpickr-current-month
+  .numInputWrapper {
+  width: 62px;
+}
+
+.flatpickr-calendar.open.booking-calendar
+  .flatpickr-current-month
+  .numInputWrapper
+  span {
+  display: none;
+}
+
+.flatpickr-calendar.open.booking-calendar
+  .flatpickr-months
+  .flatpickr-prev-month,
+.flatpickr-calendar.open.booking-calendar
+  .flatpickr-months
+  .flatpickr-next-month {
+  align-items: center;
+  border-radius: 10px;
+  color: #5f6671;
+  display: flex;
+  fill: #5f6671;
+  height: 34px;
+  justify-content: center;
+  line-height: 1;
+  padding: 9px;
+  top: 4px;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease,
+    fill 160ms ease;
+  width: 34px;
+}
+
+.flatpickr-calendar.open.booking-calendar
+  .flatpickr-months
+  .flatpickr-prev-month {
+  left: 2px;
+}
+
+.flatpickr-calendar.open.booking-calendar
+  .flatpickr-months
+  .flatpickr-next-month {
+  right: 2px;
+}
+
+.flatpickr-calendar.open.booking-calendar
+  .flatpickr-months
+  .flatpickr-prev-month:hover,
+.flatpickr-calendar.open.booking-calendar
+  .flatpickr-months
+  .flatpickr-next-month:hover {
+  background: rgba(36, 95, 82, 0.09);
+  color: var(--golfnity-moss, #245f52);
+  fill: var(--golfnity-moss, #245f52);
+}
+
+.flatpickr-calendar.open.booking-calendar
+  .flatpickr-months
+  .flatpickr-prev-month
+  svg,
+.flatpickr-calendar.open.booking-calendar
+  .flatpickr-months
+  .flatpickr-next-month
+  svg {
+  height: 14px;
+  width: 14px;
+}
+
+.flatpickr-calendar.open.booking-calendar
+  .flatpickr-months
+  .flatpickr-prev-month
+  svg
+  path,
+.flatpickr-calendar.open.booking-calendar
+  .flatpickr-months
+  .flatpickr-next-month
+  svg
+  path {
+  fill: currentColor;
+}
+
+/* Weekday row: the theme hides this globally. */
+.flatpickr-calendar.open.booking-calendar .flatpickr-weekdays {
+  align-items: center;
+  display: flex;
+  height: 30px;
+  overflow: visible;
+}
+
+.flatpickr-calendar.open.booking-calendar
+  .flatpickr-weekdaycontainer {
+  display: flex;
+}
+
+.flatpickr-calendar.open.booking-calendar
+  .flatpickr-weekdaycontainer
+  span.flatpickr-weekday {
+  color: #747b86;
+  flex: 0 0 14.285714%;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 30px;
+  text-align: center;
+  width: 14.285714%;
+}
+
+/* Calendar grid */
+.flatpickr-calendar.open.booking-calendar .flatpickr-innerContainer {
+  justify-content: stretch;
+  overflow: hidden;
+}
+
+.flatpickr-calendar.open.booking-calendar .flatpickr-days {
+  overflow: hidden;
+  padding-top: 2px;
+}
+
+.flatpickr-calendar.open.booking-calendar .dayContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  padding: 0;
+}
+
+.flatpickr-calendar.open.booking-calendar
+  .flatpickr-innerContainer
+  .flatpickr-days
+  .flatpickr-day {
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  box-shadow: none;
+  color: #343a45;
+  display: flex;
+  flex: 0 0 14.285714%;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  height: var(--booking-calendar-day-size);
+  justify-content: center;
+  line-height: calc(var(--booking-calendar-day-size) - 2px);
+  margin: 0;
+  max-width: 14.285714%;
+  text-align: center;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    color 150ms ease;
+  width: 14.285714%;
+}
+
+.flatpickr-calendar.open.booking-calendar--sidebar
+  .flatpickr-innerContainer
+  .flatpickr-days
+  .flatpickr-day {
+  font-size: 12px;
+}
+
+/* Previous and next month days */
+.flatpickr-calendar.open.booking-calendar
+  .flatpickr-innerContainer
+  .flatpickr-days
+  .flatpickr-day.prevMonthDay,
+.flatpickr-calendar.open.booking-calendar
+  .flatpickr-innerContainer
+  .flatpickr-days
+  .flatpickr-day.nextMonthDay {
+  background: transparent;
+  border-color: transparent;
+  color: #bfc3ca;
+}
+
+/* Disabled days */
+.flatpickr-calendar.open.booking-calendar
+  .flatpickr-innerContainer
+  .flatpickr-days
+  .flatpickr-day.flatpickr-disabled,
+.flatpickr-calendar.open.booking-calendar
+  .flatpickr-innerContainer
+  .flatpickr-days
+  .flatpickr-day.flatpickr-disabled:hover {
+  background: transparent;
+  border-color: transparent;
+  color: #d2d5da;
+  cursor: not-allowed;
+  opacity: 0.8;
+}
+
+/* Hover */
+.flatpickr-calendar.open.booking-calendar
+  .flatpickr-innerContainer
+  .flatpickr-days
+  .flatpickr-day:hover:not(.selected):not(.startRange):not(
+    .endRange
+  ):not(.flatpickr-disabled) {
+  background: rgba(36, 95, 82, 0.09);
+  border-color: transparent;
+  color: var(--golfnity-moss-dark, #1b4d3e);
+}
+
+/* Today is outlined, not filled. */
+.flatpickr-calendar.open.booking-calendar
+  .flatpickr-innerContainer
+  .flatpickr-days
+  .flatpickr-day.today:not(.selected) {
+  background: transparent;
+  border: 1px solid var(--golfnity-gold, #e6c76f);
+  color: var(--golfnity-moss-dark, #1b4d3e);
+  font-weight: 700;
+}
+
+/* Selected date */
+.flatpickr-calendar.open.booking-calendar
+  .flatpickr-innerContainer
+  .flatpickr-days
+  .flatpickr-day.selected,
+.flatpickr-calendar.open.booking-calendar
+  .flatpickr-innerContainer
+  .flatpickr-days
+  .flatpickr-day.startRange,
+.flatpickr-calendar.open.booking-calendar
+  .flatpickr-innerContainer
+  .flatpickr-days
+  .flatpickr-day.endRange,
+.flatpickr-calendar.open.booking-calendar
+  .flatpickr-innerContainer
+  .flatpickr-days
+  .flatpickr-day.selected:hover,
+.flatpickr-calendar.open.booking-calendar
+  .flatpickr-innerContainer
+  .flatpickr-days
+  .flatpickr-day.startRange:hover,
+.flatpickr-calendar.open.booking-calendar
+  .flatpickr-innerContainer
+  .flatpickr-days
+  .flatpickr-day.endRange:hover {
+  background: var(--golfnity-moss, #245f52);
+  border-color: var(--golfnity-moss, #245f52);
+  border-radius: 10px;
+  box-shadow: 0 5px 12px rgba(36, 95, 82, 0.2);
+  color: var(--golfnity-gold, #e6c76f);
+  font-weight: 700;
+}
+
+.flatpickr-calendar.open.booking-calendar
+  .flatpickr-innerContainer
+  .flatpickr-days
+  .flatpickr-day.inRange {
+  background: rgba(36, 95, 82, 0.1);
+  border-color: transparent;
+  border-radius: 8px;
+  box-shadow: none;
+  color: var(--golfnity-moss-dark, #1b4d3e);
+}
+
+.flatpickr-calendar.open.booking-calendar
+  .flatpickr-innerContainer
+  .flatpickr-days
+  .flatpickr-day:focus-visible {
+  outline: 2px solid var(--golfnity-gold, #e6c76f);
+  outline-offset: -2px;
+}
+
+/* Time picker */
+.flatpickr-calendar.open.booking-calendar .flatpickr-time {
+  border-top: 1px solid rgba(36, 95, 82, 0.12);
+  height: 44px;
+  margin-top: 8px;
+  max-height: 44px;
+}
+
+.flatpickr-calendar.open.booking-calendar .flatpickr-time input,
+.flatpickr-calendar.open.booking-calendar
+  .flatpickr-time
+  .flatpickr-am-pm {
+  color: #343a45;
+  font-family: inherit;
+  font-weight: 600;
+}
+
+@media (max-width: 575px) {
+  .flatpickr-calendar.open.booking-calendar,
+  .flatpickr-calendar.open.booking-calendar--hero,
+  .flatpickr-calendar.open.booking-calendar--sidebar {
+    --booking-calendar-width: calc(100vw - 24px);
+    --booking-calendar-padding: 10px;
+    --booking-calendar-day-size: 40px;
+
+    max-width: calc(100vw - 24px);
+    width: calc(100vw - 24px);
+  }
+
+  .flatpickr-calendar.open.booking-calendar
+    .flatpickr-innerContainer
+    .flatpickr-days
+    .flatpickr-day {
+    font-size: 13px;
+  }
+}

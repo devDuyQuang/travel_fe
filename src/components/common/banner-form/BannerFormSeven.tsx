@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import Flatpickr from 'react-flatpickr';
+import { Vietnamese } from "flatpickr/dist/l10n/vn";
 
 interface DataType {
    id: number;
@@ -128,10 +129,12 @@ const BannerFormSeven = () => {
                      onChange={(selectedDates) => setCheckInDate(selectedDates)}
                      options={{
                         dateFormat: 'd/m/Y',
+                        disableMobile: true,
+                        locale: Vietnamese,
                         minDate: 'today',
                      }}
                      className="input"
-                     placeholder="dd/mm/yyyy"
+                     placeholder="Chọn ngày"
                   />
                   <span className="angle-down">
                      <svg width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -153,10 +156,12 @@ const BannerFormSeven = () => {
                      onChange={(selectedDates) => setCheckOutDate(selectedDates)}
                      options={{
                         dateFormat: 'd/m/Y',
+                        disableMobile: true,
+                        locale: Vietnamese,
                         minDate: 'today',
                      }}
                      className="input"
-                     placeholder="dd/mm/yyyy"
+                     placeholder="Chọn ngày"
                   />
                   <span className="angle-down">
                      <svg width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">

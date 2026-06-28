@@ -6,14 +6,14 @@ const FeatureSidebar = () => {
 
   return (
     <form onSubmit={(e) => e.preventDefault()}>
-      <h4 className="tg-tour-about-title title-2 mb-15">Book This Tour</h4>
+      <h4 className="tg-tour-about-title title-2 mb-15">Đặt dịch vụ</h4>
       <div className="tg-booking-form-parent-inner mb-10">
         <div className="tg-tour-about-date p-relative">
           <input
             className="input"
             name="datetime-local"
             type="text"
-            placeholder="When (Date)"
+            placeholder="Chọn ngày"
           />
           <span className="calender">
             <svg
@@ -38,7 +38,7 @@ const FeatureSidebar = () => {
         </div>
       </div>
       <div className="tg-tour-about-time d-flex align-items-center mb-10">
-        <span className="time">Time:</span>
+        <span className="time">Giờ sử dụng:</span>
 
         <div className="form-check mr-15">
           <input
@@ -67,10 +67,10 @@ const FeatureSidebar = () => {
       </div>
       <div className="tg-tour-about-border-doted mb-15"></div>
       <div className="tg-tour-about-tickets-wrap mb-15">
-        <span className="tg-tour-about-sidebar-title">Tickets:</span>
+        <span className="tg-tour-about-sidebar-title">Số vé / Số khách:</span>
         <div className="tg-tour-about-tickets mb-10">
           <div className="tg-tour-about-tickets-adult">
-            <span>Adult</span>
+            <span>Người lớn</span>
             <p className="mb-0">
               (14+ years) <span>$20</span>
             </p>
@@ -124,7 +124,7 @@ const FeatureSidebar = () => {
         </div>
         <div className="tg-tour-about-tickets mb-10">
           <div className="tg-tour-about-tickets-adult">
-            <span>Children </span>
+            <span>Trẻ em</span>
             <p className="mb-0">
               (13-17 years) <span>$15</span>
             </p>
@@ -193,12 +193,12 @@ const FeatureSidebar = () => {
       <div className="tg-tour-about-border-doted mb-15"></div>
       <div className="tg-tour-about-coast d-flex align-items-center flex-wrap justify-content-between mb-20">
         <span className="tg-tour-about-sidebar-title d-inline-block">
-          Total Cost:
+          Tổng tạm tính:
         </span>
         <h5 className="total-price">$300.00</h5>
       </div>
       <button type="submit" className="tg-btn tg-btn-switch-animation w-100">
-        Book now
+        Đặt dịch vụ
       </button>
     </form>
   );
