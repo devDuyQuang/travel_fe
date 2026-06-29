@@ -1,375 +1,149 @@
-.bookingSidebarForm :global(.tg-tour-about-title) {
+.bookingSidebarForm
+  :global(.tg-tour-about-title) {
+  margin-bottom: 18px;
   text-transform: none;
 }
 
-.bookingSidebarForm :global(.tg-booking-form-parent-inner),
-.bookingSidebarForm :global(.tg-tour-about-extra),
-.bookingSidebarForm :global(.tg-tour-about-tickets-wrap) {
-  margin-bottom: 10px;
+.bookingSidebarForm
+  :global(.tg-booking-form-parent-inner) {
+  margin-bottom: 12px;
 }
 
-.bookingSidebarForm :global(.tg-tour-about-sidebar-title),
+.bookingSidebarForm
+  :global(.tg-tour-about-extra),
+.bookingSidebarForm
+  :global(.tg-tour-about-tickets-wrap) {
+  margin-bottom: 18px;
+}
+
+.bookingSidebarForm
+  :global(.tg-tour-about-sidebar-title),
 .bookingSidebarForm :global(.time) {
   color: #0b1020;
   font-size: 16px;
   font-weight: 700;
-  line-height: 1.35;
+  line-height: 1.4;
 }
 
-.bookingSidebarForm :global(.tg-tour-about-tickets) {
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 8px;
-}
-
-.bookingSidebarForm :global(.tg-tour-about-tickets-adult span) {
-  font-size: 15px;
-}
-
-.bookingSidebarForm :global(.tg-tour-about-tickets-adult p) {
-  font-size: 14px;
-  line-height: 1.3;
-}
-
-.bookingSidebarForm :global(.booking-option-block) {
-  display: grid;
-  gap: 8px;
-}
-
-.bookingSidebarForm :global(.booking-radio-options) {
-  align-items: center;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px 18px;
-}
-
-.bookingSidebarForm :global(.booking-radio-options .form-check) {
-  margin-bottom: 0;
-  margin-right: 0;
-}
-
-.bookingSidebarForm :global(.booking-radio-options .form-check-label) {
-  line-height: 1.35;
-}
-
-.bookingSidebarForm :global(.payment-options) {
-  padding-left: 2px;
-}
-
-.bookingSidebarForm :global(.tg-filter-list ul) {
-  display: grid;
-  gap: 6px;
-}
-
-.bookingSidebarForm :global(.tg-filter-list li) {
-  border: 0;
+.bookingSidebarForm
+  :global(
+    .tg-tour-about-extra
+      > .tg-tour-about-sidebar-title
+  ),
+.bookingSidebarForm
+  :global(
+    .tg-tour-about-tickets-wrap
+      > .tg-tour-about-sidebar-title
+  ),
+.bookingSidebarForm
+  :global(.booking-option-block > .time) {
   display: block;
-  padding: 0;
-}
-
-.bookingSidebarForm :global(.booking-text-field::placeholder),
-.bookingSidebarForm :global(.booking-date-field .booking-date-input::placeholder),
-.bookingSidebarForm :global(.booking-date-field .booking-date-input.input::placeholder) {
-  color: #686b78;
-  opacity: 1;
-}
-
-.bookingSidebarForm :global(.booking-text-field:focus),
-.bookingSidebarForm :global(.booking-date-field .booking-date-input:focus),
-.bookingSidebarForm :global(.booking-date-field .booking-date-input.input:focus) {
-  background: #fff !important;
-  border-color: #e6c770 !important;
-  box-shadow: 0 0 0 3px rgba(230, 199, 112, 0.16) !important;
-}
-
-.bookingSidebarForm :global(.booking-date-field .flatpickr-wrapper) {
-  display: block;
-  height: 40px !important;
-  width: 100%;
-}
-
-.bookingSidebarForm :global(.booking-date-field .booking-date-input),
-.bookingSidebarForm :global(.booking-date-field .booking-date-input.input) {
-  height: 40px !important;
-  max-height: 40px !important;
-  min-height: 40px !important;
-  padding: 0 42px !important;
-  width: 100% !important;
-}
-
-.bookingSidebarForm :global(.booking-date-icon),
-.bookingSidebarForm :global(.booking-date-caret) {
-  align-items: center;
-  color: #e6c770;
-  display: flex;
-  font-size: 14px;
-  height: 40px;
-  line-height: 1;
-  pointer-events: none;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 2;
-}
-
-.bookingSidebarForm :global(.booking-date-icon) {
-  left: 14px;
-}
-
-.bookingSidebarForm :global(.booking-date-caret) {
-  color: #353844;
-  font-size: 16px;
-  right: 14px;
-  transform: translateY(-50%) rotate(-90deg);
-  transition: transform 0.18s ease;
-}
-
-.bookingSidebarForm :global(.booking-date-caret.is-open) {
-  transform: translateY(-50%) rotate(0deg);
-}
-
-.bookingSidebarForm :global(.booking-date-field) {
-  cursor: pointer;
-  height: 40px !important;
-  min-height: 40px !important;
-}
-
-.bookingSidebarForm :global(.booking-radio-options .form-check-input) {
-  accent-color: #1f6f5b;
-  border-color: #e6c770;
-  box-shadow: none;
-}
-
-.bookingSidebarForm :global(.booking-radio-options .form-check-input:checked) {
-  background-color: #1f6f5b;
-  border-color: #1f6f5b;
-}
-
-.bookingSidebarForm :global(.booking-confirm-overlay) {
-  align-items: center;
-  background: rgba(11, 16, 32, 0.56);
-  display: flex;
-  inset: 0;
-  justify-content: center;
-  padding: 18px;
-  position: fixed;
-  z-index: 9999;
-}
-
-.bookingSidebarForm :global(.booking-confirm-modal) {
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 24px 70px rgba(11, 16, 32, 0.24);
-  max-height: min(720px, calc(100vh - 36px));
-  max-width: 560px;
-  overflow: auto;
-  padding: 22px;
-  width: 100%;
-}
-
-.bookingSidebarForm :global(.booking-confirm-modal h4) {
-  color: #0b1020;
-  font-size: 22px;
-  margin-bottom: 16px;
-}
-
-.bookingSidebarForm :global(.booking-summary-list) {
-  border: 1px solid #eee7da;
-  border-radius: 6px;
-  overflow: hidden;
-}
-
-.bookingSidebarForm :global(.booking-summary-row) {
-  display: grid;
-  gap: 10px;
-  grid-template-columns: minmax(110px, 0.42fr) 1fr;
-  padding: 9px 12px;
-}
-
-.bookingSidebarForm :global(.booking-summary-row + .booking-summary-row) {
-  border-top: 1px solid #eee7da;
-}
-
-.bookingSidebarForm :global(.booking-summary-row span) {
-  color: #686b78;
-  font-size: 13px;
-}
-
-.bookingSidebarForm :global(.booking-summary-row strong) {
-  color: #0b1020;
-  font-size: 14px;
-  font-weight: 700;
-  text-align: right;
-}
-
-.bookingSidebarForm :global(.booking-confirm-actions) {
-  display: grid;
-  gap: 10px;
-  grid-template-columns: 1fr 1.35fr;
-  margin-top: 16px;
-}
-
-.bookingSidebarForm :global(.booking-edit-btn) {
-  background: #f7f7f7;
-  border: 1px solid #eee7da;
-  border-radius: 6px;
-  color: #1f6f5b;
-  font-weight: 700;
-  min-height: 44px;
-  padding: 10px 14px;
-}
-
-.bookingSidebarForm :global(.booking-confirm-actions .tg-btn) {
-  min-height: 44px;
-  padding: 10px 16px;
-}
-
-.bookingSidebarForm :global(.booking-success-modal) {
-  max-width: 520px;
-  text-align: center;
-}
-
-.bookingSidebarForm :global(.booking-success-icon) {
-  align-items: center;
-  background: #1f6f5b;
-  border-radius: 999px;
-  color: #e6c770;
-  display: inline-flex;
-  height: 48px;
-  justify-content: center;
-  margin-bottom: 14px;
-  width: 48px;
-}
-
-.bookingSidebarForm :global(.booking-success-message) {
-  color: #353844;
-  font-size: 15px;
-  line-height: 1.55;
-  margin-bottom: 16px;
-}
-
-.bookingSidebarForm :global(.booking-success-modal .booking-summary-list) {
-  margin-bottom: 16px;
-  text-align: left;
-}
-
-.bookingSidebarForm :global(.tg-tour-about-title) {
-  text-transform: none;
-}
-
-.bookingSidebarForm :global(.tg-booking-form-parent-inner),
-.bookingSidebarForm :global(.tg-tour-about-extra),
-.bookingSidebarForm :global(.tg-tour-about-tickets-wrap) {
   margin-bottom: 10px;
 }
 
-.bookingSidebarForm :global(.tg-tour-about-sidebar-title),
-.bookingSidebarForm :global(.time) {
-  color: #0b1020;
-  font-size: 16px;
-  font-weight: 700;
-  line-height: 1.35;
-}
-
-.bookingSidebarForm :global(.tg-tour-about-tickets) {
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 8px;
+.bookingSidebarForm
+  :global(.tg-tour-about-border-doted) {
+  margin-bottom: 18px !important;
+  margin-top: 3px;
 }
 
 .bookingSidebarForm
-  :global(.tg-tour-about-tickets-adult span) {
-  font-size: 15px;
-}
-
-.bookingSidebarForm :global(.tg-tour-about-tickets-adult p) {
-  font-size: 14px;
-  line-height: 1.3;
-}
-
-.bookingSidebarForm :global(.booking-option-block) {
+  :global(.tg-filter-list ul) {
   display: grid;
-  gap: 8px;
-}
-
-.bookingSidebarForm :global(.booking-radio-options) {
-  align-items: center;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px 18px;
-}
-
-.bookingSidebarForm
-  :global(.booking-radio-options .form-check) {
-  margin-bottom: 0;
-  margin-right: 0;
-}
-
-.bookingSidebarForm
-  :global(.booking-radio-options .form-check-label) {
-  line-height: 1.35;
-}
-
-.bookingSidebarForm :global(.payment-options) {
-  padding-left: 2px;
-}
-
-.bookingSidebarForm :global(.tg-filter-list ul) {
-  display: grid;
-  gap: 6px;
-}
-
-.bookingSidebarForm :global(.tg-filter-list li) {
-  border: 0;
-  display: block;
+  gap: 9px;
+  list-style: none;
+  margin: 0;
   padding: 0;
 }
 
-.bookingSidebarForm :global(.booking-text-field::placeholder),
 .bookingSidebarForm
-  :global(.booking-date-field .booking-date-input::placeholder),
+  :global(.tg-filter-list li) {
+  border: 0;
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
 .bookingSidebarForm
-  :global(.booking-date-field .booking-date-input.input::placeholder) {
+  :global(.booking-text-field),
+.bookingSidebarForm
+  :global(.tg-filter-list input),
+.bookingSidebarForm
+  :global(.tg-filter-list textarea) {
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.bookingSidebarForm
+  :global(.booking-text-field::placeholder),
+.bookingSidebarForm
+  :global(
+    .booking-date-field
+      .booking-date-input::placeholder
+  ) {
   color: #686b78;
   opacity: 1;
 }
 
-.bookingSidebarForm :global(.booking-text-field:focus),
 .bookingSidebarForm
-  :global(.booking-date-field .booking-date-input:focus),
+  :global(.booking-text-field:focus),
 .bookingSidebarForm
-  :global(.booking-date-field .booking-date-input.input:focus) {
+  :global(.tg-filter-list input:focus),
+.bookingSidebarForm
+  :global(.tg-filter-list textarea:focus),
+.bookingSidebarForm
+  :global(
+    .booking-date-field
+      .booking-date-input:focus
+  ) {
   background: #ffffff !important;
   border-color: #e6c770 !important;
-  box-shadow: 0 0 0 3px rgba(230, 199, 112, 0.16) !important;
+  box-shadow: 0 0 0 3px
+    rgba(230, 199, 112, 0.16) !important;
+  outline: none;
+}
+
+/* Date fields */
+
+.bookingSidebarForm
+  :global(.booking-date-field) {
+  cursor: pointer;
+  height: 42px;
+  min-height: 42px;
+  position: relative;
 }
 
 .bookingSidebarForm
-  :global(.booking-date-field .flatpickr-wrapper) {
+  :global(
+    .booking-date-field .flatpickr-wrapper
+  ) {
   display: block;
-  height: 40px !important;
+  height: 42px;
   width: 100%;
 }
 
 .bookingSidebarForm
-  :global(.booking-date-field .booking-date-input),
-.bookingSidebarForm
-  :global(.booking-date-field .booking-date-input.input) {
+  :global(
+    .booking-date-field .booking-date-input
+  ) {
   cursor: pointer;
-  height: 40px !important;
-  max-height: 40px !important;
-  min-height: 40px !important;
+  height: 42px !important;
+  max-height: 42px !important;
+  min-height: 42px !important;
   padding: 0 42px !important;
   width: 100% !important;
 }
 
-.bookingSidebarForm :global(.booking-date-icon),
-.bookingSidebarForm :global(.booking-date-caret) {
+.bookingSidebarForm
+  :global(.booking-date-icon),
+.bookingSidebarForm
+  :global(.booking-date-caret) {
   align-items: center;
-  color: #e6c770;
   display: flex;
-  font-size: 14px;
-  height: 40px;
+  height: 42px;
+  justify-content: center;
   line-height: 1;
   pointer-events: none;
   position: absolute;
@@ -378,42 +152,176 @@
   z-index: 2;
 }
 
-.bookingSidebarForm :global(.booking-date-icon) {
+.bookingSidebarForm
+  :global(.booking-date-icon) {
+  color: #e6c770;
+  font-size: 14px;
   left: 14px;
 }
 
-.bookingSidebarForm :global(.booking-date-caret) {
+.bookingSidebarForm
+  :global(.booking-date-caret) {
   color: #353844;
   font-size: 16px;
   right: 14px;
-  transform: translateY(-50%);
   transition: transform 180ms ease;
 }
 
-.bookingSidebarForm :global(.booking-date-caret.is-open) {
+.bookingSidebarForm
+  :global(.booking-date-caret.is-open) {
   transform: translateY(-50%) rotate(180deg);
 }
 
-.bookingSidebarForm :global(.booking-date-field) {
-  cursor: pointer;
-  height: 40px !important;
-  min-height: 40px !important;
+/* Radio options */
+
+.bookingSidebarForm
+  :global(.booking-option-block) {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 18px;
 }
 
 .bookingSidebarForm
-  :global(.booking-radio-options .form-check-input) {
+  :global(.booking-radio-options) {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+}
+
+.bookingSidebarForm
+  :global(
+    .booking-radio-options .form-check
+  ) {
+  align-items: center;
+  display: flex;
+  gap: 7px;
+  margin: 0;
+  min-height: 24px;
+  padding-left: 0;
+}
+
+.bookingSidebarForm
+  :global(
+    .booking-radio-options .form-check-input
+  ) {
   accent-color: #245f52;
   border-color: #e6c770;
   box-shadow: none;
+  float: none;
+  margin: 0;
 }
 
 .bookingSidebarForm
-  :global(.booking-radio-options .form-check-input:checked) {
+  :global(
+    .booking-radio-options
+      .form-check-input:checked
+  ) {
   background-color: #245f52;
   border-color: #245f52;
 }
 
-.bookingSidebarForm :global(.booking-confirm-overlay) {
+.bookingSidebarForm
+  :global(
+    .booking-radio-options .form-check-label
+  ) {
+  color: #353844;
+  cursor: pointer;
+  line-height: 1.35;
+  margin: 0;
+}
+
+.bookingSidebarForm
+  :global(.payment-options) {
+  padding-left: 2px;
+}
+
+/* Quantity */
+
+.bookingSidebarForm
+  :global(.tg-tour-about-tickets) {
+  align-items: center;
+  display: flex;
+  gap: 14px;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  min-height: 42px;
+}
+
+.bookingSidebarForm
+  :global(.tg-tour-about-tickets-adult) {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.bookingSidebarForm
+  :global(
+    .tg-tour-about-tickets-adult > span
+  ) {
+  color: #353844;
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.bookingSidebarForm
+  :global(.tg-tour-about-tickets-adult p) {
+  font-size: 13px;
+  line-height: 1.35;
+  margin-top: 3px;
+}
+
+.bookingSidebarForm
+  :global(
+    .tg-tour-about-tickets-quantity
+  ) {
+  flex: 0 0 auto;
+  min-width: 64px;
+}
+
+.bookingSidebarForm
+  :global(
+    .tg-tour-about-tickets-quantity
+      .nice-select
+  ) {
+  min-width: 64px;
+}
+
+/* Total */
+
+.bookingSidebarForm
+  :global(.tg-tour-about-coast) {
+  align-items: center !important;
+  display: flex;
+  flex-wrap: nowrap !important;
+  gap: 12px;
+  justify-content: space-between !important;
+}
+
+.bookingSidebarForm
+  :global(
+    .tg-tour-about-coast
+      .tg-tour-about-sidebar-title
+  ) {
+  display: inline-block;
+  flex: 1 1 auto;
+  margin: 0;
+}
+
+.bookingSidebarForm
+  :global(.tg-tour-about-coast .total-price) {
+  color: #245f52;
+  flex: 0 0 auto;
+  margin: 0;
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* Confirm modal */
+
+.bookingSidebarForm
+  :global(.booking-confirm-overlay) {
   align-items: center;
   background: rgba(11, 16, 32, 0.56);
   display: flex;
@@ -424,129 +332,148 @@
   z-index: 9999;
 }
 
-.bookingSidebarForm :global(.booking-confirm-modal) {
+.bookingSidebarForm
+  :global(.booking-confirm-modal) {
   background: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 24px 70px rgba(11, 16, 32, 0.24);
-  max-height: min(720px, calc(100vh - 36px));
+  border-radius: 12px;
+  box-shadow: 0 24px 70px
+    rgba(11, 16, 32, 0.24);
+  max-height: min(
+    720px,
+    calc(100vh - 36px)
+  );
   max-width: 560px;
   overflow: auto;
-  padding: 22px;
+  padding: 24px;
   width: 100%;
 }
 
-.bookingSidebarForm :global(.booking-confirm-modal h4) {
+.bookingSidebarForm
+  :global(.booking-confirm-modal h4) {
   color: #0b1020;
   font-size: 22px;
-  margin-bottom: 16px;
-}
-
-.bookingSidebarForm :global(.booking-summary-list) {
-  border: 1px solid #eee7da;
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.bookingSidebarForm :global(.booking-summary-row) {
-  display: grid;
-  gap: 10px;
-  grid-template-columns: minmax(110px, 0.42fr) 1fr;
-  padding: 9px 12px;
+  margin-bottom: 18px;
+  text-align: center;
 }
 
 .bookingSidebarForm
-  :global(.booking-summary-row + .booking-summary-row) {
+  :global(.booking-summary-list) {
+  border: 1px solid #eee7da;
+  border-radius: 9px;
+  overflow: hidden;
+}
+
+.bookingSidebarForm
+  :global(.booking-summary-row) {
+  align-items: center;
+  display: grid;
+  gap: 14px;
+  grid-template-columns:
+    minmax(120px, 0.42fr) 1fr;
+  padding: 11px 13px;
+}
+
+.bookingSidebarForm
+  :global(
+    .booking-summary-row
+      + .booking-summary-row
+  ) {
   border-top: 1px solid #eee7da;
 }
 
-.bookingSidebarForm :global(.booking-summary-row span) {
+.bookingSidebarForm
+  :global(.booking-summary-row span) {
   color: #686b78;
   font-size: 13px;
 }
 
-.bookingSidebarForm :global(.booking-summary-row strong) {
+.bookingSidebarForm
+  :global(.booking-summary-row strong) {
   color: #0b1020;
   font-size: 14px;
   font-weight: 700;
+  overflow-wrap: anywhere;
   text-align: right;
 }
 
-.bookingSidebarForm :global(.booking-confirm-actions) {
+.bookingSidebarForm
+  :global(.booking-confirm-actions) {
   display: grid;
   gap: 10px;
   grid-template-columns: 1fr 1.35fr;
-  margin-top: 16px;
+  margin-top: 18px;
 }
 
-.bookingSidebarForm :global(.booking-edit-btn) {
+.bookingSidebarForm
+  :global(.booking-edit-btn) {
   background: #f7f7f7;
   border: 1px solid #eee7da;
-  border-radius: 6px;
+  border-radius: 7px;
   color: #245f52;
   font-weight: 700;
-  min-height: 44px;
+  min-height: 46px;
   padding: 10px 14px;
 }
 
 .bookingSidebarForm
-  :global(.booking-confirm-actions .tg-btn) {
-  min-height: 44px;
+  :global(
+    .booking-confirm-actions .tg-btn
+  ) {
+  min-height: 46px;
   padding: 10px 16px;
 }
 
-.bookingSidebarForm :global(.booking-success-modal) {
-  max-width: 520px;
+.bookingSidebarForm
+  :global(.booking-success-modal) {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  max-width: 420px;
   text-align: center;
 }
 
-.bookingSidebarForm :global(.booking-success-icon) {
+.bookingSidebarForm
+  :global(.booking-success-icon) {
   align-items: center;
   background: #245f52;
   border-radius: 999px;
-  color: #e6c770;
-  display: inline-flex;
-  height: 48px;
+  color: #e6c76f;
+  display: flex;
+  font-size: 20px;
+  height: 54px;
   justify-content: center;
-  margin-bottom: 14px;
-  width: 48px;
-}
-
-.bookingSidebarForm :global(.booking-success-message) {
-  color: #353844;
-  font-size: 15px;
-  line-height: 1.55;
-  margin-bottom: 16px;
+  margin-bottom: 18px;
+  width: 54px;
 }
 
 .bookingSidebarForm
-  :global(.booking-success-modal .booking-summary-list) {
-  margin-bottom: 16px;
-  text-align: left;
+  :global(.booking-success-message) {
+  color: #575c68;
+  font-size: 15px;
+  line-height: 1.65;
+  margin: 0 0 22px;
 }
 
 @media (max-width: 575px) {
-  .bookingSidebarForm :global(.booking-confirm-actions),
-  .bookingSidebarForm :global(.booking-summary-row) {
+  .bookingSidebarForm
+    :global(.booking-confirm-actions),
+  .bookingSidebarForm
+    :global(.booking-summary-row) {
     grid-template-columns: 1fr;
   }
 
-  .bookingSidebarForm :global(.booking-summary-row strong) {
+  .bookingSidebarForm
+    :global(.booking-summary-row strong) {
     text-align: left;
   }
-}
 
-:global(.booking-compact-calendar .flatpickr-day:hover) {
-  background: rgba(31, 111, 91, 0.1);
-  border-color: rgba(31, 111, 91, 0.2);
-}
-
-@media (max-width: 575px) {
-  .bookingSidebarForm :global(.booking-confirm-actions),
-  .bookingSidebarForm :global(.booking-summary-row) {
-    grid-template-columns: 1fr;
+  .bookingSidebarForm
+    :global(.booking-confirm-modal) {
+    padding: 20px 16px;
   }
 
-  .bookingSidebarForm :global(.booking-summary-row strong) {
-    text-align: left;
+  .bookingSidebarForm
+    :global(.tg-tour-about-coast) {
+    flex-wrap: wrap !important;
   }
 }

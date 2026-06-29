@@ -24,7 +24,8 @@ type ApiMenuItem = {
   sub_menus?: ApiMenuItem[];
 };
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://api.localhost:8000";
+const API_ORIGIN = process.env.NEXT_PUBLIC_API_URL || "http://api.localhost:8000";
+const API_URL = `${API_ORIGIN.replace(/\/$/, "")}/api`;
 
 const serviceCategoryPaths: Record<string, string> = {
   "/about": "/ve-golfnity",

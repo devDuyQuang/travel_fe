@@ -5,7 +5,10 @@ import type { ChangeEvent, FormEvent } from "react";
 import Flatpickr from "react-flatpickr";
 import { Vietnamese } from "flatpickr/dist/l10n/vn";
 
-import { applyBookingCalendarVariant } from "@/lib/bookingCalendar";
+import {
+  applyBookingCalendarVariant,
+  toggleBookingCalendar,
+} from "@/lib/bookingCalendar";
 import {
   ApiError,
   createBooking,
@@ -24,6 +27,8 @@ type BookingType =
   | "tee_time"
   | "golf_room"
   | "consultation";
+
+type PaymentMethod = "cash" | "bank_transfer";
 
 type FieldErrors = Record<string, string>;
 
@@ -69,10 +74,14 @@ function numericValue(
 
   const number = Number(value);
 
-  return Number.isFinite(number) && number > 0 ? number : null;
+  return Number.isFinite(number) && number > 0
+    ? number
+    : null;
 }
 
-function resolveBookingType(product?: Product | null): BookingType {
+function resolveBookingType(
+  product?: Product | null,
+): BookingType {
   const layout = product?.category?.layout_key;
 
   if (layout === "transport") return "transport";
@@ -86,7 +95,9 @@ function resolveBookingType(product?: Product | null): BookingType {
 }
 
 function firstPrice(
-  ...values: Array<string | number | boolean | null | undefined>
+  ...values: Array<
+    string | number | boolean | null | undefined
+  >
 ): number | null {
   for (const value of values) {
     const number = numericValue(value);
@@ -102,7 +113,9 @@ function firstPrice(
 function normalizePhone(value: string): string {
   const phone = value.replace(/[\s().-]+/g, "");
 
-  return phone.startsWith("84") ? `+${phone}` : phone;
+  return phone.startsWith("84")
+    ? `+${phone}`
+    : phone;
 }
 
 function formatPrice(value: number | null): string {
@@ -113,94 +126,173 @@ function formatPrice(value: number | null): string {
 
 function todayIso(): string {
   const date = new Date();
-  const timezoneOffset = date.getTimezoneOffset() * 60000;
+  const timezoneOffset =
+    date.getTimezoneOffset() * 60000;
 
-  return new Date(date.getTime() - timezoneOffset)
+  return new Date(
+    date.getTime() - timezoneOffset,
+  )
     .toISOString()
     .slice(0, 10);
 }
 
-function formatVietnameseDate(value: string): string {
-  if (!value) return "";
+function formatVietnameseDate(
+  value: string,
+): string {
+  if (!value) {
+    return "";
+  }
 
   const [year, month, day] = value.split("-");
 
-  return year && month && day ? `${day}/${month}/${year}` : value;
+  return year && month && day
+    ? `${day}/${month}/${year}`
+    : value;
 }
 
 function formatIsoDate(date?: Date): string {
-  if (!date) return "";
+  if (!date) {
+    return "";
+  }
 
-  const pad = (number: number) => String(number).padStart(2, "0");
+  const pad = (number: number) =>
+    String(number).padStart(2, "0");
 
-  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(
-    date.getDate(),
-  )}`;
+  return `${date.getFullYear()}-${pad(
+    date.getMonth() + 1,
+  )}-${pad(date.getDate())}`;
 }
 
-const paymentLabels = {
+const paymentLabels: Record<
+  PaymentMethod,
+  string
+> = {
   cash: "Tiền mặt",
   bank_transfer: "Chuyển khoản",
-} as const;
+};
 
-const quantityOptions = Array.from({ length: 9 }, (_, index) => ({
-  value: String(index),
-  text: index === 0 ? "0" : String(index).padStart(2, "0"),
-}));
+const quantityOptions = Array.from(
+  { length: 9 },
+  (_, index) => ({
+    value: String(index),
+    text:
+      index === 0
+        ? "0"
+        : String(index).padStart(2, "0"),
+  }),
+);
 
-const positiveQuantityOptions = quantityOptions.slice(1);
+const positiveQuantityOptions =
+  quantityOptions.slice(1);
 
 const FeatureSidebar = ({
   product,
 }: {
   product?: Product | null;
 }) => {
-  const bookingType = resolveBookingType(product);
+  const bookingType =
+    resolveBookingType(product);
 
-  const idempotencyKeyRef = useRef<string | null>(null);
+  const idempotencyKeyRef =
+    useRef<string | null>(null);
+
   const isSubmittingRef = useRef(false);
+
   const fieldRefs = useRef<
-    Record<string, HTMLInputElement | HTMLTextAreaElement | null>
+    Record<
+      string,
+      HTMLInputElement | HTMLTextAreaElement | null
+    >
   >({});
 
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
-  const [startTime, setStartTime] = useState("12:00");
+const startPickerRef =
+  useRef<InstanceType<typeof Flatpickr> | null>(null);
+
+const endPickerRef =
+  useRef<InstanceType<typeof Flatpickr> | null>(null);
+  const [startDate, setStartDate] =
+    useState("");
+
+  const [endDate, setEndDate] =
+    useState("");
+
+  const [startTime, setStartTime] =
+    useState("12:00");
 
   const [adults, setAdults] = useState(1);
   const [children, setChildren] = useState(0);
-  const [passengers, setPassengers] = useState(1);
+  const [passengers, setPassengers] =
+    useState(1);
   const [rooms, setRooms] = useState(1);
   const [golfers, setGolfers] = useState(1);
 
-  const [pickupLocation, setPickupLocation] = useState("");
-  const [dropoffLocation, setDropoffLocation] = useState("");
-  const [vehicleType, setVehicleType] = useState("");
-  const [roomType, setRoomType] = useState("");
+  const [
+    pickupLocation,
+    setPickupLocation,
+  ] = useState("");
 
-  const [customerName, setCustomerName] = useState("");
-  const [customerEmail, setCustomerEmail] = useState("");
-  const [customerPhone, setCustomerPhone] = useState("");
-  const [customerNote, setCustomerNote] = useState("");
+  const [
+    dropoffLocation,
+    setDropoffLocation,
+  ] = useState("");
 
-  const [paymentMethod, setPaymentMethod] = useState<
-    "cash" | "bank_transfer"
-  >("cash");
+  const [vehicleType, setVehicleType] =
+    useState("");
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
-  const [successDetails, setSuccessDetails] = useState<
-    Array<[string, string]>
-  >([]);
+  const [roomType, setRoomType] =
+    useState("");
+
+  const [customerName, setCustomerName] =
+    useState("");
+
+  const [
+    customerEmail,
+    setCustomerEmail,
+  ] = useState("");
+
+  const [
+    customerPhone,
+    setCustomerPhone,
+  ] = useState("");
+
+  const [customerNote, setCustomerNote] =
+    useState("");
+
+  const [
+    paymentMethod,
+    setPaymentMethod,
+  ] = useState<PaymentMethod>("cash");
+
+  const [isSubmitting, setIsSubmitting] =
+    useState(false);
+
+  const [isConfirmOpen, setIsConfirmOpen] =
+    useState(false);
+
+  const [isSuccessOpen, setIsSuccessOpen] =
+    useState(false);
+  const [mailDispatched, setMailDispatched] =
+    useState(true);
 
   const [error, setError] = useState("");
-  const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
-  const [selectResetKey, setSelectResetKey] = useState(0);
 
-  const [isStartDateOpen, setIsStartDateOpen] = useState(false);
-  const [isEndDateOpen, setIsEndDateOpen] = useState(false);
+  const [fieldErrors, setFieldErrors] =
+    useState<FieldErrors>({});
 
-  const minDate = useMemo(() => todayIso(), []);
+  const [
+    isStartDateOpen,
+    setIsStartDateOpen,
+  ] = useState(false);
+
+  const [
+    isEndDateOpen,
+    setIsEndDateOpen,
+  ] = useState(false);
+
+  const minDate = useMemo(
+    () => todayIso(),
+    [],
+  );
 
   const adultPrice = firstPrice(
     product?.attributes?.adult_price,
@@ -235,7 +327,10 @@ const FeatureSidebar = ({
       bookingType === "tour" ||
       bookingType === "attraction"
     ) {
-      if (adultPrice === null && childPrice === null) {
+      if (
+        adultPrice === null &&
+        childPrice === null
+      ) {
         return null;
       }
 
@@ -284,44 +379,85 @@ const FeatureSidebar = ({
 
   const resetSubmitKey = () => {
     idempotencyKeyRef.current = null;
-    setSuccessDetails([]);
+  };
+
+  const clearFieldError = (name: string) => {
+    setFieldErrors((currentErrors) => {
+      if (!currentErrors[name]) {
+        return currentErrors;
+      }
+
+      const nextErrors = {
+        ...currentErrors,
+      };
+
+      delete nextErrors[name];
+
+      return nextErrors;
+    });
   };
 
   const setFieldRef =
     (name: string) =>
     (
-      element: HTMLInputElement | HTMLTextAreaElement | null,
+      element:
+        | HTMLInputElement
+        | HTMLTextAreaElement
+        | null,
     ) => {
       fieldRefs.current[name] = element;
     };
 
   const updateText =
-    (setter: (value: string) => void) =>
+    (
+      name: string,
+      setter: (value: string) => void,
+    ) =>
     (
       event: ChangeEvent<
         HTMLInputElement | HTMLTextAreaElement
       >,
     ) => {
       setter(event.target.value);
+      clearFieldError(name);
       resetSubmitKey();
     };
 
   const updateNumber =
-    (setter: (value: number) => void, minimum: number) =>
+    (
+      setter: (value: number) => void,
+      minimum: number,
+    ) =>
     (item: { value: string }) => {
-      setter(
-        Math.max(
-          minimum,
-          Number(item.value || minimum),
-        ),
+      const nextValue = Math.max(
+        minimum,
+        Number(item.value || minimum),
       );
 
+      setter(nextValue);
       resetSubmitKey();
     };
 
+  const focusFirstError = (
+    errors: FieldErrors,
+  ) => {
+    const firstKey = Object.keys(errors).find(
+      (key) => key !== "form",
+    );
+
+    if (!firstKey) {
+      return;
+    }
+
+    window.requestAnimationFrame(() => {
+      fieldRefs.current[firstKey]?.focus();
+    });
+  };
+
   const validate = (): boolean => {
     const nextErrors: FieldErrors = {};
-    const normalizedPhone = normalizePhone(customerPhone);
+    const normalizedPhone =
+      normalizePhone(customerPhone);
 
     if (!product?.id) {
       nextErrors.form =
@@ -333,17 +469,26 @@ const FeatureSidebar = ({
         "Vui lòng chọn ngày sử dụng.";
     }
 
-    if (bookingType === "hotel" && !endDate) {
+    if (
+      bookingType === "hotel" &&
+      !endDate
+    ) {
       nextErrors.end_date =
         "Vui lòng chọn ngày trả phòng.";
     }
 
-    if (startDate && startDate < minDate) {
+    if (
+      startDate &&
+      startDate < minDate
+    ) {
       nextErrors.start_date =
         "Vui lòng chọn ngày từ hôm nay trở đi.";
     }
 
-    if (endDate && endDate < minDate) {
+    if (
+      endDate &&
+      endDate < minDate
+    ) {
       nextErrors.end_date =
         "Vui lòng chọn ngày từ hôm nay trở đi.";
     }
@@ -414,112 +559,86 @@ const FeatureSidebar = ({
     }
 
     setFieldErrors(nextErrors);
+    focusFirstError(nextErrors);
 
-    const firstKey = Object.keys(nextErrors).find(
-      (key) => key !== "form",
+    return (
+      Object.keys(nextErrors).length === 0
     );
-
-    if (firstKey) {
-      window.requestAnimationFrame(() => {
-        fieldRefs.current[firstKey]?.focus();
-      });
-    }
-
-    return Object.keys(nextErrors).length === 0;
   };
 
-  const resetForm = () => {
-    setStartDate("");
-    setEndDate("");
-    setStartTime("12:00");
+  const bookingDetails =
+    (): Array<[string, string]> => {
+      const rows: Array<[string, string]> =
+        [
+          [
+            "Dịch vụ",
+            product?.name ||
+              "Dịch vụ đang chọn",
+          ],
+          [
+            "Ngày sử dụng",
+            formatVietnameseDate(startDate),
+          ],
+          [
+            "Giờ sử dụng",
+            bookingType === "consultation"
+              ? "Theo tư vấn"
+              : startTime,
+          ],
+          [
+            bookingType === "tee_time"
+              ? "Số golfer"
+              : "Số khách",
+            quantitySummary,
+          ],
+          ["Họ tên", customerName.trim()],
+          ["Email", customerEmail.trim()],
+          [
+            "Số điện thoại",
+            normalizePhone(customerPhone),
+          ],
+          [
+            "Ghi chú",
+            customerNote.trim() ||
+              "Không có",
+          ],
+          [
+            "Phương thức thanh toán",
+            paymentLabels[paymentMethod],
+          ],
+          [
+            "Tổng tạm tính",
+            formatPrice(totalPrice),
+          ],
+        ];
 
-    setAdults(1);
-    setChildren(0);
-    setPassengers(1);
-    setRooms(1);
-    setGolfers(1);
+      if (
+        bookingType === "hotel" &&
+        endDate
+      ) {
+        rows.splice(2, 0, [
+          "Ngày trả phòng",
+          formatVietnameseDate(endDate),
+        ]);
+      }
 
-    setPickupLocation("");
-    setDropoffLocation("");
-    setVehicleType("");
-    setRoomType("");
+      if (bookingType === "transport") {
+        rows.splice(
+          4,
+          0,
+          [
+            "Điểm đón",
+            pickupLocation.trim(),
+          ],
+          [
+            "Điểm trả",
+            dropoffLocation.trim(),
+          ],
+        );
+      }
 
-    setCustomerName("");
-    setCustomerEmail("");
-    setCustomerPhone("");
-    setCustomerNote("");
-
-    setPaymentMethod("cash");
-
-    setFieldErrors({});
-    setError("");
-    setIsConfirmOpen(false);
-    setIsStartDateOpen(false);
-    setIsEndDateOpen(false);
-
-    setSelectResetKey((key) => key + 1);
-  };
-
-  const bookingDetails = (): Array<[string, string]> => {
-    const rows: Array<[string, string]> = [
-      [
-        "Dịch vụ",
-        product?.name || "Dịch vụ đang chọn",
-      ],
-      [
-        "Ngày sử dụng",
-        formatVietnameseDate(startDate),
-      ],
-      [
-        "Giờ sử dụng",
-        bookingType === "consultation"
-          ? "Theo tư vấn"
-          : startTime,
-      ],
-      [
-        bookingType === "tee_time"
-          ? "Số golfer"
-          : "Số khách",
-        quantitySummary,
-      ],
-      ["Họ tên", customerName.trim()],
-      ["Email", customerEmail.trim()],
-      [
-        "Số điện thoại",
-        normalizePhone(customerPhone),
-      ],
-      [
-        "Ghi chú",
-        customerNote.trim() || "Không có",
-      ],
-      [
-        "Phương thức thanh toán",
-        paymentLabels[paymentMethod],
-      ],
-      [
-        "Tổng tạm tính",
-        formatPrice(totalPrice),
-      ],
-    ];
-
-    if (bookingType === "hotel" && endDate) {
-      rows.splice(2, 0, [
-        "Ngày trả phòng",
-        formatVietnameseDate(endDate),
-      ]);
-    }
-
-    if (bookingType === "transport") {
-      rows.splice(
-        4,
-        0,
-        ["Điểm đón", pickupLocation.trim()],
-        ["Điểm trả", dropoffLocation.trim()],
-      );
-    }
-
-    return rows;
-  };
+      return rows;
+    };
 
   const buildPayload = () => {
     if (
@@ -534,12 +653,14 @@ const FeatureSidebar = ({
       booking_type: bookingType,
       customer_name: customerName.trim(),
       customer_email: customerEmail.trim(),
-      customer_phone: normalizePhone(customerPhone),
+      customer_phone:
+        normalizePhone(customerPhone),
       start_date: startDate,
       start_time: startTime,
       customer_note: customerNote.trim(),
       payment_method: paymentMethod,
-      idempotency_key: idempotencyKeyRef.current,
+      idempotency_key:
+        idempotencyKeyRef.current,
     };
 
     if (bookingType === "transport") {
@@ -547,8 +668,10 @@ const FeatureSidebar = ({
         ...basePayload,
         quantity: passengers,
         booking_details: {
-          pickup_location: pickupLocation.trim(),
-          dropoff_location: dropoffLocation.trim(),
+          pickup_location:
+            pickupLocation.trim(),
+          dropoff_location:
+            dropoffLocation.trim(),
           vehicle_type: vehicleType.trim(),
           passengers,
         },
@@ -602,29 +725,23 @@ const FeatureSidebar = ({
       return false;
     }
 
-    const mapped: FieldErrors = {};
+    const mappedErrors: FieldErrors = {};
 
-    Object.entries(caughtError.errors).forEach(
-      ([key, messages]) => {
-        const localKey = key.replace(
-          "booking_details.",
-          "",
-        );
+    Object.entries(
+      caughtError.errors,
+    ).forEach(([key, messages]) => {
+      const localKey = key.replace(
+        "booking_details.",
+        "",
+      );
 
-        mapped[localKey] =
-          messages[0] || "Dữ liệu chưa hợp lệ.";
-      },
-    );
+      mappedErrors[localKey] =
+        messages[0] ||
+        "Dữ liệu chưa hợp lệ.";
+    });
 
-    setFieldErrors(mapped);
-
-    const firstKey = Object.keys(mapped)[0];
-
-    if (firstKey) {
-      window.requestAnimationFrame(() => {
-        fieldRefs.current[firstKey]?.focus();
-      });
-    }
+    setFieldErrors(mappedErrors);
+    focusFirstError(mappedErrors);
 
     return true;
   };
@@ -668,6 +785,10 @@ const FeatureSidebar = ({
     const typedPayload = buildPayload();
 
     if (!typedPayload) {
+      setIsConfirmOpen(false);
+      setError(
+        "Không thể tạo dữ liệu booking. Vui lòng thử lại.",
+      );
       return;
     }
 
@@ -675,18 +796,19 @@ const FeatureSidebar = ({
     setIsSubmitting(true);
 
     try {
-      await createBooking(typedPayload);
+      const response = await createBooking(typedPayload);
 
       idempotencyKeyRef.current = null;
 
-      const submittedDetails = bookingDetails();
-
-      resetForm();
-      setSuccessDetails(submittedDetails);
+      setIsConfirmOpen(false);
+      setMailDispatched(response.meta?.mail_dispatched !== false);
+      setIsSuccessOpen(true);
     } catch (caughtError) {
       setIsConfirmOpen(false);
 
-      if (!applyBackendErrors(caughtError)) {
+      if (
+        !applyBackendErrors(caughtError)
+      ) {
         setError(
           caughtError instanceof Error
             ? caughtError.message
@@ -722,15 +844,24 @@ const FeatureSidebar = ({
       </h4>
 
       <div className="tg-booking-form-parent-inner mb-10">
-        <div className="booking-date-field p-relative">
+        <div
+          className="booking-date-field p-relative"
+          onClick={() =>
+            toggleBookingCalendar(
+              startPickerRef.current,
+              endPickerRef.current,
+            )
+          }
+        >
           <span
             className="booking-date-icon"
             aria-hidden="true"
           >
-            <i className="fa-regular fa-calendar"></i>
+            <i className="fa-regular fa-calendar" />
           </span>
 
           <Flatpickr
+            ref={startPickerRef}
             value={
               startDate
                 ? new Date(
@@ -743,6 +874,7 @@ const FeatureSidebar = ({
                 formatIsoDate(dates[0]);
 
               setStartDate(nextStartDate);
+              clearFieldError("start_date");
 
               if (
                 endDate &&
@@ -755,16 +887,18 @@ const FeatureSidebar = ({
               resetSubmitKey();
             }}
             options={{
-              clickOpens: true,
+              clickOpens: false,
               allowInput: false,
               dateFormat: "d/m/Y",
               disableMobile: true,
               locale: Vietnamese,
               minDate,
               monthSelectorType: "static",
+
               onClose: () => {
                 setIsStartDateOpen(false);
               },
+
               onOpen: (
                 _selectedDates,
                 _dateString,
@@ -777,6 +911,7 @@ const FeatureSidebar = ({
 
                 setIsStartDateOpen(true);
               },
+
               onReady: (
                 _selectedDates,
                 _dateString,
@@ -800,11 +935,13 @@ const FeatureSidebar = ({
 
           <span
             className={`booking-date-caret ${
-              isStartDateOpen ? "is-open" : ""
+              isStartDateOpen
+                ? "is-open"
+                : ""
             }`}
             aria-hidden="true"
           >
-            <i className="fa-sharp fa-solid fa-angle-down"></i>
+            <i className="fa-sharp fa-solid fa-angle-down" />
           </span>
         </div>
 
@@ -812,16 +949,25 @@ const FeatureSidebar = ({
       </div>
 
       {bookingType === "hotel" && (
-        <div className="tg-booking-form-parent-inner p-relative mb-10">
-          <div className="booking-date-field p-relative">
+        <div className="tg-booking-form-parent-inner mb-10">
+          <div
+            className="booking-date-field p-relative"
+            onClick={() =>
+              toggleBookingCalendar(
+                endPickerRef.current,
+                startPickerRef.current,
+              )
+            }
+          >
             <span
               className="booking-date-icon"
               aria-hidden="true"
             >
-              <i className="fa-regular fa-calendar"></i>
+              <i className="fa-regular fa-calendar" />
             </span>
 
             <Flatpickr
+              ref={endPickerRef}
               value={
                 endDate
                   ? new Date(
@@ -834,19 +980,23 @@ const FeatureSidebar = ({
                   formatIsoDate(dates[0]),
                 );
 
+                clearFieldError("end_date");
                 resetSubmitKey();
               }}
               options={{
-                clickOpens: true,
+                clickOpens: false,
                 allowInput: false,
                 dateFormat: "d/m/Y",
                 disableMobile: true,
                 locale: Vietnamese,
-                minDate: startDate || minDate,
+                minDate:
+                  startDate || minDate,
                 monthSelectorType: "static",
+
                 onClose: () => {
                   setIsEndDateOpen(false);
                 },
+
                 onOpen: (
                   _selectedDates,
                   _dateString,
@@ -859,6 +1009,7 @@ const FeatureSidebar = ({
 
                   setIsEndDateOpen(true);
                 },
+
                 onReady: (
                   _selectedDates,
                   _dateString,
@@ -882,11 +1033,13 @@ const FeatureSidebar = ({
 
             <span
               className={`booking-date-caret ${
-                isEndDateOpen ? "is-open" : ""
+                isEndDateOpen
+                  ? "is-open"
+                  : ""
               }`}
               aria-hidden="true"
             >
-              <i className="fa-sharp fa-solid fa-angle-down"></i>
+              <i className="fa-sharp fa-solid fa-angle-down" />
             </span>
           </div>
 
@@ -907,7 +1060,9 @@ const FeatureSidebar = ({
                 type="radio"
                 name="tourTime"
                 id="time1"
-                checked={startTime === "12:00"}
+                checked={
+                  startTime === "12:00"
+                }
                 onChange={() => {
                   setStartTime("12:00");
                   resetSubmitKey();
@@ -928,7 +1083,9 @@ const FeatureSidebar = ({
                 type="radio"
                 name="tourTime"
                 id="time2"
-                checked={startTime === "19:00"}
+                checked={
+                  startTime === "19:00"
+                }
                 onChange={() => {
                   setStartTime("19:00");
                   resetSubmitKey();
@@ -946,7 +1103,7 @@ const FeatureSidebar = ({
         </div>
       )}
 
-      <div className="tg-tour-about-border-doted mb-15"></div>
+      <div className="tg-tour-about-border-doted mb-15" />
 
       {(bookingType === "tour" ||
         bookingType === "attraction") && (
@@ -968,9 +1125,10 @@ const FeatureSidebar = ({
 
             <div className="tg-tour-about-tickets-quantity">
               <NiceSelect
-                key={`adults-${selectResetKey}`}
                 className="select item-first"
-                options={positiveQuantityOptions}
+                options={
+                  positiveQuantityOptions
+                }
                 defaultCurrent={0}
                 onChange={updateNumber(
                   setAdults,
@@ -995,7 +1153,6 @@ const FeatureSidebar = ({
 
             <div className="tg-tour-about-tickets-quantity">
               <NiceSelect
-                key={`children-${selectResetKey}`}
                 className="select item-first"
                 options={quantityOptions}
                 defaultCurrent={0}
@@ -1015,7 +1172,7 @@ const FeatureSidebar = ({
 
       {bookingType === "transport" && (
         <div className="tg-tour-about-extra mb-15">
-          <span className="tg-tour-about-sidebar-title mb-10 d-inline-block">
+          <span className="tg-tour-about-sidebar-title">
             Thông tin đưa đón:
           </span>
 
@@ -1029,6 +1186,7 @@ const FeatureSidebar = ({
                   style={fieldStyle}
                   value={pickupLocation}
                   onChange={updateText(
+                    "pickup_location",
                     setPickupLocation,
                   )}
                   placeholder="Điểm đón *"
@@ -1047,6 +1205,7 @@ const FeatureSidebar = ({
                   style={fieldStyle}
                   value={dropoffLocation}
                   onChange={updateText(
+                    "dropoff_location",
                     setDropoffLocation,
                   )}
                   placeholder="Điểm trả *"
@@ -1062,6 +1221,7 @@ const FeatureSidebar = ({
                   style={fieldStyle}
                   value={vehicleType}
                   onChange={updateText(
+                    "vehicle_type",
                     setVehicleType,
                   )}
                   placeholder="Loại xe"
@@ -1083,9 +1243,10 @@ const FeatureSidebar = ({
 
             <div className="tg-tour-about-tickets-quantity">
               <NiceSelect
-                key={`passengers-${selectResetKey}`}
                 className="select item-first"
-                options={positiveQuantityOptions}
+                options={
+                  positiveQuantityOptions
+                }
                 defaultCurrent={0}
                 onChange={updateNumber(
                   setPassengers,
@@ -1103,7 +1264,7 @@ const FeatureSidebar = ({
 
       {bookingType === "hotel" && (
         <div className="tg-tour-about-extra mb-15">
-          <span className="tg-tour-about-sidebar-title mb-10 d-inline-block">
+          <span className="tg-tour-about-sidebar-title">
             Thông tin phòng:
           </span>
 
@@ -1114,24 +1275,27 @@ const FeatureSidebar = ({
                   style={fieldStyle}
                   value={roomType}
                   onChange={updateText(
+                    "room_type",
                     setRoomType,
                   )}
                   placeholder="Loại phòng"
+                  aria-label="Loại phòng"
                 />
               </li>
             </ul>
           </div>
 
-          <div className="tg-tour-about-tickets mb-10">
+          <div className="tg-tour-about-tickets mt-15 mb-10">
             <div className="tg-tour-about-tickets-adult">
               <span>Số phòng</span>
             </div>
 
             <div className="tg-tour-about-tickets-quantity">
               <NiceSelect
-                key={`rooms-${selectResetKey}`}
                 className="select item-first"
-                options={positiveQuantityOptions}
+                options={
+                  positiveQuantityOptions
+                }
                 defaultCurrent={0}
                 onChange={updateNumber(
                   setRooms,
@@ -1158,9 +1322,10 @@ const FeatureSidebar = ({
 
             <div className="tg-tour-about-tickets-quantity">
               <NiceSelect
-                key={`golfers-${selectResetKey}`}
                 className="select item-first"
-                options={positiveQuantityOptions}
+                options={
+                  positiveQuantityOptions
+                }
                 defaultCurrent={0}
                 onChange={updateNumber(
                   setGolfers,
@@ -1174,10 +1339,10 @@ const FeatureSidebar = ({
         </div>
       )}
 
-      <div className="tg-tour-about-border-doted mb-15"></div>
+      <div className="tg-tour-about-border-doted mb-15" />
 
       <div className="tg-tour-about-extra mb-10">
-        <span className="tg-tour-about-sidebar-title mb-10 d-inline-block">
+        <span className="tg-tour-about-sidebar-title">
           Thông tin khách hàng:
         </span>
 
@@ -1192,12 +1357,16 @@ const FeatureSidebar = ({
                 style={fieldStyle}
                 value={customerName}
                 onChange={updateText(
+                  "customer_name",
                   setCustomerName,
                 )}
                 placeholder="Họ tên *"
+                autoComplete="name"
               />
 
-              {renderError("customer_name")}
+              {renderError(
+                "customer_name",
+              )}
             </li>
 
             <li>
@@ -1210,12 +1379,16 @@ const FeatureSidebar = ({
                 type="email"
                 value={customerEmail}
                 onChange={updateText(
+                  "customer_email",
                   setCustomerEmail,
                 )}
                 placeholder="Email *"
+                autoComplete="email"
               />
 
-              {renderError("customer_email")}
+              {renderError(
+                "customer_email",
+              )}
             </li>
 
             <li>
@@ -1225,14 +1398,20 @@ const FeatureSidebar = ({
                 )}
                 className="booking-text-field"
                 style={fieldStyle}
+                type="tel"
                 value={customerPhone}
                 onChange={updateText(
+                  "customer_phone",
                   setCustomerPhone,
                 )}
                 placeholder="Số điện thoại *"
+                autoComplete="tel"
+                inputMode="tel"
               />
 
-              {renderError("customer_phone")}
+              {renderError(
+                "customer_phone",
+              )}
             </li>
 
             <li>
@@ -1245,6 +1424,7 @@ const FeatureSidebar = ({
                 }}
                 value={customerNote}
                 onChange={updateText(
+                  "customer_note",
                   setCustomerNote,
                 )}
                 placeholder="Ghi chú"
@@ -1255,7 +1435,7 @@ const FeatureSidebar = ({
         </div>
       </div>
 
-      <div className="tg-tour-about-border-doted mb-15"></div>
+      <div className="tg-tour-about-border-doted mb-15" />
 
       <div className="booking-option-block mb-10">
         <span className="time">
@@ -1315,10 +1495,10 @@ const FeatureSidebar = ({
         </div>
       </div>
 
-      <div className="tg-tour-about-border-doted mb-15"></div>
+      <div className="tg-tour-about-border-doted mb-15" />
 
-      <div className="tg-tour-about-coast d-flex align-items-center flex-wrap justify-content-between mb-20">
-        <span className="tg-tour-about-sidebar-title d-inline-block">
+      <div className="tg-tour-about-coast d-flex align-items-center justify-content-between mb-20">
+        <span className="tg-tour-about-sidebar-title">
           Tổng tạm tính:
         </span>
 
@@ -1381,6 +1561,7 @@ const FeatureSidebar = ({
               <button
                 type="button"
                 className="booking-edit-btn"
+                disabled={isSubmitting}
                 onClick={() =>
                   setIsConfirmOpen(false)
                 }
@@ -1403,7 +1584,7 @@ const FeatureSidebar = ({
         </div>
       )}
 
-      {successDetails.length > 0 && (
+      {isSuccessOpen && (
         <div
           className="booking-confirm-overlay"
           role="dialog"
@@ -1411,8 +1592,11 @@ const FeatureSidebar = ({
           aria-labelledby="booking-success-title"
         >
           <div className="booking-confirm-modal booking-success-modal">
-            <div className="booking-success-icon">
-              <i className="fa-regular fa-check"></i>
+            <div
+              className="booking-success-icon"
+              aria-hidden="true"
+            >
+              <i className="fa-regular fa-check" />
             </div>
 
             <h4 id="booking-success-title">
@@ -1420,42 +1604,15 @@ const FeatureSidebar = ({
             </h4>
 
             <p className="booking-success-message">
-              Golfnity đã nhận thông tin của quý
-              khách. Chúng tôi sẽ liên hệ lại trong
-              thời gian sớm nhất.
+              {mailDispatched
+                ? "Golfnity đã nhận thông tin của quý khách. Chúng tôi sẽ liên hệ lại trong thời gian sớm nhất."
+                : "Golfnity đã nhận thông tin của quý khách, nhưng email xác nhận chưa gửi được. Chúng tôi sẽ liên hệ lại trong thời gian sớm nhất."}
             </p>
-
-            <div className="booking-summary-list">
-              {successDetails
-                .filter(([label]) =>
-                  [
-                    "Dịch vụ",
-                    "Ngày sử dụng",
-                    "Giờ sử dụng",
-                    "Số khách",
-                    "Số golfer",
-                    "Họ tên",
-                    "Số điện thoại",
-                    "Tổng tạm tính",
-                  ].includes(label),
-                )
-                .map(([label, value]) => (
-                  <div
-                    className="booking-summary-row"
-                    key={label}
-                  >
-                    <span>{label}</span>
-                    <strong>{value}</strong>
-                  </div>
-                ))}
-            </div>
 
             <button
               type="button"
               className="tg-btn tg-btn-switch-animation w-100"
-              onClick={() =>
-                setSuccessDetails([])
-              }
+              onClick={() => setIsSuccessOpen(false)}
             >
               Đã hiểu
             </button>

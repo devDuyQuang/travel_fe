@@ -5,7 +5,10 @@ import Flatpickr from "react-flatpickr";
 import { Vietnamese } from "flatpickr/dist/l10n/vn";
 import { useRouter } from "next/navigation";
 
-import { applyBookingCalendarVariant } from "@/lib/bookingCalendar";
+import {
+  applyBookingCalendarVariant,
+  toggleBookingCalendar,
+} from "@/lib/bookingCalendar";
 import type { ServiceSearchLabels } from "@/types/service-layout";
 import type { CmsServiceCategory } from "@/types/cms-post";
 import type { ServiceLayoutConfig } from "@/lib/serviceLayoutRegistry";
@@ -51,6 +54,7 @@ const serviceLocations: Record<string, string[]> = {
     "Cần Thơ",
     "Kiên Giang",
   ],
+
   tour: [
     "Hà Nội",
     "Hạ Long",
@@ -63,6 +67,7 @@ const serviceLocations: Record<string, string[]> = {
     "Phú Quốc",
     "TP. Hồ Chí Minh",
   ],
+
   accommodation: [
     "Hà Nội",
     "Hạ Long",
@@ -75,6 +80,7 @@ const serviceLocations: Record<string, string[]> = {
     "Phú Quốc",
     "TP. Hồ Chí Minh",
   ],
+
   transport: [
     "Sân bay Nội Bài",
     "Sân bay Tân Sơn Nhất",
@@ -87,6 +93,7 @@ const serviceLocations: Record<string, string[]> = {
     "Đà Lạt",
     "Phú Quốc",
   ],
+
   attraction: [
     "Hà Nội",
     "Hạ Long",
@@ -102,9 +109,12 @@ const serviceLocations: Record<string, string[]> = {
 };
 
 function formatDate(value: Date | undefined, includeTime = false) {
-  if (!value) return "";
+  if (!value) {
+    return "";
+  }
 
   const pad = (number: number) => String(number).padStart(2, "0");
+
   const date = `${value.getFullYear()}-${pad(
     value.getMonth() + 1,
   )}-${pad(value.getDate())}`;
@@ -121,19 +131,23 @@ const BannerFormTwo = (props: Props) => {
 
   const category = props.category || fallbackCategory;
   const fallbackConfig = getServiceLayoutConfig(category.layout_key);
+
   const labels = props.labels || fallbackConfig.searchLabels;
   const query = props.query || fallbackConfig.searchQuery;
   const buttonLabel = props.buttonLabel || "Tìm kiếm";
 
   const router = useRouter();
 
+  const locationRef = useRef<HTMLDivElement>(null);
+  const startPickerRef = useRef<InstanceType<typeof Flatpickr> | null>(null);
+
+  const endPickerRef = useRef<InstanceType<typeof Flatpickr> | null>(null);
+
   const [location, setLocation] = useState("");
   const [locationOpen, setLocationOpen] = useState(false);
   const [startDate, setStartDate] = useState<Date>();
   const [endDate, setEndDate] = useState<Date>();
   const [guests, setGuests] = useState(1);
-
-  const locationRef = useRef<HTMLDivElement>(null);
 
   const locations =
     serviceLocations[String(category.layout_key || "tee_time")] ||
@@ -161,11 +175,7 @@ const BannerFormTwo = (props: Props) => {
 
     setStartDate(selectedDate);
 
-    if (
-      selectedDate &&
-      endDate &&
-      endDate.getTime() < selectedDate.getTime()
-    ) {
+    if (selectedDate && endDate && endDate.getTime() < selectedDate.getTime()) {
       setEndDate(undefined);
     }
   };
@@ -200,18 +210,14 @@ const BannerFormTwo = (props: Props) => {
 
     const search = params.toString();
 
-    router.push(
-      `/dich-vu/${category.slug}${search ? `?${search}` : ""}`,
-    );
+    router.push(`/dich-vu/${category.slug}${search ? `?${search}` : ""}`);
   };
 
   return (
     <form className={styles.homeBookingForm} onSubmit={submit}>
       <div className="tg-booking-form-input-group golfnity-home-search d-flex align-items-end justify-content-between">
         <div className="tg-booking-form-parent-inner tg-hero-quantity p-relative mb-10">
-          <span className="tg-booking-form-title mb-5">
-            {labels.location}:
-          </span>
+          <span className="tg-booking-form-title mb-5">{labels.location}:</span>
 
           <div
             ref={locationRef}
@@ -229,7 +235,7 @@ const BannerFormTwo = (props: Props) => {
             </span>
 
             <span className="location" aria-hidden="true">
-              <i className="fa-regular fa-location-dot"></i>
+              <i className="fa-regular fa-location-dot" />
             </span>
 
             {locationOpen && (
@@ -258,30 +264,39 @@ const BannerFormTwo = (props: Props) => {
             {labels.startDate}:
           </span>
 
-          <div className="tg-booking-add-input-date p-relative">
+          <div
+            className="tg-booking-add-input-date p-relative"
+            onClick={() =>
+              toggleBookingCalendar(
+                startPickerRef.current,
+                endPickerRef.current,
+              )
+            }
+          >
             <span aria-hidden="true">
-              <i className="fa-regular fa-calendar"></i>
+              <i className="fa-regular fa-calendar" />
             </span>
 
             <Flatpickr
+              ref={startPickerRef}
               value={startDate}
               onChange={handleStartDateChange}
               options={{
-                clickOpens: true,
+                clickOpens: false,
                 allowInput: false,
                 dateFormat:
-                  query.startDateMode === "datetime"
-                    ? "d/m/Y H:i"
-                    : "d/m/Y",
+                  query.startDateMode === "datetime" ? "d/m/Y H:i" : "d/m/Y",
                 disableMobile: true,
                 enableTime: query.startDateMode === "datetime",
                 time_24hr: true,
                 locale: Vietnamese,
                 minDate: "today",
                 monthSelectorType: "static",
+
                 onOpen: (_selectedDates, _dateStr, instance) => {
                   applyBookingCalendarVariant(instance, "hero");
                 },
+
                 onReady: (_selectedDates, _dateStr, instance) => {
                   applyBookingCalendarVariant(instance, "hero");
                 },
@@ -300,25 +315,36 @@ const BannerFormTwo = (props: Props) => {
               {labels.endDate}:
             </span>
 
-            <div className="tg-booking-add-input-date p-relative">
+            <div
+              className="tg-booking-add-input-date p-relative"
+              onClick={() =>
+                toggleBookingCalendar(
+                  endPickerRef.current,
+                  startPickerRef.current,
+                )
+              }
+            >
               <span aria-hidden="true">
-                <i className="fa-regular fa-calendar"></i>
+                <i className="fa-regular fa-calendar" />
               </span>
 
               <Flatpickr
+                ref={endPickerRef}
                 value={endDate}
                 onChange={(dates) => setEndDate(dates[0])}
                 options={{
-                  clickOpens: true,
+                  clickOpens: false,
                   allowInput: false,
                   dateFormat: "d/m/Y",
                   disableMobile: true,
                   locale: Vietnamese,
                   minDate: startDate || "today",
                   monthSelectorType: "static",
+
                   onOpen: (_selectedDates, _dateStr, instance) => {
                     applyBookingCalendarVariant(instance, "hero");
                   },
+
                   onReady: (_selectedDates, _dateStr, instance) => {
                     applyBookingCalendarVariant(instance, "hero");
                   },
@@ -333,9 +359,7 @@ const BannerFormTwo = (props: Props) => {
         )}
 
         <div className="tg-booking-form-parent-inner tg-hero-quantity p-relative mb-10">
-          <span className="tg-booking-form-title mb-5">
-            {labels.guests}:
-          </span>
+          <span className="tg-booking-form-title mb-5">{labels.guests}:</span>
 
           <div className="tg-booking-add-input-field">
             <input
@@ -344,25 +368,23 @@ const BannerFormTwo = (props: Props) => {
               min="1"
               value={guests}
               onChange={(event) => {
-                setGuests(
-                  Math.max(1, Number(event.target.value) || 1),
-                );
+                setGuests(Math.max(1, Number(event.target.value) || 1));
               }}
               aria-label={labels.guests}
             />
 
             <span className="location" aria-hidden="true">
-              <i className="fa-regular fa-user"></i>
+              <i className="fa-regular fa-user" />
             </span>
           </div>
         </div>
 
         <div className="tg-booking-form-search-btn mb-10">
           <button className="bk-search-button" type="submit">
-            <span>{buttonLabel}</span>
+            {buttonLabel}
 
-            <span aria-hidden="true">
-              <i className="fa-regular fa-magnifying-glass"></i>
+            <span className="home-search-icon" aria-hidden="true">
+              <i className="fa-regular fa-magnifying-glass" />
             </span>
           </button>
         </div>

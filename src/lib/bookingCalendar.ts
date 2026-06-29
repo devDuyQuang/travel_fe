@@ -2,6 +2,10 @@ import type { Instance as FlatpickrInstance } from "flatpickr/dist/types/instanc
 
 export type BookingCalendarVariant = "hero" | "sidebar";
 
+type FlatpickrController = {
+  flatpickr?: FlatpickrInstance;
+};
+
 export function applyBookingCalendarVariant(
   instance: FlatpickrInstance,
   variant: BookingCalendarVariant,
@@ -10,6 +14,7 @@ export function applyBookingCalendarVariant(
 
   calendar.classList.remove(
     "booking-compact-calendar",
+    "booking-calendar",
     "booking-calendar--hero",
     "booking-calendar--sidebar",
   );
@@ -18,4 +23,27 @@ export function applyBookingCalendarVariant(
     "booking-calendar",
     `booking-calendar--${variant}`,
   );
+}
+
+export function toggleBookingCalendar(
+  target: FlatpickrController | null,
+  other?: FlatpickrController | null,
+) {
+  const targetInstance = target?.flatpickr;
+  const otherInstance = other?.flatpickr;
+
+  if (!targetInstance) {
+    return;
+  }
+
+  if (otherInstance?.isOpen) {
+    otherInstance.close();
+  }
+
+  if (targetInstance.isOpen) {
+    targetInstance.close();
+    return;
+  }
+
+  targetInstance.open();
 }

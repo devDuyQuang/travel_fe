@@ -13,7 +13,7 @@ interface FormData {
 }
 
 const API_URL =
-   process.env.NEXT_PUBLIC_API_URL || "http://api.localhost:8000";
+   `${(process.env.NEXT_PUBLIC_API_URL || "http://api.localhost:8000").replace(/\/$/, "")}/api`;
 
 const schema = yup
    .object({

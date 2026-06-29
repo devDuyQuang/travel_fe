@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { useCustomerAuth } from "@/hooks/useCustomerAuth";
 import UseSticky from "@/hooks/UseSticky";
 import useSiteSettings from "@/hooks/useSiteSettings";
 import PhoneIcon from "@/svg/PhoneIcon";
@@ -24,6 +25,7 @@ const HeaderThree = ({ variant = "transparent" }: HeaderThreeProps) => {
   const [offCanvas, setOffCanvas] = useState(false);
   const [sidebar, setSidebar] = useState(false);
   const siteSettings = useSiteSettings();
+  const { customer, status } = useCustomerAuth();
   const logo = siteSettings.logo || golfnityLogo;
 
   return (
@@ -102,11 +104,11 @@ const HeaderThree = ({ variant = "transparent" }: HeaderThreeProps) => {
                   </div>
 
                   <div className="tg-header-btn ml-20 d-none d-sm-block">
-                    <Link className="tg-btn-header" href="/login">
+                    <Link className="tg-btn-header" href="/dang-nhap">
                       <span>
                         <UserIcon />
                       </span>
-                      Đăng nhập
+                      {status === "authenticated" ? customer?.name || "Tài khoản" : "Đăng nhập"}
                     </Link>
                   </div>
 

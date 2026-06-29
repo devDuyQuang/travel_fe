@@ -10,8 +10,9 @@ import {
 } from "react";
 import type { HomepageSettings } from "@/types/homepage";
 
-const API_URL =
+const API_ORIGIN =
   process.env.NEXT_PUBLIC_API_URL || "http://api.localhost:8000";
+const API_URL = `${API_ORIGIN.replace(/\/$/, "")}/api`;
 
 const settingKeys = [
   "hero_home",
@@ -79,7 +80,7 @@ export function homepageMediaUrl(value?: string | null) {
   if (!value?.trim()) return null;
   const path = value.trim();
   if (/^https?:\/\//i.test(path)) return path;
-  const baseUrl = API_URL.replace(/\/$/, "");
+  const baseUrl = API_ORIGIN.replace(/\/$/, "");
   return path.startsWith("/")
     ? `${baseUrl}${path}`
     : `${baseUrl}/storage/${path.replace(/^storage\//, "")}`;

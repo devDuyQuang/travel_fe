@@ -9,7 +9,7 @@ export type CartItem = {
   title: string;
   price: number;
   quantity: number;
-  thumb?: string | StaticImageData;
+  thumb?: string | StaticImageData | null;
   slug?: string;
   delete_price?: number;
   cmsProduct?: CmsProduct;

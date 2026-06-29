@@ -4,8 +4,9 @@ import type {
 } from "@/types/cms-post";
 import { isServiceLayoutKey } from "@/lib/serviceLayoutRegistry";
 
-const API_URL =
+const API_ORIGIN =
   process.env.NEXT_PUBLIC_API_URL || "http://api.localhost:8000";
+const API_URL = `${API_ORIGIN.replace(/\/$/, "")}/api`;
 
 export async function getServiceCategoryBySlug(
   categorySlug: string,

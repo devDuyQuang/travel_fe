@@ -629,7 +629,6 @@ button.tg-hero-prev:hover svg {
   font-weight: 700;
 }
 
-
 /* ================================
    CTA App Banner
 ================================ */
@@ -1316,19 +1315,18 @@ main .tg-listing-card-title a:active {
   color: var(--golfnity-moss);
 }
 
-
 .tg-tour-details-feature-list-wrap {
-    padding: 20px 0;
-    border-top: 1px solid #eee;
+  padding: 20px 0;
+  border-top: 1px solid #eee;
 }
 
 .tg-tour-details-video-established {
-    display: flex;
-    align-items: center;
-    height: 100%;
-    font-size: 22px;
-    font-weight: 600;
-    color: #222;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  font-size: 22px;
+  font-weight: 600;
+  color: #222;
 }
 
 .golf-highlight-box {
@@ -1389,7 +1387,6 @@ main .tg-listing-card-title a:active {
   }
 }
 
-
 /* CKEditor */
 
 .golf-information-content {
@@ -1439,18 +1436,16 @@ main .tg-listing-card-title a:active {
   }
 }
 
-
-
 /* ===========================
    Golf Content
 =========================== */
 
 .golf-content {
-    max-width: 100%;
-    color: #3d4654;
-    font-size: 20px;
-    line-height: 1.95;
-    word-break: break-word;
+  max-width: 100%;
+  color: #3d4654;
+  font-size: 20px;
+  line-height: 1.95;
+  word-break: break-word;
 }
 
 .golf-content h1,
@@ -1459,131 +1454,129 @@ main .tg-listing-card-title a:active {
 .golf-content h4,
 .golf-content h5,
 .golf-content h6 {
-    color: #123f32;
-    font-weight: 700;
-    margin: 45px 0 20px;
-    line-height: 1.4;
+  color: #123f32;
+  font-weight: 700;
+  margin: 45px 0 20px;
+  line-height: 1.4;
 }
 
 .golf-content h1 {
-    font-size: 42px;
+  font-size: 42px;
 }
 
 .golf-content h2 {
-    font-size: 34px;
+  font-size: 34px;
 }
 
 .golf-content h3 {
-    font-size: 30px;
+  font-size: 30px;
 }
 
 .golf-content h4 {
-    font-size: 26px;
+  font-size: 26px;
 }
 
 .golf-content p {
-    margin-bottom: 24px;
-    text-align: justify;
+  margin-bottom: 24px;
+  text-align: justify;
 }
 
 .golf-content strong,
 .golf-content b {
-    color: #123f32;
-    font-weight: 700;
+  color: #123f32;
+  font-weight: 700;
 }
 
 .golf-content em,
 .golf-content i {
-    font-style: italic;
+  font-style: italic;
 }
 
 .golf-content ul,
 .golf-content ol {
-    margin: 20px 0 25px 30px;
+  margin: 20px 0 25px 30px;
 }
 
 .golf-content li {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 .golf-content a {
-    color: #0b6b50;
-    text-decoration: none;
+  color: #0b6b50;
+  text-decoration: none;
 }
 
 .golf-content a:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 .golf-content blockquote {
-    border-left: 5px solid #1d5c46;
-    background: #f7f9f8;
-    padding: 20px 25px;
-    margin: 30px 0;
-    font-style: italic;
+  border-left: 5px solid #1d5c46;
+  background: #f7f9f8;
+  padding: 20px 25px;
+  margin: 30px 0;
+  font-style: italic;
 }
 
 .golf-content img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 10px;
-    margin: 25px auto;
-    display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+  margin: 25px auto;
+  display: block;
 }
 
 /* table */
 
 .golf-content table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 35px 0;
+  width: 100%;
+  border-collapse: collapse;
+  margin: 35px 0;
 }
 
 .golf-content table th,
 .golf-content table td {
-    border: 1px solid #e3e5e8;
-    padding: 22px 24px;
-    vertical-align: middle;
+  border: 1px solid #e3e5e8;
+  padding: 22px 24px;
+  vertical-align: middle;
 }
 
 .golf-content table th {
-    width: 260px;
-    background: #f4f5f7;
-    color: #123f32;
-    font-weight: 700;
-    text-align: left;
+  width: 260px;
+  background: #f4f5f7;
+  color: #123f32;
+  font-weight: 700;
+  text-align: left;
 }
 
 .golf-content table td {
-    color: #3d4654;
+  color: #3d4654;
 }
 
 /* Responsive */
 
-@media (max-width:991px){
+@media (max-width: 991px) {
+  .golf-content {
+    font-size: 17px;
+    line-height: 1.8;
+  }
 
-.golf-content{
-    font-size:17px;
-    line-height:1.8;
-}
+  .golf-content h1 {
+    font-size: 34px;
+  }
 
-.golf-content h1{
-    font-size:34px;
-}
+  .golf-content h2 {
+    font-size: 30px;
+  }
 
-.golf-content h2{
-    font-size:30px;
-}
+  .golf-content h3 {
+    font-size: 26px;
+  }
 
-.golf-content h3{
-    font-size:26px;
-}
-
-.golf-content table th,
-.golf-content table td{
-    padding:14px;
-}
-
+  .golf-content table th,
+  .golf-content table td {
+    padding: 14px;
+  }
 }
 /* ================================
    Blog Read More Button
@@ -1653,27 +1646,27 @@ main .tg-listing-card-title a:active {
 
 /* golfnity.css */
 
-.tg-breadcrumb-list-2 ul li{
-    color:#667085;
-    font-weight:500;
+.tg-breadcrumb-list-2 ul li {
+  color: #667085;
+  font-weight: 500;
 }
 
-.tg-breadcrumb-list-2 ul li a{
-    color:#667085;
-    transition:.25s;
+.tg-breadcrumb-list-2 ul li a {
+  color: #667085;
+  transition: 0.25s;
 }
 
-.tg-breadcrumb-list-2 ul li a:hover{
-    color:var(--golfnity-moss);
+.tg-breadcrumb-list-2 ul li a:hover {
+  color: var(--golfnity-moss);
 }
 
-.tg-breadcrumb-list-2 ul li i{
-    color:#c5c8cf;
+.tg-breadcrumb-list-2 ul li i {
+  color: #c5c8cf;
 }
 
-.tg-breadcrumb-list-2 li[aria-current="page"] span{
-    color:#495057;
-    font-weight:600;
+.tg-breadcrumb-list-2 li[aria-current="page"] span {
+  color: #495057;
+  font-weight: 600;
 }
 
 .golf-rating-stars {
@@ -1814,7 +1807,6 @@ main .tg-listing-card-title a:active {
   font-size: 30px;
   font-weight: 700;
 }
-
 
 /* css cho phần ảnh ở tour-details/ba-na-hills-golf-club  */
 .golf-main-img,
@@ -1958,8 +1950,6 @@ main .about-cta-button:focus-visible {
   color: var(--golfnity-moss);
 }
 
-
-
 /* =========================================================
    BOOKING CALENDAR
    Scoped override for Flatpickr used by booking forms only.
@@ -2020,38 +2010,52 @@ main .about-cta-button:focus-visible {
 
 /* Month navigation */
 .flatpickr-calendar.open.booking-calendar .flatpickr-months {
-  height: 42px;
-  margin-bottom: 4px;
+  align-items: center;
+  display: flex;
+  height: 44px;
+  justify-content: center;
+  margin-bottom: 6px;
   position: relative;
+  width: 100%;
 }
 
-.flatpickr-calendar.open.booking-calendar
-  .flatpickr-months
-  .flatpickr-month {
-  height: 42px;
+.flatpickr-calendar.open.booking-calendar .flatpickr-months .flatpickr-month {
+  align-items: center;
+  display: flex;
+  height: 44px;
+  justify-content: center;
+  overflow: visible;
+  width: 100%;
 }
 
 .flatpickr-calendar.open.booking-calendar
   .flatpickr-months
   .flatpickr-month
   .flatpickr-current-month {
-  color: #171b24;
-  font-size: 16px;
-  font-weight: 700;
-  height: 42px;
-  left: 12.5%;
+  align-items: center;
+  display: flex;
+  height: 44px;
+  justify-content: center;
+  left: 50%;
   line-height: 1;
-  padding: 12px 0 0;
+  padding: 0;
+  position: absolute;
   top: 0;
-  width: 75%;
+  transform: translateX(-50%);
+  width: auto;
 }
 
 .flatpickr-calendar.open.booking-calendar
   .flatpickr-current-month
   span.cur-month {
   color: #171b24;
+  display: inline-block;
+  font-size: 16px;
   font-weight: 700;
-  margin-left: 0;
+  line-height: 44px;
+  margin: 0;
+  padding: 0;
+  white-space: nowrap;
 }
 
 .flatpickr-calendar.open.booking-calendar
@@ -2061,13 +2065,18 @@ main .about-cta-button:focus-visible {
   font-family: inherit;
   font-size: 16px;
   font-weight: 700;
-  padding-left: 4px;
+  height: 44px;
+  line-height: 44px;
+  margin: 0;
+  padding: 0 0 0 5px;
+  width: 58px;
 }
 
 .flatpickr-calendar.open.booking-calendar
   .flatpickr-current-month
   .numInputWrapper {
-  width: 62px;
+  height: 44px;
+  width: 58px;
 }
 
 .flatpickr-calendar.open.booking-calendar
@@ -2085,30 +2094,34 @@ main .about-cta-button:focus-visible {
   .flatpickr-next-month {
   align-items: center;
   border-radius: 10px;
-  color: #5f6671;
+  color: #68707d;
   display: flex;
-  fill: #5f6671;
+  fill: currentColor;
   height: 34px;
   justify-content: center;
   line-height: 1;
-  padding: 9px;
-  top: 4px;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  top: 5px;
   transition:
     background-color 160ms ease,
-    color 160ms ease,
-    fill 160ms ease;
+    color 160ms ease;
   width: 34px;
+  z-index: 2;
 }
 
 .flatpickr-calendar.open.booking-calendar
   .flatpickr-months
   .flatpickr-prev-month {
   left: 2px;
+  right: auto;
 }
 
 .flatpickr-calendar.open.booking-calendar
   .flatpickr-months
   .flatpickr-next-month {
+  left: auto;
   right: 2px;
 }
 
@@ -2120,7 +2133,6 @@ main .about-cta-button:focus-visible {
   .flatpickr-next-month:hover {
   background: rgba(36, 95, 82, 0.09);
   color: var(--golfnity-moss, #245f52);
-  fill: var(--golfnity-moss, #245f52);
 }
 
 .flatpickr-calendar.open.booking-calendar
@@ -2131,6 +2143,7 @@ main .about-cta-button:focus-visible {
   .flatpickr-months
   .flatpickr-next-month
   svg {
+  display: block;
   height: 14px;
   width: 14px;
 }
@@ -2147,7 +2160,6 @@ main .about-cta-button:focus-visible {
   path {
   fill: currentColor;
 }
-
 /* Weekday row: the theme hides this globally. */
 .flatpickr-calendar.open.booking-calendar .flatpickr-weekdays {
   align-items: center;
@@ -2156,8 +2168,7 @@ main .about-cta-button:focus-visible {
   overflow: visible;
 }
 
-.flatpickr-calendar.open.booking-calendar
-  .flatpickr-weekdaycontainer {
+.flatpickr-calendar.open.booking-calendar .flatpickr-weekdaycontainer {
   display: flex;
 }
 
@@ -2260,9 +2271,9 @@ main .about-cta-button:focus-visible {
 .flatpickr-calendar.open.booking-calendar
   .flatpickr-innerContainer
   .flatpickr-days
-  .flatpickr-day:hover:not(.selected):not(.startRange):not(
-    .endRange
-  ):not(.flatpickr-disabled) {
+  .flatpickr-day:hover:not(.selected):not(.startRange):not(.endRange):not(
+    .flatpickr-disabled
+  ) {
   background: rgba(36, 95, 82, 0.09);
   border-color: transparent;
   color: var(--golfnity-moss-dark, #1b4d3e);
@@ -2340,9 +2351,7 @@ main .about-cta-button:focus-visible {
 }
 
 .flatpickr-calendar.open.booking-calendar .flatpickr-time input,
-.flatpickr-calendar.open.booking-calendar
-  .flatpickr-time
-  .flatpickr-am-pm {
+.flatpickr-calendar.open.booking-calendar .flatpickr-time .flatpickr-am-pm {
   color: #343a45;
   font-family: inherit;
   font-weight: 600;

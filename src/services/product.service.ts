@@ -5,8 +5,9 @@ import type {
   ProductListResponse,
 } from "@/types/product";
 
-const API_URL =
+const API_ORIGIN =
   process.env.NEXT_PUBLIC_API_URL || "http://api.localhost:8000";
+const API_URL = `${API_ORIGIN.replace(/\/$/, "")}/api`;
 
 export type ProductListMeta = {
   current_page: number;

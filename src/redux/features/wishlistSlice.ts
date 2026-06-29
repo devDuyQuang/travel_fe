@@ -2,12 +2,14 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 import { setLocalStorage, getLocalStorage } from "../../utils/localstorage";
 import type { StaticImageData } from "next/image";
+import type { Product as CmsProduct } from "@/types/product";
 
 export interface Product {
    id: number;
    title: string;
-   thumb: string | StaticImageData;
+   thumb?: string | StaticImageData | null;
    price: number;
+   cmsProduct?: CmsProduct;
 }
 
 interface WishlistState {

@@ -7,8 +7,9 @@ import type {
   AboutPageValuesSetting,
 } from "@/types/about-page";
 
-const API_URL =
+const API_ORIGIN =
   process.env.NEXT_PUBLIC_API_URL || "http://api.localhost:8000";
+const API_URL = `${API_ORIGIN.replace(/\/$/, "")}/api`;
 
 const settingKeys = [
   "about_page_hero",
@@ -41,7 +42,7 @@ export function aboutPageMediaUrl(value?: string | null) {
   if (/^https?:\/\//i.test(path)) return path;
   if (path.startsWith("/assets/") || path.startsWith("/_next/")) return path;
 
-  const baseUrl = API_URL.replace(/\/$/, "");
+  const baseUrl = API_ORIGIN.replace(/\/$/, "");
   const normalizedPath = path.replace(/^\/+/, "");
 
   if (normalizedPath.startsWith("uploads/")) {

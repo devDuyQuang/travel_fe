@@ -1,11 +1,11 @@
-const API_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://api.localhost:8000";
+import { apiFetch } from "@/lib/apiClient";
 
 type ApiEnvelope<T> = {
   success?: boolean;
   code?: string;
   message?: string;
   data?: T;
+  meta?: Record<string, unknown>;
   errors?: Record<string, string[]>;
 };
 
@@ -86,13 +86,9 @@ function validationMessage(errors?: Record<string, string[]>) {
 }
 
 async function postJson<T>(path: string, payload: unknown): Promise<ApiEnvelope<T>> {
-  const response = await fetch(`${API_URL}${path}`, {
+  const response = await apiFetch(path, {
     method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(payload),
+    body: payload as Record<string, unknown>,
   });
 
   const json = (await response.json().catch(() => ({}))) as ApiEnvelope<T>;

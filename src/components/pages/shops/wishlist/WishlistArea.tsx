@@ -1,12 +1,28 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 import Link from "next/link"
 import Image from "next/image"
+import type { StaticImageData } from "next/image";
 import { useDispatch } from "react-redux";
 import { addToCart } from '@/redux/features/cartSlice';
 import UseWishlistInfo from '@/hooks/UseWishlistInfo';
 import { removeFromWishlist } from "@/redux/features/wishlistSlice";
+import type { Product } from "@/redux/features/wishlistSlice";
 import { buildProductDetailHref } from "@/lib/productLinks";
+
+type WishlistImage = string | StaticImageData;
+
+const normalizeWishlistImage = (thumb: Product["thumb"]): WishlistImage | null => {
+  if (typeof thumb === "string") {
+    const trimmed = thumb.trim();
+    return trimmed.length > 0 ? trimmed : null;
+  }
+
+  if (thumb && typeof thumb.src === "string" && thumb.src.trim().length > 0) {
+    return thumb;
+  }
+
+  return null;
+};
 
 const WishlistArea = () => {
   const { wishlistItems } = UseWishlistInfo();
@@ -40,16 +56,21 @@ const WishlistArea = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {wishlistItems.map((item: any, i: any) => {
+                        {wishlistItems.map((item, i) => {
                           const detailHref = item.cmsProduct
                             ? buildProductDetailHref(item.cmsProduct)
                             : "/shop-details";
+                          const thumb = normalizeWishlistImage(item.thumb);
 
                           return (
                           <tr key={i}>
                             <td className="product-thumbnail">
                               <Link className="thumb" href={detailHref}>
-                                <Image src={item.thumb} alt="" />
+                                {thumb ? (
+                                  <Image src={thumb} alt="" width={100} height={100} />
+                                ) : (
+                                  <span aria-hidden="true" />
+                                )}
                               </Link>
                               <Link className="texts" href={detailHref}>{item.title}</Link>
                             </td>
@@ -57,7 +78,7 @@ const WishlistArea = () => {
                               <span className="amount">${item.price}.00</span>
                             </td>
                             <td className="product-add-to-cart">
-                              <button onClick={() => dispatch(addToCart(item))} className="tg-btn">Add To Cart</button>
+                              <button onClick={() => dispatch(addToCart({ ...item, quantity: 1 }))} className="tg-btn">Add To Cart</button>
                             </td>
                             <td className="product-remove">
                               <a onClick={() => dispatch(removeFromWishlist(item))} style={{ cursor: "pointer" }}><i className="fa fa-times"></i></a>

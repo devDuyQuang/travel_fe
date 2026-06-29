@@ -3,8 +3,9 @@
 import { useEffect, useState } from "react";
 import type { ContactPageSettings } from "@/types/contact-page";
 
-const API_URL =
+const API_ORIGIN =
   process.env.NEXT_PUBLIC_API_URL || "http://api.localhost:8000";
+const API_URL = `${API_ORIGIN.replace(/\/$/, "")}/api`;
 
 const settingKeys = [
   "contact_page_hero",
@@ -30,7 +31,7 @@ export function contactPageMediaUrl(value?: string | null) {
   if (/^https?:\/\//i.test(path)) return path;
   if (path.startsWith("/assets/") || path.startsWith("/_next/")) return path;
 
-  const baseUrl = API_URL.replace(/\/$/, "");
+  const baseUrl = API_ORIGIN.replace(/\/$/, "");
   const normalizedPath = path.replace(/^\/+/, "");
 
   return `${baseUrl}/storage/${normalizedPath.replace(/^storage\//, "")}`;

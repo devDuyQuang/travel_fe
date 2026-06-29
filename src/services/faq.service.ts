@@ -1,7 +1,8 @@
 import type { FaqItem } from "@/types/faq";
 
-const API_URL =
+const API_ORIGIN =
   process.env.NEXT_PUBLIC_API_URL || "http://api.localhost:8000";
+const API_URL = `${API_ORIGIN.replace(/\/$/, "")}/api`;
 
 type FaqResponse = {
   success?: boolean;

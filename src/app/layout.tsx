@@ -4,6 +4,7 @@ import "../../public/assets/css/main.css";
 import "../../public/assets/css/golfnity.css";
 import { Provider } from "react-redux";
 import store from "@/redux/store";
+import { CustomerAuthProvider } from "@/contexts/CustomerAuthContext";
 
 export default function RootLayout({
   children,
@@ -45,7 +46,9 @@ export default function RootLayout({
         />
       </head>
       <body suppressHydrationWarning={true}>
-        <Provider store={store}>{children}</Provider>
+        <Provider store={store}>
+          <CustomerAuthProvider>{children}</CustomerAuthProvider>
+        </Provider>
       </body>
     </html>
   );

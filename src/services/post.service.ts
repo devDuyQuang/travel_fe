@@ -7,14 +7,15 @@ import type {
   CmsTag,
 } from "@/types/cms-post";
 
-const API_URL =
+const API_ORIGIN =
   process.env.NEXT_PUBLIC_API_URL || "http://api.localhost:8000";
+const API_URL = `${API_ORIGIN.replace(/\/$/, "")}/api`;
 
 export function resolveMediaUrl(image?: string | null) {
   if (!image) return null;
   if (/^https?:\/\//i.test(image)) return image;
 
-  const baseUrl = API_URL.replace(/\/$/, "");
+  const baseUrl = API_ORIGIN.replace(/\/$/, "");
   const normalized = image.trim().replace(/^\/+/, "");
   if (normalized.startsWith("assets/") || normalized.startsWith("_next/")) {
     return `/${normalized}`;

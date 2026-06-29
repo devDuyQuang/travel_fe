@@ -1,5 +1,9 @@
 import type { NextConfig } from "next";
 
+const backendUrl =
+  process.env.BACKEND_LOCAL_URL ||
+  "http://api.localhost:8000";
+
 const nextConfig: NextConfig = {
   images: {
     dangerouslyAllowLocalIP: true,
@@ -27,6 +31,19 @@ const nextConfig: NextConfig = {
         pathname: "/uploads/**",
       },
     ],
+  },
+
+  async rewrites() {
+    return [
+      {
+        source: "/backend-api/sanctum/:path*",
+        destination: `${backendUrl}/sanctum/:path*`,
+      },
+      {
+        source: "/backend-api/api/:path*",
+        destination: `${backendUrl}/api/:path*`,
+      },
+    ];
   },
 };
 
