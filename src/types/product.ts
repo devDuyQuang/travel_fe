@@ -18,6 +18,19 @@ export type ProductSeo = {
   canonical_url?: string | null;
 };
 
+export type ProductServiceOption = {
+  id: number;
+  type: string;
+  name: string;
+  label?: string;
+  description?: string | null;
+  price?: string | number | null;
+  currency?: string | null;
+  unit?: string | null;
+  capacity?: number | null;
+  sort_order?: number | null;
+};
+
 export type ProductAttributes = Record<
   string,
   string | number | boolean | null | undefined
@@ -53,6 +66,7 @@ export type Product = {
   highlights?: string | null;
   facilities?: string | null;
   attributes?: ProductAttributes;
+  service_options?: ProductServiceOption[];
   seo?: ProductSeo;
   category?: ProductCategory | null;
   status?: number;

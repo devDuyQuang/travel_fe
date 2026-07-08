@@ -78,6 +78,57 @@
   color: #245f52;
 }
 
+.homeBookingForm :global(.home-quantity-menu) {
+  gap: 8px;
+}
+
+.homeBookingForm :global(.home-quantity-row) {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 6px 4px;
+}
+
+.homeBookingForm :global(.home-quantity-row + .home-quantity-row) {
+  border-top: 1px solid #f0ece4;
+}
+
+.homeBookingForm :global(.home-quantity-row span) {
+  color: #353844;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.homeBookingForm :global(.home-quantity-row div) {
+  align-items: center;
+  display: inline-flex;
+  gap: 9px;
+}
+
+.homeBookingForm :global(.home-quantity-row button) {
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid #d8d4cd;
+  border-radius: 999px;
+  color: #245f52;
+  display: inline-flex;
+  font-size: 18px;
+  font-weight: 700;
+  height: 28px;
+  justify-content: center;
+  line-height: 1;
+  padding: 0;
+  width: 28px;
+}
+
+.homeBookingForm :global(.home-quantity-row strong) {
+  color: #0b1020;
+  display: inline-block;
+  min-width: 22px;
+  text-align: center;
+}
+
 .homeBookingForm :global(.flatpickr-wrapper) {
   display: block;
   height: 56px !important;

@@ -104,11 +104,11 @@ const Banner = () => {
                               </p>
                            </div>
                            <div className="tg-hero-price-wrap mb-35 d-flex align-items-center justify-content-center  wow fadeInUp" data-wow-delay=".7s" data-wow-duration="1.3s">
-                              <p className="mr-15">{homepageText(activeSlide.price_prefix, "Booking Start From")}</p>
+                              <p className="mr-15">{homepageText(activeSlide.price_prefix, "Giá từ")}</p>
                               <div className="tg-hero-price d-flex">
-                                 <span className="hero-dolar">{homepageText(activeSlide.price_currency, "$")}</span>
+                                 <span className="hero-dolar">{homepageText(activeSlide.price_currency, "")}</span>
                                  <span className="hero-price">{homepageText(activeSlide.price, "299")}</span>
-                                 <span className="night">{homepageText(activeSlide.price_suffix, "/night")}</span>
+                                 <span className="night">{homepageText(activeSlide.price_suffix, "đ / đêm")}</span>
                               </div>
                            </div>
                            <div className="tg-hero-btn-box  wow fadeInUp" data-wow-delay=".8s" data-wow-duration="1.5s">

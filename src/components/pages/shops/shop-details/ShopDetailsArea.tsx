@@ -101,7 +101,7 @@ const ShopDetailsArea = ({ single_product }: any) => {
                         </div>
                      </div>
                      <div className="tg-product-details-price">
-                        <h6 className="mb-10">$44.00</h6>
+                        <h6 className="mb-10">Liên hệ</h6>
                      </div>
                      <div className="tg-product-details-availability mb-20">
                         <span className="availability">Availability:</span>

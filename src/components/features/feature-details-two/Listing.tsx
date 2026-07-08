@@ -10,6 +10,10 @@ import shape from '@/assets/img/banner/banner-2/shape.png'
 import type { Product } from '@/types/product'
 import { resolveMediaUrl } from '@/services/post.service'
 import { buildProductDetailHref } from '@/lib/productLinks'
+import {
+   formatCurrencyVnd,
+   getProductStartingPrice,
+} from '@/lib/servicePrice'
 
 const setting = {
    spaceBetween: 24,
@@ -92,6 +96,9 @@ const Listing = ({ products = [] }: { products?: Product[] }) => {
                         const detailHref = item.product
                            ? buildProductDetailHref(item.product)
                            : "#";
+                        const cmsPrice = item.product
+                           ? getProductStartingPrice(item.product)
+                           : null;
 
                         return (
                         <SwiperSlide key={item.id} className="swiper-slide">
@@ -102,8 +109,14 @@ const Listing = ({ products = [] }: { products?: Product[] }) => {
                                     {item.tag && <span className="tg-listing-item-price-discount shape">{item.tag}</span>}
                                  </Link>
                                  <div className="tg-listing-2-price">
-                                    <span className="new">${item.price}</span>
-                                    <span className="shift">/night</span>
+                                    {cmsPrice?.amount ? (
+                                       <>
+                                          <span className="new">Từ {formatCurrencyVnd(cmsPrice.amount)}</span>
+                                          <span className="shift">/{cmsPrice.unit}</span>
+                                       </>
+                                    ) : (
+                                       <span className="new">Liên hệ</span>
+                                    )}
                                  </div>
                               </div>
                               <div className="tg-listing-card-content p-relative">

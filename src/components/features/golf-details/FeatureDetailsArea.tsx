@@ -5,6 +5,10 @@ import VideoPopup from "@/modals/VideoPopup";
 import Image from "next/image";
 import Link from "next/link";
 import type { Product } from "@/types/product";
+import {
+  formatCurrencyVnd,
+  getProductStartingPrice,
+} from "@/lib/servicePrice";
 
 import Lightbox from "yet-another-react-lightbox";
 import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
@@ -21,6 +25,7 @@ const FeatureDetailsArea = ({ product }: { product: Product | null }) => {
   const [isVideoOpen, setIsVideoOpen] = useState(false);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
+  const startingPrice = getProductStartingPrice(product);
 
   const apiUrl = process.env.NEXT_PUBLIC_API_URL || "";
 
@@ -243,10 +248,14 @@ const FeatureDetailsArea = ({ product }: { product: Product | null }) => {
 
               <div className="col-lg-4">
                 <div className="tg-tour-details-video-feature-price mb-15">
-                  <p>
-                    From <span>$59.00</span> /{" "}
-                    <span className="tg-tour-details-price-unit">Pax</span>
-                  </p>
+                  {startingPrice.amount ? (
+                    <p>
+                      Từ <span>{formatCurrencyVnd(startingPrice.amount)}</span> /{" "}
+                      <span className="tg-tour-details-price-unit">{startingPrice.unit}</span>
+                    </p>
+                  ) : (
+                    <p><span>Liên hệ</span></p>
+                  )}
                 </div>
               </div>
             </div>

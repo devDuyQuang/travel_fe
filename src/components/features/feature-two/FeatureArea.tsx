@@ -13,6 +13,12 @@ import { toSlug } from "@/lib/slug";
 import type { Product as CmsProduct } from "@/types/product";
 import type { Product } from "@/redux/features/productSlice";
 import { getServiceItemDetailPath } from "@/lib/serviceCmsAdapter";
+import {
+  formatCurrencyVnd,
+  getProductStartingPrice,
+} from "@/lib/servicePrice";
+import { appendBookingSearchParamsToHref } from "@/lib/bookingSearchParams";
+import { useBrowserSearchParams } from "@/hooks/useBrowserSearchParams";
 
 interface FeatureAreaProps {
   detailBasePath: string;
@@ -21,6 +27,7 @@ interface FeatureAreaProps {
 
 const FeatureArea = ({ detailBasePath, items }: FeatureAreaProps) => {
   const dispatch = useDispatch();
+  const searchParams = useBrowserSearchParams();
   const {
     products,
     setProducts,
@@ -89,6 +96,13 @@ const FeatureArea = ({ detailBasePath, items }: FeatureAreaProps) => {
                         item,
                         `${detailBasePath}/${toSlug(item.title)}`,
                       );
+                      const detailHref = appendBookingSearchParamsToHref(
+                        detailPath,
+                        searchParams,
+                      );
+                      const startingPrice = item.cmsProduct
+                        ? getProductStartingPrice(item.cmsProduct)
+                        : null;
 
                       return (
                       <div
@@ -97,7 +111,7 @@ const FeatureArea = ({ detailBasePath, items }: FeatureAreaProps) => {
                       >
                         <div className="tg-listing-card-item mb-30">
                           <div className="tg-listing-card-thumb fix mb-15 p-relative">
-                            <Link href={detailPath}>
+                            <Link href={detailHref}>
                               <Image
                                 className="tg-card-border w-100"
                                 src={item.thumb}
@@ -160,7 +174,7 @@ const FeatureArea = ({ detailBasePath, items }: FeatureAreaProps) => {
                           <div className="tg-listing-main-content">
                             <div className="tg-listing-card-content">
                               <h4 className="tg-listing-card-title">
-                                <Link href={detailPath}>{item.title}</Link>
+                                <Link href={detailHref}>{item.title}</Link>
                               </h4>
                               <div className="tg-listing-card-duration-tour">
                                 <span className="tg-listing-card-duration-map mb-5">
@@ -211,17 +225,20 @@ const FeatureArea = ({ detailBasePath, items }: FeatureAreaProps) => {
                             <div className="tg-listing-card-price d-flex align-items-end justify-content-between">
                               <div className="tg-listing-card-price-wrap price-bg d-flex align-items-center">
                                 <span className="tg-listing-card-currency-amount mr-5">
-                                  {item.delete_price && (
-                                    <del className="tg-listing-card-currency-old">
-                                      ${item.delete_price}
-                                    </del>
+                                  {startingPrice?.amount ? (
+                                    <>
+                                      <span className="currency-symbol">Từ</span>
+                                      {formatCurrencyVnd(startingPrice.amount)}
+                                    </>
+                                  ) : (
+                                    "Liên hệ"
                                   )}
-                                  <span className="currency-symbol">$</span>
-                                  {item.price}
                                 </span>
-                                <span className="tg-listing-card-activity-person">
-                                  /pax
-                                </span>
+                                {startingPrice?.amount && (
+                                  <span className="tg-listing-card-activity-person">
+                                    /{startingPrice.unit}
+                                  </span>
+                                )}
                               </div>
                               <div className="tg-listing-card-review space">
                                 <span className="tg-listing-rating-icon">

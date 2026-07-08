@@ -22,6 +22,8 @@ const ServiceCategoryLayout = ({
       detailBasePath=""
       items={products}
       searchLabels={searchLabels}
+      layoutKey={layoutKey}
+      categorySlug={category.slug}
     />
   );
 };

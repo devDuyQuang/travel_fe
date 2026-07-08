@@ -8,6 +8,7 @@ import UseWishlistInfo from '@/hooks/UseWishlistInfo';
 import { removeFromWishlist } from "@/redux/features/wishlistSlice";
 import type { Product } from "@/redux/features/wishlistSlice";
 import { buildProductDetailHref } from "@/lib/productLinks";
+import { formatCurrencyVnd } from "@/lib/servicePrice";
 
 type WishlistImage = string | StaticImageData;
 
@@ -75,7 +76,7 @@ const WishlistArea = () => {
                               <Link className="texts" href={detailHref}>{item.title}</Link>
                             </td>
                             <td className="product-price2">
-                              <span className="amount">${item.price}.00</span>
+                              <span className="amount">{formatCurrencyVnd(item.price)}</span>
                             </td>
                             <td className="product-add-to-cart">
                               <button onClick={() => dispatch(addToCart({ ...item, quantity: 1 }))} className="tg-btn">Add To Cart</button>

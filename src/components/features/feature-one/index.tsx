@@ -5,6 +5,7 @@ import FooterSix from "@/layouts/footers/FooterSix";
 import BreadCrumb from "@/components/common/BreadCrumb";
 import type { Product } from "@/types/product";
 import type { ServiceSearchLabels } from "@/types/service-layout";
+import type { ServiceLayoutKey } from "@/lib/serviceLayoutRegistry";
 
 interface FeatureOneProps {
    title?: string;
@@ -12,6 +13,8 @@ interface FeatureOneProps {
    detailBasePath?: string;
    items?: Product[];
    searchLabels?: ServiceSearchLabels;
+   layoutKey?: ServiceLayoutKey | string | null;
+   categorySlug?: string;
 }
 
 const FeatureOne = ({
@@ -20,13 +23,15 @@ const FeatureOne = ({
    detailBasePath = "/khach-san-nghi-duong",
    items,
    searchLabels,
+   layoutKey,
+   categorySlug,
 }: FeatureOneProps) => {
    return (
       <>
          <HeaderThree />
          <main>
             <BreadCrumb title={title} sub_title={subTitle} />
-            <BookingForm labels={searchLabels} />
+            <BookingForm labels={searchLabels} layoutKey={layoutKey} categorySlug={categorySlug} />
             <FeatureArea detailBasePath={detailBasePath} items={items} />
          </main>
          <FooterSix />

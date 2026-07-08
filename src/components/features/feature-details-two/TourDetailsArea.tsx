@@ -1,6 +1,12 @@
 import type { Product } from "@/types/product";
+import {
+  formatCurrencyVnd,
+  getProductStartingPrice,
+} from "@/lib/servicePrice";
 
 const TourDetailsArea = ({ product }: { product: Product | null }) => {
+  const startingPrice = getProductStartingPrice(product);
+
   return (
     <div className="tg-tour-details-area pt-20">
       <div className="container">
@@ -12,9 +18,14 @@ const TourDetailsArea = ({ product }: { product: Product | null }) => {
               </h2>
               <div className="tg-tour-details-video-location d-flex flex-wrap">
                 <div className="tg-tour-details-video-feature-price mb-10 mr-25">
-                  <p className="mb-0">
-                    From <span>${product?.price || "59.00"}</span> / Person
-                  </p>
+                  {startingPrice.amount ? (
+                    <p className="mb-0">
+                      Từ <span>{formatCurrencyVnd(startingPrice.amount)}</span> /{" "}
+                      <span className="tg-tour-details-price-unit">{startingPrice.unit}</span>
+                    </p>
+                  ) : (
+                    <p className="mb-0"><span>Liên hệ</span></p>
+                  )}
                 </div>
                 <span className="mr-25 mb-10">
                   <i className="fa-regular fa-location-dot"></i> Street

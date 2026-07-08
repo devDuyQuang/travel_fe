@@ -22,6 +22,8 @@ type ListingProps = {
   detailBasePath?: string;
   items?: Product[];
   searchLabels?: ServiceSearchLabels;
+  layoutKey?: ServiceLayoutKey | string | null;
+  categorySlug?: string;
 };
 
 type DetailProps = {

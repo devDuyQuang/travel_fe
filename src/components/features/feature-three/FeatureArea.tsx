@@ -16,6 +16,12 @@ import { toSlug } from "@/lib/slug";
 import type { Product as CmsProduct } from "@/types/product";
 import type { Product } from "@/redux/features/productSlice";
 import { getServiceItemDetailPath } from "@/lib/serviceCmsAdapter";
+import {
+   formatCurrencyVnd,
+   getProductStartingPrice,
+} from "@/lib/servicePrice";
+import { appendBookingSearchParamsToHref } from "@/lib/bookingSearchParams";
+import { useBrowserSearchParams } from "@/hooks/useBrowserSearchParams";
 
 interface FeatureAreaProps {
    detailBasePath: string;
@@ -24,6 +30,7 @@ interface FeatureAreaProps {
 
 const FeatureArea = ({ detailBasePath, items }: FeatureAreaProps) => {
    const dispatch = useDispatch();
+   const searchParams = useBrowserSearchParams();
    const {
       products,
       setProducts,
@@ -85,12 +92,19 @@ const FeatureArea = ({ detailBasePath, items }: FeatureAreaProps) => {
                                  item,
                                  `${detailBasePath}/${toSlug(item.title)}`,
                               );
+                              const detailHref = appendBookingSearchParamsToHref(
+                                 detailPath,
+                                 searchParams,
+                              );
+                              const startingPrice = item.cmsProduct
+                                 ? getProductStartingPrice(item.cmsProduct)
+                                 : null;
 
                               return (
                               <div key={item.id} className="col-xxl-4 col-xl-6 col-lg-6 col-md-6 tg-grid-full">
                                  <div className="tg-listing-card-item tg-listing-2-card-item mb-25">
                                     <div className="tg-listing-card-thumb tg-listing-2-card-thumb fix p-relative">
-                                       <Link href={detailPath}>
+                                       <Link href={detailHref}>
                                           <Image className="tg-card-border w-100" src={item.thumb} alt="listing" />
                                           {item.tag && <span className="tg-listing-item-price-discount shape">{item.tag}</span>}
                                           {item.featured && <span className="tg-listing-item-price-discount shape-3">
@@ -112,15 +126,20 @@ const FeatureArea = ({ detailBasePath, items }: FeatureAreaProps) => {
                                           </a>
                                        </div>
                                     </div>
-                                    <div className="tg-listing-card-content p-relative">
+                                       <div className="tg-listing-card-content p-relative">
                                        <div className="tg-listing-2-price-wrap text-center">
                                           <div className="tg-listing-2-price">
-                                             {item.delete_price && <del>${item.delete_price}</del>}
-                                             <span className="new">${item.price}</span>
-                                             <span className="shift">/night</span>
+                                             {startingPrice?.amount ? (
+                                                <>
+                                                   <span className="new">Từ {formatCurrencyVnd(startingPrice.amount)}</span>
+                                                   <span className="shift">/{startingPrice.unit}</span>
+                                                </>
+                                             ) : (
+                                                <span className="new">Liên hệ</span>
+                                             )}
                                           </div>
                                        </div>
-                                       <h4 className="tg-listing-card-title"><Link href={detailPath}>{item.title}</Link></h4>
+                                       <h4 className="tg-listing-card-title"><Link href={detailHref}>{item.title}</Link></h4>
                                        <div className="tg-listing-card-review mb-5">
                                           <Rating initialValue={item.review} size={16} readonly={true} />
                                           <span className="tg-listing-rating-icon"><i className="fa-sharp fa-solid fa-star"></i></span>

@@ -1,6 +1,11 @@
+.bookingSidebarForm {
+  display: grid;
+  gap: 0;
+}
+
 .bookingSidebarForm
   :global(.tg-tour-about-title) {
-  margin-bottom: 18px;
+  margin-bottom: 22px;
   text-transform: none;
 }
 
@@ -9,11 +14,34 @@
   margin-bottom: 12px;
 }
 
+.bookingSidebarForm :global(.booking-section) {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.bookingSidebarForm :global(.booking-field-label) {
+  color: #0b1020;
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 6px;
+}
+
+.bookingSidebarForm :global(.booking-subsection-title) {
+  color: #0b1020;
+  display: block;
+  font-size: 15px;
+  font-weight: 700;
+  margin: 14px 0 2px;
+}
+
 .bookingSidebarForm
   :global(.tg-tour-about-extra),
 .bookingSidebarForm
   :global(.tg-tour-about-tickets-wrap) {
-  margin-bottom: 18px;
+  margin-bottom: 22px;
 }
 
 .bookingSidebarForm
@@ -43,14 +71,14 @@
 
 .bookingSidebarForm
   :global(.tg-tour-about-border-doted) {
-  margin-bottom: 18px !important;
-  margin-top: 3px;
+  margin-bottom: 22px !important;
+  margin-top: 5px;
 }
 
 .bookingSidebarForm
   :global(.tg-filter-list ul) {
   display: grid;
-  gap: 9px;
+  gap: 11px;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -62,6 +90,57 @@
   display: block;
   margin: 0;
   padding: 0;
+}
+
+.bookingSidebarForm
+  :global(.booking-helper-text) {
+  color: #686b78;
+  font-size: 13px;
+  line-height: 1.5;
+  margin: 2px 0 0;
+}
+
+.bookingSidebarForm :global(.booking-policy-note),
+.bookingSidebarForm :global(.booking-option-info) {
+  background: #f8f7f2;
+  border: 1px solid #ece8df;
+  border-radius: 8px;
+  color: #353844;
+  display: grid;
+  gap: 3px;
+  line-height: 1.45;
+  padding: 10px 12px;
+}
+
+.bookingSidebarForm :global(.booking-option-empty) {
+  background: #fffaf0;
+  border: 1px solid rgba(230, 199, 112, 0.55);
+  border-radius: 8px;
+  color: #686b78;
+  font-size: 13px;
+  line-height: 1.5;
+  margin: 0 0 12px;
+  padding: 10px 12px;
+}
+
+.bookingSidebarForm :global(.booking-policy-note strong),
+.bookingSidebarForm :global(.booking-option-info strong) {
+  color: #245f52;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.bookingSidebarForm :global(.booking-policy-note span),
+.bookingSidebarForm :global(.booking-option-info span) {
+  color: #353844;
+  font-size: 13px;
+}
+
+.bookingSidebarForm :global(.booking-policy-note small),
+.bookingSidebarForm :global(.booking-option-info small) {
+  color: #686b78;
+  font-size: 12px;
+  line-height: 1.45;
 }
 
 .bookingSidebarForm
@@ -132,7 +211,11 @@
   height: 42px !important;
   max-height: 42px !important;
   min-height: 42px !important;
+  min-width: 0 !important;
+  overflow: hidden !important;
   padding: 0 42px !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
   width: 100% !important;
 }
 
@@ -177,8 +260,8 @@
 .bookingSidebarForm
   :global(.booking-option-block) {
   display: grid;
-  gap: 8px;
-  margin-bottom: 18px;
+  gap: 10px;
+  margin-bottom: 22px;
 }
 
 .bookingSidebarForm
@@ -229,6 +312,50 @@
   cursor: pointer;
   line-height: 1.35;
   margin: 0;
+}
+
+.bookingSidebarForm :global(.booking-price-summary) {
+  display: grid;
+  gap: 12px;
+}
+
+.bookingSidebarForm :global(.booking-price-breakdown) {
+  background: #f8f7f2;
+  border: 1px solid #ece8df;
+  border-radius: 8px;
+  display: grid;
+  gap: 4px;
+  padding: 10px 12px;
+}
+
+.bookingSidebarForm :global(.booking-price-breakdown strong) {
+  color: #0b1020;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.bookingSidebarForm :global(.booking-price-breakdown span) {
+  color: #353844;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.bookingSidebarForm :global(.booking-price-total) {
+  align-items: center;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+}
+
+.bookingSidebarForm :global(.booking-price-total span) {
+  color: #0b1020;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.bookingSidebarForm :global(.booking-price-total .total-price) {
+  margin: 0;
+  text-align: right;
 }
 
 .bookingSidebarForm

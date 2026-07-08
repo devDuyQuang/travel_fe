@@ -7,7 +7,7 @@ import review_2 from "@/assets/img/tour-details/avatr.png"
 const ReviewDetails = () => {
    return (
       <div className="tg-tour-about-cus-review-wrap mb-25">
-         <h4 className="tg-tour-about-title mb-40">2 Reviews</h4>
+         <h4 className="tg-tour-about-title mb-40">2 đánh giá</h4>
          <ul>
             <li>
                <div className="tg-tour-about-cus-review d-flex mb-40">
@@ -28,7 +28,7 @@ const ReviewDetails = () => {
                      <p className="text-capitalize lh-28 mb-10">Castle in one day is next to impossible. Designed specifically for trave areli areafol
                         time in London, this tour allou to check off a range of southern  day is next together
                         impossible. Designed speciEngland.</p>
-                     <Link className="tg-tour-about-cus-reply" href="#">Reply</Link>
+                     <Link className="tg-tour-about-cus-reply" href="#">Phản hồi</Link>
                   </div>
                </div>
                <div className="tg-tour-about-border mb-40"></div>
@@ -52,7 +52,7 @@ const ReviewDetails = () => {
                      <p className="text-capitalize lh-28 mb-10">Castle in one day is next to impossible. Designed specifically for trave areli areafol
                         time in London, this tour allou to check off a range of southern  day is next together
                         impossible. Designed speciEngland.</p>
-                     <Link className="tg-tour-about-cus-reply" href="#">Reply</Link>
+                     <Link className="tg-tour-about-cus-reply" href="#">Phản hồi</Link>
                   </div>
                </div>
             </li>

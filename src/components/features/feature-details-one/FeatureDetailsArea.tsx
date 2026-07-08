@@ -6,6 +6,10 @@ import Link from "next/link";
 import FeatureList from "./FeatureList";
 
 import type { Product } from "@/types/product";
+import {
+  formatCurrencyVnd,
+  getProductStartingPrice,
+} from "@/lib/servicePrice";
 
 import thumb_1 from "@/assets/img/tour-details/thumb-4.jpg";
 import thumb_2 from "@/assets/img/tour-details/thumb-1.jpg";
@@ -14,6 +18,7 @@ import thumb_4 from "@/assets/img/tour-details/thumb-3.jpg";
 
 const FeatureDetailsArea = ({ product }: { product: Product | null }) => {
   const [isVideoOpen, setIsVideoOpen] = useState(false);
+  const startingPrice = getProductStartingPrice(product);
   const gallery = product?.gallery?.filter((image) => image.trim()) || [];
   const primaryImage = product?.image_url
     ? {
@@ -50,7 +55,7 @@ const FeatureDetailsArea = ({ product }: { product: Product | null }) => {
                         <i className="fa-sharp fa-solid fa-star"></i>
                       </span>
                     ))}
-                    <span className="review">({product?.review_count || "5"} Reviews)</span>
+                    <span className="review">({product?.review_count || "5"} đánh giá)</span>
                   </div>
                 </div>
               </div>
@@ -73,7 +78,7 @@ const FeatureDetailsArea = ({ product }: { product: Product | null }) => {
                       strokeLinejoin="round"
                     />
                   </svg>
-                  Share
+                  Chia sẻ
                 </Link>
                 <Link href="#" className="ml-25">
                   <svg
@@ -90,7 +95,7 @@ const FeatureDetailsArea = ({ product }: { product: Product | null }) => {
                       strokeWidth="0.0888889"
                     />
                   </svg>
-                  Add to Wishlist
+                  Thêm vào yêu thích
                 </Link>
               </div>
             </div>
@@ -152,13 +157,14 @@ const FeatureDetailsArea = ({ product }: { product: Product | null }) => {
               </div>
               <div className="col-lg-4">
                 <div className="tg-tour-details-video-feature-price mb-15">
-                  {/* <p>
-                    From <span>$59.00</span> / Person
-                  </p> */}
-                  <p>
-                    From <span>${product?.price || "59.00"}</span> /{" "}
-                    <span className="tg-tour-details-price-unit">Pax</span>
-                  </p>
+                  {startingPrice.amount ? (
+                    <p>
+                      Từ <span>{formatCurrencyVnd(startingPrice.amount)}</span> /{" "}
+                      <span className="tg-tour-details-price-unit">{startingPrice.unit}</span>
+                    </p>
+                  ) : (
+                    <p><span>Liên hệ</span></p>
+                  )}
                 </div>
               </div>
             </div>

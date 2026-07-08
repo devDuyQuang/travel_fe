@@ -7,7 +7,6 @@ import ReviewFormArea from "./about/ReviewFormArea"
 import FeatureSidebar from "./FeatureSidebar"
 import type { Product } from "@/types/product";
 
-
 const FeatureAboutArea = ({ product }: { product: Product | null }) => {
    const mapUrl = `https://www.google.com/maps?q=${encodeURIComponent(product?.location || "")}&output=embed`;
    return (
@@ -24,7 +23,7 @@ const FeatureAboutArea = ({ product }: { product: Product | null }) => {
                         <Faq />
                         <div className="tg-tour-about-border mb-45"></div>
                         <div className="tg-tour-about-map mb-40">
-                           <h4 className="tg-tour-about-title mb-15">Location</h4>
+                           <h4 className="tg-tour-about-title mb-15">Địa điểm</h4>
                            <p className="text-capitalize lh-28">{product?.location || "Thông tin địa điểm đang được cập nhật."}</p>
                            <div className="tg-tour-about-map h-100">
                               <iframe src={mapUrl} width="600" height="450" style={{ border: "0" }} loading="lazy"></iframe>

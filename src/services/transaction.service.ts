@@ -1,3 +1,6 @@
+//File này tách riêng phần gọi API booking.
+//  Hàm createBooking() gửi payload lên backend, 
+// còn createIdempotencyKey() giúp mỗi lần submit có key riêng để tránh tạo booking trùng nếu user bấm nhiều lần hoặc browser retry.
 import { apiFetch } from "@/lib/apiClient";
 
 type ApiEnvelope<T> = {

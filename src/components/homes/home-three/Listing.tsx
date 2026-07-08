@@ -9,6 +9,10 @@ import { addToWishlist } from "@/redux/features/wishlistSlice";
 import { getProducts } from "@/services/product.service";
 import { resolveMediaUrl } from "@/services/post.service";
 import { buildProductDetailHref } from "@/lib/productLinks";
+import {
+  formatCurrencyVnd,
+  getProductStartingPrice,
+} from "@/lib/servicePrice";
 import type { Product } from "@/types/product";
 import { getServiceCategories } from "@/services/service.service";
 import {
@@ -253,6 +257,9 @@ const Listing = () => {
             const detailHref = item.product
               ? buildProductDetailHref(item.product)
               : "/tour-details";
+            const cmsPrice = item.product
+              ? getProductStartingPrice(item.product)
+              : null;
 
             return (
               <div
@@ -385,17 +392,20 @@ const Listing = () => {
                   <div className="tg-listing-card-price d-flex align-items-end justify-content-between">
                     <div className="tg-listing-card-price-wrap price-bg d-flex align-items-center">
                       <span className="tg-listing-card-currency-amount mr-5">
-                        {item.delete_price && (
-                          <del className="tg-listing-card-currency-old">
-                            ${item.delete_price}
-                          </del>
+                        {cmsPrice?.amount ? (
+                          <>
+                            <span className="currency-symbol">Từ</span>
+                            {formatCurrencyVnd(cmsPrice.amount)}
+                          </>
+                        ) : (
+                          "Liên hệ"
                         )}
-                        <span className="currency-symbol">$</span>
-                        {item.price}
                       </span>
-                      <span className="tg-listing-card-activity-person">
-                        /pax
-                      </span>
+                      {cmsPrice?.amount && (
+                        <span className="tg-listing-card-activity-person">
+                          /{cmsPrice.unit}
+                        </span>
+                      )}
                     </div>
                     <div className="tg-listing-card-review space">
                       <span className="tg-listing-rating-icon">

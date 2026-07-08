@@ -72,7 +72,7 @@ const FeatureSidebar = () => {
           <div className="tg-tour-about-tickets-adult">
             <span>Người lớn</span>
             <p className="mb-0">
-              (14+ years) <span>$20</span>
+              (14+ tuổi) <span>Liên hệ</span>
             </p>
           </div>
           <div className="tg-tour-about-tickets-quantity">
@@ -97,9 +97,9 @@ const FeatureSidebar = () => {
         </div>
         <div className="tg-tour-about-tickets mb-10">
           <div className="tg-tour-about-tickets-adult">
-            <span>Youth </span>
+            <span>Thanh thiếu niên</span>
             <p className="mb-0">
-              (13-17 years) <span>$20</span>
+              (13-17 tuổi) <span>Liên hệ</span>
             </p>
           </div>
           <div className="tg-tour-about-tickets-quantity">
@@ -126,7 +126,7 @@ const FeatureSidebar = () => {
           <div className="tg-tour-about-tickets-adult">
             <span>Trẻ em</span>
             <p className="mb-0">
-              (13-17 years) <span>$15</span>
+              (13-17 tuổi) <span>Liên hệ</span>
             </p>
           </div>
           <div className="tg-tour-about-tickets-quantity">
@@ -153,7 +153,7 @@ const FeatureSidebar = () => {
       <div className="tg-tour-about-border-doted mb-15"></div>
       <div className="tg-tour-about-extra mb-10">
         <span className="tg-tour-about-sidebar-title mb-10 d-inline-block">
-          Add Extra:
+          Dịch vụ thêm:
         </span>
         <div className="tg-filter-list">
           <ul>
@@ -161,10 +161,10 @@ const FeatureSidebar = () => {
               <div className="checkbox d-flex">
                 <input className="tg-checkbox" type="checkbox" id="amenities" />
                 <label htmlFor="amenities" className="tg-label">
-                  Service per booking
+                  Dịch vụ theo booking
                 </label>
               </div>
-              <span className="quantity">$30.00</span>
+              <span className="quantity">Liên hệ</span>
             </li>
             <li>
               <div className="checkbox d-flex">
@@ -174,18 +174,18 @@ const FeatureSidebar = () => {
                   id="amenities-2"
                 />
                 <label htmlFor="amenities-2" className="tg-label">
-                  Service per person
+                  Dịch vụ theo khách
                 </label>
               </div>
-              <span className="quantity">$20.00</span>
+              <span className="quantity">Liên hệ</span>
             </li>
             <li>
-              <span className="adult">Adult:</span>
-              <span className="quantity">$15.00</span>
+              <span className="adult">Người lớn:</span>
+              <span className="quantity">Liên hệ</span>
             </li>
             <li>
-              <span className="adult">Youth:</span>
-              <span className="quantity">$20.00</span>
+              <span className="adult">Thanh thiếu niên:</span>
+              <span className="quantity">Liên hệ</span>
             </li>
           </ul>
         </div>
@@ -195,7 +195,7 @@ const FeatureSidebar = () => {
         <span className="tg-tour-about-sidebar-title d-inline-block">
           Tổng tạm tính:
         </span>
-        <h5 className="total-price">$300.00</h5>
+        <h5 className="total-price">Liên hệ</h5>
       </div>
       <button type="submit" className="tg-btn tg-btn-switch-animation w-100">
         Đặt dịch vụ
