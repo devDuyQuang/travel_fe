@@ -21,6 +21,15 @@ const Cta = () => {
   if (setting?.enabled === false) return null;
   const cover = homepageMediaUrl(setting?.cover_image) || "/assets/img/banner/thumb.jpg";
   const videoId = youtubeVideoId(setting?.video_url);
+  const subtitle =
+    homepageText(setting?.subtitle, "Ưu đãi mùa hè")
+      .replace(/^Enjoy Summer Deals$/i, "Ưu đãi mùa hè");
+  const title =
+    homepageText(setting?.title, "Giảm đến 40%")
+      .replace(/^Up to 40% Discount!?$/i, "Giảm đến 40%");
+  const buttonText =
+    homepageText(setting?.button_text, "Xem chi tiết")
+      .replace(/^See Details$/i, "Xem chi tiết");
 
   return (
     <>
@@ -82,8 +91,8 @@ const Cta = () => {
             <div className="col-lg-5">
               <div className="tg-banner-content p-relative z-index-1 text-center">
                 <Image className="tg-banner-shape" src={shape} alt="shape" />
-                <h4 className="tg-banner-subtitle mb-10">{homepageText(setting?.subtitle, "Enjoy Summer Deals")}</h4>
-                <h2 className="tg-banner-title mb-25">{homepageText(setting?.title, "Up to 40% Discount!")}</h2>
+                <h4 className="tg-banner-subtitle mb-10">{subtitle}</h4>
+                <h2 className="tg-banner-title mb-25">{title}</h2>
                 {setting?.description?.trim() && (
                   <p className="mb-20">{setting.description.trim()}</p>
                 )}
@@ -96,7 +105,7 @@ const Cta = () => {
                     className="tg-btn tg-btn-switch-animation tg-banner-cta"
                   >
                     <span className="d-flex align-items-center justify-content-center">
-                      <span className="btn-text">{homepageText(setting?.button_text, "See Details")}</span>
+                      <span className="btn-text">{buttonText}</span>
 
                       <span className="btn-icon">
                         <i className="fa-regular fa-arrow-right"></i>

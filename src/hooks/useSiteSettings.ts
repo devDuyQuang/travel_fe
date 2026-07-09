@@ -27,9 +27,9 @@ const API_ORIGIN =
 const API_URL = `${API_ORIGIN.replace(/\/$/, "")}/api`;
 
 const fallbackSettings: SiteSettings = {
-  company: "WAYLUNE",
+  company: "GOLFNITY",
   description: "Nền tảng dịch vụ golf và trải nghiệm dành cho golfer.",
-  copyright: `© ${new Date().getFullYear()} WAYLUNE`,
+  copyright: `© ${new Date().getFullYear()} GOLFNITY`,
   email: "",
   phone: "",
   address: "",
@@ -42,6 +42,10 @@ const fallbackSettings: SiteSettings = {
 
 function text(value: unknown) {
   return typeof value === "string" && value.trim() ? value.trim() : "";
+}
+
+function brandText(value: unknown) {
+  return text(value).replace(/WAYLUNE/gi, "GOLFNITY");
 }
 
 function mediaUrl(value: unknown) {
@@ -97,14 +101,14 @@ export default function useSiteSettings() {
           : [];
 
         setSettings({
-          company: text(site.company) || fallbackSettings.company,
-          description: text(site.description) || fallbackSettings.description,
-          copyright: text(site.copyright) || fallbackSettings.copyright,
+          company: brandText(site.company) || fallbackSettings.company,
+          description: brandText(site.description) || fallbackSettings.description,
+          copyright: brandText(site.copyright) || fallbackSettings.copyright,
           email: text(site.email_description),
           phone: text(site.phone_description),
-          address: text(site.address_description),
+          address: brandText(site.address_description),
           website: text(site.website),
-          workingTime: text(site.time_description),
+          workingTime: brandText(site.time_description),
           map: text(site.map),
           logo: mediaUrl(assets.logo),
           socials,

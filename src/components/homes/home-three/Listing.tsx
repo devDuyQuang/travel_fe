@@ -27,6 +27,42 @@ import shape_1 from "@/assets/img/listing/about-shape.png";
 import shape_2 from "@/assets/img/listing/about-shape-2.png";
 import shape_3 from "@/assets/img/listing/about-shape-3.png";
 
+function localizeBadge(value?: string) {
+  const badge = value?.trim();
+  if (!badge) return undefined;
+  if (/^new$/i.test(badge)) return "Mới";
+  if (/^featured$/i.test(badge)) return "Nổi bật";
+  if (/^(%?\s*)?(sale|offer)$/i.test(badge) || /%\s*offer/i.test(badge)) {
+    return "Ưu đãi";
+  }
+  return badge;
+}
+
+function localizeReview(value: string | undefined, fallback: number) {
+  const source = value || `(${fallback} Reviews)`;
+  return source.replace(/Reviews?/gi, "đánh giá");
+}
+
+function demoLocation(productName: string, location: string) {
+  const name = productName.toLocaleLowerCase("vi");
+
+  if (name.includes("phố cổ hội an") || name.includes("pho co hoi an")) {
+    return "Hội An, Việt Nam";
+  }
+  if (name.includes("ngũ hành sơn") || name.includes("ngu hanh son")) {
+    return "Đà Nẵng, Việt Nam";
+  }
+  if (
+    name.includes("bà nà hills") ||
+    name.includes("ba na hills") ||
+    name.includes("fusion resort")
+  ) {
+    return "Đà Nẵng, Việt Nam";
+  }
+
+  return location;
+}
+
 const Listing = () => {
   const router = useRouter();
   const setting = useHomepageSettings().featured_products_home;
@@ -110,14 +146,17 @@ const Listing = () => {
           thumb: image
             ? { src: image, width: fallback.thumb.width, height: fallback.thumb.height }
             : fallback.thumb,
-          location: product.location?.trim() || fallback.location,
+          location: demoLocation(
+            product.name || fallback.title,
+            product.location?.trim() || fallback.location,
+          ),
           time: product.duration?.trim() || fallback.time,
           price: Number.isFinite(price) && price > 0 ? price : fallback.price,
           delete_price:
             Number.isFinite(discount) && discount > 0
               ? discount
               : fallback.delete_price,
-          tag: product.badge?.trim() || fallback.tag,
+          tag: localizeBadge(product.badge?.trim() || fallback.tag),
           featured: product.is_featured
             ? product.badge?.trim() || fallback.featured || "Featured"
             : undefined,
@@ -127,8 +166,8 @@ const Listing = () => {
               : fallback.review,
           total_review:
             Number.isFinite(reviewCount) && reviewCount > 0
-              ? `(${reviewCount} Reviews)`
-              : fallback.total_review,
+              ? `(${reviewCount} đánh giá)`
+              : localizeReview(fallback.total_review, fallback.review),
           category: product.category?.slug
             ? `service-${product.category.slug}`
             : fallback.category,
@@ -288,7 +327,7 @@ const Listing = () => {
                       />
                       {item.tag && (
                         <span className="tg-listing-item-price-discount shape">
-                          {item.tag}
+                          {localizeBadge(item.tag)}
                         </span>
                       )}
                       {item.featured && (
@@ -308,7 +347,7 @@ const Listing = () => {
                               strokeLinejoin="round"
                             />
                           </svg>
-                          {item.featured}
+                          {localizeBadge(item.featured)}
                         </span>
                       )}
                     </Link>
@@ -412,7 +451,7 @@ const Listing = () => {
                         <i className="fa-sharp fa-solid fa-star"></i>
                       </span>
                       <span className="tg-listing-rating-percent">
-                        {item.total_review || `(${item.review} Reviews)`}
+                        {localizeReview(item.total_review, item.review)}
                       </span>
                     </div>
                   </div>

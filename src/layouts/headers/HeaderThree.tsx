@@ -52,7 +52,7 @@ const HeaderThree = ({ variant = "transparent" }: HeaderThreeProps) => {
                     <Link className="logo-1" href="/">
                       <Image
                         src={logo}
-                        alt={siteSettings.company || "WAYLUNE"}
+                        alt={siteSettings.company || "GOLFNITY"}
                         width={200}
                         height={61}
                         priority
@@ -62,7 +62,7 @@ const HeaderThree = ({ variant = "transparent" }: HeaderThreeProps) => {
                     <Link className="logo-2 d-none" href="/">
                       <Image
                         src={logo}
-                        alt={siteSettings.company || "WAYLUNE"}
+                        alt={siteSettings.company || "GOLFNITY"}
                         width={200}
                         height={61}
                         priority

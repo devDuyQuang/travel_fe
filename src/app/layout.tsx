@@ -26,12 +26,12 @@ export default function RootLayout({
         /> */}
         <meta
           name="keywords"
-          content="Golf, Teetime, Golf Tour, Golf Booking, WAYLUNE"
+          content="Golf, Teetime, Golf Tour, Golf Booking, GOLFNITY"
         />
 
         <meta
           name="description"
-          content="WAYLUNE cung cấp dịch vụ đặt tee time, tour golf và các giải pháp golf chuyên nghiệp."
+          content="GOLFNITY cung cấp dịch vụ đặt tee time, tour golf và các giải pháp golf chuyên nghiệp."
         />
         <meta
           name="viewport"

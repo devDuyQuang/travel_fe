@@ -73,7 +73,13 @@ export function useHomepageSettings() {
 }
 
 export function homepageText(value: unknown, fallback: string) {
-  return typeof value === "string" && value.trim() ? value.trim() : fallback;
+  const text = typeof value === "string" && value.trim() ? value.trim() : fallback;
+
+  return text
+    .replace(/WAYLUNE/gi, "GOLFNITY")
+    .replace(/^Enjoy Summer Deals$/i, "Ưu đãi mùa hè")
+    .replace(/^Up to 40% Discount!?$/i, "Giảm đến 40%")
+    .replace(/^See Details$/i, "Xem chi tiết");
 }
 
 export function homepageMediaUrl(value?: string | null) {

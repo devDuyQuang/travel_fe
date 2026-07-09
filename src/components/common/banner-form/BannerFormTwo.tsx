@@ -60,13 +60,17 @@ const serviceSuggestions: Record<SearchBookingType, string[]> = {
   tee_time: [
     "Tân Sơn Nhất",
     "Long Thành",
-    "Thủ Đức",
-    "Đà Nẵng Golf Club",
+    "Đà Nẵng Golf",
+    "BRG Đà Nẵng",
   ],
-  tour: ["Nha Trang", "Đà Nẵng", "Đà Lạt", "Phú Quốc"],
+  tour: [
+    "Nha Trang Golf Tour",
+    "Đà Nẵng Golf Tour",
+    "Phú Quốc Golf Tour",
+  ],
   hotel: ["Đà Nẵng", "Nha Trang", "Hội An", "Phú Quốc"],
-  transport: ["Sân bay Đà Nẵng", "Hội An", "Nha Trang", "TP.HCM"],
-  attraction: ["Hội An", "Bà Nà Hills", "VinWonders", "Phố cổ Hội An"],
+  transport: ["Sân bay Đà Nẵng", "Hội An", "Nha Trang", "Tân Sơn Nhất"],
+  attraction: ["Phố cổ Hội An", "Bà Nà Hills", "Ngũ Hành Sơn"],
 };
 
 function formatIsoDate(date?: Date): string {

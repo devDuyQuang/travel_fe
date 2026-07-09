@@ -89,6 +89,7 @@ const NavMenu = () => {
   const hasActiveChild = (menu: FrontendMenuItem) => {
     return menu.sub_menus?.some((sub) => sub.link && isActive(sub.link));
   };
+  const brandTitle = (title: string) => title.replace(/WAYLUNE/gi, "GOLFNITY");
 
   return (
     <ul className="navigation">
@@ -101,7 +102,7 @@ const NavMenu = () => {
             href={menu.link || "#"}
             className={isActive(menu.link) || hasActiveChild(menu) ? "active" : ""}
           >
-            {menu.title}
+            {brandTitle(menu.title)}
           </Link>
 
           {menu.has_dropdown && menu.sub_menus && menu.sub_menus.length > 0 && (
@@ -112,7 +113,7 @@ const NavMenu = () => {
                     href={subMenu.link || "#"}
                     className={subMenu.link && isActive(subMenu.link) ? "active" : ""}
                   >
-                    {subMenu.title}
+                    {brandTitle(subMenu.title)}
                   </Link>
                 </li>
               ))}

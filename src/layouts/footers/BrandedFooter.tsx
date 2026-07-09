@@ -20,6 +20,7 @@ const BrandedFooter = ({
   const siteSettings = useSiteSettings();
   const [footerMenus, setFooterMenus] = useState<FrontendMenuItem[]>([]);
   const footerLogo = siteSettings.logo || logo;
+  const brandTitle = (title: string) => title.replace(/WAYLUNE/gi, "GOLFNITY");
   const socials = siteSettings.socials.length
     ? siteSettings.socials
     : [
@@ -110,13 +111,15 @@ const BrandedFooter = ({
                       ? footerMenus.slice(0, 5)
                       : [
                           { id: 1, title: "Trang chủ", link: "/", has_dropdown: false },
-                          { id: 2, title: "Về WAYLUNE", link: "/ve-golfnity", has_dropdown: false },
+                          { id: 2, title: "Về GOLFNITY", link: "/ve-golfnity", has_dropdown: false },
                           { id: 3, title: "Dịch vụ", link: "/dich-vu/dat-tee-time", has_dropdown: false },
                           { id: 4, title: "Tin tức", link: "/tin-tuc", has_dropdown: false },
                           { id: 5, title: "Liên hệ", link: "/contact", has_dropdown: false },
                         ]
                     ).map((menu) => (
-                      <li key={menu.id}><Link href={menu.link || "#"}>{menu.title}</Link></li>
+                      <li key={menu.id}>
+                        <Link href={menu.link || "#"}>{brandTitle(menu.title)}</Link>
+                      </li>
                     ))}
                   </ul>
                 </div>
@@ -133,7 +136,7 @@ const BrandedFooter = ({
                         <span className="mr-15">
                           <i className="fa-sharp fa-solid fa-location-dot"></i>
                         </span>
-                        {siteSettings.address || "Xem thông tin liên hệ WAYLUNE"}
+                        {siteSettings.address || "Xem thông tin liên hệ GOLFNITY"}
                       </Link>
                     </li>
                     <li>

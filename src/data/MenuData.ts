@@ -36,7 +36,7 @@ const menu_data: FrontendMenuItem[] = [
   },
   {
     id: 5,
-    title: "Về WAYLUNE",
+    title: "Về GOLFNITY",
     link: "/ve-golfnity",
     has_dropdown: false,
   },

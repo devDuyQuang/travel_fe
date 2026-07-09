@@ -31,7 +31,7 @@ const Sidebar = ({ sidebar, setSidebar }: SidebarProps) => {
                <Link href="/">
                   <Image
                      src={logo}
-                     alt={siteSettings.company || "WAYLUNE"}
+                     alt={siteSettings.company || "GOLFNITY"}
                      width={200}
                      height={61}
                      priority
