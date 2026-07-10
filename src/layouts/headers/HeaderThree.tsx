@@ -18,9 +18,13 @@ import TotalCart from "./Menu/TotalCart";
 
 type HeaderThreeProps = {
   variant?: "transparent" | "solid";
+  showGlobalUtility?: boolean;
 };
 
-const HeaderThree = ({ variant = "transparent" }: HeaderThreeProps) => {
+const HeaderThree = ({
+  variant = "transparent",
+  showGlobalUtility = false,
+}: HeaderThreeProps) => {
   const { sticky } = UseSticky();
   const [offCanvas, setOffCanvas] = useState(false);
   const [sidebar, setSidebar] = useState(false);
@@ -46,7 +50,7 @@ const HeaderThree = ({ variant = "transparent" }: HeaderThreeProps) => {
         >
           <div className="container-fluid container-1860">
             <div className="row align-items-center">
-              <div className="col-xl-8 col-5">
+              <div className={`${showGlobalUtility ? "col-xl-7" : "col-xl-8"} col-5`}>
                 <div className="tgmenu__wrap golfnity-header-main d-flex align-items-center">
                   <div className="logo">
                     <Link className="logo-1" href="/">
@@ -79,9 +83,27 @@ const HeaderThree = ({ variant = "transparent" }: HeaderThreeProps) => {
                 </div>
               </div>
 
-              <div className="col-xl-4 col-7">
+              <div className={`${showGlobalUtility ? "col-xl-5" : "col-xl-4"} col-7`}>
                 <div className="tg-menu-right-action d-flex align-items-center justify-content-end">
-                  <div className="tg-header-contact-info d-flex align-items-center">
+                  {showGlobalUtility && (
+                    <nav
+                      className="golfnity-global-utility d-none d-xxl-flex align-items-center"
+                      aria-label="Tiện ích toàn cầu"
+                    >
+                      <button type="button" title="Ngôn ngữ và tiền tệ">
+                        VI / VND
+                        <i className="fa-regular fa-chevron-down" aria-hidden="true" />
+                      </button>
+                      <Link href="/cau-hoi-thuong-gap">Trợ giúp</Link>
+                      <Link href="/user/wishlist">Xem gần đây</Link>
+                      {status !== "authenticated" && (
+                        <Link href="/dang-nhap?mode=register">Đăng ký</Link>
+                      )}
+                    </nav>
+                  )}
+
+                  {!showGlobalUtility && (
+                    <div className="tg-header-contact-info d-flex align-items-center">
                     <span className="tg-header-contact-icon mr-5 d-none d-xl-block">
                       <PhoneIcon />
                     </span>
@@ -92,8 +114,10 @@ const HeaderThree = ({ variant = "transparent" }: HeaderThreeProps) => {
                       </Link>
                     </div>
                   </div>
+                  )}
 
-                  <div className="tg-header-cart p-relative ml-20 pl-20 d-none d-xl-block">
+                  {!showGlobalUtility && (
+                    <div className="tg-header-cart p-relative ml-20 pl-20 d-none d-xl-block">
                     <Link className="cart-button" aria-label="Mở giỏ hàng" href="/gio-hang">
                       <CartIcon />
                       <span className="tg-header-cart-count">
@@ -102,6 +126,7 @@ const HeaderThree = ({ variant = "transparent" }: HeaderThreeProps) => {
                     </Link>
                     <HeaderCart />
                   </div>
+                  )}
 
                   <div className="tg-header-btn ml-20 d-none d-sm-block">
                     <Link className="tg-btn-header" href="/dang-nhap">

@@ -17,7 +17,7 @@ const Listing = dynamic(() => import("./Listing"), { ssr: false });
 const HomeThree = () => {
    return (
       <HomepageSettingsProvider>
-         <HeaderThree />
+         <HeaderThree showGlobalUtility />
          <main>
             <Banner />
             <BannerFormThree />

@@ -66,7 +66,7 @@ export const serviceLayoutRegistry = {
     templatePage: "shop_2",
     searchLabels: {
       location: "Sân golf",
-      locationPlaceholder: "Chọn sân golf",
+      locationPlaceholder: "Chọn sân",
       startDate: "Ngày chơi",
       guests: "Số golfer",
     },
@@ -82,7 +82,7 @@ export const serviceLayoutRegistry = {
     templatePage: "shop_3",
     searchLabels: {
       location: "Điểm đến",
-      locationPlaceholder: "Chọn điểm đến",
+      locationPlaceholder: "Bạn muốn đi đâu?",
       startDate: "Ngày khởi hành",
       guests: "Số khách",
     },
@@ -98,8 +98,8 @@ export const serviceLayoutRegistry = {
     templatePage: "shop_1",
     searchLabels: {
       location: "Địa điểm",
-      locationPlaceholder: "Chọn địa điểm",
-      startDate: "Ngày nhận phòng",
+      locationPlaceholder: "Chọn điểm đến hoặc khách sạn",
+      startDate: "Nhận / trả phòng",
       endDate: "Ngày trả phòng",
       guests: "Số khách",
     },
@@ -116,9 +116,9 @@ export const serviceLayoutRegistry = {
     templatePage: "shop_3",
     searchLabels: {
       location: "Điểm đón",
-      locationPlaceholder: "Chọn điểm đón",
-      startDate: "Ngày giờ đón",
-      guests: "Số hành khách",
+      locationPlaceholder: "Bạn muốn đón ở đâu?",
+      startDate: "Ngày đón",
+      guests: "Số khách",
     },
     searchQuery: {
       location: "pickup",
@@ -133,7 +133,7 @@ export const serviceLayoutRegistry = {
     templatePage: "shop_3",
     searchLabels: {
       location: "Địa điểm",
-      locationPlaceholder: "Chọn địa điểm",
+      locationPlaceholder: "Chọn điểm tham quan",
       startDate: "Ngày tham quan",
       guests: "Số vé",
     },

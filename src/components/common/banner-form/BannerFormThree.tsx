@@ -20,6 +20,14 @@ const iconClasses: Record<string, string> = {
   attraction: "fa-regular fa-ticket",
 };
 
+const tabTitles: Record<string, string> = {
+  tee_time: "Đặt Tee Time",
+  tour: "Tour Golf Việt Nam",
+  accommodation: "Khách Sạn & Nghỉ Dưỡng",
+  transport: "Thuê Xe & Đưa Đón",
+  attraction: "Tham Quan & Trải Nghiệm",
+};
+
 const BannerFormThree = () => {
   const setting = useHomepageSettings().search_home;
   const [categories, setCategories] = useState<CmsServiceCategory[]>(
@@ -50,7 +58,10 @@ const BannerFormThree = () => {
           category,
           enabled: canApplyConfiguration ? tab?.enabled !== false && Boolean(tab) : true,
           sort: tab?.sort ?? getServiceLayoutOrder(category.layout_key),
-          title: tab?.display_name?.trim() || category.name,
+          title:
+            tabTitles[category.layout_key || ""] ||
+            tab?.display_name?.trim() ||
+            category.name,
           placeholder: tab?.placeholder?.trim() || "",
         };
       })
@@ -68,14 +79,14 @@ const BannerFormThree = () => {
   const config = getServiceLayoutConfig(active.category.layout_key);
   const labels = {
     ...config.searchLabels,
-    locationPlaceholder: active.placeholder || config.searchLabels.locationPlaceholder,
+    locationPlaceholder: config.searchLabels.locationPlaceholder,
   };
 
   return (
-    <div className="tg-booking-form-area tg-booking-form-space pb-105">
+    <div className="tg-booking-form-area tg-booking-form-space golfnity-home-booking pb-105">
       <div className="container">
         <div className="row">
-          <div className="col-lg-12">
+          <div className="col-12 col-lg-12">
             <div className="tg-booking-form-wrap">
               <div className="tg-booking-form-tabs">
                 <div className="nav nav-tab justify-content-center" role="tablist">

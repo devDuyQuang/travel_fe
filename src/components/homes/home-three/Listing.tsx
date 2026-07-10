@@ -12,6 +12,7 @@ import { buildProductDetailHref } from "@/lib/productLinks";
 import {
   formatCurrencyVnd,
   getProductStartingPrice,
+  numberValue,
 } from "@/lib/servicePrice";
 import type { Product } from "@/types/product";
 import { getServiceCategories } from "@/services/service.service";
@@ -30,6 +31,7 @@ import shape_3 from "@/assets/img/listing/about-shape-3.png";
 function localizeBadge(value?: string) {
   const badge = value?.trim();
   if (!badge) return undefined;
+  if (/^sale\s*40%$/i.test(badge)) return "Giảm 40%";
   if (/^new$/i.test(badge)) return "Mới";
   if (/^featured$/i.test(badge)) return "Nổi bật";
   if (/^(%?\s*)?(sale|offer)$/i.test(badge) || /%\s*offer/i.test(badge)) {
@@ -38,9 +40,30 @@ function localizeBadge(value?: string) {
   return badge;
 }
 
+function localizeDuration(value?: string) {
+  const duration = value?.trim();
+  if (!duration) return "";
+
+  return duration
+    .replace(/^(\d+)\s*Days?$/i, "$1 ngày")
+    .replace(/^25\s*Minutes?\s*From\s*Danang\s*Center$/i, "25 phút từ trung tâm Đà Nẵng")
+    .replace(/^25\s*Minutes?\s*From\s*Center$/i, "25 phút từ trung tâm Đà Nẵng");
+}
+
+function normalizeCardTitle(value: string) {
+  return value.replace(/Thuê Xe Du Lịch Ok/gi, "Thuê Xe Du Lịch OK");
+}
+
 function localizeReview(value: string | undefined, fallback: number) {
   const source = value || `(${fallback} Reviews)`;
   return source.replace(/Reviews?/gi, "đánh giá");
+}
+
+function compactReview(value: string | undefined, fallback: number) {
+  const source = value || String(fallback);
+  const count = source.match(/\d+/)?.[0] || String(fallback);
+
+  return `${count} đánh giá`;
 }
 
 function demoLocation(productName: string, location: string) {
@@ -59,8 +82,38 @@ function demoLocation(productName: string, location: string) {
   ) {
     return "Đà Nẵng, Việt Nam";
   }
+  if (name.includes("thuê xe du lịch ok") || name.includes("thue xe du lich ok")) {
+    return "Đà Nẵng, Việt Nam";
+  }
+  if (name.includes("thuê limousine") || name.includes("thue limousine")) {
+    return "TP. Hồ Chí Minh, Việt Nam";
+  }
+  if (name.includes("thuê carnival") || name.includes("thue carnival")) {
+    return "Đà Nẵng, Việt Nam";
+  }
+  if (name.includes("thuê fortuner") || name.includes("thue fortuner")) {
+    return "Hà Nội, Việt Nam";
+  }
+  if (name.includes("tân sơn nhất") || name.includes("tan son nhat")) {
+    return "TP. Hồ Chí Minh, Việt Nam";
+  }
+  if (name.includes("nha trang golf tour")) {
+    return "Nha Trang, Việt Nam";
+  }
 
   return location;
+}
+
+function getHomepageOldPrice(product: Product | null, currentAmount?: number | null) {
+  if (!product || !currentAmount) return null;
+
+  const candidates = [
+    numberValue(product.regular_price),
+    numberValue(product.price),
+    numberValue(product.display_price),
+  ].filter((amount): amount is number => amount !== null);
+
+  return candidates.find((amount) => amount > currentAmount) ?? null;
 }
 
 const Listing = () => {
@@ -141,7 +194,7 @@ const Listing = () => {
         return {
           ...fallback,
           id: product.id,
-          title: product.name?.trim() || fallback.title,
+          title: normalizeCardTitle(product.name?.trim() || fallback.title),
           product,
           thumb: image
             ? { src: image, width: fallback.thumb.width, height: fallback.thumb.height }
@@ -150,7 +203,7 @@ const Listing = () => {
             product.name || fallback.title,
             product.location?.trim() || fallback.location,
           ),
-          time: product.duration?.trim() || fallback.time,
+          time: localizeDuration(product.duration?.trim() || fallback.time),
           price: Number.isFinite(price) && price > 0 ? price : fallback.price,
           delete_price:
             Number.isFinite(discount) && discount > 0
@@ -209,7 +262,7 @@ const Listing = () => {
   };
 
   return (
-    <div className="tg-listing-area tg-grey-bg pt-140 pb-110 p-relative z-index-9">
+    <div className="tg-listing-area tg-grey-bg pt-140 pb-110 p-relative z-index-9 golfnity-home-listing">
       <Image
         className="tg-listing-shape d-none d-lg-block"
         src={shape_1}
@@ -299,6 +352,7 @@ const Listing = () => {
             const cmsPrice = item.product
               ? getProductStartingPrice(item.product)
               : null;
+            const oldPrice = getHomepageOldPrice(item.product, cmsPrice?.amount);
 
             return (
               <div
@@ -429,29 +483,30 @@ const Listing = () => {
                     </div>
                   </div>
                   <div className="tg-listing-card-price d-flex align-items-end justify-content-between">
-                    <div className="tg-listing-card-price-wrap price-bg d-flex align-items-center">
-                      <span className="tg-listing-card-currency-amount mr-5">
+                    <div className="tg-listing-card-price-wrap price-bg d-flex align-items-start justify-content-center flex-column">
+                      {oldPrice && (
+                        <span className="tg-listing-card-currency-old">
+                          <del>{formatCurrencyVnd(oldPrice)}</del>
+                        </span>
+                      )}
+                      <span className="tg-listing-card-currency-amount">
                         {cmsPrice?.amount ? (
                           <>
                             <span className="currency-symbol">Từ</span>
+                            {" "}
                             {formatCurrencyVnd(cmsPrice.amount)}
                           </>
                         ) : (
                           "Liên hệ"
                         )}
                       </span>
-                      {cmsPrice?.amount && (
-                        <span className="tg-listing-card-activity-person">
-                          /{cmsPrice.unit}
-                        </span>
-                      )}
                     </div>
                     <div className="tg-listing-card-review space">
                       <span className="tg-listing-rating-icon">
                         <i className="fa-sharp fa-solid fa-star"></i>
                       </span>
                       <span className="tg-listing-rating-percent">
-                        {localizeReview(item.total_review, item.review)}
+                        {compactReview(item.total_review, item.review)}
                       </span>
                     </div>
                   </div>

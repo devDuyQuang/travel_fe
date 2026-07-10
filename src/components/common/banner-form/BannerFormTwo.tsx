@@ -169,11 +169,19 @@ const BannerFormTwo = ({
     setEndDate(initialValues.check_out || "");
     setStartTime(initialValues.pickup_time || initialValues.play_time || "");
     setRooms(initialValues.rooms || 1);
-    setAdults(initialValues.adults || 1);
+    setAdults(
+      searchParams.has("adults")
+        ? initialValues.adults || 1
+        : type === "tour" || type === "hotel" || type === "attraction"
+          ? 2
+          : 1,
+    );
     setChildren(initialValues.children ?? 0);
-    setPassengers(initialValues.passengers || 1);
+    setPassengers(
+      searchParams.has("passengers") ? initialValues.passengers || 1 : 4,
+    );
     setGolfers(initialValues.golfers || 1);
-  }, [initialValues]);
+  }, [initialValues, searchParams, type]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -201,18 +209,25 @@ const BannerFormTwo = ({
 
   const quantityText = (() => {
     if (type === "hotel") {
-      return `${adults} người lớn, ${children} trẻ em, ${rooms} phòng`;
+      return [
+        `${adults} người lớn`,
+        children > 0 ? `${children} trẻ em` : "",
+        `${rooms} phòng`,
+      ].filter(Boolean).join(", ");
     }
 
     if (type === "transport") {
-      return `${passengers} hành khách`;
+      return `${passengers} khách`;
     }
 
     if (type === "tee_time") {
       return `${golfers} golfer`;
     }
 
-    return `${adults} người lớn, ${children} trẻ em`;
+    return [
+      `${adults} người lớn`,
+      children > 0 ? `${children} trẻ em` : "",
+    ].filter(Boolean).join(", ");
   })();
 
   const adjust = (
@@ -308,7 +323,7 @@ const BannerFormTwo = ({
           : "Điểm đến";
   const dateLabel =
     type === "hotel"
-      ? "Ngày lưu trú"
+      ? "Nhận / trả phòng"
       : type === "transport"
         ? "Ngày đón"
         : type === "tee_time"
@@ -379,7 +394,7 @@ const BannerFormTwo = ({
                 className="input home-guests-input border-0 bg-transparent w-100"
                 value={dropoffLocation}
                 onChange={(event) => setDropoffLocation(event.target.value)}
-                placeholder="Nhập điểm trả"
+                placeholder="Bạn muốn đến đâu?"
                 aria-label="Điểm trả"
               />
               <span className="location" aria-hidden="true">

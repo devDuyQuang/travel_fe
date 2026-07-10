@@ -92,15 +92,15 @@ const Banner = () => {
             <div className="container">
                <div className="p-relative">
                   <div className="row justify-content-center">
-                     <div className="col-xl-10">
+                     <div className="col-12 col-xl-10">
                         <div className="tg-hero-content text-center">
                            <div className="tg-hero-title-box mb-10">
-                              <h5 className="tg-hero-subtitle mb-5 wow fadeInUp" data-wow-delay=".3s" data-wow-duration=".7s">{homepageText(activeSlide.subtitle, "* This offer valid till 22 August")}</h5>
-                              <h2 className="tg-hero-title wow fadeInUp" data-wow-delay=".4s" data-wow-duration=".9s">{homepageText(activeSlide.title, "Maldives island")}</h2>
+                              <h5 className="tg-hero-subtitle mb-5 wow fadeInUp" data-wow-delay=".3s" data-wow-duration=".7s">{homepageText(activeSlide.subtitle, "Golf và du lịch, trong nước và quốc tế")}</h5>
+                              <h2 className="tg-hero-title wow fadeInUp" data-wow-delay=".4s" data-wow-duration=".9s">{homepageText(activeSlide.title, "Khám phá hành trình phù hợp với bạn")}</h2>
                               <p className="tg-hero-para mb-0 wow fadeInUp" data-wow-delay=".6s" data-wow-duration="1.1s">
                                  {activeSlide.description?.trim()
                                     ? activeSlide.description.trim()
-                                    : <>when an unknown printer took ar galley offer type area <br /> year anddey make specimen book</>}
+                                    : <>Tìm tee time, tour golf, khách sạn, xe đưa đón và trải nghiệm chọn lọc <br /> cho chuyến đi tại Việt Nam và quốc tế.</>}
                               </p>
                            </div>
                            <div className="tg-hero-price-wrap mb-35 d-flex align-items-center justify-content-center  wow fadeInUp" data-wow-delay=".7s" data-wow-duration="1.3s">
@@ -113,7 +113,7 @@ const Banner = () => {
                            </div>
                            <div className="tg-hero-btn-box  wow fadeInUp" data-wow-delay=".8s" data-wow-duration="1.5s">
                               <Link href={homepageText(activeSlide.button_link, "/contact")} className="tg-btn tg-btn-switch-animation">
-                                 <Button text={homepageText(activeSlide.button_text, "Take a Tour")} />
+                                 <Button text={homepageText(activeSlide.button_text, "Khám phá dịch vụ")} />
                               </Link>
                            </div>
                         </div>

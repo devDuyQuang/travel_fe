@@ -62,6 +62,9 @@ const Testimonial = () => {
          ...item,
          width: item.avatar.width,
          height: item.avatar.height,
+         name: homepageText(item.name, ""),
+         designation: homepageText(item.designation, ""),
+         desc: homepageText(item.desc, ""),
          rating: 5,
       }));
    const sliderItems = items.length === 0
@@ -81,13 +84,12 @@ const Testimonial = () => {
             <div className="row">
                <div className="col-lg-12">
                   <div className="tg-location-section-title text-center mb-30">
-                     <h5 className="tg-section-subtitle mb-15 wow fadeInUp" data-wow-delay=".4s" data-wow-duration=".9s">{homepageText(cmsSetting?.subtitle, "Clients Feedback About Us")}</h5>
-                     <h2 className="mb-15 text-capitalize wow fadeInUp" data-wow-delay=".5s" data-wow-duration=".9s">{homepageText(cmsSetting?.title, "See Those Lovely Words From Clients")}</h2>
+                     <h5 className="tg-section-subtitle mb-15 wow fadeInUp" data-wow-delay=".4s" data-wow-duration=".9s">{homepageText(cmsSetting?.subtitle, "Khách hàng nói về GOLFNITY")}</h5>
+                     <h2 className="mb-15 text-capitalize wow fadeInUp" data-wow-delay=".5s" data-wow-duration=".9s">{homepageText(cmsSetting?.title, "Những trải nghiệm được tin chọn")}</h2>
                      <p className="text-capitalize wow fadeInUp" data-wow-delay=".6s" data-wow-duration=".9s">
                         {cmsSetting?.description?.trim()
-                           ? cmsSetting.description.trim()
-                           : <>Are you tired of the typical tourist destinations and looking<br />
-                              to step out of your comfort zonetravel</>}
+                           ? homepageText(cmsSetting.description.trim(), "")
+                           : "Khách hàng chọn GOLFNITY vì quy trình tư vấn rõ ràng, dịch vụ được chọn lọc và đội ngũ đồng hành sát từng nhu cầu chuyến đi."}
                      </p>
                   </div>
                </div>

@@ -79,7 +79,8 @@ export function homepageText(value: unknown, fallback: string) {
     .replace(/WAYLUNE/gi, "GOLFNITY")
     .replace(/^Enjoy Summer Deals$/i, "Ưu đãi mùa hè")
     .replace(/^Up to 40% Discount!?$/i, "Giảm đến 40%")
-    .replace(/^See Details$/i, "Xem chi tiết");
+    .replace(/^See Details$/i, "Xem chi tiết")
+    .replace(/^Golf\s*&\s*Travel Booking$/i, "Golf và du lịch trong một nền tảng");
 }
 
 export function homepageMediaUrl(value?: string | null) {

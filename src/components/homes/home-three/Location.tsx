@@ -5,12 +5,28 @@ import Image from "next/image";
 import Link from "next/link";
 
 import shape from "@/assets/img/location/shape-2.png";
-import { homepageText, useHomepageSettings } from "@/hooks/useHomepageSettings";
+import { useHomepageSettings } from "@/hooks/useHomepageSettings";
 
 const Location = () => {
   const setting = useHomepageSettings().destinations_home;
   if (setting?.enabled === false) return null;
-  const limit = Math.max(1, Math.min(12, setting?.limit || 4));
+  const templateImages = location_data
+    .filter((item) => item.page === "home_3")
+    .map((item) => item.thumb);
+  const destinations = [
+    "Đà Nẵng",
+    "Nha Trang",
+    "Phú Quốc",
+    "Hội An",
+    "Bangkok",
+    "Singapore",
+    "Tokyo",
+    "Paris",
+  ].map((title, index) => ({
+    id: index + 1,
+    title,
+    thumb: templateImages[index % templateImages.length],
+  }));
 
   return (
     <div className="tg-location-area p-relative pb-40 tg-grey-bg pt-140">
@@ -28,33 +44,27 @@ const Location = () => {
                 data-wow-delay=".4s"
                 data-wow-duration=".9s"
               >
-                {homepageText(setting?.subtitle, "Next Adventure Destination")}
+                Điểm đến trong và ngoài nước
               </h5>
               <h2
                 className="mb-15 text-capitalize wow fadeInUp"
                 data-wow-delay=".5s"
                 data-wow-duration=".9s"
               >
-                {setting?.title?.trim()
-                  ? setting.title.trim()
-                  : <>Popular Travel Destinations <br />Available Worldwide</>}
+                Khám phá hành trình golf &amp; du lịch toàn cầu
               </h2>
               <p
                 className="text-capitalize wow fadeInUp"
                 data-wow-delay=".6s"
                 data-wow-duration=".9s"
               >
-                {setting?.description?.trim()
-                  ? setting.description.trim()
-                  : <>Are you tired of the typical tourist destinations and looking
-                    <br />to step out of your comfort zonetravel</>}
+                Từ các điểm đến nổi bật tại Việt Nam đến những hành trình quốc tế,
+                GOLFNITY giúp bạn dễ dàng tìm kiếm dịch vụ phù hợp cho chuyến đi
+                tiếp theo.
               </p>
             </div>
           </div>
-          {location_data
-            .filter((items) => items.page === "home_3")
-            .slice(0, limit)
-            .map((item) => (
+          {destinations.map((item) => (
               <div
                 key={item.id}
                 className="col-lg-3 col-md-6 col-sm-6 wow fadeInUp"
@@ -72,7 +82,7 @@ const Location = () => {
                     </div>
                     <div className="tg-location-content text-center">
                       <span className="tg-location-time">
-                        {item.total} Tours
+                        Khám phá dịch vụ
                       </span>
                       <h3 className="tg-location-title mb-0">
                         <Link href="/dich-vu/tham-quan-trai-nghiem">{item.title}</Link>

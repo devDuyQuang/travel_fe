@@ -335,6 +335,7 @@ button.tg-hero-prev:hover svg {
 .golfnity-header .tg-btn-header,
 .golfnity-header.header-sticky .tg-btn-header {
   display: inline-flex;
+  flex: 0 0 auto;
   align-items: center;
   gap: 6px;
   padding: 0;
@@ -346,9 +347,15 @@ button.tg-hero-prev:hover svg {
   font-weight: 600;
   line-height: 1;
   box-shadow: none;
+  white-space: nowrap;
   text-transform: capitalize;
   text-decoration: none;
   transition: color 0.3s ease;
+}
+
+.golfnity-header .tg-header-btn,
+.golfnity-header.header-sticky .tg-header-btn {
+  flex: 0 0 auto;
 }
 
 .golfnity-header .tg-btn-header:hover,
@@ -392,6 +399,46 @@ button.tg-hero-prev:hover svg {
   color: var(--golfnity-white);
   fill: currentColor;
   stroke: currentColor;
+}
+
+/* Homepage global utility links */
+.golfnity-global-utility {
+  gap: 16px;
+  margin-right: 18px;
+  white-space: nowrap;
+  flex: 0 1 auto;
+}
+
+.golfnity-global-utility a,
+.golfnity-global-utility button {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 0;
+  border: 0;
+  background: transparent;
+  color: var(--golfnity-gold);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.2;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.golfnity-global-utility a:hover,
+.golfnity-global-utility button:hover {
+  color: var(--golfnity-white);
+}
+
+.golfnity-global-utility i {
+  font-size: 11px;
+}
+
+@media (min-width: 1400px) {
+  .golfnity-global-utility a,
+  .golfnity-global-utility button {
+    font-size: 16px;
+  }
 }
 
 /* ================================
@@ -843,6 +890,52 @@ main .tg-listing-card-title a:active {
   }
 }
 
+@media (max-width: 575px) {
+  .tg-hero-content .tg-hero-title {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    font-size: 32px;
+    line-height: 1.12;
+    overflow-wrap: anywhere;
+  }
+
+  .tg-hero-content .tg-hero-subtitle,
+  .tg-hero-content .tg-hero-para {
+    width: 100%;
+    max-width: 100%;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  .golfnity-home-booking .tg-booking-form-wrap {
+    padding-right: 14px;
+    padding-left: 14px;
+  }
+
+  .golfnity-home-booking .tg-booking-form-tabs .nav {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    justify-content: stretch !important;
+  }
+
+  .golfnity-home-booking .tg-booking-form-tabs .nav-link {
+    width: 100%;
+    min-width: 0;
+    justify-content: flex-start;
+    padding-right: 8px;
+    padding-left: 8px;
+    font-size: 12px;
+    line-height: 1.35;
+    text-align: left;
+    white-space: normal;
+  }
+
+  .golfnity-home-booking .tg-booking-form-tabs .nav-link:last-child {
+    grid-column: 1 / -1;
+  }
+}
+
 /* ================================
    Banner CTA Button
    Used on About / inner banner pages
@@ -933,6 +1026,76 @@ main .tg-listing-card-title a:active {
    Listing Card Price
 ================================ */
 
+.golfnity-home-listing .tg-listing-card-item {
+  height: calc(100% - 30px);
+  display: flex;
+  flex-direction: column;
+}
+
+.golfnity-home-listing .tg-listing-card-content {
+  flex: 1 1 auto;
+}
+
+.golfnity-home-listing .tg-listing-card-price {
+  min-height: 56px;
+  overflow: hidden;
+}
+
+.golfnity-home-listing .tg-listing-card-duration-tour span,
+.golfnity-home-listing .tg-listing-item-price-discount,
+.golfnity-home-listing .tg-listing-card-currency-amount,
+.golfnity-home-listing .tg-listing-card-currency-old {
+  text-transform: none;
+}
+
+.golfnity-home-listing .tg-listing-card-review.space {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  max-width: calc(100% - 188px);
+  padding: 10px 12px 10px 8px;
+  white-space: nowrap;
+}
+
+.golfnity-home-listing .tg-listing-rating-icon,
+.golfnity-home-listing .tg-listing-rating-percent {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+.golfnity-home-listing .tg-listing-rating-percent {
+  font-size: 12px;
+  line-height: 1;
+  text-transform: none;
+}
+
+.golfnity-home-listing .tg-listing-card-price-wrap.price-bg {
+  width: 185px;
+  min-width: 185px;
+  height: 56px;
+  padding: 6px 25px 6px 18px;
+  border-radius: 0 0 0 12px;
+  clip-path: polygon(0 0, 92% 0, 100% 100%, 0% 100%);
+}
+
+.golfnity-home-listing .tg-listing-card-currency-amount {
+  display: block;
+  max-width: 100%;
+  font-size: 18px;
+  line-height: 1.15;
+  white-space: nowrap;
+}
+
+.golfnity-home-listing .tg-listing-card-currency-old {
+  display: block;
+  max-width: 100%;
+  margin-bottom: 2px;
+  font-size: 12px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
 .tg-listing-card-price h4,
 .tg-listing-card-price h4 > span {
   color: var(--golfnity-gold);
@@ -986,10 +1149,40 @@ main .tg-listing-card-title a:active {
   font-weight: 700;
 }
 
+.tg-listing-card-price .currency-symbol {
+  margin-right: 4px;
+}
+
+.golfnity-home-listing .tg-listing-card-price .currency-symbol {
+  margin-right: 0;
+}
+
 /* Pax text */
 .tg-listing-card-price .tg-listing-card-activity-person {
   color: var(--golfnity-gold);
   font-weight: 700;
+}
+
+@media (min-width: 1200px) and (max-width: 1399px) {
+  .golfnity-home-listing .tg-listing-card-price-wrap.price-bg {
+    width: 172px;
+    min-width: 172px;
+    padding-right: 22px;
+    padding-left: 16px;
+  }
+
+  .golfnity-home-listing .tg-listing-card-currency-amount {
+    font-size: 17px;
+  }
+
+  .golfnity-home-listing .tg-listing-card-review.space {
+    max-width: calc(100% - 174px);
+    padding-right: 8px;
+  }
+
+  .golfnity-home-listing .tg-listing-rating-percent {
+    font-size: 11px;
+  }
 }
 
 /* Old crossed price: $280, $299 */
