@@ -28,18 +28,30 @@ const tabTitles: Record<string, string> = {
   attraction: "Tham Quan & Trải Nghiệm",
 };
 
-const BannerFormThree = () => {
+const BannerFormThree = ({
+  initialCategories = [],
+}: {
+  initialCategories?: CmsServiceCategory[];
+}) => {
   const setting = useHomepageSettings().search_home;
   const [categories, setCategories] = useState<CmsServiceCategory[]>(
-    fallbackServiceCategories.map((category) => ({ ...category })),
+    initialCategories.length
+      ? initialCategories
+      : fallbackServiceCategories.map((category) => ({ ...category })),
   );
   const [activeTab, setActiveTab] = useState(0);
 
   useEffect(() => {
-    getServiceCategories().then((items) => {
-      if (items.length) setCategories(items);
-    });
-  }, []);
+    if (initialCategories.length) return;
+
+    getServiceCategories()
+      .then((items) => {
+        if (items.length) setCategories(items);
+      })
+      .catch(() => {
+        setCategories(fallbackServiceCategories.map((category) => ({ ...category })));
+      });
+  }, [initialCategories.length]);
 
   const tabs = useMemo(() => {
     const configured = new Map(
@@ -50,7 +62,7 @@ const BannerFormThree = () => {
       hasConfiguration &&
       categories.every((category) => Number.isFinite(Number(category.id)));
 
-    return categories
+    const mappedTabs = categories
       .filter((category) => isServiceLayoutKey(category.layout_key))
       .map((category) => {
         const tab = configured.get(category.id);
@@ -65,15 +77,20 @@ const BannerFormThree = () => {
           placeholder: tab?.placeholder?.trim() || "",
         };
       })
-      .filter((tab) => tab.enabled)
       .sort((a, b) => a.sort - b.sort);
+
+    const enabledTabs = mappedTabs.filter((tab) => tab.enabled);
+
+    return enabledTabs.length
+      ? enabledTabs
+      : mappedTabs.map((tab) => ({ ...tab, enabled: true }));
   }, [categories, setting]);
 
   useEffect(() => {
     if (activeTab >= tabs.length) setActiveTab(0);
   }, [activeTab, tabs.length]);
 
-  if (setting?.enabled === false || tabs.length === 0) return null;
+  if (tabs.length === 0) return null;
 
   const active = tabs[activeTab] || tabs[0];
   const config = getServiceLayoutConfig(active.category.layout_key);

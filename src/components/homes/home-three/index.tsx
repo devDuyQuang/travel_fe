@@ -32,7 +32,7 @@ const HomeThree = ({
          <HeaderThree showGlobalUtility />
          <main>
             <Banner />
-            <BannerFormThree />
+            <BannerFormThree initialCategories={initialServiceCategories} />
             <About />
             <Listing
                initialCategories={initialServiceCategories}
