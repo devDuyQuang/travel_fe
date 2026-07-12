@@ -116,18 +116,32 @@ function getHomepageOldPrice(product: Product | null, currentAmount?: number | n
   return candidates.find((amount) => amount > currentAmount) ?? null;
 }
 
-const Listing = () => {
+const Listing = ({
+  initialCategories = [],
+  initialProducts = [],
+}: {
+  initialCategories?: CmsServiceCategory[];
+  initialProducts?: Product[];
+}) => {
   const router = useRouter();
   const setting = useHomepageSettings().featured_products_home;
   const [categories, setCategories] = useState<CmsServiceCategory[]>(
-    fallbackServiceCategories.map((category) => ({ ...category })),
+    initialCategories.length
+      ? initialCategories
+      : fallbackServiceCategories.map((category) => ({ ...category })),
   );
   const [selectedFilter, setSelectedFilter] = useState("*");
   useEffect(() => {
-    getServiceCategories().then((items) => {
-      if (items.length) setCategories(items);
-    });
-  }, []);
+    if (initialCategories.length) return;
+
+    getServiceCategories()
+      .then((items) => {
+        if (items.length) setCategories(items);
+      })
+      .catch(() => {
+        setCategories([]);
+      });
+  }, [initialCategories.length]);
   const categoryTabs = useMemo(() => {
     const configured = new Map(
       (setting?.tabs || []).map((tab) => [Number(tab.category_id), tab]),
@@ -155,10 +169,56 @@ const Listing = () => {
   );
   const [displayItems, setDisplayItems] = useState<
     Array<(typeof templateItems)[number] & { product: Product | null }>
-  >([]);
-  const [isLoadingProducts, setIsLoadingProducts] = useState(true);
+  >(() =>
+    initialProducts.map((product, index) => {
+      const fallback = templateItems[index % templateItems.length];
+      const image = resolveMediaUrl(product.image_url);
+      const price = Number(product.price);
+      const discount = Number(product.price_discount);
+      const rating = Number(product.rating);
+      const reviewCount = Number(product.review_count);
+
+      return {
+        ...fallback,
+        id: product.id,
+        title: normalizeCardTitle(product.name?.trim() || fallback.title),
+        product,
+        thumb: image
+          ? { src: image, width: fallback.thumb.width, height: fallback.thumb.height }
+          : fallback.thumb,
+        location: demoLocation(
+          product.name || fallback.title,
+          product.location?.trim() || fallback.location,
+        ),
+        time: localizeDuration(product.duration?.trim() || fallback.time),
+        price: Number.isFinite(price) && price > 0 ? price : fallback.price,
+        delete_price:
+          Number.isFinite(discount) && discount > 0
+            ? discount
+            : fallback.delete_price,
+        tag: localizeBadge(product.badge?.trim() || fallback.tag),
+        featured: product.is_featured
+          ? product.badge?.trim() || fallback.featured || "Featured"
+          : undefined,
+        review:
+          Number.isFinite(rating) && rating > 0
+            ? rating
+            : fallback.review,
+        total_review:
+          Number.isFinite(reviewCount) && reviewCount > 0
+            ? `(${reviewCount} đánh giá)`
+            : localizeReview(fallback.total_review, fallback.review),
+        category: product.category?.slug
+          ? `service-${product.category.slug}`
+          : fallback.category,
+      };
+    })
+  );
+  const [isLoadingProducts, setIsLoadingProducts] = useState(!initialProducts.length);
 
   useEffect(() => {
+    if (initialProducts.length) return;
+
     let mounted = true;
 
     setIsLoadingProducts(true);
@@ -216,6 +276,8 @@ const Listing = () => {
             : fallback.category,
         };
       }));
+    }).catch(() => {
+      if (mounted) setDisplayItems([]);
     }).finally(() => {
       if (mounted) setIsLoadingProducts(false);
     });
@@ -223,7 +285,7 @@ const Listing = () => {
     return () => {
       mounted = false;
     };
-  }, [setting?.featured_first, templateItems]);
+  }, [initialProducts.length, setting?.featured_first, templateItems]);
 
   useEffect(() => {
     if (
@@ -341,6 +403,22 @@ const Listing = () => {
           </div>
         </div>
         <div className="row project-active-two">
+          {isLoadingProducts && Array.from({ length: 8 }).map((_, index) => (
+            <div
+              key={`listing-skeleton-${index}`}
+              className="col-xxl-3 col-xl-4 col-lg-4 col-md-6 grid-item"
+            >
+              <div className="tg-listing-card-item mb-30 golfnity-card-skeleton" aria-hidden="true">
+                <div className="golfnity-card-skeleton-image"></div>
+                <div className="golfnity-card-skeleton-body">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+                <div className="golfnity-card-skeleton-footer"></div>
+              </div>
+            </div>
+          ))}
           {!isLoadingProducts && filteredItems.map((item) => {
             const detailHref = item.product
               ? buildProductDetailHref(item.product)

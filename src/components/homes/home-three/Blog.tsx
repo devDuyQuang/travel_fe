@@ -5,6 +5,7 @@ import Link from "next/link"
 import { useEffect, useState } from "react";
 import { getPosts, resolveMediaUrl } from "@/services/post.service";
 import { homepageText, useHomepageSettings } from "@/hooks/useHomepageSettings";
+import type { CmsPost } from "@/types/cms-post";
 
 import blog_1 from "@/assets/img/blog/blog-1.jpg"
 import blog_2 from "@/assets/img/blog/blog-2.jpg"
@@ -50,37 +51,52 @@ const blog_data: DataType[] = [
    },
 ];
 
-const Blog = () => {
+function mapPostToBlogItem(post: CmsPost, index: number): DataType {
+   const fallback = blog_data[index % blog_data.length];
+   const image = resolveMediaUrl(post.image_url || post.image);
+
+   return {
+      ...fallback,
+      id: post.id,
+      title: post.name?.trim() || fallback.title,
+      thumb: image
+         ? { src: image, width: fallback.thumb.width, height: fallback.thumb.height }
+         : fallback.thumb,
+      slug: post.slug?.trim() || null,
+      tag: post.categories?.find((category) => category.type === "post")?.name || fallback.tag,
+      date: post.created_at
+         ? new Intl.DateTimeFormat("vi-VN").format(new Date(post.created_at))
+         : fallback.date,
+   };
+}
+
+const Blog = ({ initialPosts = [] }: { initialPosts?: CmsPost[] }) => {
    const setting = useHomepageSettings().blogs_home;
-   const [items, setItems] = useState<DataType[]>(blog_data);
+   const [items, setItems] = useState<DataType[]>(
+      initialPosts.length ? initialPosts.map(mapPostToBlogItem) : [],
+   );
+   const [isLoading, setIsLoading] = useState(!initialPosts.length);
 
    useEffect(() => {
-      getPosts(setting?.limit || 3).then((posts) => {
-         if (posts.length === 0) return;
+      if (initialPosts.length) return;
 
-         setItems(posts.map((post, index) => {
-            const fallback = blog_data[index % blog_data.length];
-            const image = resolveMediaUrl(post.image_url || post.image);
-            return {
-               ...fallback,
-               id: post.id,
-               title: post.name?.trim() || fallback.title,
-               thumb: image
-                  ? { src: image, width: fallback.thumb.width, height: fallback.thumb.height }
-                  : fallback.thumb,
-               slug: post.slug?.trim() || null,
-               tag: post.categories?.find((category) => category.type === "post")?.name || fallback.tag,
-               date: post.created_at
-                  ? new Intl.DateTimeFormat("vi-VN").format(new Date(post.created_at))
-                  : fallback.date,
-            };
-         }));
+      let mounted = true;
+      setIsLoading(true);
+      getPosts(setting?.limit || 3).then((posts) => {
+         if (mounted) setItems(posts.map(mapPostToBlogItem));
+      }).catch(() => {
+         if (mounted) setItems([]);
+      }).finally(() => {
+         if (mounted) setIsLoading(false);
       });
-   }, [setting?.limit]);
+      return () => {
+         mounted = false;
+      };
+   }, [initialPosts.length, setting?.limit]);
 
    if (setting?.enabled === false) return null;
 
-   const featured = items[0] || blog_data[0];
+   const featured = items[0];
    const secondary = items.slice(1, 3);
 
    return (
@@ -101,7 +117,7 @@ const Blog = () => {
                   </div>
                </div>
 
-               <div className="col-lg-5 wow fadeInLeft" data-wow-delay=".4s" data-wow-duration=".9s">
+               {!isLoading && featured && <div className="col-lg-5 wow fadeInLeft" data-wow-delay=".4s" data-wow-duration=".9s">
                   <div className="tg-blog-item mb-25">
                      <div className="tg-blog-thumb fix">
                         <Link href={featured.slug ? `/tin-tuc/${featured.slug}` : "/tin-tuc"}><Image className="w-100" src={featured.thumb} alt={featured.title} /></Link>
@@ -115,9 +131,9 @@ const Blog = () => {
                         </div>
                      </div>
                   </div>
-               </div>
+               </div>}
 
-               <div className="col-lg-7">
+               {!isLoading && <div className="col-lg-7">
                   <div className="row">
                      {secondary.map((item) => (
                         <div key={item.id} className="col-12 wow fadeInRight" data-wow-delay=".4s" data-wow-duration=".9s">
@@ -143,7 +159,7 @@ const Blog = () => {
                         </div>
                      ))}
                   </div>
-               </div>
+               </div>}
                <div className="col-12 wow fadeInUp" data-wow-delay=".4s" data-wow-duration=".9s">
                   <div className="tg-blog-bottom text-center pt-25">
                      <p>{homepageText(setting?.view_all?.prefix, "Xem thêm các tin tức và cẩm nang mới nhất.")}{" "}<Link href={homepageText(setting?.view_all?.link, "/tin-tuc")}>{homepageText(setting?.view_all?.text, "Xem thêm")}</Link></p>

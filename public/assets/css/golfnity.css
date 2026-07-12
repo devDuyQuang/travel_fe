@@ -1096,6 +1096,65 @@ main .tg-listing-card-title a:active {
   white-space: nowrap;
 }
 
+.golfnity-home-listing .golfnity-card-skeleton {
+  min-height: 365px;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+.golfnity-home-listing .golfnity-card-skeleton-image,
+.golfnity-home-listing .golfnity-card-skeleton-body span,
+.golfnity-home-listing .golfnity-card-skeleton-footer {
+  display: block;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #eeeeee 0%, #f7f7f7 45%, #eeeeee 100%);
+  background-size: 200% 100%;
+  animation: golfnitySkeleton 1.25s ease-in-out infinite;
+}
+
+.golfnity-home-listing .golfnity-card-skeleton-image {
+  height: 178px;
+  margin: 0 0 22px;
+  border-radius: 12px 12px 0 0;
+}
+
+.golfnity-home-listing .golfnity-card-skeleton-body {
+  padding: 0 22px;
+}
+
+.golfnity-home-listing .golfnity-card-skeleton-body span {
+  height: 16px;
+  margin-bottom: 14px;
+}
+
+.golfnity-home-listing .golfnity-card-skeleton-body span:first-child {
+  width: 72%;
+  height: 24px;
+}
+
+.golfnity-home-listing .golfnity-card-skeleton-body span:nth-child(2) {
+  width: 58%;
+}
+
+.golfnity-home-listing .golfnity-card-skeleton-body span:nth-child(3) {
+  width: 44%;
+}
+
+.golfnity-home-listing .golfnity-card-skeleton-footer {
+  height: 56px;
+  margin-top: auto;
+  border-radius: 0 0 12px 12px;
+}
+
+@keyframes golfnitySkeleton {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
 .tg-listing-card-price h4,
 .tg-listing-card-price h4 > span {
   color: var(--golfnity-gold);

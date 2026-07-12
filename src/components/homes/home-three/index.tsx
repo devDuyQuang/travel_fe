@@ -8,14 +8,25 @@ import CtaThree from "./Cta"
 import CtaTwo from "./CtaTwo"
 import Location from "./Location"
 import Testimonial from "./Testimonial"
-import dynamic from "next/dynamic"
 import HeaderThree from "@/layouts/headers/HeaderThree"
 import FooterThree from "@/layouts/footers/FooterThree"
 import { HomepageSettingsProvider } from "@/hooks/useHomepageSettings"
 import type { HomepageSettings } from "@/types/homepage"
-const Listing = dynamic(() => import("./Listing"), { ssr: false });
+import type { Product } from "@/types/product"
+import type { CmsPost, CmsServiceCategory } from "@/types/cms-post"
+import Listing from "./Listing"
 
-const HomeThree = ({ initialSettings }: { initialSettings?: HomepageSettings }) => {
+const HomeThree = ({
+   initialSettings,
+   initialServiceCategories = [],
+   initialProducts = [],
+   initialPosts = [],
+}: {
+   initialSettings?: HomepageSettings;
+   initialServiceCategories?: CmsServiceCategory[];
+   initialProducts?: Product[];
+   initialPosts?: CmsPost[];
+}) => {
    return (
       <HomepageSettingsProvider initialSettings={initialSettings}>
          <HeaderThree showGlobalUtility />
@@ -23,13 +34,16 @@ const HomeThree = ({ initialSettings }: { initialSettings?: HomepageSettings }) 
             <Banner />
             <BannerFormThree />
             <About />
-            <Listing />
+            <Listing
+               initialCategories={initialServiceCategories}
+               initialProducts={initialProducts}
+            />
             <Choose />
             <CtaThree />
             <Location />
             <CtaTwo />
             <Testimonial />
-            <Blog />
+            <Blog initialPosts={initialPosts} />
          </main>
          <FooterThree />
       </HomepageSettingsProvider>
