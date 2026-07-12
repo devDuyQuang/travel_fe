@@ -153,33 +153,23 @@ const Listing = () => {
     () => listing_data.filter((item) => item.page === "home_3"),
     [],
   );
-  const templateDisplayItems = useMemo(
-    () =>
-      templateItems.map((item, index) => ({
-        ...item,
-        category: categories.length
-          ? `service-${categories[index % categories.length].slug}`
-          : item.category,
-        product: null as Product | null,
-      })),
-    [categories, templateItems],
-  );
   const [displayItems, setDisplayItems] = useState<
     Array<(typeof templateItems)[number] & { product: Product | null }>
-  >(templateDisplayItems);
-  useEffect(() => {
-    setDisplayItems((current) =>
-      current.some((item) => item.product) ? current : templateDisplayItems,
-    );
-  }, [templateDisplayItems]);
+  >([]);
+  const [isLoadingProducts, setIsLoadingProducts] = useState(true);
 
   useEffect(() => {
+    let mounted = true;
+
+    setIsLoadingProducts(true);
     getProducts(
       100,
       setting?.featured_first !== false,
     ).then((products) => {
+      if (!mounted) return;
+
       if (products.length === 0) {
-        setDisplayItems(templateDisplayItems);
+        setDisplayItems([]);
         return;
       }
 
@@ -226,8 +216,14 @@ const Listing = () => {
             : fallback.category,
         };
       }));
+    }).finally(() => {
+      if (mounted) setIsLoadingProducts(false);
     });
-  }, [setting?.featured_first, templateDisplayItems]);
+
+    return () => {
+      mounted = false;
+    };
+  }, [setting?.featured_first, templateItems]);
 
   useEffect(() => {
     if (
@@ -345,7 +341,7 @@ const Listing = () => {
           </div>
         </div>
         <div className="row project-active-two">
-          {filteredItems.map((item) => {
+          {!isLoadingProducts && filteredItems.map((item) => {
             const detailHref = item.product
               ? buildProductDetailHref(item.product)
               : "/tour-details";

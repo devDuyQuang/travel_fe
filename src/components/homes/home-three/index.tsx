@@ -12,11 +12,12 @@ import dynamic from "next/dynamic"
 import HeaderThree from "@/layouts/headers/HeaderThree"
 import FooterThree from "@/layouts/footers/FooterThree"
 import { HomepageSettingsProvider } from "@/hooks/useHomepageSettings"
+import type { HomepageSettings } from "@/types/homepage"
 const Listing = dynamic(() => import("./Listing"), { ssr: false });
 
-const HomeThree = () => {
+const HomeThree = ({ initialSettings }: { initialSettings?: HomepageSettings }) => {
    return (
-      <HomepageSettingsProvider>
+      <HomepageSettingsProvider initialSettings={initialSettings}>
          <HeaderThree showGlobalUtility />
          <main>
             <Banner />

@@ -8,47 +8,31 @@ import {
   useMemo,
   useState,
 } from "react";
+import { getHomepageSettings } from "@/services/homepage.service";
 import type { HomepageSettings } from "@/types/homepage";
 
 const API_ORIGIN =
   process.env.NEXT_PUBLIC_API_URL || "http://api.localhost:8000";
-const API_URL = `${API_ORIGIN.replace(/\/$/, "")}/api`;
-
-const settingKeys = [
-  "hero_home",
-  "search_home",
-  "about_home",
-  "featured_products_home",
-  "why_choose_us_home",
-  "promo_home",
-  "destinations_home",
-  "cta_home",
-  "testimonials_home",
-  "blogs_home",
-  "app_cta_home",
-];
 
 const HomepageSettingsContext = createContext<HomepageSettings>({});
 
-export function HomepageSettingsProvider({ children }: { children: ReactNode }) {
-  const [settings, setSettings] = useState<HomepageSettings>({});
+export function HomepageSettingsProvider({
+  children,
+  initialSettings,
+}: {
+  children: ReactNode;
+  initialSettings?: HomepageSettings;
+}) {
+  const [settings, setSettings] = useState<HomepageSettings>(initialSettings ?? {});
 
   useEffect(() => {
-    let mounted = true;
-    const params = new URLSearchParams({ keys: settingKeys.join(",") });
+    if (initialSettings) return;
 
-    fetch(`${API_URL}/setting?${params}`, {
-      cache: "no-store",
-      headers: { Accept: "application/json" },
-    })
-      .then((response) => {
-        if (!response.ok) throw new Error(`Homepage setting API error: ${response.status}`);
-        return response.json();
-      })
+    let mounted = true;
+
+    getHomepageSettings()
       .then((payload) => {
-        if (mounted && payload?.data && typeof payload.data === "object") {
-          setSettings(payload.data as HomepageSettings);
-        }
+        if (mounted) setSettings(payload);
       })
       .catch(() => {
         if (mounted) setSettings({});
@@ -57,7 +41,7 @@ export function HomepageSettingsProvider({ children }: { children: ReactNode }) 
     return () => {
       mounted = false;
     };
-  }, []);
+  }, [initialSettings]);
 
   const value = useMemo(() => settings, [settings]);
 
