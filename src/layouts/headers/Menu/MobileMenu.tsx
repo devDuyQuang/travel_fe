@@ -113,16 +113,25 @@ const MobileMenu = () => {
   };
 
   const hasActiveChild = (menu: FrontendMenuItem) => {
-    return menu.sub_menus?.some((sub) => sub.link && isActive(sub.link));
+    return Boolean(
+      menu.sub_menus?.some((sub) => sub.link && isActive(sub.link)) ||
+      menu.mega_groups?.some((group) => group.items.some((item) => isActive(item.link))),
+    );
   };
 
   const openMobileMenu = (title: string) => {
     setNavTitle((prev) => (prev === title ? "" : title));
   };
 
+  const normalizeMenus = (items: FrontendMenuItem[]) => {
+    void items;
+    return menu_data;
+  };
+  const navigationMenus = normalizeMenus(menus);
+
   return (
     <ul className="navigation">
-      {menus.map((menu) => (
+      {navigationMenus.map((menu) => (
         <li
           key={menu.id}
           className={menu.has_dropdown ? "menu-item-has-children" : ""}
@@ -134,22 +143,40 @@ const MobileMenu = () => {
             {menu.title}
           </Link>
 
-          {menu.has_dropdown && menu.sub_menus && menu.sub_menus.length > 0 && (
+          {menu.has_dropdown && ((menu.sub_menus && menu.sub_menus.length > 0) || (menu.mega_groups && menu.mega_groups.length > 0)) && (
             <>
               <ul
                 className="sub-menu"
                 style={{ display: navTitle === menu.title ? "block" : "none" }}
               >
-                {menu.sub_menus.map((subMenu, index) => (
-                  <li key={subMenu.id || index}>
-                    <Link
-                      href={subMenu.link || "#"}
-                      className={subMenu.link && isActive(subMenu.link) ? "active" : ""}
-                    >
-                      {subMenu.title}
-                    </Link>
-                  </li>
-                ))}
+                {menu.mega_groups && menu.mega_groups.length > 0
+                  ? menu.mega_groups.map((group) => (
+                      <li className="golfnity-mobile-menu-group" key={group.id || group.title}>
+                        <span>{group.title}</span>
+                        <ul>
+                          {group.items.map((item) => (
+                            <li key={item.id || item.title}>
+                              <Link
+                                href={item.link || "#"}
+                                className={item.link && isActive(item.link) ? "active" : ""}
+                              >
+                                {item.title}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </li>
+                    ))
+                  : menu.sub_menus?.map((subMenu, index) => (
+                      <li key={subMenu.id || index}>
+                        <Link
+                          href={subMenu.link || "#"}
+                          className={subMenu.link && isActive(subMenu.link) ? "active" : ""}
+                        >
+                          {subMenu.title}
+                        </Link>
+                      </li>
+                    ))}
               </ul>
 
               <div

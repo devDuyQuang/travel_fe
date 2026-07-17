@@ -47,7 +47,7 @@ const About = () => {
                         </p>
                      </div>
                      <div className="tp-about-btn-wrap wow fadeInUp" data-wow-delay=".7s" data-wow-duration=".9s">
-                        <Link href={homepageText(setting?.button_link, "/dich-vu/tour-golf-viet-nam")} className="tg-btn tg-btn-transparent tg-btn-switch-animation">
+                        <Link href={homepageText(setting?.button_link, "/dich-vu/dat-tee-time/danh-sach")} className="tg-btn tg-btn-transparent tg-btn-switch-animation">
                            <Button text={homepageText(setting?.button_text, "Khám phá hành trình")} />
                         </Link>
                      </div>

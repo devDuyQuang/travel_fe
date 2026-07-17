@@ -85,7 +85,7 @@ const ResetPasswordArea = () => {
                     <div className="row">
                       <div className="col-12 mb-25">
                         <input
-                          className="input"
+                          className="input golfnity-form-control"
                           type="email"
                           placeholder="Email"
                           autoComplete="email"
@@ -95,7 +95,7 @@ const ResetPasswordArea = () => {
                       </div>
                       <div className="col-12 mb-25">
                         <input
-                          className="input"
+                          className="input golfnity-form-control"
                           type="password"
                           placeholder="Mật khẩu mới"
                           autoComplete="new-password"
@@ -105,7 +105,7 @@ const ResetPasswordArea = () => {
                       </div>
                       <div className="col-12 mb-25">
                         <input
-                          className="input"
+                          className="input golfnity-form-control"
                           type="password"
                           placeholder="Xác nhận mật khẩu"
                           autoComplete="new-password"
@@ -126,7 +126,11 @@ const ResetPasswordArea = () => {
                         </div>
                       ) : null}
                       <div className="col-12">
-                        <button type="submit" className="tg-btn w-100" disabled={loading || success}>
+                        <button
+                          type="submit"
+                          className="tg-btn w-100 golfnity-form-button"
+                          disabled={loading || success}
+                        >
                           {loading ? "Đang xử lý..." : "Thiết lập mật khẩu"}
                         </button>
                       </div>

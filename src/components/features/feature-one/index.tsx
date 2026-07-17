@@ -18,8 +18,8 @@ interface FeatureOneProps {
 }
 
 const FeatureOne = ({
-   title = "Khách sạn & nghỉ dưỡng",
-   subTitle = "Khách sạn & nghỉ dưỡng",
+   title = "Khách sạn",
+   subTitle = "Khách sạn & resort",
    detailBasePath = "/khach-san-nghi-duong",
    items,
    searchLabels,

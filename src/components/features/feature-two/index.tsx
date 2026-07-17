@@ -18,8 +18,8 @@ interface FeatureTwoProps {
 }
 
 const FeatureTwo = ({
-   title = "Đặt tee time",
-   subTitle = "Đặt tee time",
+   title = "Đặt sân golf",
+   subTitle = "Đặt sân golf / Tee time",
    detailBasePath = "/dat-tee-time",
    items,
    searchLabels,

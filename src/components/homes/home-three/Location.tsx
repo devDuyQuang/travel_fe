@@ -85,7 +85,7 @@ const Location = () => {
                         Khám phá dịch vụ
                       </span>
                       <h3 className="tg-location-title mb-0">
-                        <Link href="/dich-vu/tham-quan-trai-nghiem">{item.title}</Link>
+                        <Link href="/dich-vu/tour-trai-nghiem">{item.title}</Link>
                       </h3>
                     </div>
                     <div className="tg-location-border one"></div>

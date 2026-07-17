@@ -6,6 +6,8 @@ import Blog from "./Blog"
 import Choose from "./Choose"
 import CtaThree from "./Cta"
 import CtaTwo from "./CtaTwo"
+import ExploreNav from "./ExploreNav"
+import HomeQuickCategories from "./HomeQuickCategories"
 import Location from "./Location"
 import Testimonial from "./Testimonial"
 import HeaderThree from "@/layouts/headers/HeaderThree"
@@ -30,9 +32,11 @@ const HomeThree = ({
    return (
       <HomepageSettingsProvider initialSettings={initialSettings}>
          <HeaderThree showGlobalUtility />
+         <ExploreNav />
          <main>
             <Banner />
             <BannerFormThree initialCategories={initialServiceCategories} />
+            <HomeQuickCategories />
             <About />
             <Listing
                initialCategories={initialServiceCategories}

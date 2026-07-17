@@ -73,7 +73,7 @@ const LoginArea = () => {
                     <div className="row">
                       <div className="col-12 mb-25">
                         <input
-                          className="input"
+                          className="input golfnity-form-control"
                           type="email"
                           placeholder="Email"
                           autoComplete="email"
@@ -83,7 +83,7 @@ const LoginArea = () => {
                       </div>
                       <div className="col-12 mb-25">
                         <input
-                          className="input"
+                          className="input golfnity-form-control"
                           type="password"
                           placeholder="Mật khẩu"
                           autoComplete="current-password"
@@ -101,7 +101,11 @@ const LoginArea = () => {
                           <input className="tg-checkbox" type="checkbox" id="remember-login" />
                           <label htmlFor="remember-login" className="tg-label">Ghi nhớ đăng nhập</label>
                         </div>
-                        <button type="submit" className="tg-btn w-100" disabled={loading}>
+                        <button
+                          type="submit"
+                          className="tg-btn w-100 golfnity-form-button"
+                          disabled={loading}
+                        >
                           {loading ? "Đang đăng nhập..." : "Đăng nhập"}
                         </button>
                       </div>

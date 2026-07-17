@@ -101,7 +101,7 @@ const Cta = () => {
                               <Button text="See Details" />
                            </Link> */}
                   <Link
-                    href={homepageText(setting?.button_link, "/dich-vu/dat-tee-time")}
+                    href={homepageText(setting?.button_link, "/dich-vu/dat-tee-time/danh-sach")}
                     className="tg-btn tg-btn-switch-animation tg-banner-cta"
                   >
                     <span className="d-flex align-items-center justify-content-center">

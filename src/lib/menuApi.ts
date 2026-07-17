@@ -8,6 +8,16 @@ export type FrontendMenuItem = {
     title: string;
     link: string;
   }[];
+  mega_groups?: {
+    id?: number;
+    title: string;
+    icon?: string;
+    items: {
+      id?: number;
+      title: string;
+      link: string;
+    }[];
+  }[];
 };
 
 type ApiMenuItem = {
@@ -31,9 +41,9 @@ const serviceCategoryPaths: Record<string, string> = {
   "/about": "/ve-golfnity",
   "/dat-tee-time": "/dich-vu/dat-tee-time",
   "/tour-golf": "/dich-vu/tour-golf-viet-nam",
-  "/khach-san-nghi-duong": "/dich-vu/khach-san-nghi-duong",
-  "/thue-xe-dua-don": "/dich-vu/thue-xe-dua-don",
-  "/tham-quan-trai-nghiem": "/dich-vu/tham-quan-trai-nghiem",
+  "/khach-san-nghi-duong": "/dich-vu/khach-san",
+  "/thue-xe-dua-don": "/dich-vu/thue-xe",
+  "/tham-quan-trai-nghiem": "/dich-vu/tour-trai-nghiem",
 };
 
 function normalizePath(item: ApiMenuItem): string {

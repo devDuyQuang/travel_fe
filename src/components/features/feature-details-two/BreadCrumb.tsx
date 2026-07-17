@@ -1,6 +1,18 @@
 import Link from "next/link";
 import type { Product } from "@/types/product";
 
+const serviceSlugAliases: Record<string, string> = {
+  "dat-tee-time": "golf",
+  "khach-san-nghi-duong": "khach-san",
+  "thue-xe-dua-don": "thue-xe",
+  "tham-quan-trai-nghiem": "tour-trai-nghiem",
+};
+
+function serviceHref(slug?: string | null) {
+  if (!slug) return "/dich-vu/khach-san";
+  return `/dich-vu/${serviceSlugAliases[slug] || slug}`;
+}
+
 const BreadCrumb = ({ product }: { product: Product | null }) => {
   return (
     <>
@@ -26,8 +38,8 @@ const BreadCrumb = ({ product }: { product: Product | null }) => {
                     <i className="fa-sharp fa-solid fa-angle-right"></i>
                   </li>
                   <li>
-                    <Link href={product?.category?.slug ? `/dich-vu/${product.category.slug}` : "/khach-san-nghi-duong"}>
-                      {product?.category?.name || "Khách sạn & nghỉ dưỡng"}
+                    <Link href={serviceHref(product?.category?.slug)}>
+                      {product?.category?.name || "Khách sạn & resort"}
                     </Link>
                   </li>
                   <li>

@@ -18,7 +18,7 @@ const HeaderCart = () => {
       {items.length === 0 ? (
         <div className="empty_bag text-center">
           <p className="py-3">Giỏ hàng đang trống</p>
-          <Link href="/dat-tee-time" className="swiftcart-btn-black swiftcart-btn-black-large">
+          <Link href="/dich-vu/dat-tee-time/danh-sach" className="swiftcart-btn-black swiftcart-btn-black-large">
             Xem dịch vụ
           </Link>
         </div>

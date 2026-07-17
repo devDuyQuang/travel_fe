@@ -1,0 +1,1799 @@
+.page {
+  --hub-green: var(--golfnity-moss, #245f52);
+  --hub-green-dark: var(--golfnity-moss-dark, #1b4d3e);
+  --hub-green-soft: var(--golfnity-mint, #f1faf6);
+  --hub-gold: var(--golfnity-gold, #e6c76f);
+  --hub-cream: var(--golfnity-cream, #faf8f2);
+  --hub-ink: var(--golfnity-text, #10231f);
+  --hub-muted: var(--golfnity-muted, #667a73);
+  --hub-line: var(--golfnity-border, #e8e0d1);
+  background:
+    linear-gradient(180deg, #f6f8f2 0%, #ffffff 34%),
+    #ffffff;
+  color: var(--hub-ink);
+  font-family: inherit;
+  overflow-x: hidden;
+}
+
+.page *,
+.page *::before,
+.page *::after {
+  box-sizing: border-box;
+}
+
+.page button,
+.page input,
+.page select,
+.page textarea {
+  font-family: inherit;
+}
+
+.hero {
+  background:
+    radial-gradient(circle at 22% 0%, rgba(230, 199, 111, 0.14), transparent 28%),
+    linear-gradient(180deg, rgba(27, 77, 62, 0.82), rgba(27, 77, 62, 0.68)),
+    url("/assets/img/location/location-4.jpg") center / cover;
+  padding: 118px 20px 104px;
+}
+
+.heroInner {
+  margin: 0 auto;
+  max-width: 980px;
+  text-align: center;
+}
+
+.heroCopy {
+  margin: 0 auto;
+  max-width: 860px;
+}
+
+.sectionHeading span,
+.trustIntro span,
+.faqIntro span {
+  color: var(--hub-gold);
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 0;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+}
+
+.hero h1 {
+  color: #ffffff;
+  font-size: clamp(42px, 5vw, 56px);
+  font-weight: 800;
+  letter-spacing: 0;
+  line-height: 1.1;
+  margin: 0 auto 16px;
+  max-width: 780px;
+  overflow-wrap: break-word;
+}
+
+.hero p {
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.65;
+  margin: 0 auto;
+  max-width: 620px;
+}
+
+.searchPanel {
+  margin: 30px auto 0;
+  max-width: 720px;
+}
+
+.searchForm {
+  align-items: center;
+  background: var(--golfnity-form-bg, #ffffff);
+  border: 1px solid var(--golfnity-form-border, #e8dfd0);
+  border-radius: var(--golfnity-form-radius-pill, 999px);
+  box-shadow: var(--golfnity-form-shadow, 0 10px 24px rgba(17, 35, 31, 0.07));
+  display: flex;
+  gap: 10px;
+  min-height: var(--golfnity-form-height-lg, 64px);
+  padding: 5px;
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.searchForm:focus-within {
+  border-color: var(--golfnity-form-focus, #245f52);
+  box-shadow:
+    var(--golfnity-form-shadow, 0 10px 24px rgba(17, 35, 31, 0.07)),
+    0 0 0 3px rgba(36, 95, 82, 0.11);
+}
+
+.searchIcon {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  border-radius: var(--golfnity-form-radius-pill, 999px);
+  color: var(--hub-green);
+  display: inline-flex;
+  flex: 0 0 auto;
+  font-size: 18px;
+  height: 52px;
+  justify-content: center;
+  margin-left: 8px;
+  width: 40px;
+}
+
+.searchForm input {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  color: var(--hub-ink);
+  flex: 1 1 auto;
+  font-size: 16px;
+  font-weight: 500;
+  min-height: var(--golfnity-form-height, 54px);
+  min-width: 0;
+  outline: 0;
+  padding: 0 6px;
+  width: 100%;
+}
+
+.searchForm input::placeholder {
+  color: var(--golfnity-form-placeholder, #7b827f);
+  font-weight: 500;
+  opacity: 1;
+}
+
+.searchForm button {
+  align-items: center;
+  background: var(--hub-green);
+  border: 1px solid var(--hub-green);
+  border-radius: var(--golfnity-form-radius-pill, 999px);
+  color: #ffffff;
+  display: inline-flex;
+  font-size: 18px;
+  font-weight: 700;
+  flex: 0 0 auto;
+  height: 54px;
+  justify-content: center;
+  min-height: var(--golfnity-form-height, 54px);
+  padding: 0;
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    color 180ms ease,
+    transform 180ms ease;
+  width: 54px;
+}
+
+.searchForm button:hover,
+.searchForm button:focus-visible {
+  background: var(--hub-green-dark);
+  border-color: var(--hub-green-dark);
+  box-shadow: var(--golfnity-form-shadow, 0 10px 24px rgba(17, 35, 31, 0.07));
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+.section,
+.areaSection,
+.discoveryWrap,
+.benefitStrip {
+  margin: 0 auto;
+  max-width: 1180px;
+}
+
+.areaSection {
+  margin-top: -66px;
+  padding: 0 20px;
+  position: relative;
+  z-index: 2;
+}
+
+.section {
+  padding: 66px 20px 0;
+}
+
+.sectionHeading {
+  align-items: end;
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.sectionHeading h2,
+.trustIntro h2,
+.faqIntro h2 {
+  color: var(--hub-ink);
+  font-size: 34px;
+  font-weight: 900;
+  line-height: 1.18;
+  margin: 0;
+}
+
+.sectionHeading p,
+.faqIntro p {
+  color: var(--hub-muted);
+  line-height: 1.6;
+  margin: 8px 0 0;
+  max-width: 620px;
+}
+
+.sectionHeading > a {
+  border: 1px solid rgba(31, 87, 75, 0.22);
+  border-radius: 999px;
+  color: var(--hub-green);
+  flex: 0 0 auto;
+  font-weight: 850;
+  padding: 11px 17px;
+}
+
+.areaGrid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(6, minmax(150px, 165px));
+  justify-content: center;
+}
+
+.areaCard {
+  background: #ffffff;
+  border: 1px solid #e8e2d3;
+  border-radius: 20px;
+  box-shadow: 0 12px 28px rgba(26, 52, 45, 0.09);
+  color: var(--hub-ink);
+  display: block;
+  min-height: 218px;
+  min-width: 0;
+  padding: 12px;
+  text-decoration: none;
+  transition:
+    background-color 220ms ease,
+    border-color 200ms ease,
+    color 200ms ease,
+    box-shadow 200ms ease,
+    transform 200ms ease;
+}
+
+.areaCard:visited,
+.areaCard:hover,
+.areaCard:active {
+  color: var(--hub-ink);
+  text-decoration: none;
+}
+
+.areaImage {
+  background: var(--hub-green-soft);
+  border-radius: 16px;
+  display: block;
+  height: 122px;
+  overflow: hidden;
+  position: relative;
+}
+
+.areaImage img {
+  object-fit: cover;
+  transition: transform 260ms ease;
+}
+
+.areaBody {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+  padding: 14px 4px 2px;
+}
+
+.areaCard strong {
+  color: var(--hub-green);
+  font-size: 15.5px;
+  font-weight: 800;
+  line-height: 1.28;
+  overflow-wrap: break-word;
+  transition: color 200ms ease;
+}
+
+.areaBody span {
+  color: var(--hub-muted);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.35;
+  transition: color 200ms ease;
+}
+
+.areaCard:hover,
+.areaCard:focus-visible {
+  background: var(--hub-green);
+  border-color: var(--hub-green);
+  box-shadow: 0 22px 48px rgba(26, 52, 45, 0.22);
+  text-decoration: none;
+  transform: translateY(-6px);
+}
+
+.areaCard:hover strong,
+.areaCard:focus-visible strong {
+  color: var(--hub-gold);
+}
+
+.areaCard:hover .areaBody span,
+.areaCard:focus-visible .areaBody span {
+  color: #fff7dc;
+}
+
+.areaCard:hover .areaImage img,
+.areaCard:focus-visible .areaImage img {
+  transform: scale(1.04);
+}
+
+.areaCardActive {
+  background: rgba(36, 95, 82, 0.04);
+  border-color: rgba(230, 199, 111, 0.95);
+  box-shadow:
+    0 14px 34px rgba(26, 52, 45, 0.12),
+    0 0 0 3px rgba(230, 199, 111, 0.24);
+}
+
+.areaCard:focus-visible {
+  outline: 3px solid rgba(230, 199, 111, 0.34);
+  outline-offset: 3px;
+}
+
+.discoveryWrap {
+  display: grid;
+  gap: 22px;
+  padding: 92px 20px 0;
+}
+
+.discoveryIntro {
+  max-width: 760px;
+}
+
+.discoveryIntro h2 {
+  color: var(--hub-ink);
+  font-size: 36px;
+  font-weight: 800;
+  line-height: 1.18;
+  margin: 0;
+}
+
+.discoveryIntro p {
+  color: var(--hub-muted);
+  font-size: 16px;
+  line-height: 1.6;
+  margin: 10px 0 0;
+  max-width: 620px;
+}
+
+.discoveryGroup {
+  border: 1px solid rgba(15, 93, 74, 0.1);
+  border-radius: 20px;
+  box-shadow: 0 12px 30px rgba(16, 35, 31, 0.05);
+  min-width: 0;
+  overflow: hidden;
+  padding: 20px;
+}
+
+.green {
+  background: linear-gradient(135deg, #effaf5 0%, #fbfffd 100%);
+}
+
+.cream {
+  background: linear-gradient(135deg, #fff9ec 0%, #fffdf7 100%);
+}
+
+.gold {
+  background: linear-gradient(135deg, #f2fbf7 0%, #fff8ea 100%);
+}
+
+.groupHeading {
+  align-items: center;
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.groupTitle {
+  align-items: center;
+  display: flex;
+  gap: 14px;
+  min-width: 0;
+}
+
+.groupIcon {
+  align-items: center;
+  background: var(--hub-green-dark);
+  border: 1px solid rgba(230, 199, 111, 0.32);
+  border-radius: 12px;
+  color: #f6dfab;
+  display: inline-flex;
+  flex: 0 0 auto;
+  font-size: 16px;
+  height: 38px;
+  justify-content: center;
+  width: 38px;
+}
+
+.groupHeading h2 {
+  color: var(--hub-ink);
+  font-size: 23px;
+  font-weight: 800;
+  line-height: 1.22;
+  margin: 0;
+}
+
+.viewAllLink,
+.allExperiencesLink {
+  background: #ffffff;
+  border: 1px solid var(--hub-line);
+  border-radius: 999px;
+  box-shadow: 0 10px 24px rgba(17, 35, 31, 0.06);
+  color: var(--hub-green);
+  font-size: 14px;
+  font-weight: 700;
+  padding: 10px 16px;
+  text-decoration: none;
+  transition:
+    transform 0.22s ease,
+    box-shadow 0.22s ease,
+    border-color 0.22s ease,
+    background-color 0.22s ease,
+    color 0.22s ease;
+}
+
+.viewAllLink {
+  flex: 0 0 auto;
+}
+
+.viewAllLink:visited,
+.viewAllLink:hover,
+.viewAllLink:active,
+.allExperiencesLink:visited,
+.allExperiencesLink:hover,
+.allExperiencesLink:active {
+  color: var(--hub-green);
+  text-decoration: none;
+}
+
+.viewAllLink:hover,
+.allExperiencesLink:hover {
+  background: var(--hub-green);
+  border-color: var(--hub-green);
+  box-shadow: 0 14px 28px rgba(36, 95, 82, 0.16);
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+.viewAllLink:focus-visible,
+.allExperiencesLink:focus-visible {
+  background: var(--hub-green);
+  border-color: var(--hub-green);
+  color: #ffffff;
+  outline: 3px solid rgba(36, 95, 82, 0.24);
+  outline-offset: 3px;
+}
+
+.groupProducts {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.groupProductsCompact {
+  grid-template-columns: repeat(auto-fit, minmax(176px, 216px));
+  justify-content: start;
+}
+
+.courseCard {
+  background: #ffffff;
+  border: 1px solid rgba(36, 95, 82, 0.1);
+  border-radius: 14px;
+  box-shadow: 0 10px 24px rgba(30, 53, 47, 0.065);
+  color: inherit;
+  cursor: pointer;
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-decoration: none;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.courseCard:visited,
+.courseCard:hover,
+.courseCard:active {
+  color: inherit;
+  text-decoration: none;
+}
+
+.courseCard:hover {
+  border-color: rgba(36, 95, 82, 0.22);
+  box-shadow: 0 18px 38px rgba(16, 35, 31, 0.12);
+  transform: translateY(-6px);
+}
+
+.courseCard:focus-visible {
+  outline: 3px solid rgba(230, 199, 111, 0.5);
+  outline-offset: 4px;
+}
+
+.courseCardInner {
+  min-height: 100%;
+}
+
+.courseImage {
+  background:
+    linear-gradient(rgba(36, 95, 82, 0.06), rgba(36, 95, 82, 0.06)),
+    url("/assets/img/listing/listing-1.jpg") center / cover;
+  height: 128px;
+  display: block;
+  overflow: hidden;
+  position: relative;
+}
+
+.courseImage img {
+  height: 100%;
+  object-fit: cover;
+  transition: transform 360ms ease;
+  width: 100%;
+}
+
+.courseCard:hover .courseImage img {
+  transform: scale(1.04);
+}
+
+.badge {
+  background: linear-gradient(135deg, rgba(36, 95, 82, 0.96), rgba(27, 77, 62, 0.96));
+  border: 1px solid rgba(230, 199, 111, 0.45);
+  border-radius: 999px;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 800;
+  left: 10px;
+  line-height: 1.15;
+  max-width: calc(100% - 20px);
+  overflow: hidden;
+  padding: 5px 9px;
+  position: absolute;
+  text-overflow: ellipsis;
+  top: 10px;
+  white-space: nowrap;
+}
+
+.courseBody {
+  padding: 11px;
+}
+
+.courseBody h3 {
+  color: var(--hub-ink);
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1.3;
+  margin: 0 0 9px;
+  min-height: 2.6em;
+  overflow: hidden;
+  text-decoration: none;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.courseCard:hover h3,
+.courseCard:visited h3 {
+  color: var(--hub-ink);
+  text-decoration: none;
+}
+
+.metaLine {
+  color: var(--hub-muted);
+  display: grid;
+  font-size: 12.5px;
+  gap: 4px;
+  line-height: 1.45;
+  margin-bottom: 11px;
+}
+
+.cardFooter {
+  align-items: center;
+  border-top: 1px solid #efe9dd;
+  display: flex;
+  gap: 8px;
+  justify-content: space-between;
+  padding-top: 10px;
+}
+
+.cardFooter strong {
+  color: var(--hub-green);
+  font-size: 13px;
+  line-height: 1.2;
+}
+
+.cardFooter span {
+  background: #f8f5ec;
+  border-radius: 999px;
+  color: var(--hub-green);
+  flex: 0 0 auto;
+  font-size: 12.5px;
+  font-weight: 800;
+  padding: 7px 10px;
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease;
+}
+
+.courseCard:hover .cardFooter span {
+  background: var(--hub-green);
+  color: var(--hub-gold);
+}
+
+.allExperiences {
+  display: flex;
+  justify-content: center;
+  padding-top: 14px;
+}
+
+.allExperiencesLink {
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid rgba(36, 95, 82, 0.18);
+  border-radius: 999px;
+  box-shadow: 0 14px 30px rgba(17, 35, 31, 0.07);
+  color: var(--hub-green-dark);
+  display: inline-flex;
+  gap: 14px;
+  font-size: 15px;
+  font-weight: 900;
+  height: 56px;
+  justify-content: space-between;
+  line-height: 1.2;
+  min-width: min(360px, 100%);
+  padding: 6px 18px 6px 7px;
+  text-decoration: none;
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    color 180ms ease,
+    transform 180ms ease;
+}
+
+.allExperiencesLink:visited,
+.allExperiencesLink:hover,
+.allExperiencesLink:active {
+  color: var(--hub-green-dark);
+  text-decoration: none;
+}
+
+.allExperiencesLink:hover,
+.allExperiencesLink:focus-visible {
+  background: #fffdf7;
+  border-color: rgba(36, 95, 82, 0.42);
+  box-shadow: 0 18px 38px rgba(17, 35, 31, 0.11);
+  transform: translateY(-1px);
+}
+
+.allExperiencesIcon {
+  align-items: center;
+  background: var(--hub-green-soft);
+  border: 1px solid rgba(36, 95, 82, 0.12);
+  border-radius: 999px;
+  color: var(--hub-green);
+  display: inline-flex;
+  flex: 0 0 44px;
+  height: 44px;
+  justify-content: center;
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease;
+  width: 44px;
+}
+
+.allExperiencesLink:hover .allExperiencesIcon,
+.allExperiencesLink:focus-visible .allExperiencesIcon {
+  background: var(--hub-gold);
+  border-color: var(--hub-gold);
+  color: var(--hub-green-dark);
+}
+
+.couponSection,
+.exploreMoreSection,
+.compactFaqSection {
+  margin: 34px auto 0;
+  max-width: 1180px;
+  padding: 0 20px;
+}
+
+.couponSection {
+  background: linear-gradient(135deg, #fffaf0 0%, #ffffff 48%, #f4fbf7 100%);
+  border: 1px solid rgba(230, 199, 111, 0.42);
+  border-radius: 18px;
+  box-shadow: 0 14px 32px rgba(17, 35, 31, 0.06);
+  padding: 18px;
+}
+
+.couponHeading {
+  align-items: center;
+  display: flex;
+  gap: 18px;
+  justify-content: space-between;
+}
+
+.couponHeading span {
+  color: var(--hub-green);
+  display: block;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0;
+  line-height: 1.2;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+}
+
+.couponHeading h2,
+.compactHeading h2 {
+  color: var(--hub-ink);
+  font-size: 24px;
+  font-weight: 900;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.compactHeading span {
+  color: var(--hub-gold);
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0;
+  line-height: 1.2;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.couponViewAll {
+  background: var(--hub-green);
+  border: 1px solid var(--hub-green);
+  border-radius: 999px;
+  color: #ffffff;
+  flex: 0 0 auto;
+  font-size: 14px;
+  font-weight: 850;
+  line-height: 1.2;
+  padding: 10px 16px;
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease,
+    transform 180ms ease;
+}
+
+.couponViewAll:hover,
+.couponViewAll:focus-visible {
+  background: var(--hub-green-dark);
+  border-color: var(--hub-green-dark);
+  color: var(--hub-gold);
+  transform: translateY(-1px);
+}
+
+.couponList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.couponList span {
+  background: #ffffff;
+  border: 1px dashed rgba(230, 199, 111, 0.9);
+  border-radius: 12px;
+  color: var(--hub-green-dark);
+  font-size: 14px;
+  font-weight: 850;
+  line-height: 1.2;
+  padding: 11px 13px;
+}
+
+.exploreMoreSection,
+.compactFaqSection {
+  padding-bottom: 0;
+}
+
+.exploreMoreSection {
+  background: #fffefb;
+  border: 1px solid rgba(232, 224, 209, 0.8);
+  border-radius: 22px;
+  box-shadow: 0 12px 30px rgba(17, 35, 31, 0.038);
+  margin-bottom: 104px;
+  padding: 28px 28px 34px;
+}
+
+.exploreGroups {
+  display: grid;
+  gap: 26px;
+  margin-top: 22px;
+}
+
+.exploreGroup h3 {
+  color: var(--hub-green-dark);
+  font-size: 17px;
+  font-weight: 900;
+  line-height: 1.35;
+  margin: 0 0 14px;
+  text-transform: uppercase;
+}
+
+.exploreChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 11px;
+  margin-top: 0;
+}
+
+.page .exploreMoreSection .exploreChips a {
+  align-items: center;
+  background: #fffdf7;
+  border: 1px solid #ead49a;
+  border-radius: 999px;
+  color: var(--hub-green);
+  display: inline-flex;
+  gap: 9px;
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 700;
+  line-height: 1.2;
+  max-width: 100%;
+  padding: 7px 14px 7px 7px;
+  text-decoration: none;
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    color 180ms ease,
+    transform 180ms ease;
+}
+
+.page .exploreMoreSection .exploreChips a:link,
+.page .exploreMoreSection .exploreChips a:visited,
+.page .exploreMoreSection .exploreChips a:hover,
+.page .exploreMoreSection .exploreChips a:focus,
+.page .exploreMoreSection .exploreChips a:active {
+  color: var(--hub-green);
+  text-decoration: none;
+}
+
+.page .exploreMoreSection .exploreChips a span {
+  align-items: center;
+  background: #f8edd0;
+  border: 1px solid rgba(234, 212, 154, 0.82);
+  border-radius: 999px;
+  color: #9f7624;
+  display: inline-flex;
+  flex: 0 0 auto;
+  font-size: 12px;
+  font-weight: 800;
+  height: 28px;
+  justify-content: center;
+  line-height: 1;
+  min-width: 28px;
+  padding: 0;
+  text-align: center;
+  width: 28px;
+}
+
+.page .exploreMoreSection .exploreChips a strong {
+  color: inherit;
+  font-size: inherit;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.page .exploreMoreSection .exploreChips a:hover,
+.page .exploreMoreSection .exploreChips a:focus-visible {
+  background: #fff7e8;
+  border-color: #d8b75f;
+  box-shadow: 0 8px 18px rgba(17, 35, 31, 0.055);
+  color: var(--hub-green);
+  outline: 0;
+  text-decoration: none;
+  transform: translateY(-1px);
+}
+
+.page .exploreMoreSection .exploreChips a:focus-visible {
+  box-shadow:
+    0 8px 18px rgba(17, 35, 31, 0.055),
+    0 0 0 3px rgba(230, 199, 111, 0.3);
+}
+
+.compactFaqSection {
+  padding-bottom: 76px;
+}
+
+.compactFaqSection .faqGrid {
+  margin-top: 14px;
+}
+
+.modalOverlay {
+  --hub-green: var(--golfnity-moss, #245f52);
+  --hub-green-dark: var(--golfnity-moss-dark, #1b4d3e);
+  --hub-green-soft: var(--golfnity-mint, #f1faf6);
+  --hub-gold: var(--golfnity-gold, #e6c76f);
+  --hub-cream: var(--golfnity-cream, #faf8f2);
+  --hub-ink: var(--golfnity-text, #10231f);
+  --hub-muted: var(--golfnity-muted, #667a73);
+  --hub-line: var(--golfnity-border, #e8e0d1);
+  align-items: center;
+  background: rgba(6, 20, 17, 0.58);
+  display: flex;
+  inset: 0;
+  justify-content: center;
+  padding: 24px;
+  position: fixed;
+  z-index: 12000;
+}
+
+.couponModal {
+  background:
+    radial-gradient(circle at 11% 0%, rgba(230, 199, 111, 0.18), transparent 28%),
+    linear-gradient(180deg, #fffdf8 0%, #ffffff 46%, #f7fbf8 100%);
+  border: 1px solid rgba(230, 199, 111, 0.38);
+  border-radius: 28px;
+  box-shadow: 0 30px 80px rgba(4, 18, 15, 0.3);
+  max-height: min(80vh, 760px);
+  max-width: 980px;
+  overflow-y: auto;
+  padding: 30px;
+  position: relative;
+  width: 100%;
+}
+
+.modalHeader {
+  margin: 0 56px 20px 0;
+  max-width: 640px;
+}
+
+.modalHeader span {
+  color: var(--hub-gold);
+  display: inline-flex;
+  font-size: 12px;
+  font-weight: 950;
+  letter-spacing: 0;
+  line-height: 1.2;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.modalHeader h2 {
+  color: var(--hub-ink);
+  font-size: 34px;
+  font-weight: 950;
+  line-height: 1.08;
+  margin: 0;
+}
+
+.modalHeader p {
+  color: var(--hub-muted);
+  font-size: 15px;
+  line-height: 1.55;
+  margin: 10px 0 0;
+}
+
+.modalClose {
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid rgba(36, 95, 82, 0.14);
+  border-radius: 999px;
+  color: var(--hub-green-dark);
+  display: inline-flex;
+  font-size: 15px;
+  height: 42px;
+  justify-content: center;
+  position: absolute;
+  right: 22px;
+  top: 22px;
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease,
+    transform 180ms ease;
+  width: 42px;
+}
+
+.modalClose:hover,
+.modalClose:focus-visible {
+  background: var(--hub-green);
+  border-color: var(--hub-green);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+.couponTabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 22px;
+}
+
+.couponTab {
+  background: #fff9ec;
+  border: 1px solid rgba(230, 199, 111, 0.58);
+  border-radius: 999px;
+  color: var(--hub-green-dark);
+  font-size: 14px;
+  font-weight: 900;
+  line-height: 1.2;
+  padding: 10px 15px;
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease,
+    transform 180ms ease;
+}
+
+.couponTab:hover,
+.couponTab:focus-visible {
+  border-color: rgba(36, 95, 82, 0.24);
+  transform: translateY(-1px);
+}
+
+.couponTabActive {
+  background: var(--hub-green);
+  border-color: var(--hub-green);
+  color: #ffffff;
+}
+
+.couponGroup h3 {
+  color: var(--hub-green-dark);
+  font-size: 18px;
+  font-weight: 900;
+  line-height: 1.25;
+  margin: 0;
+}
+
+.couponGroupHeader {
+  align-items: center;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.couponGroupHeader span {
+  background: rgba(230, 199, 111, 0.18);
+  border: 1px solid rgba(230, 199, 111, 0.48);
+  border-radius: 999px;
+  color: var(--hub-green-dark);
+  flex: 0 0 auto;
+  font-size: 11px;
+  font-weight: 950;
+  line-height: 1.2;
+  padding: 7px 10px;
+}
+
+.modalCouponGrid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.modalCouponCard {
+  align-items: stretch;
+  background:
+    radial-gradient(circle at calc(100% - 128px) -7px, transparent 0 13px, rgba(230, 199, 111, 0.42) 14px, transparent 15px),
+    radial-gradient(circle at calc(100% - 128px) calc(100% + 7px), transparent 0 13px, rgba(230, 199, 111, 0.42) 14px, transparent 15px),
+    linear-gradient(135deg, #fff9ec 0%, #ffffff 58%, #f3faf6 100%);
+  border: 1px solid rgba(230, 199, 111, 0.5);
+  border-radius: 18px;
+  box-shadow: 0 12px 26px rgba(17, 35, 31, 0.07);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 132px;
+  min-width: 0;
+  overflow: hidden;
+  position: relative;
+  transition:
+    box-shadow 180ms ease,
+    transform 180ms ease;
+}
+
+.modalCouponCard:hover {
+  box-shadow: 0 18px 38px rgba(17, 35, 31, 0.12);
+  transform: translateY(-2px);
+}
+
+.modalCouponMain {
+  display: grid;
+  gap: 9px;
+  min-width: 0;
+  padding: 18px;
+}
+
+.couponTag {
+  align-items: center;
+  color: var(--hub-green);
+  display: inline-flex;
+  font-size: 11px;
+  font-weight: 950;
+  gap: 6px;
+  letter-spacing: 0;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.couponTag i {
+  color: var(--hub-gold);
+}
+
+.modalCouponMain strong {
+  color: var(--hub-ink);
+  font-size: 17px;
+  font-weight: 900;
+  line-height: 1.3;
+}
+
+.modalCouponMain p {
+  color: var(--hub-muted);
+  font-size: 13px;
+  font-weight: 650;
+  line-height: 1.48;
+  margin: 0;
+}
+
+.couponCode {
+  background: #ffffff;
+  border: 1px dashed rgba(36, 95, 82, 0.26);
+  border-radius: 10px;
+  color: var(--hub-green-dark);
+  display: inline-flex;
+  font-size: 13px;
+  font-weight: 950;
+  justify-self: start;
+  line-height: 1.2;
+  padding: 8px 10px;
+}
+
+.modalCouponCard aside {
+  align-items: center;
+  background: rgba(255, 255, 255, 0.58);
+  border-left: 1px dashed rgba(36, 95, 82, 0.22);
+  display: grid;
+  gap: 8px;
+  justify-items: center;
+  padding: 18px 14px;
+  position: relative;
+}
+
+.couponIcon {
+  align-items: center;
+  background: rgba(230, 199, 111, 0.18);
+  border: 1px solid rgba(230, 199, 111, 0.45);
+  border-radius: 999px;
+  color: var(--hub-green);
+  display: inline-flex;
+  height: 34px;
+  justify-content: center;
+  width: 34px;
+}
+
+.modalCouponCard aside strong {
+  color: var(--hub-green);
+  font-size: 22px;
+  font-weight: 950;
+  line-height: 1.1;
+  text-align: center;
+  word-break: keep-all;
+}
+
+.modalCouponCard aside button {
+  background: var(--hub-green);
+  border: 1px solid var(--hub-green);
+  border-radius: 999px;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 850;
+  min-width: 76px;
+  padding: 8px 12px;
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease,
+    transform 180ms ease;
+}
+
+.modalCouponCard aside button:hover,
+.modalCouponCard aside button:focus-visible {
+  background: var(--hub-green-dark);
+  border-color: var(--hub-green-dark);
+  color: var(--hub-gold);
+  transform: translateY(-1px);
+}
+
+.couponViewAll:focus-visible,
+.modalClose:focus-visible,
+.couponTab:focus-visible,
+.modalCouponCard aside button:focus-visible {
+  outline: 3px solid rgba(230, 199, 111, 0.45);
+  outline-offset: 3px;
+}
+
+.benefitStrip {
+  background: #fffaf0;
+  border: 1px solid #eadfca;
+  border-radius: 8px;
+  display: grid;
+  gap: 0;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 72px;
+  overflow: hidden;
+}
+
+.benefitStrip div {
+  align-items: center;
+  display: flex;
+  gap: 12px;
+  min-width: 0;
+  padding: 22px;
+}
+
+.benefitStrip div + div {
+  border-left: 1px solid #eadfca;
+}
+
+.benefitStrip span {
+  color: var(--hub-gold);
+  font-size: 14px;
+  font-weight: 950;
+}
+
+.benefitStrip strong {
+  color: var(--hub-green-dark);
+  font-size: 16px;
+  line-height: 1.3;
+}
+
+.trustSection {
+  background: var(--hub-green-dark);
+  margin-top: 74px;
+  padding: 70px 20px;
+}
+
+.trustIntro,
+.stepGrid {
+  margin: 0 auto;
+  max-width: 1180px;
+}
+
+.trustIntro h2 {
+  color: #ffffff;
+  max-width: 720px;
+}
+
+.stepGrid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 32px;
+}
+
+.stepGrid div {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 8px;
+  padding: 26px;
+}
+
+.stepGrid span {
+  color: var(--hub-gold);
+  display: block;
+  font-size: 26px;
+  font-weight: 950;
+  margin-bottom: 16px;
+}
+
+.stepGrid h3 {
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 900;
+  margin: 0 0 10px;
+}
+
+.stepGrid p {
+  color: rgba(255, 255, 255, 0.74);
+  line-height: 1.65;
+  margin: 0;
+}
+
+.faqSection {
+  padding-bottom: 84px;
+}
+
+.faqLayout {
+  display: grid;
+  gap: 34px;
+  grid-template-columns: minmax(260px, 0.62fr) minmax(0, 1fr);
+}
+
+.faqGrid {
+  display: grid;
+  gap: 12px;
+}
+
+.faqGrid details {
+  background: #ffffff;
+  border: 1px solid var(--hub-line);
+  border-radius: 8px;
+  padding: 18px 20px;
+}
+
+.faqGrid summary {
+  color: var(--hub-ink);
+  cursor: pointer;
+  font-size: 17px;
+  font-weight: 900;
+  line-height: 1.35;
+}
+
+.faqGrid p {
+  color: var(--hub-muted);
+  line-height: 1.65;
+  margin: 12px 0 0;
+}
+
+.seoChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 26px;
+}
+
+.seoChips a {
+  background: #ffffff;
+  border: 1px solid var(--hub-line);
+  border-radius: 999px;
+  color: var(--hub-green);
+  display: inline-flex;
+  font-weight: 850;
+  line-height: 1.2;
+  padding: 12px 17px;
+}
+
+@media (max-width: 1199px) {
+  .areaGrid {
+    grid-template-columns: repeat(3, minmax(150px, 165px));
+  }
+
+  .groupProducts {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .groupProductsCompact {
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  }
+
+  .courseImage {
+    height: 132px;
+  }
+}
+
+@media (max-width: 991px) {
+  .hero {
+    padding-top: 112px;
+  }
+
+  .hero h1 {
+    font-size: 48px;
+  }
+
+  .sectionHeading {
+    align-items: start;
+    display: grid;
+  }
+
+  .groupHeading {
+    align-items: start;
+  }
+
+  .stepGrid,
+  .faqLayout {
+    grid-template-columns: 1fr;
+  }
+
+  .modalCouponGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .exploreMoreSection {
+    margin-bottom: 72px;
+  }
+}
+
+@media (max-width: 767px) {
+  .hero {
+    padding: 98px 14px 84px;
+  }
+
+  .hero h1 {
+    font-size: 31px;
+    line-height: 1.12;
+  }
+
+  .hero p {
+    font-size: 16px;
+  }
+
+  .searchPanel {
+    margin-top: 26px;
+  }
+
+  .searchForm {
+    align-items: stretch;
+    border-radius: 18px;
+    display: flex;
+    gap: 8px;
+    padding: 8px;
+  }
+
+  .searchIcon {
+    height: 42px;
+    margin-left: 0;
+    width: 42px;
+  }
+
+  .searchForm input {
+    min-height: 50px;
+    padding: 0 14px;
+  }
+
+  .searchForm button {
+    flex: 0 0 50px;
+    height: 50px;
+    min-height: 50px;
+    width: 50px;
+  }
+
+  .benefitStrip {
+    grid-template-columns: 1fr;
+  }
+
+  .areaSection {
+    margin-top: -58px;
+    margin-left: 0;
+    margin-right: auto;
+    max-width: 390px;
+    padding: 0 14px;
+    width: 100%;
+  }
+
+  .areaGrid {
+    display: grid;
+    gap: 12px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    justify-content: stretch;
+    overflow: visible;
+    padding: 0;
+    width: 100%;
+  }
+
+  .areaCard {
+    border-radius: 18px;
+    min-height: 204px;
+    padding: 10px;
+  }
+
+  .areaImage {
+    border-radius: 14px;
+    height: 112px;
+  }
+
+  .areaBody {
+    gap: 4px;
+    padding: 12px 4px 2px;
+  }
+
+  .areaCard strong {
+    font-size: 15px;
+  }
+
+  .section {
+    padding: 48px 14px 0;
+  }
+
+  .discoveryWrap {
+    gap: 22px;
+    padding: 102px 14px 0;
+  }
+
+  .discoveryIntro h2 {
+    font-size: 27px;
+  }
+
+  .discoveryGroup {
+    border-radius: 20px;
+    padding: 16px;
+  }
+
+  .groupHeading {
+    display: grid;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .groupTitle {
+    align-items: start;
+  }
+
+  .groupIcon {
+    height: 38px;
+    width: 38px;
+  }
+
+  .groupHeading h2 {
+    font-size: 22px;
+  }
+
+  .viewAllLink {
+    justify-self: start;
+  }
+
+  .groupProducts {
+    display: grid;
+    gap: 14px;
+    grid-template-columns: 1fr;
+    overflow: visible;
+    padding: 0;
+  }
+
+  .groupProductsCompact {
+    grid-template-columns: 1fr;
+  }
+
+  .courseImage {
+    height: 168px;
+  }
+
+  .sectionHeading h2,
+  .trustIntro h2,
+  .faqIntro h2 {
+    font-size: 27px;
+  }
+
+  .courseBody {
+    padding: 12px;
+  }
+
+  .cardFooter {
+    align-items: start;
+    display: grid;
+  }
+
+  .benefitStrip {
+    margin: 56px 14px 0;
+  }
+
+  .benefitStrip div + div {
+    border-left: 0;
+    border-top: 1px solid #eadfca;
+  }
+
+  .couponSection,
+  .exploreMoreSection,
+  .compactFaqSection {
+    margin-top: 28px;
+    max-width: 362px;
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .allExperiencesLink {
+    height: 54px;
+    min-width: 100%;
+  }
+
+  .couponSection {
+    padding: 16px;
+  }
+
+  .couponHeading {
+    align-items: start;
+    display: grid;
+    gap: 14px;
+  }
+
+  .couponHeading h2,
+  .compactHeading h2 {
+    font-size: 22px;
+  }
+
+  .couponViewAll {
+    justify-self: start;
+  }
+
+  .couponList {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .exploreMoreSection {
+    margin-bottom: 56px;
+    padding: 22px 16px 28px;
+  }
+
+  .exploreGroups {
+    gap: 22px;
+    margin-top: 18px;
+  }
+
+  .exploreGroup h3 {
+    font-size: 14.5px;
+  }
+
+  .exploreChips a {
+    font-size: 13.5px;
+    width: 100%;
+  }
+
+  .compactFaqSection {
+    padding-bottom: 58px;
+  }
+
+  .compactFaqSection .faqGrid details {
+    padding: 16px;
+  }
+
+  .compactFaqSection .faqGrid summary {
+    font-size: 15.5px;
+  }
+
+  .modalOverlay {
+    align-items: start;
+    overflow-y: auto;
+    padding: 14px;
+  }
+
+  .couponModal {
+    border-radius: 20px;
+    margin: 22px 0;
+    max-height: calc(100vh - 44px);
+    overflow-y: auto;
+    padding: 20px;
+  }
+
+  .modalHeader {
+    margin: 0 42px 18px 0;
+  }
+
+  .modalHeader h2 {
+    font-size: 25px;
+  }
+
+  .modalHeader p {
+    font-size: 14px;
+  }
+
+  .couponTabs {
+    gap: 8px;
+  }
+
+  .couponTab {
+    font-size: 13px;
+    padding: 9px 12px;
+  }
+
+  .modalClose {
+    right: 16px;
+    top: 16px;
+  }
+
+  .modalCouponGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .modalCouponCard {
+    grid-template-columns: 1fr;
+  }
+
+  .modalCouponCard aside {
+    align-items: center;
+    border-left: 0;
+    border-top: 1px dashed rgba(36, 95, 82, 0.22);
+    grid-template-columns: 1fr auto;
+    justify-items: start;
+    padding-left: 0;
+    padding-top: 14px;
+  }
+
+  .modalCouponCard aside strong {
+    font-size: 19px;
+    text-align: left;
+  }
+
+  .trustSection {
+    margin-top: 58px;
+    padding: 52px 14px;
+  }
+
+  .stepGrid div {
+    padding: 22px;
+  }
+
+  .faqSection {
+    padding-bottom: 62px;
+  }
+
+  .heroInner,
+  .searchPanel,
+  .discoveryIntro,
+  .discoveryGroup,
+  .benefitStrip,
+  .faqLayout,
+  .seoChips {
+    margin-left: 0;
+    margin-right: auto;
+    max-width: 362px;
+    width: 100%;
+  }
+
+  .hero h1 {
+    font-size: 29px;
+  }
+}
+
+/* Keep this custom page close to the purchased template typography. */
+.page,
+.page :is(a, button, input, select, textarea, h1, h2, h3, strong) {
+  font-family: var(--tg-ff-body);
+  letter-spacing: 0;
+}
+
+.hero h1,
+.discoveryIntro h2,
+.sectionHeading h2,
+.trustIntro h2,
+.faqIntro h2,
+.modalHeader h2 {
+  font-weight: 700;
+}
+
+.groupHeading h2,
+.couponHeading h2,
+.compactHeading h2,
+.benefitStrip strong,
+.stepGrid h3,
+.couponGroup h3,
+.modalCouponMain strong {
+  font-weight: 600;
+}
+
+.areaCard strong,
+.courseBody h3,
+.cardFooter strong,
+.allExperiencesLink,
+.viewAllLink,
+.couponViewAll,
+.couponTab,
+.couponList span,
+.exploreGroup h3,
+.faqGrid summary,
+.modalCouponCard aside strong,
+.modalCouponCard aside button {
+  font-weight: 600;
+}
+
+.sectionHeading span,
+.trustIntro span,
+.faqIntro span,
+.couponHeading span,
+.compactHeading span,
+.modalHeader span,
+.couponTag,
+.couponGroupHeader span {
+  font-weight: 600;
+}
+
+.page .exploreMoreSection .exploreChips a,
+.page .exploreMoreSection .exploreChips a strong,
+.page .exploreMoreSection .exploreChips a span,
+.badge,
+.couponCode,
+.areaBody span,
+.modalCouponMain p {
+  font-weight: 500;
+}

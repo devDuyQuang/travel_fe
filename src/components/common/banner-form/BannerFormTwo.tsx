@@ -49,11 +49,11 @@ type Props = {
 };
 
 const layoutDefaultSlugs: Record<ServiceLayoutKey, string> = {
-  tee_time: "dat-tee-time",
-  tour: "tour-golf-viet-nam",
-  accommodation: "khach-san-nghi-duong",
-  transport: "thue-xe-dua-don",
-  attraction: "tham-quan-trai-nghiem",
+  tee_time: "golf",
+  tour: "tour-trai-nghiem",
+  accommodation: "khach-san",
+  transport: "thue-xe",
+  attraction: "ve-tham-quan",
 };
 
 const serviceSuggestions: Record<SearchBookingType, string[]> = {

@@ -245,6 +245,26 @@
   padding: 5px 10px;
 }
 
+.searchForm,
+.searchForm :is(a, button, input, select, textarea, strong, span) {
+  font-family: var(--tg-ff-body);
+  letter-spacing: 0;
+}
+
+.label,
+.pickerTitle,
+.stepper button,
+.stepper span,
+.summary strong,
+.summary span {
+  font-weight: 500;
+}
+
+.submit {
+  font-weight: 600;
+  text-transform: none;
+}
+
 @media (max-width: 1199px) {
   .grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));

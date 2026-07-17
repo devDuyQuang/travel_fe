@@ -22,10 +22,10 @@ const iconClasses: Record<string, string> = {
 
 const tabTitles: Record<string, string> = {
   tee_time: "Đặt Tee Time",
-  tour: "Tour Golf Việt Nam",
-  accommodation: "Khách Sạn & Nghỉ Dưỡng",
-  transport: "Thuê Xe & Đưa Đón",
-  attraction: "Tham Quan & Trải Nghiệm",
+  tour: "Tour golf Việt Nam",
+  accommodation: "Khách sạn & nghỉ dưỡng",
+  transport: "Thuê xe & đưa đón",
+  attraction: "Tham quan & trải nghiệm",
 };
 
 const BannerFormThree = ({

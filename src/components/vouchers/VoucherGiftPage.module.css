@@ -1,0 +1,660 @@
+.page {
+  --voucher-green: var(--golfnity-moss, #245f52);
+  --voucher-green-dark: var(--golfnity-moss-dark, #1b4d3e);
+  --voucher-gold: var(--golfnity-gold, #e6c76f);
+  --voucher-gold-dark: var(--golfnity-gold-dark, #c9a227);
+  --voucher-cream: var(--golfnity-cream, #faf8f2);
+  --voucher-mint: var(--golfnity-mint, #f1faf6);
+  --voucher-text: var(--golfnity-text, #10231f);
+  --voucher-muted: var(--golfnity-muted, #667a73);
+  --voucher-line: var(--golfnity-border, #e8e0d1);
+  background: linear-gradient(180deg, #fbfcf8 0%, #ffffff 46%);
+  color: var(--voucher-text);
+  font-family: inherit;
+  overflow-x: hidden;
+}
+
+.page *,
+.page *::before,
+.page *::after {
+  box-sizing: border-box;
+}
+
+.page button,
+.page input,
+.page select,
+.page textarea {
+  font-family: inherit;
+}
+
+.hero {
+  background:
+    radial-gradient(circle at 18% 10%, rgba(230, 199, 111, 0.24), transparent 30%),
+    linear-gradient(135deg, rgba(27, 77, 62, 0.96) 0%, rgba(36, 95, 82, 0.9) 44%, rgba(250, 248, 242, 0.98) 100%);
+  padding: 132px 20px 92px;
+}
+
+.heroInner,
+.benefits,
+.selectorSection,
+.useCases,
+.redeemSection,
+.corporateSection,
+.faqSection,
+.termsSection {
+  margin: 0 auto;
+  max-width: 1180px;
+}
+
+.heroInner {
+  color: #ffffff;
+}
+
+.heroInner > span,
+.sectionIntro span,
+.redeemSection > div > span,
+.corporateSection span {
+  color: var(--voucher-gold);
+  display: inline-flex;
+  font-size: 13px;
+  font-weight: 950;
+  letter-spacing: 0;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+}
+
+.hero h1 {
+  color: #ffffff;
+  font-size: clamp(40px, 5vw, 68px);
+  font-weight: 950;
+  line-height: 1.05;
+  margin: 0;
+  max-width: 760px;
+}
+
+.hero p {
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 18px;
+  line-height: 1.65;
+  margin: 18px 0 0;
+  max-width: 590px;
+}
+
+.heroActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.heroActions a,
+.corporateSection a,
+.submitButton,
+.redeemSection button {
+  align-items: center;
+  border-radius: 999px;
+  display: inline-flex;
+  font-weight: 900;
+  justify-content: center;
+  line-height: 1.2;
+  min-height: 48px;
+  padding: 0 20px;
+  text-decoration: none;
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease,
+    transform 180ms ease;
+}
+
+.page .heroActions a:link,
+.page .heroActions a:visited,
+.page .heroActions a:hover,
+.page .heroActions a:focus,
+.page .heroActions a:active,
+.page .corporateSection a:link,
+.page .corporateSection a:visited,
+.page .corporateSection a:hover,
+.page .corporateSection a:focus,
+.page .corporateSection a:active {
+  text-decoration: none;
+}
+
+.heroActions a:first-child,
+.submitButton,
+.redeemSection button {
+  background: var(--voucher-gold);
+  border: 1px solid var(--voucher-gold);
+  color: var(--voucher-green-dark);
+}
+
+.page .heroActions a:first-child:link,
+.page .heroActions a:first-child:visited,
+.page .heroActions a:first-child:hover,
+.page .heroActions a:first-child:focus,
+.page .heroActions a:first-child:active {
+  color: var(--voucher-green-dark);
+}
+
+.heroActions a:last-child,
+.corporateSection a {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.36);
+  color: #ffffff;
+}
+
+.page .heroActions a:last-child:link,
+.page .heroActions a:last-child:visited,
+.page .heroActions a:last-child:hover,
+.page .heroActions a:last-child:focus,
+.page .heroActions a:last-child:active,
+.page .corporateSection a:link,
+.page .corporateSection a:visited,
+.page .corporateSection a:hover,
+.page .corporateSection a:focus,
+.page .corporateSection a:active {
+  color: #ffffff;
+}
+
+.heroActions a:hover,
+.corporateSection a:hover,
+.submitButton:hover,
+.redeemSection button:hover {
+  transform: translateY(-2px);
+}
+
+.benefits {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-top: -36px;
+  padding: 0 20px;
+  position: relative;
+  z-index: 2;
+}
+
+.benefits article,
+.useCaseGrid article,
+.faqGrid details,
+.termsSection,
+.voucherForm,
+.previewPanel {
+  background: #ffffff;
+  border: 1px solid rgba(36, 95, 82, 0.1);
+  border-radius: 18px;
+  box-shadow: 0 14px 34px rgba(17, 35, 31, 0.07);
+}
+
+.benefits article {
+  min-width: 0;
+  padding: 22px;
+}
+
+.benefits i,
+.useCaseGrid i {
+  align-items: center;
+  background: rgba(230, 199, 111, 0.18);
+  border-radius: 999px;
+  color: var(--voucher-green);
+  display: inline-flex;
+  height: 42px;
+  justify-content: center;
+  margin-bottom: 14px;
+  width: 42px;
+}
+
+.benefits h2,
+.useCaseGrid h3 {
+  color: var(--voucher-green-dark);
+  font-size: 17px;
+  font-weight: 900;
+  line-height: 1.25;
+  margin: 0 0 8px;
+}
+
+.benefits p,
+.sectionIntro p,
+.redeemSection p,
+.corporateSection p,
+.faqGrid p,
+.termsSection li {
+  color: var(--voucher-muted);
+  line-height: 1.65;
+  margin: 0;
+}
+
+.selectorSection,
+.useCases,
+.faqSection {
+  padding: 74px 20px 0;
+}
+
+.anchorTarget {
+  display: block;
+  height: 0;
+  position: relative;
+  top: -112px;
+  visibility: hidden;
+}
+
+.sectionIntro {
+  margin-bottom: 24px;
+  max-width: 680px;
+}
+
+.sectionIntro h2,
+.redeemSection h2,
+.corporateSection h2,
+.termsSection h2 {
+  color: var(--voucher-text);
+  font-size: 34px;
+  font-weight: 950;
+  line-height: 1.15;
+  margin: 0 0 10px;
+}
+
+.selectorGrid {
+  display: grid;
+  gap: 22px;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr);
+}
+
+.previewPanel {
+  background:
+    radial-gradient(circle at 20% 10%, rgba(230, 199, 111, 0.16), transparent 36%),
+    linear-gradient(180deg, #fffdf7 0%, #f4fbf7 100%);
+  min-width: 0;
+  padding: 24px;
+}
+
+.giftCard {
+  background:
+    radial-gradient(circle at 18% 18%, rgba(230, 199, 111, 0.24), transparent 18%),
+    radial-gradient(circle at 88% 26%, rgba(255, 255, 255, 0.14), transparent 18%),
+    linear-gradient(135deg, #123f35 0%, #245f52 62%, #d5b75f 100%);
+  border: 1px solid rgba(230, 199, 111, 0.42);
+  border-radius: 26px;
+  box-shadow: 0 24px 50px rgba(17, 35, 31, 0.2);
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  min-height: 360px;
+  overflow: hidden;
+  padding: 26px;
+  position: relative;
+}
+
+.giftCard::after {
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+  bottom: -62px;
+  content: "";
+  height: 190px;
+  position: absolute;
+  right: -44px;
+  width: 190px;
+}
+
+.cardTop,
+.cardBottom {
+  align-items: center;
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  position: relative;
+  z-index: 1;
+}
+
+.cardTop strong {
+  color: var(--voucher-gold);
+  font-size: 22px;
+  font-weight: 950;
+}
+
+.cardTop span,
+.cardBottom span {
+  color: rgba(255, 255, 255, 0.74);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.giftCard > div:nth-child(2) {
+  margin: auto 0;
+  position: relative;
+  z-index: 1;
+}
+
+.giftCard > div:nth-child(2) span {
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 14px;
+  font-weight: 850;
+}
+
+.giftCard h3 {
+  color: #ffffff;
+  font-size: 48px;
+  font-weight: 950;
+  line-height: 1.05;
+  margin: 12px 0 8px;
+}
+
+.giftCard p {
+  color: var(--voucher-gold);
+  font-size: 18px;
+  font-weight: 900;
+  margin: 0;
+}
+
+.cardBottom i {
+  color: var(--voucher-gold);
+  font-size: 30px;
+}
+
+.voucherForm {
+  display: grid;
+  gap: 16px;
+  min-width: 0;
+  padding: 24px;
+}
+
+.voucherForm label,
+.voucherForm fieldset {
+  border: 0;
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  min-width: 0;
+  padding: 0;
+}
+
+.voucherForm label span,
+.voucherForm legend {
+  color: var(--voucher-green-dark);
+  font-size: 13px;
+  font-weight: 900;
+  line-height: 1.2;
+}
+
+.voucherForm input,
+.voucherForm select,
+.voucherForm textarea,
+.redeemSection input {
+  background: #ffffff;
+  border: 1px solid var(--voucher-line);
+  border-radius: 14px;
+  color: var(--voucher-text);
+  font-size: 15px;
+  min-height: 50px;
+  outline: 0;
+  padding: 0 14px;
+  width: 100%;
+}
+
+.voucherForm textarea {
+  min-height: 104px;
+  padding-top: 12px;
+  resize: vertical;
+}
+
+.voucherForm input:focus,
+.voucherForm select:focus,
+.voucherForm textarea:focus,
+.redeemSection input:focus {
+  border-color: var(--voucher-green);
+  box-shadow: 0 0 0 3px rgba(36, 95, 82, 0.1);
+}
+
+.valueGrid,
+.formGrid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.valueGrid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.valueGrid button {
+  background: #fffaf0;
+  border: 1px solid rgba(230, 199, 111, 0.58);
+  border-radius: 999px;
+  color: var(--voucher-green-dark);
+  font-size: 14px;
+  font-weight: 900;
+  min-height: 42px;
+  padding: 0 12px;
+}
+
+.valueGrid .valueActive {
+  background: var(--voucher-green);
+  border-color: var(--voucher-green);
+  color: #ffffff;
+}
+
+.submitButton {
+  width: 100%;
+}
+
+.useCaseGrid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.useCaseGrid article {
+  padding: 20px;
+}
+
+.redeemSection {
+  align-items: center;
+  background: linear-gradient(135deg, #f4fbf7 0%, #fffaf0 100%);
+  border: 1px solid rgba(230, 199, 111, 0.36);
+  border-radius: 22px;
+  display: grid;
+  gap: 24px;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr);
+  margin-top: 74px;
+  padding: 28px;
+}
+
+.redeemSection form {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.corporateSection {
+  align-items: center;
+  background:
+    radial-gradient(circle at 16% 20%, rgba(230, 199, 111, 0.18), transparent 30%),
+    var(--voucher-green-dark);
+  border-radius: 24px;
+  color: #ffffff;
+  display: grid;
+  gap: 24px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  margin-top: 74px;
+  padding: 38px;
+}
+
+.corporateSection h2 {
+  color: #ffffff;
+}
+
+.corporateSection p {
+  color: rgba(255, 255, 255, 0.76);
+  max-width: 660px;
+}
+
+.faqGrid {
+  display: grid;
+  gap: 12px;
+}
+
+.faqGrid details {
+  padding: 18px 20px;
+}
+
+.faqGrid summary {
+  color: var(--voucher-text);
+  cursor: pointer;
+  font-size: 17px;
+  font-weight: 900;
+  line-height: 1.35;
+}
+
+.faqGrid p {
+  margin-top: 12px;
+}
+
+.termsSection {
+  margin-top: 42px;
+  padding: 24px;
+}
+
+.termsSection ul {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding-left: 20px;
+}
+
+.toast {
+  background: var(--golfnity-moss, #245f52);
+  border: 1px solid rgba(230, 199, 111, 0.42);
+  border-radius: 16px;
+  bottom: 24px;
+  box-shadow: 0 18px 38px rgba(17, 35, 31, 0.24);
+  color: #ffffff;
+  font-weight: 800;
+  left: 50%;
+  max-width: min(560px, calc(100vw - 28px));
+  padding: 14px 18px;
+  position: fixed;
+  text-align: center;
+  transform: translateX(-50%);
+  z-index: 12000;
+}
+
+.page,
+.page :is(a, button, input, select, textarea, h1, h2, h3, strong, summary, legend, span) {
+  font-family: var(--tg-ff-body);
+  letter-spacing: 0;
+}
+
+.hero h1,
+.sectionIntro h2,
+.redeemSection h2,
+.corporateSection h2,
+.termsSection h2,
+.giftCard h3 {
+  font-weight: 700;
+}
+
+.heroActions a,
+.corporateSection a,
+.submitButton,
+.redeemSection button,
+.benefits h2,
+.useCaseGrid h3,
+.voucherForm label span,
+.voucherForm legend,
+.valueGrid button,
+.faqGrid summary,
+.toast {
+  font-weight: 600;
+}
+
+.heroInner > span,
+.sectionIntro span,
+.redeemSection > div > span,
+.corporateSection span,
+.cardTop strong,
+.giftCard p {
+  font-weight: 600;
+  text-transform: none;
+}
+
+.cardTop span,
+.cardBottom span,
+.giftCard > div:nth-child(2) span {
+  font-weight: 500;
+}
+
+@media (max-width: 1199px) {
+  .benefits,
+  .useCaseGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 991px) {
+  .selectorGrid,
+  .redeemSection,
+  .corporateSection {
+    grid-template-columns: 1fr;
+  }
+
+  .corporateSection a {
+    justify-self: start;
+  }
+}
+
+@media (max-width: 767px) {
+  .hero {
+    padding: 104px 14px 72px;
+  }
+
+  .hero h1 {
+    font-size: 34px;
+  }
+
+  .hero p {
+    font-size: 16px;
+  }
+
+  .benefits,
+  .selectorSection,
+  .useCases,
+  .faqSection {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .benefits {
+    grid-template-columns: 1fr;
+    margin-top: -24px;
+  }
+
+  .sectionIntro h2,
+  .redeemSection h2,
+  .corporateSection h2,
+  .termsSection h2 {
+    font-size: 26px;
+  }
+
+  .giftCard {
+    min-height: 300px;
+  }
+
+  .giftCard h3 {
+    font-size: 38px;
+  }
+
+  .valueGrid,
+  .formGrid,
+  .useCaseGrid,
+  .redeemSection form {
+    grid-template-columns: 1fr;
+  }
+
+  .redeemSection,
+  .corporateSection,
+  .termsSection {
+    border-radius: 20px;
+    margin-left: 14px;
+    margin-right: 14px;
+    padding: 22px;
+  }
+}
