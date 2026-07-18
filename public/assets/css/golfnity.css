@@ -4464,27 +4464,6 @@ main .about-cta-button:focus-visible {
   font-weight: 500;
 }
 
-.golfnity-header .tgmenu__navbar-wrap > ul > li > a,
-.golfnity-header.header-sticky .tgmenu__main-menu ul > li > a,
-.golfnity-global-utility a,
-.golfnity-global-utility button,
-.golfnity-header .tg-btn-header,
-.golfnity-header.header-sticky .tg-btn-header,
-.golfnity-header .tgmenu__navbar-wrap ul li .sub-menu li a,
-.tgmobile__menu .navigation .sub-menu a {
-  font-family: var(--tg-ff-body);
-  font-weight: 500;
-  letter-spacing: 0;
-  text-transform: none;
-}
-
-.golfnity-header .tgmenu__navbar-wrap > ul > li:hover > a,
-.golfnity-header .tgmenu__navbar-wrap > ul > li > a.active,
-.golfnity-header.header-sticky .tgmenu__main-menu ul > li:hover > a,
-.golfnity-header.header-sticky .tgmenu__main-menu ul > li > a.active {
-  font-weight: 600;
-}
-
 .golfnity-footer,
 .tg-footer-area,
 .tg-footer-area :is(a, p, span, li, h1, h2, h3, h4, h5, h6) {

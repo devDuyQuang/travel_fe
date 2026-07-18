@@ -44,6 +44,7 @@ const serviceCategoryPaths: Record<string, string> = {
   "/khach-san-nghi-duong": "/dich-vu/khach-san",
   "/thue-xe-dua-don": "/dich-vu/thue-xe",
   "/tham-quan-trai-nghiem": "/dich-vu/tour-trai-nghiem",
+  "/ve-tham-quan": "/dich-vu/ve-tham-quan",
 };
 
 function normalizePath(item: ApiMenuItem): string {

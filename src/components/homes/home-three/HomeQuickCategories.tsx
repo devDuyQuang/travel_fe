@@ -11,23 +11,24 @@ const quickCategories = [
     tone: "green",
   },
   {
-    title: "Tour golf & trải nghiệm",
-    href: "/dich-vu/tour-golf-viet-nam",
+    title: "Tour & Trải nghiệm",
+    href: "/dich-vu/tour-trai-nghiem",
     icon: "fa-regular fa-compass",
     tone: "orange",
   },
   {
-    title: "Khách sạn & nghỉ dưỡng",
+    title: "Khách sạn",
     href: "/dich-vu/khach-san-nghi-duong",
     icon: "fa-regular fa-hotel",
     tone: "purple",
   },
   {
-    title: "Di chuyển",
-    href: "/dich-vu/thue-xe-dua-don",
-    icon: "fa-regular fa-bus",
+    title: "Vé tham quan",
+    href: "/dich-vu/ve-tham-quan",
+    icon: "fa-regular fa-ticket",
     tone: "blue",
   },
+
   {
     title: "Thuê xe tự lái",
     href: "/dich-vu/thue-xe-dua-don",
@@ -44,79 +45,186 @@ const quickCategories = [
 
 const serviceGroups = [
   {
-    title: "Hoạt động golf & trải nghiệm",
+    title: "Golf",
     icon: "fa-regular fa-golf-club",
     items: [
       ["Đặt tee time", "/dich-vu/dat-tee-time", "fa-regular fa-flag"],
       ["Tour golf", "/dich-vu/tour-golf-viet-nam", "fa-regular fa-golf-club"],
-      ["Tour trong ngày", "/dich-vu/tham-quan-trai-nghiem", "fa-regular fa-sun"],
-      ["Tổ chức giải golf", "/dich-vu/dat-tee-time/danh-sach?tag=group", "fa-regular fa-trophy"],
-      ["Golf doanh nghiệp", "/dich-vu/dat-tee-time/danh-sach?tag=group", "fa-regular fa-briefcase"],
-      ["Trải nghiệm địa phương", "/dich-vu/tham-quan-trai-nghiem", "fa-regular fa-map-location-dot"],
-      ["Du thuyền", "/dich-vu/tham-quan-trai-nghiem", "fa-regular fa-ship"],
-      ["Vé tham quan", "/tham-quan-trai-nghiem", "fa-regular fa-ticket"],
+      [
+        "Combo golf + khách sạn",
+        "/dich-vu/khach-san-nghi-duong?tag=golf-combo",
+        "fa-regular fa-layer-group",
+      ],
+      [
+        "Tổ chức giải golf",
+        "/dich-vu/dat-tee-time/danh-sach?tag=group",
+        "fa-regular fa-trophy",
+      ],
+    ],
+  },
+  {
+    title: "Tour & Trải nghiệm",
+    icon: "fa-regular fa-compass",
+    items: [
+      ["Tour", "/dich-vu/tour-trai-nghiem", "fa-regular fa-map"],
+      ["Du thuyền", "/dich-vu/tour-trai-nghiem?tag=cruise", "fa-regular fa-ship"],
+      ["Spa", "/dich-vu/tour-trai-nghiem?tag=spa", "fa-regular fa-spa"],
+      [
+        "Suối nước nóng",
+        "/dich-vu/tour-trai-nghiem?tag=suoi-nuoc-nong",
+        "fa-regular fa-hot-tub-person",
+      ],
+      [
+        "Hoạt động dưới nước",
+        "/dich-vu/tour-trai-nghiem?tag=water-activities",
+        "fa-regular fa-water",
+      ],
+      [
+        "Hoạt động ngoài trời",
+        "/dich-vu/tour-trai-nghiem?tag=outdoor",
+        "fa-regular fa-person-hiking",
+      ],
+      [
+        "Trải nghiệm văn hoá",
+        "/dich-vu/tour-trai-nghiem?tag=van-hoa",
+        "fa-regular fa-masks-theater",
+      ],
     ],
   },
   {
     title: "Vé tham quan",
     icon: "fa-regular fa-ticket",
     items: [
-      ["Công viên giải trí", "/dich-vu/tham-quan-trai-nghiem", "fa-regular fa-ferris-wheel"],
-      ["Công viên nước", "/dich-vu/tham-quan-trai-nghiem", "fa-regular fa-water"],
-      ["Bảo tàng", "/dich-vu/tham-quan-trai-nghiem", "fa-regular fa-building-columns"],
-      ["Công viên & vườn bách thảo", "/dich-vu/tham-quan-trai-nghiem", "fa-regular fa-seedling"],
-      ["Sở thú & thủy cung", "/dich-vu/tham-quan-trai-nghiem", "fa-regular fa-fish"],
-      ["Cáp treo", "/dich-vu/tham-quan-trai-nghiem", "fa-regular fa-cable-car"],
-      ["Di tích lịch sử", "/dich-vu/tham-quan-trai-nghiem", "fa-regular fa-landmark"],
-      ["Khu vui chơi", "/dich-vu/tham-quan-trai-nghiem", "fa-regular fa-gamepad"],
-      ["Vui chơi trong nhà", "/dich-vu/tham-quan-trai-nghiem", "fa-regular fa-house"],
-      ["Vé tham quan", "/tham-quan-trai-nghiem", "fa-regular fa-ticket"],
+      [
+        "Công viên giải trí",
+        "/dich-vu/ve-tham-quan?tag=park",
+        "fa-regular fa-ferris-wheel",
+      ],
+      [
+        "Công viên nước",
+        "/dich-vu/ve-tham-quan?tag=water-park",
+        "fa-regular fa-water",
+      ],
+      [
+        "Bảo tàng",
+        "/dich-vu/ve-tham-quan?tag=museum",
+        "fa-regular fa-building-columns",
+      ],
+      [
+        "Công viên & vườn bách thảo",
+        "/dich-vu/ve-tham-quan?tag=garden",
+        "fa-regular fa-seedling",
+      ],
+      [
+        "Sở thú & thủy cung",
+        "/dich-vu/ve-tham-quan?tag=zoo-aquarium",
+        "fa-regular fa-fish",
+      ],
+      ["Cáp treo", "/dich-vu/ve-tham-quan?tag=cable-car", "fa-regular fa-cable-car"],
+      [
+        "Di tích lịch sử",
+        "/dich-vu/ve-tham-quan?tag=historic-site",
+        "fa-regular fa-landmark",
+      ],
+      [
+        "Khu vui chơi",
+        "/dich-vu/ve-tham-quan?tag=park",
+        "fa-regular fa-gamepad",
+      ],
+      [
+        "Vui chơi trong nhà",
+        "/dich-vu/ve-tham-quan?tag=indoor-play",
+        "fa-regular fa-house",
+      ],
+      [
+        "Vé tham quan",
+        "/dich-vu/ve-tham-quan",
+        "fa-regular fa-ticket",
+      ],
     ],
   },
   {
     title: "Lưu trú",
     icon: "fa-regular fa-hotel",
     items: [
-      ["Khách sạn", "/khach-san-nghi-duong", "fa-regular fa-bed"],
-      ["Khách sạn & resort", "/dich-vu/khach-san-nghi-duong", "fa-regular fa-hotel"],
-      ["Resort gần sân golf", "/dich-vu/khach-san-nghi-duong?tag=golf-resort", "fa-regular fa-location-dot"],
-      ["Combo khách sạn + golf", "/dich-vu/khach-san-nghi-duong?tag=golf-combo", "fa-regular fa-layer-group"],
-      ["Spa & nghỉ dưỡng", "/dich-vu/khach-san-nghi-duong?tag=spa", "fa-regular fa-spa"],
-      ["Nghỉ dưỡng cao cấp", "/dich-vu/khach-san-nghi-duong?tag=premium", "fa-regular fa-gem"],
+      ["Khách sạn", "/dich-vu/khach-san-nghi-duong", "fa-regular fa-bed"],
     ],
   },
   {
     title: "Di chuyển",
     icon: "fa-regular fa-car-side",
     items: [
-      ["Xe sân bay", "/thue-xe-dua-don", "fa-regular fa-plane-arrival"],
-      ["Thuê xe có tài xế", "/dich-vu/thue-xe-dua-don", "fa-regular fa-user-tie"],
+      ["Xe sân bay", "/dich-vu/thue-xe-dua-don", "fa-regular fa-plane-arrival"],
       ["Thuê xe tự lái", "/dich-vu/thue-xe-dua-don", "fa-regular fa-key"],
+      [
+        "Thuê xe có tài xế",
+        "/dich-vu/thue-xe-dua-don",
+        "fa-regular fa-user-tie",
+      ],
       ["Xe 4 chỗ", "/dich-vu/thue-xe-dua-don?seat=4", "fa-regular fa-car"],
-      ["Xe 7 chỗ", "/dich-vu/thue-xe-dua-don?seat=7", "fa-regular fa-van-shuttle"],
-      ["Xe 16 chỗ", "/dich-vu/thue-xe-dua-don?seat=16", "fa-regular fa-bus"],
-      ["Đưa đón sân bay", "/dich-vu/thue-xe-dua-don?tag=airport", "fa-regular fa-plane-arrival"],
+      [
+        "Xe 7 chỗ",
+        "/dich-vu/thue-xe-dua-don?seat=7",
+        "fa-regular fa-van-shuttle",
+      ],
+      [
+        "Đưa đón sân bay",
+        "/dich-vu/thue-xe-dua-don?tag=airport",
+        "fa-regular fa-plane-arrival",
+      ],
     ],
   },
   {
     title: "Thêm nhiều khám phá",
     icon: "fa-regular fa-compass",
     items: [
-      ["Ẩm thực", "/dich-vu/tham-quan-trai-nghiem?tag=am-thuc", "fa-regular fa-utensils"],
-      ["Mua sắm", "/dich-vu/tham-quan-trai-nghiem?tag=mua-sam", "fa-regular fa-bag-shopping"],
+      [
+        "Ẩm thực",
+        "/dich-vu/tour-trai-nghiem?tag=food",
+        "fa-regular fa-utensils",
+      ],
+      [
+        "Mua sắm",
+        "/dich-vu/tour-trai-nghiem?tag=shopping",
+        "fa-regular fa-bag-shopping",
+      ],
       ["WiFi & eSIM", "#", "fa-regular fa-wifi"],
-      ["Dịch vụ du lịch", "/dich-vu/tham-quan-trai-nghiem", "fa-regular fa-suitcase-rolling"],
+      [
+        "Dịch vụ du lịch",
+        "/dich-vu/tour-trai-nghiem",
+        "fa-regular fa-suitcase-rolling",
+      ],
     ],
   },
   {
     title: "Tiện ích & ưu đãi",
     icon: "fa-regular fa-gift",
     items: [
-      ["Voucher tee time", "/voucher-qua-tang#tee-time", "fa-regular fa-ticket"],
-      ["Voucher tour golf", "/voucher-qua-tang#tour-golf", "fa-regular fa-compass"],
-      ["Thẻ quà tặng GOLFNITY", "/voucher-qua-tang#gift-card", "fa-regular fa-gift"],
-      ["Ưu đãi nhóm & doanh nghiệp", "/voucher-qua-tang#corporate", "fa-regular fa-handshake"],
-      ["Combo golf + xe", "/dich-vu/thue-xe-dua-don?tag=golf-combo", "fa-regular fa-car-side"],
+      [
+        "Voucher tee time",
+        "/voucher-qua-tang#tee-time",
+        "fa-regular fa-ticket",
+      ],
+      [
+        "Voucher tour golf",
+        "/voucher-qua-tang#tour-golf",
+        "fa-regular fa-compass",
+      ],
+      [
+        "Thẻ quà tặng GOLFNITY",
+        "/voucher-qua-tang#gift-card",
+        "fa-regular fa-gift",
+      ],
+      [
+        "Ưu đãi nhóm & doanh nghiệp",
+        "/voucher-qua-tang#corporate",
+        "fa-regular fa-handshake",
+      ],
+      [
+        "Combo golf + xe",
+        "/dich-vu/thue-xe-dua-don?tag=golf-combo",
+        "fa-regular fa-car-side",
+      ],
       ["Tư vấn lịch trình golf", "/contact", "fa-regular fa-headset"],
     ],
   },
@@ -148,7 +256,10 @@ const HomeQuickCategories = () => {
 
   return (
     <>
-      <section className="golfnity-home-quick-categories" aria-label="Danh mục dịch vụ nhanh">
+      <section
+        className="golfnity-home-quick-categories"
+        aria-label="Danh mục dịch vụ nhanh"
+      >
         <div className="container">
           <div className="golfnity-home-quick-categories__grid">
             {quickCategories.map((category) => {
@@ -164,14 +275,23 @@ const HomeQuickCategories = () => {
 
               if (category.opensModal) {
                 return (
-                  <button className={className} key={category.title} onClick={() => setIsModalOpen(true)} type="button">
+                  <button
+                    className={className}
+                    key={category.title}
+                    onClick={() => setIsModalOpen(true)}
+                    type="button"
+                  >
                     {content}
                   </button>
                 );
               }
 
               return (
-                <Link className={className} href={category.href || "#"} key={category.title}>
+                <Link
+                  className={className}
+                  href={category.href || "#"}
+                  key={category.title}
+                >
                   {content}
                 </Link>
               );
@@ -204,8 +324,11 @@ const HomeQuickCategories = () => {
               >
                 <i className="fa-regular fa-xmark" aria-hidden="true" />
               </button>
-              <h2 id="golfnity-all-services-title">Tất cả các mục</h2>
-              <div className="golfnity-all-services-modal__view-toggle" aria-label="Chọn kiểu xem">
+              <h2 id="golfnity-all-services-title">Tất cả dịch vụ</h2>
+              <div
+                className="golfnity-all-services-modal__view-toggle"
+                aria-label="Chọn kiểu xem"
+              >
                 <button
                   aria-label="Xem dạng lưới"
                   aria-pressed={viewMode === "grid"}
@@ -228,7 +351,10 @@ const HomeQuickCategories = () => {
             </div>
             <div className="golfnity-all-services-modal__body">
               {serviceGroups.map((group) => (
-                <article className="golfnity-all-services-modal__group" key={group.title}>
+                <article
+                  className="golfnity-all-services-modal__group"
+                  key={group.title}
+                >
                   <h3>
                     <i className={group.icon} aria-hidden="true" />
                     {group.title}

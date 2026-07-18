@@ -210,6 +210,31 @@
   min-width: 0;
 }
 
+.emptyState {
+  align-items: center;
+  background: #fffdf7;
+  border: 1px solid rgba(230, 199, 111, 0.42);
+  border-radius: 18px;
+  color: var(--market-text);
+  display: grid;
+  gap: 8px;
+  justify-items: center;
+  min-height: 180px;
+  padding: 32px 20px;
+  text-align: center;
+}
+
+.emptyState strong {
+  color: var(--market-primary);
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.emptyState span {
+  color: var(--market-muted);
+  font-size: 15px;
+}
+
 .card {
   background: #ffffff;
   border: 1px solid rgba(15, 93, 74, 0.1);

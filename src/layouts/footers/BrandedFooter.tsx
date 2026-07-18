@@ -177,7 +177,8 @@ const BrandedFooter = ({
                     <li><Link href="/dich-vu/tour-golf-viet-nam">Tour golf</Link></li>
                     <li><Link href="/dich-vu/khach-san-nghi-duong">Khách sạn & nghỉ dưỡng</Link></li>
                     <li><Link href="/dich-vu/thue-xe-dua-don">Thuê xe & đưa đón</Link></li>
-                    <li><Link href="/dich-vu/tham-quan-trai-nghiem">Trải nghiệm</Link></li>
+                    <li><Link href="/dich-vu/tour-trai-nghiem">Tour & Trải nghiệm</Link></li>
+                    <li><Link href="/dich-vu/ve-tham-quan">Vé tham quan</Link></li>
                   </ul>
                 </div>
               </div>

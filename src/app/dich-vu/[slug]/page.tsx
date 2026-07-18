@@ -22,6 +22,20 @@ const serviceSlugAliases: Record<string, string> = {
   "thue-xe": "thue-xe-dua-don",
 };
 
+const serviceRouteOverrides: Record<
+  string,
+  { name: string; layout_key: "tour" | "attraction" }
+> = {
+  "tour-trai-nghiem": {
+    name: "Tour & Trải nghiệm",
+    layout_key: "tour",
+  },
+  "ve-tham-quan": {
+    name: "Vé tham quan",
+    layout_key: "attraction",
+  },
+};
+
 function resolveServiceSlug(slug: string) {
   return serviceSlugAliases[slug] || slug;
 }
@@ -37,6 +51,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { slug } = await params;
   const dataSlug = resolveServiceSlug(slug);
   const category = await getServiceCategoryBySlug(dataSlug);
+  const routeOverride = serviceRouteOverrides[slug];
+
+  if (routeOverride) {
+    return {
+      title: `${routeOverride.name} | Golfnity`,
+    };
+  }
 
   if (category?.type === "service") {
     return {
@@ -85,6 +106,10 @@ export default async function ServicePage({ params, searchParams }: PageProps) {
   const dataSlug = resolveServiceSlug(slug);
   const query = searchParams ? await searchParams : undefined;
 
+  if (slug === "tham-quan-trai-nghiem") {
+    redirect(buildRedirectPath("/dich-vu/tour-trai-nghiem", query));
+  }
+
   if (slug === "golf") {
     permanentRedirect(buildRedirectPath("/dich-vu/dat-tee-time/danh-sach", query));
   }
@@ -103,7 +128,11 @@ export default async function ServicePage({ params, searchParams }: PageProps) {
   const category = apiCategory || fallbackCategory;
 
   if (category?.type === "service") {
-    const routeCategory = { ...category, slug };
+    const routeCategory = {
+      ...category,
+      ...serviceRouteOverrides[slug],
+      slug,
+    };
 
     if (category.slug === "dat-tee-time" && category.layout_key === "tee_time") {
       return (

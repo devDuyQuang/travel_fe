@@ -9,8 +9,8 @@ export const marketplaceServiceMenu: FrontendMenuItem = {
     { id: 21, title: "Đặt sân golf", link: "/dich-vu/dat-tee-time" },
     { id: 22, title: "Tour golf", link: "/dich-vu/tour-golf-viet-nam" },
     { id: 23, title: "Khách sạn & resort", link: "/dich-vu/khach-san-nghi-duong" },
-    { id: 24, title: "Tour & trải nghiệm", link: "/dich-vu/tham-quan-trai-nghiem" },
-    { id: 25, title: "Vé tham quan", link: "/dich-vu/tham-quan-trai-nghiem" },
+    { id: 24, title: "Tour & Trải nghiệm", link: "/dich-vu/tour-trai-nghiem" },
+    { id: 25, title: "Vé tham quan", link: "/dich-vu/ve-tham-quan" },
     { id: 26, title: "Thuê xe", link: "/dich-vu/thue-xe-dua-don" },
   ],
   mega_groups: [
@@ -21,8 +21,8 @@ export const marketplaceServiceMenu: FrontendMenuItem = {
       items: [
         { id: 2011, title: "Đặt sân golf", link: "/dich-vu/dat-tee-time" },
         { id: 2012, title: "Tour golf", link: "/dich-vu/tour-golf-viet-nam" },
-        { id: 2013, title: "Combo golf & khách sạn", link: "/dich-vu/khach-san-nghi-duong" },
-        { id: 2014, title: "Tổ chức giải golf", link: "/dich-vu/to-chuc-giai-golf" },
+        { id: 2013, title: "Combo golf + khách sạn", link: "/dich-vu/khach-san-nghi-duong?tag=golf-combo" },
+        { id: 2014, title: "Tổ chức giải golf", link: "/dich-vu/dat-tee-time/danh-sach?tag=group" },
       ],
     },
     {
@@ -41,10 +41,10 @@ export const marketplaceServiceMenu: FrontendMenuItem = {
       title: "Tour & Trải nghiệm",
       icon: "fa-regular fa-map-location-dot",
       items: [
-        { id: 2031, title: "Tour trong ngày", link: "/dich-vu/tham-quan-trai-nghiem" },
-        { id: 2032, title: "Trải nghiệm địa phương", link: "/dich-vu/tham-quan-trai-nghiem" },
-        { id: 2033, title: "Du thuyền", link: "/dich-vu/tham-quan-trai-nghiem" },
-        { id: 2034, title: "Ẩm thực", link: "/dich-vu/tham-quan-trai-nghiem" },
+        { id: 2031, title: "Tour trong ngày", link: "/dich-vu/tour-trai-nghiem?tag=day-tour" },
+        { id: 2032, title: "Trải nghiệm địa phương", link: "/dich-vu/tour-trai-nghiem?tag=local-experience" },
+        { id: 2033, title: "Du thuyền", link: "/dich-vu/tour-trai-nghiem?tag=cruise" },
+        { id: 2034, title: "Ẩm thực", link: "/dich-vu/tour-trai-nghiem?tag=food" },
       ],
     },
     {
@@ -52,10 +52,10 @@ export const marketplaceServiceMenu: FrontendMenuItem = {
       title: "Vé tham quan",
       icon: "fa-regular fa-ticket",
       items: [
-        { id: 2041, title: "Vé cáp treo", link: "/dich-vu/tham-quan-trai-nghiem" },
-        { id: 2042, title: "Công viên / khu vui chơi", link: "/dich-vu/tham-quan-trai-nghiem" },
-        { id: 2043, title: "Bảo tàng / di tích", link: "/dich-vu/tham-quan-trai-nghiem" },
-        { id: 2044, title: "Vé show / sự kiện", link: "/dich-vu/tham-quan-trai-nghiem" },
+        { id: 2041, title: "Vé cáp treo", link: "/dich-vu/ve-tham-quan?tag=cable-car" },
+        { id: 2042, title: "Công viên / khu vui chơi", link: "/dich-vu/ve-tham-quan?tag=park" },
+        { id: 2043, title: "Bảo tàng / di tích", link: "/dich-vu/ve-tham-quan?tag=museum" },
+        { id: 2044, title: "Vé show / sự kiện", link: "/dich-vu/ve-tham-quan?tag=show-event" },
       ],
     },
     {
@@ -77,7 +77,7 @@ const menu_data: FrontendMenuItem[] = [
   {
     id: 3,
     title: "Điểm đến",
-    link: "/dich-vu/tham-quan-trai-nghiem",
+    link: "/dich-vu/tour-trai-nghiem",
     has_dropdown: false,
   },
   {

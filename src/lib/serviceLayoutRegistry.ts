@@ -156,7 +156,7 @@ export function getServiceLayoutConfig(value?: string | null): ServiceLayoutConf
 
 export const fallbackServiceCategories = [
   { id: -1, name: "Golf", slug: "golf", type: "service", layout_key: "tee_time" },
-  { id: -2, name: "Tour & trải nghiệm", slug: "tour-trai-nghiem", type: "service", layout_key: "tour" },
+  { id: -2, name: "Tour & Trải nghiệm", slug: "tour-trai-nghiem", type: "service", layout_key: "tour" },
   { id: -3, name: "Khách sạn", slug: "khach-san", type: "service", layout_key: "accommodation" },
   { id: -4, name: "Thuê xe", slug: "thue-xe", type: "service", layout_key: "transport" },
   { id: -5, name: "Vé tham quan", slug: "ve-tham-quan", type: "service", layout_key: "attraction" },

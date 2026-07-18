@@ -68,6 +68,24 @@ const seoChips = [
   ["Sân golf gần trung tâm", "tag=near-center"],
 ];
 
+const locationAliases: Record<string, string[]> = {
+  "da-nang": ["da nang", "danang"],
+  "tp-ho-chi-minh": [
+    "tp ho chi minh",
+    "tp. ho chi minh",
+    "thanh pho ho chi minh",
+    "ho chi minh",
+    "hcm",
+    "sai gon",
+    "saigon",
+    "tan son nhat",
+  ],
+  "ha-noi": ["ha noi", "hanoi"],
+  "nha-trang": ["nha trang"],
+  "phu-quoc": ["phu quoc"],
+  "hoi-an": ["hoi an"],
+};
+
 function formatVnd(value: number) {
   return new Intl.NumberFormat("vi-VN").format(value);
 }
@@ -147,6 +165,37 @@ function includesAny(product: Product, values: string[]) {
   );
 
   return values.some((value) => haystack.includes(value));
+}
+
+function productSearchText(product: Product) {
+  return normalize(
+    [
+      product.name,
+      product.location,
+      product.duration,
+      product.badge,
+      product.short_description,
+      product.highlights,
+      ...(product.service_options || []).map((option) => option.name),
+      ...(product.service_options || []).map((option) => option.label),
+    ]
+      .filter(Boolean)
+      .join(" "),
+  );
+}
+
+function matchesQueryToken(productText: string, token: string) {
+  const normalizedToken = normalize(token);
+
+  return !normalizedToken || productText.includes(normalizedToken);
+}
+
+function matchesLocation(productText: string, locationSlug: string) {
+  if (!locationSlug) return true;
+
+  const aliases = locationAliases[locationSlug] || [locationSlug];
+
+  return aliases.some((alias) => matchesQueryToken(productText, alias));
 }
 
 function marketplaceProducts(products: Product[], mode: TeeTimeMarketplaceMode) {
@@ -250,24 +299,11 @@ const TeeTimeMarketplacePage = ({
         ? normalize(queryTag)
         : "";
     const filtered = baseProducts.filter((product) => {
-      const productText = normalize(
-        [
-          product.name,
-          product.location,
-          product.duration,
-          product.badge,
-          product.short_description,
-          product.highlights,
-          ...(product.service_options || []).map((option) => option.name),
-          ...(product.service_options || []).map((option) => option.label),
-        ]
-          .filter(Boolean)
-          .join(" "),
-      );
+      const productText = productSearchText(product);
 
       return (
         (!normalizedKeyword || productText.includes(normalizedKeyword)) &&
-        (!normalizedLocation || productText.includes(normalizedLocation)) &&
+        (!normalizedLocation || matchesLocation(productText, queryLocation)) &&
         (!normalizedServiceType || productText.includes(normalizedServiceType)) &&
         (!normalizedTag || productText.includes(normalizedTag))
       );
@@ -396,11 +432,18 @@ const TeeTimeMarketplacePage = ({
             </label>
           </div>
 
-          <div className={styles.grid}>
-            {resultProducts.map((product, index) => (
-              <ProductCard key={product.id} product={product} index={index} />
-            ))}
-          </div>
+          {resultProducts.length > 0 ? (
+            <div className={styles.grid}>
+              {resultProducts.map((product, index) => (
+                <ProductCard key={product.id} product={product} index={index} />
+              ))}
+            </div>
+          ) : (
+            <div className={styles.emptyState}>
+              <strong>Chưa có dịch vụ phù hợp</strong>
+              <span>Thử đổi khu vực, từ khóa hoặc loại sân để xem thêm gợi ý.</span>
+            </div>
+          )}
 
           <section className={styles.promoStrip}>
             <div>

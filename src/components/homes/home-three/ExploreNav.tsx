@@ -101,25 +101,42 @@ const exploreNavItems: ExploreNavSection[] = [
     title: "Khám phá GOLFNITY",
     columns: [
       {
-        title: "Hoạt động golf & trải nghiệm",
+        title: "Golf",
         icon: "fa-regular fa-golf-club",
         items: [
-          { title: "Tour golf", href: "/tour-golf" },
-          { title: "Tour trong ngày", href: "/dich-vu/tham-quan-trai-nghiem" },
+          { title: "Tour golf", href: "/dich-vu/tour-golf-viet-nam" },
           { title: "Đặt tee time", href: "/dich-vu/dat-tee-time" },
+          { title: "Combo golf + khách sạn", href: "/dich-vu/khach-san-nghi-duong?tag=golf-combo" },
           { title: "Tổ chức giải golf", href: "/dich-vu/dat-tee-time/danh-sach?tag=group" },
           { title: "Golf doanh nghiệp", href: "/dich-vu/dat-tee-time/danh-sach?tag=group" },
-          { title: "Trải nghiệm địa phương", href: "/dich-vu/tham-quan-trai-nghiem" },
-          { title: "Du thuyền", href: "/dich-vu/tham-quan-trai-nghiem" },
-          { title: "Vé tham quan", href: "/tham-quan-trai-nghiem" },
           { title: "Sự kiện golf", href: "/dich-vu/dat-tee-time/danh-sach?tag=event" },
+        ],
+      },
+      {
+        title: "Tour & Trải nghiệm",
+        icon: "fa-regular fa-map-location-dot",
+        items: [
+          { title: "Tour trong ngày", href: "/dich-vu/tour-trai-nghiem?tag=day-tour" },
+          { title: "Trải nghiệm địa phương", href: "/dich-vu/tour-trai-nghiem?tag=local-experience" },
+          { title: "Du thuyền", href: "/dich-vu/tour-trai-nghiem?tag=cruise" },
+          { title: "Ẩm thực", href: "/dich-vu/tour-trai-nghiem?tag=food" },
+        ],
+      },
+      {
+        title: "Vé tham quan",
+        icon: "fa-regular fa-ticket",
+        items: [
+          { title: "Vé cáp treo", href: "/dich-vu/ve-tham-quan?tag=cable-car" },
+          { title: "Công viên / khu vui chơi", href: "/dich-vu/ve-tham-quan?tag=park" },
+          { title: "Bảo tàng / di tích", href: "/dich-vu/ve-tham-quan?tag=museum" },
+          { title: "Vé show / sự kiện", href: "/dich-vu/ve-tham-quan?tag=show-event" },
         ],
       },
       {
         title: "Lưu trú & nghỉ dưỡng",
         icon: "fa-regular fa-hotel",
         items: [
-          { title: "Khách sạn", href: "/khach-san-nghi-duong" },
+          { title: "Khách sạn", href: "/dich-vu/khach-san-nghi-duong" },
           { title: "Khách sạn & resort", href: "/dich-vu/khach-san-nghi-duong" },
           { title: "Resort gần sân golf", href: "/dich-vu/khach-san-nghi-duong?tag=golf-resort" },
           { title: "Combo khách sạn + golf", href: "/dich-vu/khach-san-nghi-duong?tag=golf-combo" },
@@ -131,7 +148,7 @@ const exploreNavItems: ExploreNavSection[] = [
         title: "Di chuyển",
         icon: "fa-regular fa-car-side",
         items: [
-          { title: "Xe sân bay", href: "/thue-xe-dua-don" },
+          { title: "Xe sân bay", href: "/dich-vu/thue-xe-dua-don" },
           { title: "Thuê xe có tài xế", href: "/dich-vu/thue-xe-dua-don" },
           { title: "Thuê xe tự lái", href: "/dich-vu/thue-xe-dua-don?tag=self-drive" },
           { title: "Xe 4 chỗ", href: "/dich-vu/thue-xe-dua-don?seat=4" },
