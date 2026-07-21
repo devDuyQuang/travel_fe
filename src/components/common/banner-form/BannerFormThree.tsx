@@ -24,9 +24,21 @@ const tabTitles: Record<string, string> = {
   tee_time: "Đặt Tee Time",
   tour: "Tour & Trải nghiệm",
   accommodation: "Khách sạn",
-  transport: "Thuê xe & đưa đón",
   attraction: "Vé tham quan",
+  transport: "Thuê xe",
 };
+
+const homeSearchTabOrder: Record<string, number> = {
+  tee_time: 0,
+  tour: 1,
+  accommodation: 2,
+  attraction: 3,
+  transport: 4,
+};
+
+function getHomeSearchTabOrder(layoutKey?: string | null) {
+  return homeSearchTabOrder[layoutKey || ""] ?? getServiceLayoutOrder(layoutKey);
+}
 
 const BannerFormThree = ({
   initialCategories = [],
@@ -69,7 +81,7 @@ const BannerFormThree = ({
         return {
           category,
           enabled: canApplyConfiguration ? tab?.enabled !== false && Boolean(tab) : true,
-          sort: tab?.sort ?? getServiceLayoutOrder(category.layout_key),
+          sort: getHomeSearchTabOrder(category.layout_key),
           title:
             tabTitles[category.layout_key || ""] ||
             tab?.display_name?.trim() ||
@@ -133,7 +145,7 @@ const BannerFormThree = ({
                       category={active.category}
                       labels={labels}
                       query={config.searchQuery}
-                      buttonLabel={setting?.button_label?.trim() || "Tìm kiếm"}
+                      buttonLabel={setting?.button_label?.trim() || "Tìm ngay"}
                     />
                   </div>
                 </div>

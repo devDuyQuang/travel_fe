@@ -4,6 +4,7 @@ import FeatureDetailsArea from "./FeatureDetailsArea";
 import FeatureAboutArea from "./FeatureAboutArea";
 import FooterSix from "@/layouts/footers/FooterSix";
 import type { Product } from "@/types/product";
+import RecentlyViewedTracker from "@/components/common/RecentlyViewedTracker";
 
 type FeatureDetailsOneProps = {
   product?: Product | null;
@@ -13,6 +14,7 @@ const GolfDetailsOne = ({ product = null }: FeatureDetailsOneProps) => {
   return (
     <>
       <HeaderThree />
+      <RecentlyViewedTracker product={product} />
 
       <main>
         <Breadcrumb

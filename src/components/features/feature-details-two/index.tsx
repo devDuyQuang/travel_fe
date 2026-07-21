@@ -5,6 +5,7 @@ import HeaderThree from "@/layouts/headers/HeaderThree";
 import Listing from "./Listing";
 import FooterFive from "@/layouts/footers/FooterFive";
 import type { Product } from "@/types/product";
+import RecentlyViewedTracker from "@/components/common/RecentlyViewedTracker";
 
 type FeatureDetailsTwoProps = {
   product?: Product | null;
@@ -15,6 +16,7 @@ const FeatureDetailsTwo = ({ product = null, relatedProducts = [] }: FeatureDeta
   return (
     <>
       <HeaderThree variant="transparent" />
+      <RecentlyViewedTracker product={product} />
 
       <main>
         <BreadCrumb product={product} />

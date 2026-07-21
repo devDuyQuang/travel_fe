@@ -6,6 +6,7 @@ import { useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
 import { addToCart } from "@/redux/features/cartSlice";
 import type { Product } from "@/types/product";
+import RecentlyViewedTracker from "@/components/common/RecentlyViewedTracker";
 
 const formatVnd = (value?: string | number | null) => {
   const amount = Number(value || 0);
@@ -50,6 +51,7 @@ const ShopProductDetailsArea = ({ product }: { product: Product }) => {
 
   return (
     <div className="tg-shop-details-area pt-130 pb-35">
+      <RecentlyViewedTracker product={product} />
       <div className="container">
         <div className="row">
           <div className="col-xl-5 col-lg-6">

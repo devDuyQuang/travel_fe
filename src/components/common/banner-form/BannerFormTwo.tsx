@@ -585,7 +585,7 @@ const BannerFormTwo = ({
 
         <div className="tg-booking-form-search-btn mb-10">
           <button className="bk-search-button" type="submit">
-            {buttonLabel || "Tìm kiếm"}
+            {buttonLabel || "Tìm ngay"}
 
             <span className="home-search-icon" aria-hidden="true">
               <i className="fa-regular fa-magnifying-glass" />

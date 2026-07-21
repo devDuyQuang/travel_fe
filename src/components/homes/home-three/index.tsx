@@ -17,6 +17,12 @@ import type { HomepageSettings } from "@/types/homepage"
 import type { Product } from "@/types/product"
 import type { CmsPost, CmsServiceCategory } from "@/types/cms-post"
 import Listing from "./Listing"
+import {
+   ComboGolfShelf,
+   FeaturedDealsShelf,
+   RecentlyViewedShelf,
+} from "./HomeProductShelves"
+import WhyChooseGolfnity from "./WhyChooseGolfnity"
 
 const HomeThree = ({
    initialSettings,
@@ -37,17 +43,25 @@ const HomeThree = ({
             <Banner />
             <BannerFormThree initialCategories={initialServiceCategories} />
             <HomeQuickCategories />
-            <About />
+            <Location />
             <Listing
                initialCategories={initialServiceCategories}
                initialProducts={initialProducts}
             />
-            <Choose />
-            <CtaThree />
-            <Location />
-            <CtaTwo />
-            <Testimonial />
+            <RecentlyViewedShelf products={initialProducts} />
+            <ComboGolfShelf products={initialProducts} />
+            <FeaturedDealsShelf products={initialProducts} />
+            <WhyChooseGolfnity />
             <Blog initialPosts={initialPosts} />
+            {/*
+               Conversion-lower sections are kept in the template but hidden for the
+               booking-first homepage pass.
+               <About />
+               <Choose />
+               <CtaThree />
+               <CtaTwo />
+               <Testimonial />
+            */}
          </main>
          <FooterThree />
       </HomepageSettingsProvider>

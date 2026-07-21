@@ -299,12 +299,12 @@ const Listing = ({
   const filteredItems = useMemo(
     () => {
       if (selectedFilter === "*") {
-        return displayItems.slice(0, 8);
+        return displayItems.slice(0, 4);
       }
 
       return displayItems
         .filter((item) => item.category === selectedFilter)
-        .slice(0, setting?.limit || templateItems.length);
+        .slice(0, setting?.limit || 4);
     },
     [displayItems, selectedFilter, setting?.limit, templateItems.length],
   );
@@ -320,22 +320,26 @@ const Listing = ({
   };
 
   return (
-    <div className="tg-listing-area tg-grey-bg pt-140 pb-110 p-relative z-index-9 golfnity-home-listing">
-      <Image
-        className="tg-listing-shape d-none d-lg-block"
-        src={shape_1}
-        alt=""
-      />
-      <Image
-        className="tg-listing-shape-2 d-none d-xl-block"
-        src={shape_2}
-        alt=""
-      />
-      <Image
-        className="tg-listing-shape-3 d-none d-lg-block"
-        src={shape_3}
-        alt=""
-      />
+    <div className="tg-listing-area tg-grey-bg pt-70 pb-70 p-relative z-index-9 golfnity-home-listing">
+      {/*
+        Template decorative shapes are kept available but hidden so the booking
+        homepage stays clean and product-focused.
+        <Image
+          className="tg-listing-shape d-none d-lg-block"
+          src={shape_1}
+          alt=""
+        />
+        <Image
+          className="tg-listing-shape-2 d-none d-xl-block"
+          src={shape_2}
+          alt=""
+        />
+        <Image
+          className="tg-listing-shape-3 d-none d-lg-block"
+          src={shape_3}
+          alt=""
+        />
+      */}
       <div className="container">
         <div className="row">
           <div className="col-12">
@@ -345,18 +349,19 @@ const Listing = ({
                 data-wow-delay=".3s"
                 data-wow-duration=".5s"
               >
-                {homepageText(setting?.subtitle, "Most Popular Tour Packages")}
+                Tee time, tour golf, khách sạn và trải nghiệm được chọn lọc trên GOLFNITY.
               </h5>
               <h2
                 className="mb-15 wow fadeInUp"
                 data-wow-delay=".4s"
                 data-wow-duration=".6s"
               >
-                {homepageText(setting?.title, "Something Amazing Waiting For you")}
+                Gợi ý cho hành trình của bạn
               </h2>
               {setting?.description?.trim() && <p>{setting.description.trim()}</p>}
             </div>
           </div>
+          {/* Filter tabs are hidden on the homepage to keep the featured block compact.
           <div className="col-lg-12">
             <div
               className="tg-listing-menu-nav project__menu-nav mb-40 wow fadeInUp"
@@ -401,12 +406,13 @@ const Listing = ({
               ))}
             </div>
           </div>
+          */}
         </div>
         <div className="row project-active-two">
-          {isLoadingProducts && Array.from({ length: 8 }).map((_, index) => (
+          {isLoadingProducts && Array.from({ length: 4 }).map((_, index) => (
             <div
               key={`listing-skeleton-${index}`}
-              className="col-xxl-3 col-xl-4 col-lg-4 col-md-6 grid-item"
+              className="col-xl-3 col-lg-4 col-md-6 grid-item"
             >
               <div className="tg-listing-card-item mb-30 golfnity-card-skeleton" aria-hidden="true">
                 <div className="golfnity-card-skeleton-image"></div>
@@ -427,11 +433,15 @@ const Listing = ({
               ? getProductStartingPrice(item.product)
               : null;
             const oldPrice = getHomepageOldPrice(item.product, cmsPrice?.amount);
+            const ctaLabel =
+              item.product?.category?.layout_key === "tee_time"
+                ? "Xem sân"
+                : "Xem chi tiết";
 
             return (
               <div
                 key={item.id}
-                className="col-xxl-3 col-xl-4 col-lg-4 col-md-6 grid-item"
+                className="col-xl-3 col-lg-4 col-md-6 grid-item"
               >
                 <div
                   className="tg-listing-card-item mb-30"
@@ -584,6 +594,13 @@ const Listing = ({
                       </span>
                     </div>
                   </div>
+                  <Link
+                    className="golfnity-home-listing__cta"
+                    href={detailHref}
+                    onClick={(event) => event.stopPropagation()}
+                  >
+                    {ctaLabel}
+                  </Link>
                 </div>
               </div>
             );

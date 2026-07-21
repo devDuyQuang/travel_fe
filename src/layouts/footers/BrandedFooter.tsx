@@ -30,6 +30,16 @@ const BrandedFooter = ({
         { name: "Pinterest", link: "#", icon: "fa-brands fa-pinterest-p" },
         { name: "YouTube", link: "#", icon: "fa-brands fa-youtube" },
       ];
+  const footerAddress =
+    siteSettings.address && !/123\s+Nguyễn\s+Văn\s+A/i.test(siteSettings.address)
+      ? siteSettings.address
+      : "Đà Nẵng, Việt Nam";
+  const footerEmail =
+    siteSettings.email && !/@gmail\.com$/i.test(siteSettings.email)
+      ? siteSettings.email
+      : "booking@golfnity.vn";
+  const footerPhone = siteSettings.phone || "0359 258 536";
+  const footerPhoneHref = footerPhone.replace(/\s+/g, "");
 
   useEffect(() => {
     let mounted = true;
@@ -66,7 +76,7 @@ const BrandedFooter = ({
                     <form onSubmit={(event) => event.preventDefault()}>
                       <input
                         type="email"
-                        placeholder={siteSettings.email || "Nhập email của bạn"}
+                        placeholder={footerEmail}
                       />
                       <button
                         className="tg-footer-form-btn"
@@ -136,22 +146,22 @@ const BrandedFooter = ({
                         <span className="mr-15">
                           <i className="fa-sharp fa-solid fa-location-dot"></i>
                         </span>
-                        {siteSettings.address || "Xem thông tin liên hệ GOLFNITY"}
+                        {footerAddress}
                       </Link>
                     </li>
                     <li>
                       <Link
                         className="d-flex"
                         href={
-                          siteSettings.phone
-                            ? `tel:${siteSettings.phone}`
+                          footerPhone
+                            ? `tel:${footerPhoneHref}`
                             : "/contact"
                         }
                       >
                         <span className="mr-15">
                           <i className="fa-sharp fa-solid fa-phone"></i>
                         </span>
-                        {siteSettings.phone || "Liên hệ tư vấn"}
+                        {footerPhone}
                       </Link>
                     </li>
                     <li className="d-flex">
