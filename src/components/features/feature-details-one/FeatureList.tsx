@@ -46,12 +46,13 @@ const list_data: DataType[] = [
 const FeatureList = ({ product }: { product?: Product | null }) => {
    const attributes = product?.attributes || {};
    const layout = product?.category?.layout_key;
+   const teeTimeOptionCount = product?.service_options?.length || 0;
    const fieldsByLayout: Record<string, Array<[string, unknown]>> = {
       tee_time: [
          ["Thời lượng", product?.duration],
          ["Loại hình", attributes.course_type || product?.category?.name],
-         ["Số khách", null],
-         ["Ngôn ngữ", null],
+         ["Gói tee time", teeTimeOptionCount > 0 ? `${teeTimeOptionCount} gói` : "Theo yêu cầu"],
+         ["Xác nhận", "Kiểm tra lịch sân"],
       ],
       tour: [
          ["Thời lượng", product?.duration || (attributes.days ? `${attributes.days} ngày` : null)],

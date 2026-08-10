@@ -3,6 +3,281 @@
   gap: 0;
 }
 
+.teeTimeBookingForm {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  gap: 0;
+  padding: 0;
+}
+
+.teeTimeBookingForm :global(.teeTimePackagesLayout),
+.teeTimeBookingForm :global(.tee-time-packages-layout) {
+  align-items: start;
+  display: grid;
+  column-gap: 44px;
+  row-gap: 24px;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 310px);
+  overflow: visible;
+  position: relative;
+}
+
+.teeTimeBookingForm :global(.teeTimePackageSelector),
+.teeTimeBookingForm :global(.teeTimePackageDetailsRail),
+.teeTimeBookingForm :global(.tee-time-package-selector-card),
+.teeTimeBookingForm :global(.tee-time-package-details) {
+  min-width: 0;
+}
+
+.teeTimeBookingForm :global(.teeTimePackageSelector),
+.teeTimeBookingForm :global(.tee-time-package-selector-card) {
+  background: #ffffff;
+  border: 1px solid rgba(234, 212, 154, 0.78);
+  border-radius: 18px;
+  box-sizing: border-box;
+  box-shadow: 0 18px 52px rgba(18, 56, 47, 0.1);
+  padding: 30px;
+}
+
+.teeTimeBookingForm
+  :global(.tee-time-package-selector-card.has-tee-time-selection) {
+  min-height: 0;
+}
+
+.teeTimeBookingForm :global(.booking-card-header) {
+  border-bottom: 0;
+  margin-bottom: 28px;
+  padding-bottom: 0;
+}
+
+.teeTimeBookingForm :global(.booking-card-heading-row) {
+  align-items: center;
+  display: flex;
+  gap: 18px;
+  justify-content: space-between;
+}
+
+.teeTimeBookingForm
+  :global(.tg-tour-about-title) {
+  color: #12382f;
+  font-size: 22px;
+  line-height: 1.25;
+  margin: 0 !important;
+}
+
+.teeTimeBookingForm
+  :global(.tg-tour-about-sidebar-title),
+.teeTimeBookingForm :global(.time) {
+  color: #12382f;
+}
+
+.teeTimeBookingForm
+  :global(.tg-tour-about-border-doted) {
+  border-color: rgba(234, 212, 154, 0.55);
+}
+
+.teeTimeBookingForm
+  :global(.tg-btn) {
+  background: #245f52;
+  border-color: #245f52;
+  color: #f2d36b;
+  min-height: 52px;
+}
+
+.teeTimeBookingForm
+  :global(.tg-btn:hover),
+.teeTimeBookingForm
+  :global(.tg-btn:focus-visible) {
+  background: #12382f;
+  border-color: #12382f;
+  color: #ffffff;
+}
+
+.teeTimeBookingForm
+  :global(.tg-btn:disabled) {
+  cursor: not-allowed;
+  opacity: 0.58;
+}
+
+.teeTimeBookingForm :global(.booking-section) {
+  display: block;
+  margin-bottom: 26px;
+}
+
+.teeTimeBookingForm :global(.tee-time-date-helper) {
+  color: #6f7773;
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+  margin: 0 0 14px;
+}
+
+.teeTimeBookingForm :global(.tee-time-date-trigger) {
+  align-items: center;
+  background: #245f52;
+  border: 1px solid #245f52;
+  border-radius: 10px;
+  color: #e6c76f;
+  display: inline-flex;
+  font-size: 15px;
+  font-weight: 600;
+  gap: 8px;
+  height: 44px;
+  justify-content: center;
+  line-height: 1;
+  max-width: none;
+  min-width: 0;
+  padding: 0 16px;
+  width: auto;
+}
+
+.teeTimeBookingForm :global(.tee-time-date-trigger:hover),
+.teeTimeBookingForm :global(.tee-time-date-trigger:focus-visible) {
+  background: #12382f;
+  border-color: #12382f;
+  color: #e6c76f;
+  outline: none;
+}
+
+.teeTimeBookingForm :global(.tee-time-date-trigger .booking-date-icon) {
+  color: inherit;
+  display: inline-flex;
+  height: auto;
+  position: static;
+  transform: none;
+}
+
+.teeTimeBookingForm :global(.tee-time-calendar-anchor) {
+  display: inline-block;
+  height: 44px;
+  position: relative;
+  width: fit-content;
+}
+
+.teeTimeBookingForm :global(.tee-time-calendar-inline-shell) {
+  display: none;
+  left: 0;
+  position: absolute;
+  top: calc(100% + 14px);
+  z-index: 45;
+}
+
+.teeTimeBookingForm :global(.tee-time-calendar-inline-shell.is-open) {
+  display: block;
+}
+
+.teeTimeBookingForm
+  :global(.tee-time-calendar-inline-shell .flatpickr-wrapper) {
+  display: block;
+  width: fit-content;
+}
+
+.teeTimeBookingForm :global(.tee-time-calendar-hidden-input) {
+  height: 0 !important;
+  max-height: 0 !important;
+  min-height: 0 !important;
+  opacity: 0;
+  overflow: hidden;
+  pointer-events: none;
+  position: absolute;
+  width: 0 !important;
+}
+
+.teeTimeBookingForm
+  :global(.booking-date-field),
+.teeTimeBookingForm
+  :global(.booking-date-field .flatpickr-wrapper),
+.teeTimeBookingForm
+  :global(.booking-date-field .booking-date-input) {
+  height: 50px !important;
+  max-height: 50px !important;
+  min-height: 50px !important;
+}
+
+.teeTimeBookingForm
+  :global(.booking-date-field .booking-date-input) {
+  background: #245f52 !important;
+  border-color: #245f52 !important;
+  border-radius: 10px !important;
+  color: #e6c76f !important;
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  width: auto !important;
+}
+
+.teeTimeBookingForm
+  :global(.booking-date-field:hover .booking-date-input),
+.teeTimeBookingForm
+  :global(.booking-date-field:focus-within .booking-date-input) {
+  border-color: #12382f !important;
+  box-shadow: 0 0 0 3px rgba(36, 95, 82, 0.08) !important;
+}
+
+.teeTimeBookingForm
+  :global(.booking-date-icon),
+.teeTimeBookingForm
+  :global(.booking-date-caret) {
+  height: 50px;
+}
+
+.teeTimeBookingForm :global(.booking-date-icon),
+.teeTimeBookingForm :global(.booking-date-caret) {
+  color: #e6c76f;
+}
+
+.teeTimeBookingForm :global(.booking-date-field) {
+  max-width: none;
+  min-width: unset;
+  width: fit-content;
+}
+
+.teeTimeBookingForm :global(.booking-date-field .flatpickr-wrapper) {
+  width: auto;
+}
+
+:global(.flatpickr-day .booking-date-price-hint) {
+  color: #245f52;
+  display: block;
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 1;
+  margin-top: 2px;
+  pointer-events: none;
+}
+
+:global(.flatpickr-day.prevMonthDay .booking-date-price-hint),
+:global(.flatpickr-day.nextMonthDay .booking-date-price-hint),
+:global(.flatpickr-day.flatpickr-disabled .booking-date-price-hint) {
+  color: #9aa19d;
+}
+
+.teeTimeBookingForm
+  :global(.booking-text-field) {
+  min-height: 50px !important;
+}
+
+.teeTimeBookingForm :global(.tee-time-clear-selection) {
+  background: transparent;
+  border: 0;
+  color: #9f7624;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.25;
+  padding: 2px 0;
+  text-decoration: underline;
+  text-decoration-color: rgba(159, 118, 36, 0.42);
+  text-underline-offset: 3px;
+  white-space: nowrap;
+}
+
+.teeTimeBookingForm :global(.tee-time-clear-selection:hover),
+.teeTimeBookingForm :global(.tee-time-clear-selection:focus-visible) {
+  color: #12382f;
+  outline: none;
+}
+
 .bookingSidebarForm
   :global(.tg-tour-about-title) {
   margin-bottom: 22px;
@@ -24,7 +299,7 @@
   color: #0b1020;
   display: block;
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 500;
   line-height: 1.3;
   margin-bottom: 6px;
 }
@@ -33,7 +308,7 @@
   color: #0b1020;
   display: block;
   font-size: 15px;
-  font-weight: 700;
+  font-weight: 600;
   margin: 14px 0 2px;
 }
 
@@ -49,7 +324,7 @@
 .bookingSidebarForm :global(.time) {
   color: #0b1020;
   font-size: 16px;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.4;
 }
 
@@ -123,11 +398,904 @@
   padding: 10px 12px;
 }
 
+.teeTimeBookingForm :global(.tee-time-package-selector) {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 0;
+}
+
+.teeTimeBookingForm :global(.tee-time-package-block__label) {
+  color: #12382f;
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.3;
+  margin-bottom: 16px;
+}
+
+.teeTimeBookingForm :global(.tee-time-package-selector-main),
+.teeTimeBookingForm :global(.tee-time-package-details) {
+  min-width: 0;
+}
+
+.teeTimeBookingForm :global(.tee-time-package-selector-main) {
+  display: grid;
+  gap: 0;
+}
+
+.teeTimeBookingForm :global(.teeTimePackageDetailsRail),
+.teeTimeBookingForm :global(.tee-time-package-details) {
+  align-self: start;
+  height: auto;
+  max-height: none;
+  overflow: visible;
+  position: sticky;
+  top: var(--sticky-content-offset);
+  width: 100%;
+  z-index: 2;
+}
+
+.teeTimeBookingForm :global(.tee-time-package-details--notched) {
+  overflow: visible;
+  position: sticky;
+  z-index: 8;
+}
+
+@media (min-width: 992px) {
+  .teeTimeBookingForm :global(.tee-time-package-details--notched::before),
+  .teeTimeBookingForm :global(.tee-time-package-details--notched::after) {
+    clip-path: polygon(
+      100% 0,
+      100% 100%,
+      45% 72%,
+      0 50%,
+      45% 28%
+    );
+    content: "";
+    pointer-events: none;
+    position: absolute;
+  }
+
+  .teeTimeBookingForm :global(.tee-time-package-details--notched::after) {
+    background: rgba(234, 212, 154, 0.9);
+    height: 44px;
+    left: -23px;
+    top: 52px;
+    width: 36px;
+    z-index: 9;
+  }
+
+  .teeTimeBookingForm :global(.tee-time-package-details--notched::before) {
+    background: #fffdf7;
+    filter: drop-shadow(-4px 4px 8px rgba(18, 56, 47, 0.08));
+    height: 40px;
+    left: -19px;
+    top: 54px;
+    width: 31px;
+    z-index: 10;
+  }
+}
+
+.teeTimeBookingForm :global(.booking-section) {
+  display: block;
+  margin-bottom: 26px;
+}
+
+.teeTimeBookingForm :global(.booking-section > .tg-booking-form-parent-inner:first-child) {
+  max-width: 320px;
+}
+
+.teeTimeBookingForm :global(.booking-section > *) {
+  margin-bottom: 0 !important;
+  min-width: 0;
+}
+
+.teeTimeBookingForm :global(.tee-time-package-grid) {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 18px;
+  row-gap: 18px;
+  outline: none;
+}
+
+.teeTimeBookingForm :global(.tee-time-package-card) {
+  background: #ffffff;
+  border: 1px solid rgba(36, 95, 82, 0.16);
+  border-radius: 8px;
+  flex: 0 1 auto;
+  max-width: 100%;
+  min-width: 0;
+  min-height: 48px;
+  overflow: visible;
+  position: relative;
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.teeTimeBookingForm :global(.tee-time-package-card.is-active) {
+  border-color: #245f52;
+  background: #f4faf7;
+  box-shadow: 0 0 0 1px rgba(36, 95, 82, 0.1);
+}
+
+.teeTimeBookingForm :global(.tee-time-package-card:hover) {
+  border-color: #245f52;
+  box-shadow: 0 0 0 1px rgba(36, 95, 82, 0.08);
+}
+
+.teeTimeBookingForm :global(.tee-time-package-card__select) {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  color: #12382f;
+  display: flex;
+  gap: 9px;
+  justify-content: space-between;
+  min-height: 48px;
+  padding: 10px 16px;
+  text-align: left;
+  width: 100%;
+}
+
+.teeTimeBookingForm :global(.tee-time-package-card__select:focus-visible) {
+  box-shadow: 0 0 0 3px rgba(230, 199, 112, 0.18);
+  outline: none;
+}
+
+.teeTimeBookingForm :global(.tee-time-package-card__name) {
+  color: #12382f;
+  display: block;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.25;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.teeTimeBookingForm :global(.tee-time-package-card__badge) {
+  background: #f8edd0;
+  border-radius: 5px;
+  color: #7d5f1d;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.2;
+  padding: 4px 8px;
+  position: absolute;
+  right: -1px;
+  top: -12px;
+  z-index: 1;
+}
+
+.teeTimeBookingForm :global(.tee-time-package-card.has-discount .tee-time-package-card__select) {
+  padding-right: 16px;
+}
+
+.teeTimeBookingForm :global(.tee-time-progressive-fields) {
+  border-top: 1px solid rgba(36, 95, 82, 0.1);
+  display: grid;
+  gap: 12px;
+  margin-top: 22px;
+  padding-top: 18px;
+}
+
+.teeTimeBookingForm :global(.tee-time-package-card__meta) {
+  color: #6b746f;
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+.teeTimeBookingForm :global(.booking-option-detail-link) {
+  background: transparent;
+  border: 0;
+  color: #245f52;
+  font-size: 13px;
+  font-weight: 500;
+  justify-self: start;
+  padding: 2px 0;
+  text-decoration: underline;
+  text-decoration-color: rgba(224, 184, 79, 0.7);
+  text-underline-offset: 4px;
+}
+
+.teeTimeBookingForm :global(.booking-option-detail-link:hover),
+.teeTimeBookingForm :global(.booking-option-detail-link:focus-visible) {
+  color: #12382f;
+  outline: none;
+}
+
+.teeTimeBookingForm :global(.tee-time-package-detail-card) {
+  background: #fffdf7;
+  border: 1px solid rgba(234, 212, 154, 0.82);
+  border-radius: 16px;
+  color: #12382f;
+  display: flex;
+  flex-direction: column;
+  font-family: inherit;
+  font-size: 14px;
+  height: clamp(640px, calc(100vh - var(--sticky-content-offset) - 24px), 820px);
+  line-height: 1.55;
+  max-height: calc(100vh - var(--sticky-content-offset) - 24px);
+  overflow: hidden;
+  padding: 0;
+  position: relative;
+  width: 100%;
+  z-index: 5;
+}
+
+.teeTimeBookingForm
+  :global(.tee-time-package-detail-card__body)::-webkit-scrollbar {
+  width: 6px;
+}
+
+.teeTimeBookingForm
+  :global(.tee-time-package-detail-card__body)::-webkit-scrollbar-thumb {
+  background: rgba(36, 95, 82, 0.22);
+  border-radius: 999px;
+}
+
+.teeTimeBookingForm :global(.teeTimePackageDetails) {
+  position: sticky;
+  top: var(--sticky-content-offset);
+}
+
+.teeTimeBookingForm :global(.tee-time-package-detail-card__header) {
+  align-items: center;
+  background: #fffdf7;
+  border-bottom: 1px solid rgba(234, 212, 154, 0.42);
+  flex: 0 0 auto;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  padding: 20px 20px 14px;
+  z-index: 3;
+}
+
+.teeTimeBookingForm :global(.tee-time-package-detail-card__body) {
+  display: grid;
+  flex: 1 1 auto;
+  gap: 10px;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 14px 20px 20px;
+}
+
+.teeTimeBookingForm :global(.tee-time-package-detail-card__header span) {
+  color: #9f7624;
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.teeTimeBookingForm :global(.tee-time-package-detail-card__name),
+.teeTimeBookingForm :global(.tee-time-package-detail-card h5) {
+  color: #12382f;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.3;
+  margin: 0;
+}
+
+.teeTimeBookingForm :global(.tee-time-package-detail-card p) {
+  color: #58655f;
+  font-size: 14px;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.teeTimeBookingForm :global(.tee-time-package-detail-card ul) {
+  display: grid;
+  gap: 7px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.teeTimeBookingForm :global(.tee-time-package-detail-card li) {
+  color: #58655f;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.55;
+  padding-left: 18px;
+  position: relative;
+}
+
+.teeTimeBookingForm :global(.tee-time-package-detail-card li::before) {
+  color: #245f52;
+  content: "•";
+  font-weight: 700;
+  left: 0;
+  position: absolute;
+  top: 0;
+}
+
+.teeTimeBookingForm :global(.tee-time-package-detail-card li.tone-include::before) {
+  content: "✓";
+}
+
+.teeTimeBookingForm :global(.tee-time-package-detail-card li.tone-exclude::before) {
+  color: #9aa19d;
+  content: "×";
+}
+
+.teeTimeBookingForm :global(.tee-time-itinerary-feedback) {
+  align-items: center;
+  border-top: 1px dashed rgba(234, 212, 154, 0.72);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+  padding-top: 10px;
+}
+
+.teeTimeBookingForm :global(.tee-time-itinerary-feedback span) {
+  color: #58655f;
+  flex: 1 1 100%;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.teeTimeBookingForm :global(.tee-time-itinerary-feedback button) {
+  background: #ffffff;
+  border: 1px solid rgba(234, 212, 154, 0.82);
+  border-radius: 999px;
+  color: #245f52;
+  font-size: 13px;
+  font-weight: 500;
+  min-height: 32px;
+  padding: 5px 13px;
+}
+
+.teeTimeBookingForm :global(.tee-time-itinerary-feedback button:hover),
+.teeTimeBookingForm :global(.tee-time-itinerary-feedback button:focus-visible),
+.teeTimeBookingForm :global(.tee-time-itinerary-feedback button.is-selected) {
+  background: #245f52;
+  border-color: #245f52;
+  color: #f2d36b;
+  outline: none;
+}
+
+.teeTimeBookingForm :global(.tee-time-package-timeline) {
+  display: grid;
+  gap: 0;
+  margin-top: 2px;
+}
+
+.teeTimeBookingForm :global(.tee-time-package-timeline__item) {
+  align-items: flex-start;
+  display: grid;
+  gap: 11px;
+  grid-template-columns: 34px minmax(0, 1fr);
+  min-height: 48px;
+  position: relative;
+}
+
+.teeTimeBookingForm
+  :global(.tee-time-package-timeline__item:not(:last-child)::before) {
+  background: rgba(36, 95, 82, 0.14);
+  content: "";
+  height: calc(100% - 28px);
+  left: 16px;
+  position: absolute;
+  top: 30px;
+  width: 1px;
+}
+
+.teeTimeBookingForm :global(.tee-time-package-timeline__icon) {
+  align-items: center;
+  background: #eef6f2;
+  border-radius: 999px;
+  color: #245f52;
+  display: inline-flex;
+  height: 32px;
+  justify-content: center;
+  position: relative;
+  width: 32px;
+  z-index: 1;
+}
+
+.teeTimeBookingForm :global(.tee-time-package-timeline__icon i) {
+  font-size: 14px;
+  line-height: 1;
+}
+
+.teeTimeBookingForm :global(.tee-time-package-timeline__item p) {
+  align-items: center;
+  color: #12382f;
+  display: flex;
+  font-size: 14px;
+  font-weight: 400;
+  gap: 8px;
+  justify-content: space-between;
+  line-height: 1.55;
+  margin: 4px 0 0;
+  min-width: 0;
+}
+
+.teeTimeBookingForm :global(.tee-time-package-timeline__link) {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  color: #12382f;
+  display: flex;
+  font-size: 14px;
+  font-weight: 400;
+  gap: 8px;
+  justify-content: space-between;
+  line-height: 1.55;
+  margin: 4px 0 0;
+  min-width: 0;
+  padding: 0;
+  text-align: left;
+  width: 100%;
+}
+
+.teeTimeBookingForm :global(.tee-time-package-timeline__link:hover),
+.teeTimeBookingForm :global(.tee-time-package-timeline__link:focus-visible) {
+  color: #245f52;
+  outline: none;
+}
+
+.teeTimeBookingForm :global(.tee-time-package-timeline__link:disabled) {
+  cursor: default;
+}
+
+.teeTimeBookingForm :global(.tee-time-package-timeline__item p span) {
+  min-width: 0;
+}
+
+.teeTimeBookingForm :global(.tee-time-package-timeline__link span) {
+  min-width: 0;
+}
+
+.teeTimeBookingForm :global(.tee-time-package-timeline__item p i) {
+  color: #12382f;
+  flex: 0 0 auto;
+  font-size: 12px;
+}
+
+.teeTimeBookingForm :global(.tee-time-package-timeline__link i) {
+  color: #12382f;
+  flex: 0 0 auto;
+  font-size: 12px;
+}
+
+.teeTimeBookingForm :global(.tee-time-package-timeline__note) {
+  color: #6b746f;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.5;
+  margin: 4px 0 0;
+}
+
+.teeTimeBookingForm :global(.tee-time-package-detail-card__expand) {
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid rgba(234, 212, 154, 0.78);
+  border-radius: 999px;
+  color: #245f52;
+  display: inline-flex;
+  height: 34px;
+  justify-content: center;
+  transition:
+    background-color 180ms ease,
+    color 180ms ease;
+  width: 34px;
+}
+
+.teeTimeBookingForm :global(.tee-time-package-detail-card__expand:hover),
+.teeTimeBookingForm :global(.tee-time-package-detail-card__expand:focus-visible) {
+  background: #245f52;
+  color: #ffffff;
+  outline: none;
+}
+
+.teeTimeBookingForm :global(.tee-time-package-detail-card__badges) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.teeTimeBookingForm :global(.tee-time-package-detail-card__summary) {
+  display: grid;
+  gap: 16px;
+}
+
+.teeTimeBookingForm :global(.tee-time-package-detail-card__summary section) {
+  display: grid;
+  gap: 8px;
+}
+
+.teeTimeBookingForm :global(.tee-time-package-detail-card__summary h6) {
+  color: #12382f;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.teeTimeBookingForm :global(.tee-time-sidebar-subsections) {
+  display: grid;
+  gap: 12px;
+}
+
+.teeTimeBookingForm :global(.tee-time-sidebar-subsections section) {
+  display: grid;
+  gap: 7px;
+}
+
+.teeTimeBookingForm :global(.tee-time-sidebar-subsections h6) {
+  color: #12382f;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.teeTimeBookingForm :global(.tee-time-sidebar-pickup) {
+  display: grid;
+  gap: 14px;
+}
+
+.teeTimeBookingForm :global(.tee-time-sidebar-pickup__section) {
+  display: grid;
+  gap: 9px;
+  scroll-margin-top: calc(var(--sticky-content-offset) + 12px);
+}
+
+.teeTimeBookingForm :global(.tee-time-sidebar-pickup__section h6) {
+  color: #12382f;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.teeTimeBookingForm :global(.tee-time-sidebar-pickup__search) {
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid rgba(36, 95, 82, 0.12);
+  border-radius: 10px;
+  color: #6b746f;
+  display: flex;
+  gap: 8px;
+  min-height: 38px;
+  padding: 8px 10px;
+}
+
+.teeTimeBookingForm :global(.tee-time-sidebar-pickup__search i) {
+  color: #245f52;
+  font-size: 13px;
+}
+
+.teeTimeBookingForm :global(.tee-time-sidebar-pickup__map) {
+  border: 1px solid rgba(36, 95, 82, 0.12);
+  border-radius: 10px;
+  height: 168px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.teeTimeBookingForm :global(.tee-time-sidebar-pickup__map iframe) {
+  border: 0;
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+.teeTimeBookingForm :global(.tee-time-sidebar-pickup__rows) {
+  display: grid;
+  gap: 8px;
+}
+
+.teeTimeBookingForm :global(.tee-time-sidebar-pickup__rows p) {
+  align-items: flex-start;
+  color: #58655f;
+  display: grid;
+  font-size: 13px;
+  gap: 8px;
+  grid-template-columns: 16px minmax(0, 1fr);
+  font-weight: 400;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.teeTimeBookingForm :global(.tee-time-sidebar-pickup__rows i) {
+  color: #245f52;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.teeTimeBookingForm :global(.tee-time-package-summary-list) {
+  display: grid;
+  gap: 7px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.teeTimeBookingForm :global(.tee-time-package-summary-list li) {
+  color: #58655f;
+  font-size: 14px;
+  line-height: 1.5;
+  padding-left: 20px;
+  position: relative;
+}
+
+.teeTimeBookingForm :global(.tee-time-package-summary-list li::before) {
+  color: #245f52;
+  content: "•";
+  font-weight: 700;
+  left: 0;
+  position: absolute;
+  top: 0;
+}
+
+.teeTimeBookingForm :global(.tee-time-package-summary-list li.tone-include::before) {
+  content: "✓";
+}
+
+.teeTimeBookingForm :global(.tee-time-package-summary-list li.tone-exclude::before) {
+  color: #9aa19d;
+  content: "×";
+}
+
+.teeTimeBookingForm :global(.tee-time-package-detail-card__more) {
+  background: transparent;
+  border: 0;
+  color: #245f52;
+  font-size: 14px;
+  font-weight: 500;
+  justify-self: start;
+  line-height: 1.3;
+  padding: 2px 0;
+  text-decoration: underline;
+  text-decoration-color: rgba(224, 184, 79, 0.7);
+  text-underline-offset: 4px;
+}
+
+.teeTimeBookingForm :global(.tee-time-package-detail-card__more:hover),
+.teeTimeBookingForm :global(.tee-time-package-detail-card__more:focus-visible) {
+  color: #12382f;
+  outline: none;
+}
+
+.teeTimeBookingForm :global(.tee-time-package-detail-card__badges em) {
+  background: #f8edd0;
+  border-radius: 999px;
+  color: #245f52;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.3;
+  padding: 6px 9px;
+}
+
+.teeTimeBookingForm :global(.tee-time-package-detail-card__sections) {
+  display: grid;
+  gap: 8px;
+}
+
+.teeTimeBookingForm :global(.tee-time-package-detail-card__sections details),
+.teeTimeBookingForm :global(.tee-time-option-detail-sections details) {
+  border-top: 1px solid rgba(234, 212, 154, 0.58);
+  display: grid;
+  gap: 8px;
+  padding-top: 10px;
+}
+
+.teeTimeBookingForm :global(.tee-time-package-detail-card__sections summary),
+.teeTimeBookingForm :global(.tee-time-option-detail-sections summary) {
+  align-items: center;
+  color: #12382f;
+  cursor: pointer;
+  display: flex;
+  font-size: 16px;
+  font-weight: 700;
+  gap: 10px;
+  justify-content: space-between;
+  line-height: 1.35;
+  list-style: none;
+}
+
+.teeTimeBookingForm
+  :global(.tee-time-package-detail-card__sections summary::-webkit-details-marker),
+.teeTimeBookingForm
+  :global(.tee-time-option-detail-sections summary::-webkit-details-marker) {
+  display: none;
+}
+
+.teeTimeBookingForm :global(.tee-time-package-detail-card__sections summary i),
+.teeTimeBookingForm :global(.tee-time-option-detail-sections summary i) {
+  color: #9f7624;
+  font-size: 12px;
+  transition: transform 180ms ease;
+}
+
+.teeTimeBookingForm
+  :global(.tee-time-package-detail-card__sections details[open] summary i),
+.teeTimeBookingForm
+  :global(.tee-time-option-detail-sections details[open] summary i) {
+  transform: rotate(180deg);
+}
+
+.teeTimeBookingForm :global(.tee-time-package-detail-card__empty) {
+  background: #ffffff;
+  border: 1px dashed rgba(234, 212, 154, 0.92);
+  border-radius: 12px;
+  padding: 11px 12px;
+}
+
+.teeTimeBookingForm :global(.tee-time-quantity-price-row) {
+  align-items: stretch;
+  background: #fffdf7;
+  border: 1px solid rgba(234, 212, 154, 0.82);
+  border-radius: 14px;
+  display: grid;
+  gap: 18px;
+  grid-template-columns: minmax(0, 1fr);
+  margin-top: 14px;
+  padding: 18px 20px;
+}
+
+.teeTimeBookingForm :global(.tee-time-stepper-block),
+.teeTimeBookingForm :global(.tee-time-total-block) {
+  display: grid;
+  gap: 7px;
+  min-width: 0;
+}
+
+.teeTimeBookingForm :global(.tee-time-stepper-block > span),
+.teeTimeBookingForm :global(.tee-time-total-block > span) {
+  color: #6b746f;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.25;
+}
+
+.teeTimeBookingForm :global(.tee-time-fixed-quantity) {
+  background: #ffffff;
+  border: 1px solid rgba(36, 95, 82, 0.14);
+  border-radius: 14px;
+  display: grid;
+  gap: 8px;
+  min-height: 68px;
+  padding: 12px 14px;
+  width: 100%;
+}
+
+.teeTimeBookingForm :global(.tee-time-fixed-quantity__row) {
+  align-items: center;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+}
+
+.teeTimeBookingForm :global(.tee-time-fixed-quantity__row span) {
+  color: #12382f;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.teeTimeBookingForm :global(.tee-time-fixed-quantity strong) {
+  color: #12382f;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.teeTimeBookingForm :global(.tee-time-fixed-quantity small),
+.teeTimeBookingForm :global(.tee-time-stepper-block > small) {
+  color: #6b746f;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.teeTimeBookingForm :global(.tee-time-quantity-control-row) {
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid rgba(36, 95, 82, 0.14);
+  border-radius: 12px;
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  min-height: 58px;
+  padding: 10px 14px;
+}
+
+.teeTimeBookingForm :global(.tee-time-quantity-control-row > span) {
+  color: #12382f;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.teeTimeBookingForm :global(.tee-time-stepper) {
+  align-items: center;
+  background: #ffffff;
+  border: 0;
+  border-radius: 999px;
+  display: inline-flex;
+  gap: 10px;
+  justify-self: end;
+  min-height: 42px;
+  padding: 4px;
+}
+
+.teeTimeBookingForm :global(.tee-time-stepper button) {
+  align-items: center;
+  background: #f8edd0;
+  border: 0;
+  border-radius: 999px;
+  color: #245f52;
+  display: inline-flex;
+  height: 34px;
+  justify-content: center;
+  transition:
+    background-color 180ms ease,
+    color 180ms ease;
+  width: 34px;
+}
+
+.teeTimeBookingForm :global(.tee-time-stepper button:hover),
+.teeTimeBookingForm :global(.tee-time-stepper button:focus-visible) {
+  background: #245f52;
+  color: #ffffff;
+  outline: none;
+}
+
+.teeTimeBookingForm :global(.tee-time-stepper button:disabled) {
+  background: #f4f0e6;
+  color: #9aa19d;
+  cursor: not-allowed;
+}
+
+.teeTimeBookingForm :global(.tee-time-stepper strong) {
+  color: #12382f;
+  font-size: 17px;
+  font-weight: 600;
+  min-width: 26px;
+  text-align: center;
+}
+
+.teeTimeBookingForm :global(.tee-time-total-block) {
+  align-items: baseline;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  padding-left: 0;
+}
+
+.teeTimeBookingForm :global(.tee-time-total-block strong) {
+  color: #245f52;
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+}
+
+.teeTimeBookingForm :global(.tee-time-total-block small) {
+  color: #6b746f;
+  flex: 1 1 100%;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
 .bookingSidebarForm :global(.booking-policy-note strong),
 .bookingSidebarForm :global(.booking-option-info strong) {
   color: #245f52;
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .bookingSidebarForm :global(.booking-policy-note span),
@@ -328,10 +1496,25 @@
   padding: 10px 12px;
 }
 
+.teeTimeBookingForm :global(.booking-price-breakdown) {
+  background: #fffdf7;
+  border-color: rgba(234, 212, 154, 0.85);
+  border-radius: 12px;
+  gap: 7px;
+  padding: 14px 15px;
+}
+
+.teeTimeBookingForm :global(.booking-price-total) {
+  background: #f7fbf7;
+  border: 1px solid rgba(36, 95, 82, 0.12);
+  border-radius: 12px;
+  padding: 13px 15px;
+}
+
 .bookingSidebarForm :global(.booking-price-breakdown strong) {
   color: #0b1020;
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .bookingSidebarForm :global(.booking-price-breakdown span) {
@@ -350,7 +1533,7 @@
 .bookingSidebarForm :global(.booking-price-total span) {
   color: #0b1020;
   font-size: 15px;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .bookingSidebarForm :global(.booking-price-total .total-price) {
@@ -475,6 +1658,693 @@
   width: 100%;
 }
 
+.teeTimeBookingForm
+  :global(.booking-confirm-modal) {
+  border: 1px solid rgba(234, 212, 154, 0.72);
+  border-radius: 18px;
+  padding: 28px;
+}
+
+.teeTimeBookingForm
+  :global(.booking-confirm-overlay) {
+  align-items: center;
+  inset: 0;
+  justify-content: center;
+  padding: 24px;
+  z-index: 10080;
+}
+
+.teeTimeBookingForm
+  :global(.booking-confirm-modal h4) {
+  color: #12382f;
+  text-align: left;
+}
+
+.teeTimeBookingForm :global(.tee-time-option-detail-modal) {
+  display: flex;
+  flex-direction: column;
+  height: min(76vh, 720px);
+  max-height: min(76vh, 720px);
+  max-width: calc(100vw - 48px);
+  overflow: hidden;
+  padding: 0;
+  position: relative;
+  width: min(900px, calc(100vw - 48px));
+}
+
+.teeTimeBookingForm :global(.tee-time-detail-modal__header) {
+  background: #ffffff;
+  border-bottom: 1px solid rgba(36, 95, 82, 0.1);
+  display: grid;
+  gap: 14px;
+  flex: 0 0 auto;
+  padding: 34px 80px 22px 40px;
+}
+
+.teeTimeBookingForm :global(.tee-time-detail-modal__header h4) {
+  color: #12382f;
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.2;
+  margin: 0 0 8px;
+  text-align: left;
+  text-transform: none;
+}
+
+.teeTimeBookingForm :global(.tee-time-detail-modal__header p) {
+  color: #12382f;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.35;
+  margin: 0;
+}
+
+.teeTimeBookingForm :global(.tee-time-detail-modal__badges) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.teeTimeBookingForm :global(.tee-time-detail-modal__badges em) {
+  background: #f8edd0;
+  border-radius: 999px;
+  color: #245f52;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.2;
+  padding: 7px 10px;
+}
+
+.teeTimeBookingForm :global(.tee-time-detail-modal__body) {
+  display: grid;
+  flex: 1 1 auto;
+  gap: 24px;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: 30px 40px 40px;
+}
+
+.teeTimeBookingForm :global(.tee-time-detail-modal__description) {
+  color: #58655f;
+  font-size: 15px;
+  line-height: 1.65;
+  margin: 0;
+}
+
+.teeTimeBookingForm :global(.tee-time-detail-modal__section) {
+  border-top: 1px solid rgba(36, 95, 82, 0.1);
+  display: grid;
+  padding-top: 18px;
+}
+
+.teeTimeBookingForm :global(.tee-time-detail-modal__body > .tee-time-detail-modal__section:first-of-type) {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.teeTimeBookingForm :global(.tee-time-detail-modal__section summary) {
+  align-items: center;
+  color: #12382f;
+  cursor: pointer;
+  display: flex;
+  font-size: 17px;
+  font-weight: 600;
+  gap: 14px;
+  justify-content: space-between;
+  line-height: 1.3;
+  list-style: none;
+}
+
+.teeTimeBookingForm
+  :global(.tee-time-detail-modal__section summary::-webkit-details-marker) {
+  display: none;
+}
+
+.teeTimeBookingForm :global(.tee-time-detail-modal__section summary i) {
+  color: #9f7624;
+  font-size: 13px;
+  transition: transform 180ms ease;
+}
+
+.teeTimeBookingForm
+  :global(.tee-time-detail-modal__section[open] summary i) {
+  transform: rotate(180deg);
+}
+
+.teeTimeBookingForm :global(.tee-time-detail-modal__section-body) {
+  display: grid;
+  gap: 16px;
+  padding-top: 16px;
+}
+
+.teeTimeBookingForm :global(.tee-time-detail-modal__timeline) {
+  display: grid;
+  gap: 0;
+}
+
+.teeTimeBookingForm :global(.tee-time-detail-modal__timeline-item) {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: 32px minmax(0, 1fr);
+  min-height: 58px;
+  position: relative;
+}
+
+.teeTimeBookingForm
+  :global(.tee-time-detail-modal__timeline-item:not(:last-child)::before) {
+  background: rgba(36, 95, 82, 0.14);
+  bottom: -2px;
+  content: "";
+  left: 15px;
+  position: absolute;
+  top: 30px;
+  width: 1px;
+}
+
+.teeTimeBookingForm :global(.tee-time-detail-modal__timeline-item > span) {
+  align-items: center;
+  background: #eef6f2;
+  border-radius: 50%;
+  color: #245f52;
+  display: inline-flex;
+  height: 32px;
+  justify-content: center;
+  position: relative;
+  width: 32px;
+  z-index: 1;
+}
+
+.teeTimeBookingForm :global(.tee-time-detail-modal__timeline-item p),
+.teeTimeBookingForm :global(.tee-time-detail-modal__return p),
+.teeTimeBookingForm :global(.tee-time-detail-modal__info-stack p),
+.teeTimeBookingForm :global(.tee-time-detail-modal__list p) {
+  color: #58655f;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.teeTimeBookingForm :global(.tee-time-detail-modal__timeline-item p) {
+  color: #12382f;
+  font-weight: 500;
+  padding-top: 4px;
+}
+
+.teeTimeBookingForm :global(.tee-time-detail-modal__timeline-link) {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  color: #12382f;
+  display: flex;
+  font-size: 15px;
+  font-weight: 500;
+  gap: 10px;
+  justify-content: space-between;
+  line-height: 1.45;
+  margin: 0;
+  min-height: 32px;
+  padding: 3px 0 0;
+  text-align: left;
+  width: 100%;
+}
+
+.teeTimeBookingForm :global(.tee-time-detail-modal__timeline-link:hover),
+.teeTimeBookingForm :global(.tee-time-detail-modal__timeline-link:focus-visible) {
+  color: #245f52;
+  outline: none;
+}
+
+.teeTimeBookingForm :global(.tee-time-detail-modal__timeline-link i) {
+  color: #245f52;
+  flex: 0 0 auto;
+  font-size: 13px;
+}
+
+.teeTimeBookingForm :global(.tee-time-detail-modal__note),
+.teeTimeBookingForm :global(.tee-time-detail-modal__empty) {
+  color: #6b746f;
+  font-size: 14px;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.teeTimeBookingForm :global(.tee-time-detail-modal__feedback) {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.teeTimeBookingForm :global(.tee-time-detail-modal__feedback span) {
+  color: #12382f;
+  flex: 1 1 100%;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.teeTimeBookingForm :global(.tee-time-detail-modal__feedback button) {
+  background: #ffffff;
+  border: 1px solid rgba(36, 95, 82, 0.24);
+  border-radius: 8px;
+  color: #245f52;
+  font-size: 14px;
+  font-weight: 500;
+  min-width: 62px;
+  padding: 8px 14px;
+}
+
+.teeTimeBookingForm :global(.tee-time-detail-modal__feedback button:hover),
+.teeTimeBookingForm :global(.tee-time-detail-modal__feedback button:focus-visible),
+.teeTimeBookingForm :global(.tee-time-detail-modal__feedback button.is-selected) {
+  background: #245f52;
+  border-color: #245f52;
+  color: #f2d36b;
+  outline: none;
+}
+
+.teeTimeBookingForm :global(.tee-time-detail-modal__list) {
+  display: grid;
+  gap: 9px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.teeTimeBookingForm :global(.tee-time-detail-modal__list li) {
+  align-items: flex-start;
+  display: grid;
+  gap: 10px;
+  grid-template-columns: 18px minmax(0, 1fr);
+}
+
+.teeTimeBookingForm :global(.tee-time-detail-modal__list li > span) {
+  color: #9f7624;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.6;
+}
+
+.teeTimeBookingForm :global(.tee-time-detail-modal__list li.tone-include > span) {
+  color: #245f52;
+}
+
+.teeTimeBookingForm :global(.tee-time-detail-modal__list li.tone-exclude > span) {
+  color: #9aa19d;
+}
+
+.teeTimeBookingForm :global(.tee-time-detail-modal__pickup) {
+  display: grid;
+  gap: 14px;
+}
+
+.teeTimeBookingForm :global(.tee-time-detail-modal__pickup h5),
+.teeTimeBookingForm :global(.tee-time-detail-modal__subsections h5) {
+  color: #12382f;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.35;
+  margin: 0;
+}
+
+.teeTimeBookingForm :global(.tee-time-detail-modal__search) {
+  align-items: center;
+  background: #f6f7f6;
+  border: 1px solid rgba(36, 95, 82, 0.12);
+  border-radius: 10px;
+  color: #6b746f;
+  display: flex;
+  gap: 10px;
+  min-height: 44px;
+  padding: 10px 12px;
+}
+
+.teeTimeBookingForm :global(.tee-time-detail-modal__search i) {
+  color: #245f52;
+}
+
+.teeTimeBookingForm :global(.tee-time-detail-modal__map) {
+  border: 1px solid rgba(36, 95, 82, 0.12);
+  border-radius: 12px;
+  height: 280px;
+  margin: 2px 0 4px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.teeTimeBookingForm :global(.tee-time-detail-modal__map iframe) {
+  border: 0;
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+.teeTimeBookingForm :global(.tee-time-detail-modal__info-stack) {
+  display: grid;
+  gap: 8px;
+}
+
+.teeTimeBookingForm :global(.tee-time-detail-modal__info-stack p:first-child) {
+  align-items: center;
+  display: inline-flex;
+  gap: 8px;
+}
+
+.teeTimeBookingForm :global(.tee-time-detail-modal__info-stack i) {
+  color: #245f52;
+}
+
+.teeTimeBookingForm :global(.tee-time-detail-modal__return) {
+  display: grid;
+  gap: 12px;
+}
+
+.teeTimeBookingForm :global(.tee-time-detail-modal__subsections) {
+  display: grid;
+  gap: 18px;
+}
+
+.teeTimeBookingForm :global(.tee-time-detail-modal__subsections section) {
+  display: grid;
+  gap: 10px;
+}
+
+.teeTimeBookingForm :global(.tee-time-confirm-modal) {
+  display: flex;
+  flex-direction: column;
+  max-height: min(82vh, 760px);
+  max-width: 780px;
+  overflow: hidden;
+  padding: 0;
+  position: relative;
+  width: min(780px, calc(100vw - 48px));
+}
+
+.teeTimeBookingForm :global(.tee-time-confirm-modal__header) {
+  background: #ffffff;
+  border-bottom: 1px solid rgba(36, 95, 82, 0.08);
+  flex: 0 0 auto;
+  padding: 30px 72px 18px 36px;
+}
+
+.teeTimeBookingForm :global(.tee-time-confirm-modal__header h4) {
+  color: #0b1020;
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1.25;
+  margin: 0;
+  text-align: center;
+}
+
+.teeTimeBookingForm :global(.tee-time-confirm-modal__body) {
+  display: grid;
+  flex: 1 1 auto;
+  gap: 20px;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: 22px 36px 24px;
+}
+
+.teeTimeBookingForm :global(.tee-time-confirm-section) {
+  display: grid;
+  gap: 10px;
+  margin-top: 0;
+}
+
+.teeTimeBookingForm :global(.tee-time-confirm-section-title) {
+  color: #12382f;
+  display: block;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.teeTimeBookingForm
+  :global(.tee-time-confirm-section .tg-filter-list ul) {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 0;
+  padding: 0;
+}
+
+.teeTimeBookingForm
+  :global(.tee-time-confirm-section .tg-filter-list li) {
+  margin: 0;
+}
+
+.teeTimeBookingForm
+  :global(.tee-time-confirm-section .booking-text-field) {
+  min-height: 52px;
+}
+
+.teeTimeBookingForm
+  :global(.tee-time-confirm-section .booking-radio-options) {
+  align-items: stretch;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.teeTimeBookingForm
+  :global(.tee-time-confirm-section .form-check) {
+  background: #fffdf7;
+  border: 1px solid rgba(234, 212, 154, 0.72);
+  border-radius: 12px;
+  margin: 0;
+  padding: 13px 14px;
+}
+
+.teeTimeBookingForm
+  :global(.tee-time-confirm-section .form-check:has(.form-check-input:checked)) {
+  background: #f7fbf8;
+  border-color: rgba(36, 95, 82, 0.5);
+}
+
+.teeTimeBookingForm
+  :global(.tee-time-confirm-section .form-check-label) {
+  color: #12382f;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.teeTimeBookingForm :global(.tee-time-confirm-summary) {
+  background: #fffdf7;
+  border: 1px solid rgba(36, 95, 82, 0.12);
+  border-radius: 14px;
+}
+
+.teeTimeBookingForm :global(.tee-time-confirm-summary .booking-summary-row) {
+  grid-template-columns: minmax(112px, 0.34fr) 1fr;
+  padding: 12px 16px;
+}
+
+.teeTimeBookingForm :global(.tee-time-confirm-summary .booking-summary-row span) {
+  color: #6b746f;
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.teeTimeBookingForm :global(.tee-time-confirm-summary .booking-summary-row strong) {
+  color: #12382f;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.teeTimeBookingForm :global(.tee-time-confirm-summary .booking-summary-row:last-child) {
+  background: rgba(248, 237, 208, 0.34);
+}
+
+.teeTimeBookingForm :global(.tee-time-confirm-summary .booking-summary-row:last-child strong) {
+  color: #245f52;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.teeTimeBookingForm :global(.tee-time-confirm-modal__footer) {
+  background: #ffffff;
+  border-top: 1px solid rgba(36, 95, 82, 0.1);
+  flex: 0 0 auto;
+  margin-top: 0;
+  padding: 18px 36px 28px;
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+}
+
+.teeTimeBookingForm :global(.tee-time-confirm-modal__footer .tg-btn) {
+  align-items: center;
+  display: inline-flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.teeTimeBookingForm :global(.tee-time-confirm-modal__footer .tg-btn.is-loading i) {
+  animation: teeTimeSpin 800ms linear infinite;
+}
+
+@keyframes teeTimeSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.teeTimeBookingForm :global(.tee-time-option-detail-close) {
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid rgba(234, 212, 154, 0.72);
+  border-radius: 999px;
+  color: #245f52;
+  display: inline-flex;
+  height: 38px;
+  justify-content: center;
+  position: absolute;
+  right: 18px;
+  top: 18px;
+  width: 38px;
+  z-index: 2;
+}
+
+.teeTimeBookingForm :global(.tee-time-option-detail-close:hover),
+.teeTimeBookingForm :global(.tee-time-option-detail-close:focus-visible) {
+  background: #245f52;
+  border-color: #245f52;
+  color: #ffffff;
+  outline: none;
+}
+
+.teeTimeBookingForm :global(.tee-time-option-detail-kicker) {
+  color: #9f7624;
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.teeTimeBookingForm :global(.tee-time-option-detail-description) {
+  color: #58655f;
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 0 0 16px;
+}
+
+.teeTimeBookingForm :global(.tee-time-option-detail-badges) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.teeTimeBookingForm :global(.tee-time-option-detail-badges em) {
+  background: #f8edd0;
+  border-radius: 999px;
+  color: #245f52;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.2;
+  padding: 7px 10px;
+}
+
+.teeTimeBookingForm :global(.tee-time-option-detail-list) {
+  border: 1px solid rgba(234, 212, 154, 0.78);
+  border-radius: 14px;
+  margin-bottom: 16px;
+  overflow: hidden;
+}
+
+.teeTimeBookingForm :global(.tee-time-option-detail-row) {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: minmax(120px, 0.36fr) minmax(0, 1fr);
+  padding: 12px 14px;
+}
+
+.teeTimeBookingForm :global(.tee-time-option-detail-row + .tee-time-option-detail-row) {
+  border-top: 1px solid rgba(234, 212, 154, 0.58);
+}
+
+.teeTimeBookingForm :global(.tee-time-option-detail-row span) {
+  color: #6b746f;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.teeTimeBookingForm :global(.tee-time-option-detail-row strong) {
+  color: #12382f;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+.teeTimeBookingForm :global(.tee-time-option-detail-sections) {
+  display: grid;
+  gap: 14px;
+}
+
+.teeTimeBookingForm :global(.tee-time-option-detail-sections details) {
+  background: #fffdf7;
+  border: 1px solid rgba(234, 212, 154, 0.72);
+  border-radius: 14px;
+  display: grid;
+  gap: 9px;
+  padding: 14px;
+}
+
+.teeTimeBookingForm :global(.tee-time-option-detail-sections ul) {
+  display: grid;
+  gap: 8px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.teeTimeBookingForm :global(.tee-time-option-detail-sections li) {
+  color: #58655f;
+  font-size: 14px;
+  line-height: 1.55;
+  padding-left: 20px;
+  position: relative;
+}
+
+.teeTimeBookingForm :global(.tee-time-option-detail-sections li::before) {
+  color: #245f52;
+  content: "•";
+  font-weight: 700;
+  left: 0;
+  position: absolute;
+  top: 0;
+}
+
+.teeTimeBookingForm :global(.tee-time-option-detail-sections li.tone-include::before) {
+  content: "✓";
+}
+
+.teeTimeBookingForm :global(.tee-time-option-detail-sections li.tone-exclude::before) {
+  color: #9aa19d;
+  content: "×";
+}
+
+.teeTimeBookingForm
+  :global(.booking-summary-list) {
+  border-color: rgba(36, 95, 82, 0.12);
+  border-radius: 14px;
+}
+
+.teeTimeBookingForm
+  :global(.booking-summary-list:not(.tee-time-confirm-summary) .booking-summary-row:nth-child(1)),
+.teeTimeBookingForm
+  :global(.booking-summary-list:not(.tee-time-confirm-summary) .booking-summary-row:nth-child(6)) {
+  background: rgba(248, 237, 208, 0.28);
+}
+
 .bookingSidebarForm
   :global(.booking-confirm-modal h4) {
   color: #0b1020;
@@ -485,8 +2355,8 @@
 
 .bookingSidebarForm
   :global(.booking-summary-list) {
-  border: 1px solid #eee7da;
-  border-radius: 9px;
+  border: 1px solid rgba(36, 95, 82, 0.12);
+  border-radius: 12px;
   overflow: hidden;
 }
 
@@ -505,20 +2375,21 @@
     .booking-summary-row
       + .booking-summary-row
   ) {
-  border-top: 1px solid #eee7da;
+  border-top: 1px solid rgba(36, 95, 82, 0.1);
 }
 
 .bookingSidebarForm
   :global(.booking-summary-row span) {
-  color: #686b78;
+  color: #6b746f;
   font-size: 13px;
+  font-weight: 400;
 }
 
 .bookingSidebarForm
   :global(.booking-summary-row strong) {
-  color: #0b1020;
+  color: #12382f;
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 500;
   overflow-wrap: anywhere;
   text-align: right;
 }
@@ -537,7 +2408,7 @@
   border: 1px solid #eee7da;
   border-radius: 7px;
   color: #245f52;
-  font-weight: 700;
+  font-weight: 600;
   min-height: 46px;
   padding: 10px 14px;
 }
@@ -581,7 +2452,56 @@
   margin: 0 0 22px;
 }
 
+.bookingSidebarForm
+  :global(.booking-success-code) {
+  background: #fffdf7;
+  border: 1px solid rgba(234, 212, 154, 0.82);
+  border-radius: 12px;
+  display: grid;
+  gap: 4px;
+  margin: 0 0 18px;
+  padding: 12px 16px;
+  width: 100%;
+}
+
+.bookingSidebarForm
+  :global(.booking-success-code span) {
+  color: #6b746f;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.teeTimeBookingForm :global(.tee-time-confirm-modal__footer) {
+  margin-top: 0;
+}
+
+.bookingSidebarForm
+  :global(.booking-success-code strong) {
+  color: #12382f;
+  font-size: 18px;
+}
+
 @media (max-width: 575px) {
+  .teeTimeBookingForm :global(.booking-section),
+  .teeTimeBookingForm :global(.tee-time-package-grid),
+  .teeTimeBookingForm
+    :global(.tee-time-quantity-price-row),
+  .teeTimeBookingForm
+    :global(.tee-time-confirm-section .tg-filter-list ul),
+  .teeTimeBookingForm
+    :global(.tee-time-confirm-section .booking-radio-options) {
+    grid-template-columns: 1fr;
+  }
+
+  .teeTimeBookingForm :global(.tee-time-total-block) {
+    padding-left: 0;
+  }
+
+  .teeTimeBookingForm :global(.tee-time-total-block strong) {
+    font-size: 22px;
+  }
+
   .bookingSidebarForm
     :global(.booking-confirm-actions),
   .bookingSidebarForm
@@ -594,13 +2514,186 @@
     text-align: left;
   }
 
+  .teeTimeBookingForm :global(.tee-time-option-detail-row) {
+    grid-template-columns: 1fr;
+    gap: 5px;
+  }
+
   .bookingSidebarForm
     :global(.booking-confirm-modal) {
     padding: 20px 16px;
   }
 
+  .teeTimeBookingForm :global(.tee-time-option-detail-modal) {
+    border-radius: 16px;
+    height: 90vh;
+    max-height: 90vh;
+    max-width: calc(100vw - 24px);
+    padding: 0;
+    width: calc(100vw - 24px);
+  }
+
+  .teeTimeBookingForm :global(.tee-time-confirm-modal) {
+    border-radius: 16px;
+    max-height: 90vh;
+    max-width: calc(100vw - 24px);
+    padding: 0;
+    width: calc(100vw - 24px);
+  }
+
+  .teeTimeBookingForm :global(.tee-time-confirm-modal__header) {
+    padding: 24px 56px 16px 20px;
+  }
+
+  .teeTimeBookingForm :global(.tee-time-confirm-modal__header h4) {
+    font-size: 22px;
+    text-align: left;
+  }
+
+  .teeTimeBookingForm :global(.tee-time-confirm-modal__body) {
+    gap: 18px;
+    padding: 20px;
+  }
+
+  .teeTimeBookingForm :global(.tee-time-confirm-modal__footer) {
+    grid-template-columns: 1fr;
+    padding: 16px 20px 20px;
+  }
+
+  .teeTimeBookingForm :global(.tee-time-detail-modal__header) {
+    padding: 24px 62px 18px 20px;
+  }
+
+  .teeTimeBookingForm :global(.tee-time-detail-modal__header h4) {
+    font-size: 24px;
+  }
+
+  .teeTimeBookingForm :global(.tee-time-detail-modal__header p) {
+    font-size: 16px;
+  }
+
+  .teeTimeBookingForm :global(.tee-time-detail-modal__body) {
+    padding: 22px 20px 28px;
+  }
+
+  .teeTimeBookingForm :global(.tee-time-detail-modal__timeline-item) {
+    grid-template-columns: 28px minmax(0, 1fr);
+  }
+
+  .teeTimeBookingForm :global(.tee-time-detail-modal__timeline-item > span) {
+    height: 28px;
+    width: 28px;
+  }
+
+  .teeTimeBookingForm
+    :global(.tee-time-detail-modal__timeline-item:not(:last-child)::before) {
+    left: 13px;
+  }
+
+  .teeTimeBookingForm {
+    border-radius: 14px;
+    padding: 0;
+  }
+
+  .teeTimeBookingForm :global(.tee-time-package-selector-card) {
+    border-radius: 14px;
+    min-height: 0;
+    padding: 16px;
+  }
+
+  .teeTimeBookingForm :global(.tee-time-package-detail-card) {
+    border-radius: 14px;
+    min-height: 0;
+    padding: 0;
+  }
+
+  .teeTimeBookingForm :global(.tee-time-package-detail-card__header) {
+    padding: 16px 16px 12px;
+  }
+
+  .teeTimeBookingForm :global(.tee-time-package-detail-card__body) {
+    padding: 12px 16px 16px;
+  }
+
+  .teeTimeBookingForm :global(.booking-card-heading-row) {
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .teeTimeBookingForm :global(.tee-time-package-card) {
+    width: 100%;
+  }
+
+  .teeTimeBookingForm :global(.tee-time-package-card__select) {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .teeTimeBookingForm :global(.tee-time-package-card.has-discount .tee-time-package-card__select) {
+    padding-right: 14px;
+  }
+
   .bookingSidebarForm
     :global(.tg-tour-about-coast) {
     flex-wrap: wrap !important;
+  }
+}
+
+@media (max-width: 991px) {
+  .teeTimeBookingForm :global(.teeTimePackagesLayout),
+  .teeTimeBookingForm :global(.tee-time-packages-layout) {
+    gap: 16px;
+    grid-template-columns: 1fr;
+  }
+
+  .teeTimeBookingForm :global(.tee-time-package-detail-card) {
+    height: auto;
+    max-height: none;
+    width: 100%;
+  }
+
+  .teeTimeBookingForm :global(.teeTimePackageDetailsRail),
+  .teeTimeBookingForm :global(.tee-time-package-details) {
+    position: static;
+    width: auto;
+  }
+
+  .teeTimeBookingForm :global(.tee-time-package-details--notched::before),
+  .teeTimeBookingForm :global(.tee-time-package-details--notched::after) {
+    display: none;
+  }
+
+  .teeTimeBookingForm :global(.teeTimePackageSelector),
+  .teeTimeBookingForm :global(.tee-time-package-selector-card) {
+    min-height: 0;
+  }
+
+  .teeTimeBookingForm :global(.teeTimePackageDetails) {
+    position: static;
+  }
+
+  .teeTimeBookingForm :global(.tee-time-package-detail-card) {
+    max-height: none;
+    width: 100%;
+  }
+}
+
+@media (max-width: 767px) {
+  .teeTimeBookingForm :global(.tee-time-calendar-anchor) {
+    width: 100%;
+  }
+
+  .teeTimeBookingForm :global(.tee-time-date-trigger) {
+    width: 100%;
+  }
+
+  .teeTimeBookingForm :global(.booking-date-field) {
+    max-width: none;
+    min-width: 0;
+    width: 100%;
+  }
+
+  .teeTimeBookingForm :global(.tee-time-package-card) {
+    width: 100%;
   }
 }

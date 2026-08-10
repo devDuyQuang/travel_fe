@@ -39,7 +39,7 @@ const ContactArea = ({
    const infoTitle = setting?.info_title?.trim() || "Thông tin liên hệ";
    const infoDescription =
       setting?.info_description?.trim() ||
-      "WAYLUNE luôn sẵn sàng lắng nghe nhu cầu và tư vấn hành trình phù hợp cho bạn.";
+      "GOLFNITY luôn sẵn sàng lắng nghe nhu cầu và tư vấn hành trình phù hợp cho bạn.";
    const formTitle =
       setting?.form_title?.trim() ||
       setting?.title?.trim() ||
@@ -47,7 +47,7 @@ const ContactArea = ({
    const formDescription =
       setting?.form_subtitle?.trim() ||
       setting?.description?.trim() ||
-      "Hãy để lại thông tin, đội ngũ WAYLUNE sẽ liên hệ lại trong thời gian sớm nhất.";
+      "Hãy để lại thông tin, đội ngũ GOLFNITY sẽ liên hệ lại trong thời gian sớm nhất.";
    const address = primaryLocation?.address?.trim() || siteSettings.address;
    const mapValue =
       primaryLocation?.map_iframe?.trim() ||
@@ -106,7 +106,7 @@ const ContactArea = ({
                      {mapUrl && (
                         <div className="tg-contact-map h-100">
                            <iframe
-                              title={primaryLocation?.name?.trim() || "Vị trí WAYLUNE"}
+                              title={primaryLocation?.name?.trim() || "Vị trí GOLFNITY"}
                               src={mapUrl}
                               width="600"
                               height="450"

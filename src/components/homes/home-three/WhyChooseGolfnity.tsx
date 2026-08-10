@@ -33,7 +33,7 @@ const WhyChooseGolfnity = () => {
       <div className="container">
         <div className="golfnity-why-section__heading">
           <span>An tâm trong từng hành trình</span>
-          <h2>Vì sao chọn GOLFINITY?</h2>
+          <h2>Vì sao chọn GOLFNITY?</h2>
         </div>
         <div className="golfnity-why-section__grid">
           {reasons.map((item) => (

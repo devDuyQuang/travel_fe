@@ -29,6 +29,7 @@ type SectionIconName = ProductSection["tone"];
 
 // CMS needs at least 5 real tee-time products per shelf for a full Klook-like row.
 const SHELF_PRODUCT_LIMIT = 5;
+const MIN_OPTIONAL_SECTION_ITEMS = 3;
 const TEE_TIME_LISTING_PATH = "/dich-vu/dat-tee-time/danh-sach";
 
 const areaChips = [
@@ -70,10 +71,10 @@ const areaChips = [
   },
 ];
 
-const couponHighlights = [
-  "Giảm 10%",
-  "Ưu đãi nhóm golfer",
-  "Báo giá trước khi thanh toán",
+const bookingBenefits = [
+  "Báo giá trước khi xác nhận",
+  "Kiểm tra lịch theo yêu cầu",
+  "Hỗ trợ nhóm golfer",
 ];
 
 const seoExploreGroups = [
@@ -125,72 +126,6 @@ const seoExploreGroups = [
   },
 ];
 
-const couponGroups = [
-  {
-    id: "tee-time",
-    title: "Mã tee time",
-    tag: "TEE TIME",
-    coupons: [
-      {
-        title: "Giảm 10% cho nhóm golfer",
-        code: "GOLFTEAM10",
-        description: "Áp dụng cho nhóm từ 4 golfer.",
-        discount: "10%",
-        tag: "GOLFNITY DEAL",
-      },
-      {
-        title: "Ưu đãi đặt sân cuối tuần",
-        code: "WEEKENDTEE",
-        description: "Dành cho lịch chơi thứ 7, chủ nhật.",
-        discount: "Cuối tuần",
-        tag: "TEE TIME",
-      },
-    ],
-  },
-  {
-    id: "payment",
-    title: "Mã thanh toán",
-    tag: "THANH TOÁN",
-    coupons: [
-      {
-        title: "Giảm 5% khi đặt combo golf + xe",
-        code: "GOLFCAR5",
-        description: "Áp dụng khi đặt kèm xe đưa đón.",
-        discount: "5%",
-        tag: "THANH TOÁN",
-      },
-      {
-        title: "Ưu đãi nhóm doanh nghiệp",
-        code: "CORPGOLF",
-        description: "Dành cho booking công ty hoặc sự kiện golf.",
-        discount: "Doanh nghiệp",
-        tag: "NHÓM GOLFER",
-      },
-    ],
-  },
-  {
-    id: "group",
-    title: "Mã nhóm golfer",
-    tag: "NHÓM GOLFER",
-    coupons: [
-      {
-        title: "Giữ lịch rõ ràng",
-        code: "HOLDTEE",
-        description: "Ưu tiên kiểm tra lịch và báo lại sớm.",
-        discount: "Giữ lịch",
-        tag: "GOLFNITY DEAL",
-      },
-      {
-        title: "Tư vấn trước khi đặt",
-        code: "GOLFCARE",
-        description: "Hỗ trợ chọn sân, giờ chơi và phương án di chuyển.",
-        discount: "Tư vấn",
-        tag: "NHÓM GOLFER",
-      },
-    ],
-  },
-];
-
 function formatVnd(value: number) {
   return new Intl.NumberFormat("vi-VN").format(value);
 }
@@ -236,7 +171,41 @@ function productImage(product: Product, index: number) {
   );
 }
 
+function attributeFlag(product: Product, key: string) {
+  return product.attributes?.[key] === true;
+}
+
+function numericAttribute(product: Product, key: string) {
+  const value = product.attributes?.[key];
+  if (typeof value === "number") return Number.isFinite(value) ? value : null;
+  if (typeof value === "string" && value.trim() !== "") {
+    const parsed = Number(value);
+    return Number.isFinite(parsed) ? parsed : null;
+  }
+
+  return null;
+}
+
+function centerDistanceMeta(product: Product) {
+  const distance = numericAttribute(product, "distance_to_center");
+  const travelTime = numericAttribute(product, "travel_time_to_center");
+  const parts = [];
+
+  if (distance !== null) {
+    parts.push(`Cách trung tâm ${formatVnd(distance)} km`);
+  }
+
+  if (travelTime !== null) {
+    parts.push(`Khoảng ${Math.round(travelTime)} phút từ trung tâm`);
+  }
+
+  return parts.join(" · ");
+}
+
 function courseMeta(product: Product) {
+  const centerMeta = centerDistanceMeta(product);
+  if (centerMeta) return centerMeta;
+
   const holes =
     product.attributes?.holes ||
     product.attributes?.hole_count ||
@@ -246,22 +215,13 @@ function courseMeta(product: Product) {
   return duration || "Kiểm tra lịch theo yêu cầu";
 }
 
-function includesAny(product: Product, values: string[]) {
-  const haystack = [
-    product.name,
-    product.location,
-    product.duration,
-    product.badge,
-    product.short_description,
-    product.highlights,
-    ...(product.service_options || []).map((option) => option.name),
-    ...(product.service_options || []).map((option) => option.label),
-  ]
-    .filter(Boolean)
-    .join(" ")
-    .toLowerCase();
+function localizeTeeTimeText(value?: string | null) {
+  if (!value) return value;
 
-  return values.some((value) => haystack.includes(value));
+  return value
+    .replace(/\bDa Nang\b/g, "Đà Nẵng")
+    .replace(/\b6\s*km\s*from\s*Center\b/gi, "Cách trung tâm 6 km")
+    .replace(/\b25\s*minutes\s*from\s*center\b/gi, "Khoảng 25 phút từ trung tâm");
 }
 
 function normalizeText(value?: string | null) {
@@ -285,15 +245,23 @@ function countProductsByArea(products: Product[], matches: string[]) {
   }).length;
 }
 
-function fillProducts(source: Product[], preferred: Product[], limit = SHELF_PRODUCT_LIMIT) {
-  const seen = new Set<number>();
-  const merged = [...preferred, ...source].filter((product) => {
-    if (seen.has(product.id)) return false;
-    seen.add(product.id);
-    return true;
-  });
+function sortByDisplayOrder(products: Product[]) {
+  return [...products].sort((a, b) => {
+    const orderA = a.sort_order ?? Number.MAX_SAFE_INTEGER;
+    const orderB = b.sort_order ?? Number.MAX_SAFE_INTEGER;
 
-  return merged.slice(0, limit);
+    if (orderA !== orderB) return orderA - orderB;
+
+    return a.id - b.id;
+  });
+}
+
+function isWeekendRecommended(product: Product) {
+  return attributeFlag(product, "is_weekend_recommended");
+}
+
+function isNearCenter(product: Product) {
+  return attributeFlag(product, "is_near_center");
 }
 
 function SectionIcon({ name }: { name: SectionIconName }) {
@@ -318,6 +286,8 @@ function CourseCard({
 }) {
   const href = buildProductDetailHref(product);
   const badgeLabel = product.badge === "New" ? "Mới" : product.badge || "Được quan tâm";
+  const location = localizeTeeTimeText(product.location) || "Việt Nam";
+  const meta = localizeTeeTimeText(courseMeta(product)) || "Kiểm tra lịch theo yêu cầu";
 
   return (
     <Link className={`${styles.courseCard} ${compact ? styles.compactCard : ""}`} href={href}>
@@ -336,8 +306,8 @@ function CourseCard({
         <div className={styles.courseBody}>
           <h3>{product.name}</h3>
           <div className={styles.metaLine}>
-            <span>{product.location || "Việt Nam"}</span>
-            <span>{courseMeta(product)}</span>
+            <span>{location}</span>
+            <span>{meta}</span>
           </div>
           <div className={styles.cardFooter}>
             <strong>{resolveStartingPrice(product)}</strong>
@@ -382,50 +352,51 @@ const TeeTimeHubPage = ({ products }: TeeTimeHubPageProps) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [searchKeyword, setSearchKeyword] = useState("");
-  const [isCouponModalOpen, setIsCouponModalOpen] = useState(false);
-  const [activeCouponGroupId, setActiveCouponGroupId] = useState(couponGroups[0].id);
-  const [savedCouponCode, setSavedCouponCode] = useState("");
   const selectedLocation = searchParams.get("location");
-  const activeCouponGroup =
-    couponGroups.find((group) => group.id === activeCouponGroupId) || couponGroups[0];
   const teeTimeProducts = products.filter(
     (product) => product.category?.layout_key === "tee_time",
   );
-  const featuredProducts = fillProducts(
-    teeTimeProducts,
-    teeTimeProducts.filter((product) => product.is_featured || product.badge),
-  );
-  const weekendProducts = fillProducts(
-    teeTimeProducts,
-    teeTimeProducts.filter((product) =>
-      includesAny(product, ["cuối tuần", "weekend", "thứ bảy", "chủ nhật"]),
-    ),
-  );
-  const nearCenterProducts = fillProducts(
-    teeTimeProducts,
-    teeTimeProducts.filter((product) =>
-      includesAny(product, ["center", "trung tâm", "phút", "km"]),
-    ),
-  );
+  const sortedTeeTimeProducts = sortByDisplayOrder(teeTimeProducts);
+  const featuredProducts = sortedTeeTimeProducts
+    .filter((product) => product.is_featured)
+    .slice(0, SHELF_PRODUCT_LIMIT);
+  const weekendProducts = sortedTeeTimeProducts
+    .filter(isWeekendRecommended)
+    .slice(0, SHELF_PRODUCT_LIMIT);
+  const nearCenterProducts = sortedTeeTimeProducts
+    .filter(isNearCenter)
+    .slice(0, SHELF_PRODUCT_LIMIT);
   const productSections: ProductSection[] = [
-    {
-      tone: "green",
-      title: "Sân golf được quan tâm",
-      href: `${TEE_TIME_LISTING_PATH}?tag=featured`,
-      products: featuredProducts,
-    },
-    {
-      tone: "cream",
-      title: "Tee time cuối tuần",
-      href: `${TEE_TIME_LISTING_PATH}?tag=weekend`,
-      products: weekendProducts,
-    },
-    {
-      tone: "gold",
-      title: "Sân gần trung tâm",
-      href: `${TEE_TIME_LISTING_PATH}?tag=near-center`,
-      products: nearCenterProducts,
-    },
+    ...(featuredProducts.length > 0
+      ? [
+          {
+            tone: "green" as const,
+            title: "Sân golf được quan tâm",
+            href: `${TEE_TIME_LISTING_PATH}?tag=featured`,
+            products: featuredProducts,
+          },
+        ]
+      : []),
+    ...(weekendProducts.length >= MIN_OPTIONAL_SECTION_ITEMS
+      ? [
+          {
+            tone: "cream" as const,
+            title: "Tee time cuối tuần",
+            href: `${TEE_TIME_LISTING_PATH}?tag=weekend`,
+            products: weekendProducts,
+          },
+        ]
+      : []),
+    ...(nearCenterProducts.length >= MIN_OPTIONAL_SECTION_ITEMS
+      ? [
+          {
+            tone: "gold" as const,
+            title: "Sân gần trung tâm",
+            href: `${TEE_TIME_LISTING_PATH}?tag=near-center`,
+            products: nearCenterProducts,
+          },
+        ]
+      : []),
   ];
   const areaCards = areaChips.map((area) => ({
     ...area,
@@ -441,18 +412,6 @@ const TeeTimeHubPage = ({ products }: TeeTimeHubPageProps) => {
       keyword ? `${path}?keyword=${encodeURIComponent(keyword)}` : path,
     );
   };
-  const handleSaveCoupon = (code: string) => {
-    setSavedCouponCode(code);
-
-    if (navigator.clipboard) {
-      void navigator.clipboard.writeText(code).catch(() => undefined);
-    }
-
-    window.setTimeout(() => {
-      setSavedCouponCode((currentCode) => (currentCode === code ? "" : currentCode));
-    }, 2400);
-  };
-
   return (
     <>
       <HeaderThree />
@@ -527,7 +486,7 @@ const TeeTimeHubPage = ({ products }: TeeTimeHubPageProps) => {
 
         <div className={styles.discoveryWrap}>
           <div className={styles.discoveryIntro}>
-            <h2>Trải nghiệm golf không thể bỏ lỡ</h2>
+            <h2>Khám phá tee time phù hợp</h2>
             {/* <p>
               Gợi ý sân golf, khung giờ và trải nghiệm phù hợp để bạn bắt đầu dễ hơn.
             </p> */}
@@ -549,20 +508,13 @@ const TeeTimeHubPage = ({ products }: TeeTimeHubPageProps) => {
         <section className={styles.couponSection}>
           <div className={styles.couponHeading}>
             <div>
-              <span>Golfnity deals</span>
-              <h2>Ưu đãi tee time</h2>
+              <span>Quyền lợi GOLFNITY</span>
+              <h2>Quyền lợi khi đặt tee time</h2>
             </div>
-            <button
-              className={styles.couponViewAll}
-              onClick={() => setIsCouponModalOpen(true)}
-              type="button"
-            >
-              Xem tất cả
-            </button>
           </div>
           <div className={styles.couponList}>
-            {couponHighlights.map((coupon) => (
-              <span key={coupon}>{coupon}</span>
+            {bookingBenefits.map((benefit) => (
+              <span key={benefit}>{benefit}</span>
             ))}
           </div>
         </section>
@@ -590,77 +542,6 @@ const TeeTimeHubPage = ({ products }: TeeTimeHubPageProps) => {
         </section>
       </main>
 
-      {isCouponModalOpen && (
-        <div
-          aria-labelledby="tee-time-coupon-title"
-          aria-modal="true"
-          className={styles.modalOverlay}
-          onClick={() => setIsCouponModalOpen(false)}
-          role="dialog"
-        >
-          <div className={styles.couponModal} onClick={(event) => event.stopPropagation()}>
-            <button
-              aria-label="Đóng mã ưu đãi"
-              className={styles.modalClose}
-              onClick={() => setIsCouponModalOpen(false)}
-              type="button"
-            >
-              <i aria-hidden="true" className="fa-regular fa-xmark" />
-            </button>
-            <div className={styles.modalHeader}>
-              <span>Golfnity coupon</span>
-              <h2 id="tee-time-coupon-title">Mã ưu đãi</h2>
-              <p>Lưu mã để dùng khi GOLFNITY xác nhận lịch và báo giá.</p>
-            </div>
-            <div className={styles.couponTabs} role="tablist" aria-label="Nhóm mã ưu đãi">
-              {couponGroups.map((group) => (
-                <button
-                  aria-selected={activeCouponGroup.id === group.id}
-                  className={`${styles.couponTab} ${
-                    activeCouponGroup.id === group.id ? styles.couponTabActive : ""
-                  }`}
-                  key={group.id}
-                  onClick={() => setActiveCouponGroupId(group.id)}
-                  role="tab"
-                  type="button"
-                >
-                  {group.title}
-                </button>
-              ))}
-            </div>
-            <section className={styles.couponGroup}>
-              <div className={styles.couponGroupHeader}>
-                <h3>{activeCouponGroup.title}</h3>
-                <span>{activeCouponGroup.tag}</span>
-              </div>
-              <div className={styles.modalCouponGrid}>
-                {activeCouponGroup.coupons.map((coupon) => (
-                  <article className={styles.modalCouponCard} key={coupon.code}>
-                    <div className={styles.modalCouponMain}>
-                      <span className={styles.couponTag}>
-                        <i aria-hidden="true" className="fa-regular fa-ticket" />
-                        {coupon.tag}
-                      </span>
-                      <strong>{coupon.title}</strong>
-                      <p>{coupon.description}</p>
-                      <span className={styles.couponCode}>Mã: {coupon.code}</span>
-                    </div>
-                    <aside>
-                      <span className={styles.couponIcon}>
-                        <i aria-hidden="true" className="fa-regular fa-badge-percent" />
-                      </span>
-                      <strong>{coupon.discount}</strong>
-                      <button onClick={() => handleSaveCoupon(coupon.code)} type="button">
-                        {savedCouponCode === coupon.code ? "Đã lưu" : "Lưu mã"}
-                      </button>
-                    </aside>
-                  </article>
-                ))}
-              </div>
-            </section>
-          </div>
-        </div>
-      )}
       <FooterFive />
     </>
   );

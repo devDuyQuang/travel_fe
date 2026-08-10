@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 export const metadata = {
-  title: "Golfnity | Dịch vụ golf và trải nghiệm",
+  title: "GOLFNITY | Dịch vụ golf và trải nghiệm",
 };
 
 const page = async () => {

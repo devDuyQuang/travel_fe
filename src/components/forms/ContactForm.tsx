@@ -61,7 +61,7 @@ const ContactForm = () => {
             throw new Error(payload?.message || "Không thể gửi yêu cầu. Vui lòng thử lại.");
          }
 
-         toast.success('Yêu cầu của bạn đã được gửi. WAYLUNE sẽ liên hệ lại trong thời gian sớm nhất.', { position: 'top-center' });
+         toast.success('Yêu cầu của bạn đã được gửi. GOLFNITY sẽ liên hệ lại trong thời gian sớm nhất.', { position: 'top-center' });
          reset();
       } catch (error) {
          toast.error(error instanceof Error ? error.message : 'Không thể gửi yêu cầu. Vui lòng thử lại.', { position: 'top-center' });
@@ -86,7 +86,7 @@ const ContactForm = () => {
                <p className="form_error">{errors.phone?.message}</p>
             </div>
             <div className="col-lg-12">
-               <textarea className="textarea mb-5" {...register("message")} placeholder="Hãy cho WAYLUNE biết dịch vụ hoặc hành trình bạn đang quan tâm"></textarea>
+               <textarea className="textarea mb-5" {...register("message")} placeholder="Hãy cho GOLFNITY biết dịch vụ hoặc hành trình bạn đang quan tâm"></textarea>
                <p className="form_error">{errors.message?.message}</p>
                <button type="submit" className="tg-btn" name="message" disabled={isSubmitting}>
                   {isSubmitting ? "Đang gửi..." : "GỬI YÊU CẦU"}

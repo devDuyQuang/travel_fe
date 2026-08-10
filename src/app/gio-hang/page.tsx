@@ -2,7 +2,7 @@ import Cart from "@/components/pages/shops/cart";
 import Wrapper from "@/layouts/Wrapper";
 
 export const metadata = {
-  title: "Giỏ hàng | WAYLUNE",
+  title: "Giỏ hàng | GOLFNITY",
   robots: { index: false, follow: false },
 };
 

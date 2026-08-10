@@ -106,10 +106,14 @@ export function getBookingCopy(
         "Thông tin khách hàng:",
       participantSectionTitle:
         "Thông tin golfer:",
+      paymentTitle:
+        "Phương thức thanh toán dự kiến",
       priceLabel: "Giá dự kiến:",
       submitLabel: "Gửi yêu cầu đặt tee time",
       successTitle:
         "Yêu cầu đặt tee time đã được tiếp nhận",
+      successMessage:
+        "Chúng tôi đã ghi nhận yêu cầu của bạn và sẽ kiểm tra lịch sân để phản hồi trong thời gian sớm nhất.",
     };
   }
 

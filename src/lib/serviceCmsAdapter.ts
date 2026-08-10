@@ -160,6 +160,7 @@ export function mergeCmsProductWithDetailTemplate({
     templateItems.length > 0
       ? templateItems[cmsIndex % templateItems.length]
       : null;
+  const isTeeTime = cmsItem.category?.layout_key === "tee_time";
 
   return {
     ...cmsItem,
@@ -186,12 +187,12 @@ export function mergeCmsProductWithDetailTemplate({
       null,
     rating:
       positiveNumber(cmsItem.rating)?.toString() ??
-      (templateItem?.review === undefined
+      (isTeeTime || templateItem?.review === undefined
         ? null
         : String(templateItem.review)),
     review_count:
       positiveNumber(cmsItem.review_count) ??
-      (templateItem?.total_review === undefined
+      (isTeeTime || templateItem?.total_review === undefined
         ? null
         : templateItem.total_review),
     price:
@@ -204,10 +205,12 @@ export function mergeCmsProductWithDetailTemplate({
       positiveNumber(cmsItem.price_discount)?.toString() ?? null,
     badge:
       textValue(cmsItem.badge) ||
-      templateItem?.tag ||
-      templateItem?.featured ||
-      templateItem?.offer ||
-      null,
+      (isTeeTime
+        ? null
+        : templateItem?.tag ||
+          templateItem?.featured ||
+          templateItem?.offer ||
+          null),
     gallery: mediaList(cmsItem),
     video_url: textValue(cmsItem.video_url),
     highlights: textValue(cmsItem.highlights),

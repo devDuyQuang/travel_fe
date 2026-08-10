@@ -15,12 +15,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { slug } = await params;
   const product = await getProductBySlug(slug);
   if (!product || (product.product_type && product.product_type !== "physical")) {
-    return { title: "Không tìm thấy sản phẩm | WAYLUNE" };
+    return { title: "Không tìm thấy sản phẩm | GOLFNITY" };
   }
 
   const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || "").replace(/\/$/, "");
-  const title = product.seo?.title?.trim() || `${product.name} | WAYLUNE`;
-  const description = product.seo?.description?.trim() || product.short_description || "Sản phẩm golf tại WAYLUNE.";
+  const title = product.seo?.title?.trim() || `${product.name} | GOLFNITY`;
+  const description = product.seo?.description?.trim() || product.short_description || "Sản phẩm golf tại GOLFNITY.";
   const canonical = product.seo?.canonical_url?.trim() || (siteUrl ? `${siteUrl}/cua-hang/${product.slug}` : `/cua-hang/${product.slug}`);
   const image = product.image_url || undefined;
 

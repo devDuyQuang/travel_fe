@@ -55,19 +55,19 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   if (routeOverride) {
     return {
-      title: `${routeOverride.name} | Golfnity`,
+      title: `${routeOverride.name} | GOLFNITY`,
     };
   }
 
   if (category?.type === "service") {
     return {
-      title: `${category.name} | Golfnity`,
+      title: `${category.name} | GOLFNITY`,
     };
   }
 
   const service = getGolfService(slug);
 
-  return { title: service ? `${service.title} | Golfnity` : "Dịch vụ | Golfnity" };
+  return { title: service ? `${service.title} | GOLFNITY` : "Dịch vụ | GOLFNITY" };
 }
 
 function hasQueryParams(

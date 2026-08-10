@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: Pick<PageProps, "params">): P
 
   if (!post) {
     return {
-      title: "WAYLUNE",
+      title: "GOLFNITY",
     };
   }
 

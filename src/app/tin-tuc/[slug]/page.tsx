@@ -14,7 +14,7 @@ export const dynamic = "force-dynamic";
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const post = await getPostBySlug(slug);
-  if (!post) return { title: "Không tìm thấy bài viết | WAYLUNE" };
+  if (!post) return { title: "Không tìm thấy bài viết | GOLFNITY" };
 
   const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || "").replace(/\/$/, "");
   const title = post.title_seo?.trim() || post.name;

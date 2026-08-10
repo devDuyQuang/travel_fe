@@ -13,9 +13,56 @@ export function numberValue(
     return null;
   }
 
-  const amount = Number(value);
+  const amount = parseMoneyValue(value);
 
   return Number.isFinite(amount) && amount > 0 ? amount : null;
+}
+
+function parseMoneyValue(value: string | number): number {
+  if (typeof value === "number") return value;
+
+  const raw = value.trim();
+  if (!raw) return Number.NaN;
+
+  const compact = raw.replace(/[^\d.,-]/g, "");
+  if (!compact || compact === "-" || compact === "." || compact === ",") {
+    return Number.NaN;
+  }
+
+  if (/^-?\d{1,3}([.,]\d{3})+$/.test(compact)) {
+    return Number(compact.replace(/[.,]/g, ""));
+  }
+
+  const lastComma = compact.lastIndexOf(",");
+  const lastDot = compact.lastIndexOf(".");
+
+  if (lastComma > -1 && lastDot > -1) {
+    const decimalSeparator = lastComma > lastDot ? "," : ".";
+    const thousandsSeparator = decimalSeparator === "," ? "." : ",";
+    return Number(
+      compact
+        .replace(new RegExp(`\\${thousandsSeparator}`, "g"), "")
+        .replace(decimalSeparator, "."),
+    );
+  }
+
+  if (lastComma > -1) {
+    const decimalDigits = compact.length - lastComma - 1;
+    return Number(
+      decimalDigits === 3
+        ? compact.replace(/,/g, "")
+        : compact.replace(",", "."),
+    );
+  }
+
+  if (lastDot > -1) {
+    const decimalDigits = compact.length - lastDot - 1;
+    return Number(
+      decimalDigits === 3 ? compact.replace(/\./g, "") : compact,
+    );
+  }
+
+  return Number(compact);
 }
 
 export function formatCurrencyVnd(value?: string | number | null): string {
@@ -61,15 +108,22 @@ export function getProductStartingPrice(product?: Product | null): {
 } {
   const bookingType = resolveProductBookingType(product);
   const pricedOptions = (product?.service_options || [])
+    .filter((option) => option.is_active !== false && option.is_active !== 0)
     .map((option) => ({
-      amount: numberValue(option.price),
+      amount: [
+        numberValue(option.metadata?.sale_price as string | number | null | undefined),
+        numberValue(option.metadata?.price_discount as string | number | null | undefined),
+        numberValue(option.sale_price),
+        numberValue(option.price_discount),
+        numberValue(option.price),
+      ].find((amount): amount is number => amount !== null) ?? null,
       unit: getServiceUnitLabel(bookingType, option.unit),
     }))
     .filter(
       (
         option,
       ): option is { amount: number; unit: string } =>
-        option.amount !== null,
+        option.amount !== null && isUsableDisplayPrice(bookingType, option.amount),
     )
     .sort((a, b) => a.amount - b.amount);
 
@@ -78,21 +132,36 @@ export function getProductStartingPrice(product?: Product | null): {
   }
 
   const basePrice =
-    numberValue(product?.display_price)
-    ?? numberValue(product?.sale_price)
-    ?? numberValue(product?.price_discount)
-    ?? numberValue(product?.price)
-    ?? numberValue(product?.regular_price)
-    ?? numberValue(product?.attributes?.adult_price)
-    ?? numberValue(product?.attributes?.room_price)
-    ?? numberValue(product?.attributes?.vehicle_price)
-    ?? numberValue(product?.attributes?.base_price);
+    [
+      numberValue(product?.display_price),
+      numberValue(product?.sale_price),
+      numberValue(product?.price_discount),
+      numberValue(product?.price),
+      numberValue(product?.regular_price),
+      numberValue(product?.attributes?.adult_price),
+      numberValue(product?.attributes?.room_price),
+      numberValue(product?.attributes?.vehicle_price),
+      numberValue(product?.attributes?.base_price),
+    ].find(
+      (amount): amount is number =>
+        amount !== null && isUsableDisplayPrice(bookingType, amount),
+    ) ?? null;
 
   return {
     amount: basePrice,
     unit: getServiceUnitLabel(bookingType),
     source: basePrice ? "base" : "none",
   };
+}
+
+function isUsableDisplayPrice(bookingType: BookingType, amount: number): boolean {
+  if (!Number.isFinite(amount) || amount <= 0) return false;
+
+  if (bookingType === "tee_time") {
+    return amount >= 100000;
+  }
+
+  return true;
 }
 
 export function formatProductStartingPrice(

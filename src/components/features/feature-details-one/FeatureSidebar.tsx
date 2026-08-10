@@ -7,9 +7,14 @@
 //build payload và gọi API khi user xác nhận booking. 
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import type { ChangeEvent, FormEvent } from "react";
+import type {
+  ChangeEvent,
+  FormEvent,
+  ReactNode,
+} from "react";
 import Flatpickr from "react-flatpickr";
 import { Vietnamese } from "flatpickr/dist/l10n/vn";
+import type { Instance as FlatpickrInstance } from "flatpickr/dist/types/instance";
 
 import {
   applyBookingCalendarVariant,
@@ -25,6 +30,13 @@ import {
   getServiceUnitLabel,
   resolveProductBookingType,
 } from "@/lib/servicePrice";
+import {
+  clampQuantityForOption,
+  getInitialQuantityForOption,
+  resolveOptionDetail,
+  resolveTeeTimeQuantityRule,
+  type TeeTimeOptionDetailSection,
+} from "@/lib/teeTimeOptionSelection";
 import {
   readBookingSearchValues,
   searchBookingTypeFromBookingType,
@@ -46,6 +58,10 @@ import styles from "./FeatureSidebar.module.css";
 type PaymentMethod = "cash" | "bank_transfer";
 
 type FieldErrors = Record<string, string>;
+
+type ResolvedTeeTimeOptionDetail = ReturnType<
+  typeof resolveOptionDetail
+>;
 
 const fieldStyle = {
   width: "100%",
@@ -150,6 +166,12 @@ function formatVietnameseDate(
     : value;
 }
 
+function formatCompactVietnameseDate(
+  value: string,
+): string {
+  return formatVietnameseDate(value);
+}
+
 function formatIsoDate(date?: Date): string {
   if (!date) {
     return "";
@@ -190,7 +212,29 @@ function toSelectOptions(items: string[]) {
 function optionPrice(
   option?: ProductServiceOption | null,
 ): number | null {
-  return firstPrice(option?.price);
+  return firstPrice(
+    option?.metadata?.sale_price as string | number | null | undefined,
+    option?.metadata?.price_discount as string | number | null | undefined,
+    option?.sale_price,
+    option?.price_discount,
+    option?.price,
+  );
+}
+
+function optionPricingMode(
+  option?: ProductServiceOption | null,
+): "per_person" | "per_package" {
+  const rawMode =
+    option?.metadata?.pricing_mode ||
+    option?.metadata?.price_mode ||
+    option?.metadata?.pricing_type;
+  const mode = String(rawMode || "").toLowerCase();
+
+  return mode === "per_package" ||
+    mode === "per_booking" ||
+    mode === "fixed"
+    ? "per_package"
+    : "per_person";
 }
 
 function resolveCheckInTimes(
@@ -221,6 +265,11 @@ const paymentLabels: Record<
   bank_transfer: "Chuyển khoản sau khi xác nhận",
 };
 
+const teeTimeCalendarLocale = {
+  ...Vietnamese,
+  firstDayOfWeek: 0,
+};
+
 const quantityOptions = Array.from(
   { length: 9 },
   (_, index) => ({
@@ -235,10 +284,179 @@ const quantityOptions = Array.from(
 const positiveQuantityOptions =
   quantityOptions.slice(1);
 
+function optionDiscountLabel(
+  option: ProductServiceOption,
+): string {
+  const value =
+    option.metadata?.discount_label ||
+    option.metadata?.discountLabel ||
+    option.metadata?.badge_label ||
+    option.metadata?.badgeLabel;
+
+  return typeof value === "string" ? value.trim() : "";
+}
+
+function numericPriceValue(value: unknown): number | null {
+  if (typeof value === "number" && Number.isFinite(value)) {
+    return value;
+  }
+
+  if (typeof value !== "string") {
+    return null;
+  }
+
+  const normalized = value.replace(/[^\d.-]/g, "");
+  const parsed = Number(normalized);
+
+  return Number.isFinite(parsed) ? parsed : null;
+}
+
+function calendarDateKey(date: Date): string {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+}
+
+function formatCompactVndPrice(value: number): string {
+  const millions = value / 1_000_000;
+  const formatted = Number.isInteger(millions)
+    ? String(millions)
+    : millions.toFixed(1);
+
+  return `${formatted}m+`;
+}
+
+function collectDailyPriceMap(
+  source: unknown,
+  target: Map<string, number>,
+) {
+  if (!source || typeof source !== "object") {
+    return;
+  }
+
+  if (Array.isArray(source)) {
+    source.forEach((entry) => {
+      if (!entry || typeof entry !== "object") return;
+
+      const record = entry as Record<string, unknown>;
+      const date =
+        record.date ||
+        record.start_date ||
+        record.available_date;
+      const status = String(record.status || "").toLowerCase();
+
+      if (
+        typeof date !== "string" ||
+        status === "sold_out" ||
+        status === "unavailable" ||
+        status === "disabled"
+      ) {
+        return;
+      }
+
+      const price = numericPriceValue(
+        record.lowest_price ||
+          record.price ||
+          record.sale_price ||
+          record.amount,
+      );
+
+      if (price !== null) {
+        target.set(date.slice(0, 10), price);
+      }
+    });
+
+    return;
+  }
+
+  Object.entries(source as Record<string, unknown>).forEach(
+    ([date, value]) => {
+      const price =
+        numericPriceValue(value) ??
+        (value && typeof value === "object"
+          ? numericPriceValue(
+              (value as Record<string, unknown>).lowest_price ||
+                (value as Record<string, unknown>).price ||
+                (value as Record<string, unknown>).sale_price ||
+                (value as Record<string, unknown>).amount,
+            )
+          : null);
+
+      if (price !== null) {
+        target.set(date.slice(0, 10), price);
+      }
+    },
+  );
+}
+
+function resolveDailyPriceMap(
+  option?: ProductServiceOption | null,
+  product?: Product | null,
+): Map<string, number> | null {
+  const sources = [
+    option?.metadata?.daily_prices,
+    option?.metadata?.dailyPrices,
+    option?.metadata?.calendar_prices,
+    option?.metadata?.calendarPrices,
+    option?.metadata?.date_prices,
+    option?.metadata?.datePrices,
+    option?.metadata?.availability,
+    product?.metadata?.daily_prices,
+    product?.metadata?.dailyPrices,
+    product?.metadata?.calendar_prices,
+    product?.metadata?.calendarPrices,
+    product?.metadata?.date_prices,
+    product?.metadata?.datePrices,
+    product?.metadata?.availability,
+  ];
+
+  const map = new Map<string, number>();
+  sources.forEach((source) => collectDailyPriceMap(source, map));
+
+  return map.size > 0 ? map : null;
+}
+
+function resolveLowestDailyPriceMap(
+  options: ProductServiceOption[],
+  product?: Product | null,
+): Map<string, number> | null {
+  const aggregate = new Map<string, number>();
+
+  options
+    .filter((option) => option.is_active !== false && option.is_active !== 0)
+    .forEach((option) => {
+      const optionMap = resolveDailyPriceMap(option, product);
+
+      optionMap?.forEach((price, date) => {
+        const current = aggregate.get(date);
+
+        if (current === undefined || price < current) {
+          aggregate.set(date, price);
+        }
+      });
+    });
+
+  return aggregate.size > 0 ? aggregate : null;
+}
+
 const FeatureSidebar = ({
   product,
+  formId,
+  onTeeTimeSelectionChange,
 }: {
   product?: Product | null;
+  formId?: string;
+  onTeeTimeSelectionChange?: (
+    selection: {
+      optionName: string;
+      unitPrice: number | null;
+      totalPrice: number | null;
+      quantity: number;
+      isReady: boolean;
+    } | null,
+  ) => void;
 }) => {
   const searchParams = useBrowserSearchParams();
   const bookingType =
@@ -250,6 +468,16 @@ const FeatureSidebar = ({
     useRef<string | null>(null);
 
   const isSubmittingRef = useRef(false);
+  const optionDetailCloseRef =
+    useRef<HTMLButtonElement | null>(null);
+  const optionDetailTriggerRef =
+    useRef<HTMLElement | null>(null);
+  const optionDetailModalRef =
+    useRef<HTMLDivElement | null>(null);
+  const teeTimeDetailCardRef =
+    useRef<HTMLElement | null>(null);
+  const teeTimeDetailRailBodyRef =
+    useRef<HTMLDivElement | null>(null);
 
   const fieldRefs = useRef<
     Record<
@@ -257,6 +485,7 @@ const FeatureSidebar = ({
       | HTMLInputElement
       | HTMLTextAreaElement
       | HTMLSelectElement
+      | HTMLElement
       | null
     >
   >({});
@@ -266,6 +495,10 @@ const startPickerRef =
 
 const endPickerRef =
   useRef<InstanceType<typeof Flatpickr> | null>(null);
+  const startDateFieldRef =
+    useRef<HTMLElement | null>(null);
+  const endDateFieldRef =
+    useRef<HTMLDivElement | null>(null);
   const [startDate, setStartDate] =
     useState("");
 
@@ -304,7 +537,17 @@ const endPickerRef =
   const [
     selectedServiceOptionId,
     setSelectedServiceOptionId,
-  ] = useState("");
+  ] = useState<string | null>(null);
+  const [
+    detailServiceOption,
+    setDetailServiceOption,
+  ] = useState<ProductServiceOption | null>(null);
+  const [
+    isOptionDetailOpen,
+    setIsOptionDetailOpen,
+  ] = useState(false);
+  const [itineraryFeedback, setItineraryFeedback] =
+    useState<"yes" | "no" | null>(null);
 
   const [customerName, setCustomerName] =
     useState("");
@@ -332,6 +575,8 @@ const endPickerRef =
 
   const [isSuccessOpen, setIsSuccessOpen] =
     useState(false);
+  const [bookingCode, setBookingCode] =
+    useState("");
   const [mailDispatched, setMailDispatched] =
     useState(true);
 
@@ -344,16 +589,29 @@ const endPickerRef =
     isStartDateOpen,
     setIsStartDateOpen,
   ] = useState(false);
+  const isStartDateOpenRef = useRef(false);
 
   const [
     isEndDateOpen,
     setIsEndDateOpen,
   ] = useState(false);
+  const [
+    showDailyPrices,
+    setShowDailyPrices,
+  ] = useState(false);
+  const [
+    isCalendarModeLoading,
+    setIsCalendarModeLoading,
+  ] = useState(false);
+  const calendarModeLoadingTimerRef =
+    useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const minDate = useMemo(
     () => todayIso(),
     [],
   );
+  const isTeeTime = bookingType === "tee_time";
+  const teeTimeHasDate = isTeeTime && Boolean(startDate);
 
   useEffect(() => {
     const values =
@@ -548,16 +806,339 @@ const endPickerRef =
 
   const selectedServiceOption = useMemo(
     () =>
-      visibleServiceOptions.find(
-        (option) =>
-          String(option.id) ===
-          selectedServiceOptionId,
-      ) || null,
+      selectedServiceOptionId
+        ? visibleServiceOptions.find(
+            (option) =>
+              String(option.id) ===
+              selectedServiceOptionId,
+          ) || null
+        : null,
     [
       selectedServiceOptionId,
       visibleServiceOptions,
     ],
   );
+  const teeTimeHasPackage = isTeeTime && Boolean(selectedServiceOption);
+  const teeTimeCanShowCompactControls =
+    teeTimeHasPackage;
+  const teeTimeDailyPriceMap = useMemo(
+    () =>
+      bookingType !== "tee_time"
+        ? null
+        : selectedServiceOption && showDailyPrices
+          ? resolveDailyPriceMap(selectedServiceOption, product)
+          : resolveLowestDailyPriceMap(teeTimeServiceOptions, product),
+    [
+      bookingType,
+      product,
+      selectedServiceOption,
+      showDailyPrices,
+      teeTimeServiceOptions,
+    ],
+  );
+  const teeTimeDatePriceLabel = useMemo<
+    ((date: Date) => string | null) | null
+  >(() => {
+    if (
+      bookingType !== "tee_time" ||
+      !teeTimeDailyPriceMap
+    ) {
+      return null;
+    }
+
+    return (date: Date) => {
+      const price = teeTimeDailyPriceMap.get(calendarDateKey(date));
+
+      return price ? formatCompactVndPrice(price) : null;
+    };
+  }, [
+    bookingType,
+    teeTimeDailyPriceMap,
+  ]);
+
+  useEffect(() => {
+    isStartDateOpenRef.current = isStartDateOpen;
+  }, [isStartDateOpen]);
+
+  useEffect(() => {
+    return () => {
+      if (calendarModeLoadingTimerRef.current) {
+        clearTimeout(calendarModeLoadingTimerRef.current);
+      }
+    };
+  }, []);
+
+  const syncTeeTimeCalendarContent = (
+    instance: FlatpickrInstance,
+  ) => {
+    if (bookingType !== "tee_time") {
+      return;
+    }
+
+    const calendar = instance.calendarContainer;
+    const contextClass = "tee-time-calendar-context";
+    const footerClass = "tee-time-calendar-footer";
+
+    calendar.classList.add("open", "booking-calendar--inline");
+
+    calendar
+      .querySelector(`.${contextClass}`)
+      ?.remove();
+    calendar
+      .querySelector(`.${footerClass}`)
+      ?.remove();
+
+    if (selectedServiceOption) {
+      const contextTitle = showDailyPrices
+        ? selectedServiceOption.name
+        : "Tất cả gói dịch vụ";
+      const contextToggleCopy = showDailyPrices
+        ? "Nhấn để hiển thị giá cho các gói"
+        : "Chỉ hiện giá cho các gói đã chọn";
+      const context = document.createElement("div");
+      context.className = contextClass;
+      context.innerHTML = `
+        <strong class="tee-time-calendar-context__title"></strong>
+        <div class="tee-time-calendar-context__row">
+          <span></span>
+          <button class="tee-time-calendar-price-toggle${
+            showDailyPrices ? " is-on" : ""
+          }${
+            isCalendarModeLoading ? " is-loading" : ""
+          }" type="button" aria-pressed="${showDailyPrices}"${
+            isCalendarModeLoading ? " disabled" : ""
+          }>
+            <span></span>
+          </button>
+        </div>
+      `;
+
+      const title = context.querySelector(
+        ".tee-time-calendar-context__title",
+      );
+      if (title) {
+        title.textContent = contextTitle;
+      }
+
+      const toggleCopy = context.querySelector(
+        ".tee-time-calendar-context__row > span",
+      );
+      if (toggleCopy) {
+        toggleCopy.textContent = contextToggleCopy;
+      }
+
+      const toggle = context.querySelector<HTMLButtonElement>(
+        ".tee-time-calendar-price-toggle",
+      );
+      if (toggle) {
+        toggle.onclick = (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          if (calendarModeLoadingTimerRef.current) {
+            clearTimeout(calendarModeLoadingTimerRef.current);
+          }
+
+          setIsCalendarModeLoading(true);
+          calendarModeLoadingTimerRef.current = setTimeout(() => {
+            setShowDailyPrices((current) => !current);
+            setIsCalendarModeLoading(false);
+            calendarModeLoadingTimerRef.current = null;
+          }, 220);
+        };
+      }
+
+      calendar.prepend(context);
+    }
+
+    const footer = document.createElement("div");
+    footer.className = footerClass;
+
+    footer.innerHTML = `
+      <div class="tee-time-calendar-legend">
+        <span class="tee-time-calendar-legend__row">
+          <i aria-hidden="true">ⓢ</i>
+          <span>Mệnh giá: ₫</span>
+        </span>
+        <span class="tee-time-calendar-legend__row">
+          <i aria-hidden="true">⊘</i>
+          <span>Bán hết</span>
+        </span>
+        <span class="tee-time-calendar-legend__row${
+          selectedServiceOption && showDailyPrices
+            ? " is-hidden"
+            : ""
+        }">
+          <i aria-hidden="true">ⓘ</i>
+          <span>Các tuỳ chọn và mức giá rẻ nhất</span>
+        </span>
+      </div>
+      <button class="tee-time-calendar-clear" type="button">Xóa</button>
+    `;
+
+    const clearButton =
+      footer.querySelector<HTMLButtonElement>(
+        ".tee-time-calendar-clear",
+      );
+    if (clearButton) {
+      clearButton.onclick = (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        instance.clear(false);
+        setStartDate("");
+        clearFieldError("start_date");
+        resetSubmitKey();
+      };
+    }
+
+    calendar.append(footer);
+  };
+
+  useEffect(() => {
+    const instance = startPickerRef.current?.flatpickr;
+
+    if (bookingType !== "tee_time" || !instance) {
+      return;
+    }
+
+    instance.redraw();
+    syncTeeTimeCalendarContent(instance);
+  }, [
+    bookingType,
+    selectedServiceOption?.name,
+    showDailyPrices,
+    isCalendarModeLoading,
+    teeTimeDailyPriceMap,
+  ]);
+
+  useEffect(() => {
+    if (
+      bookingType !== "tee_time" ||
+      typeof window === "undefined"
+    ) {
+      return;
+    }
+
+    const requestedOptionId =
+      searchParams.get("option_id") ||
+      searchParams.get("service_option_id") ||
+      new URLSearchParams(window.location.search).get("option_id") ||
+      new URLSearchParams(window.location.search).get("service_option_id");
+
+    if (!requestedOptionId) return;
+
+    const requestedOption = visibleServiceOptions.find(
+      (option) =>
+        String(option.id) ===
+        requestedOptionId,
+    );
+
+    if (!requestedOption) return;
+
+    setSelectedServiceOptionId(String(requestedOption.id));
+    setGolfers(getInitialQuantityForOption(requestedOption));
+    setShowDailyPrices(true);
+  }, [
+    bookingType,
+    searchParams,
+    visibleServiceOptions,
+  ]);
+
+  const selectedTeeTimeQuantityRule = useMemo(
+    () =>
+      bookingType === "tee_time"
+        ? resolveTeeTimeQuantityRule(selectedServiceOption)
+        : null,
+    [bookingType, selectedServiceOption],
+  );
+
+  useEffect(() => {
+    if (
+      bookingType !== "tee_time" ||
+      !selectedServiceOption
+    ) {
+      return;
+    }
+
+    setGolfers((currentGolfers) =>
+      clampQuantityForOption(selectedServiceOption, currentGolfers),
+    );
+  }, [bookingType, selectedServiceOption]);
+
+  useEffect(() => {
+    if (!isOptionDetailOpen) return;
+
+    const previousOverflow = document.body.style.overflow;
+    const previousHtmlOverflow = document.documentElement.style.overflow;
+
+    document.documentElement.style.overflow = "hidden";
+    document.body.style.overflow = "hidden";
+
+    window.setTimeout(() => {
+      optionDetailCloseRef.current?.focus();
+    }, 0);
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        closeOptionDetail();
+        return;
+      }
+
+      if (event.key !== "Tab" || !optionDetailModalRef.current) {
+        return;
+      }
+
+      const focusable = Array.from(
+        optionDetailModalRef.current.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])',
+        ),
+      );
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (!first || !last) return;
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+
+    return () => {
+      document.documentElement.style.overflow = previousHtmlOverflow;
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [isOptionDetailOpen]);
+
+  useEffect(() => {
+    if (!isConfirmOpen && !isSuccessOpen) return;
+
+    const previousOverflow = document.body.style.overflow;
+    const previousHtmlOverflow = document.documentElement.style.overflow;
+
+    document.documentElement.style.overflow = "hidden";
+    document.body.style.overflow = "hidden";
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape" && !isSubmittingRef.current) {
+        setIsConfirmOpen(false);
+        setIsSuccessOpen(false);
+      }
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+
+    return () => {
+      document.documentElement.style.overflow = previousHtmlOverflow;
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [isConfirmOpen, isSuccessOpen]);
 
   const roomTypeOptions = useMemo(
     () =>
@@ -654,8 +1235,12 @@ const endPickerRef =
     }
 
     if (bookingType === "tee_time") {
-      return selectedOptionPrice === null
-        ? null
+      if (selectedOptionPrice === null) {
+        return null;
+      }
+
+      return optionPricingMode(selectedServiceOption) === "per_package"
+        ? selectedOptionPrice
         : selectedOptionPrice * golfers;
     }
 
@@ -694,6 +1279,7 @@ const endPickerRef =
     nights,
     roomPrice,
     rooms,
+    selectedServiceOption,
     selectedOptionPrice,
     vehiclePrice,
   ]);
@@ -775,6 +1361,61 @@ const endPickerRef =
       ? null
       : totalPrice;
 
+  const isTeeTimeSelectionReady =
+    bookingType !== "tee_time" ||
+    Boolean(
+      product?.id &&
+        startDate &&
+        startDate >= minDate &&
+        selectedServiceOption &&
+        golfers >= (selectedTeeTimeQuantityRule?.min || 1) &&
+        golfers <=
+          (selectedTeeTimeQuantityRule?.max || Number.MAX_SAFE_INTEGER),
+    );
+
+  const selectedPackageName =
+    selectedServiceOption?.name ||
+    (bookingType === "tee_time" ? "Chưa chọn gói tee time" : "Chưa chọn tùy chọn");
+  const hasTeeTimeDraft =
+    bookingType === "tee_time" &&
+    Boolean(
+      selectedServiceOption ||
+        startDate ||
+        startTime ||
+        customerName ||
+        customerEmail ||
+        customerPhone,
+    );
+
+  useEffect(() => {
+    if (
+      bookingType !== "tee_time" ||
+      !onTeeTimeSelectionChange
+    ) {
+      return;
+    }
+
+    onTeeTimeSelectionChange(
+      selectedServiceOption
+        ? {
+            optionName: selectedServiceOption.name,
+            unitPrice: selectedOptionPrice,
+            totalPrice,
+            quantity: golfers,
+            isReady: isTeeTimeSelectionReady,
+          }
+        : null,
+    );
+  }, [
+    bookingType,
+    golfers,
+    isTeeTimeSelectionReady,
+    onTeeTimeSelectionChange,
+    selectedOptionPrice,
+    selectedServiceOption,
+    totalPrice,
+  ]);
+
   const resetSubmitKey = () => {
     idempotencyKeyRef.current = null;
   };
@@ -795,6 +1436,177 @@ const endPickerRef =
     });
   };
 
+  useEffect(() => {
+    if (bookingType !== "tee_time") {
+      return;
+    }
+
+    const instance = startPickerRef.current?.flatpickr;
+
+    if (!instance) {
+      return;
+    }
+
+    if (isStartDateOpen) {
+      if (!instance.isOpen) {
+        instance.open();
+      }
+
+      syncTeeTimeCalendarContent(instance);
+      return;
+    }
+
+    if (instance.isOpen) {
+      instance.close();
+    }
+  }, [bookingType, isStartDateOpen]);
+
+  const handleSelectServiceOption = (
+    option: ProductServiceOption,
+  ) => {
+    const optionId = String(option.id);
+    const isActiveOption =
+      optionId === selectedServiceOptionId;
+
+    if (isActiveOption) {
+      setSelectedServiceOptionId(null);
+      setDetailServiceOption(null);
+      setIsOptionDetailOpen(false);
+
+      if (bookingType === "tee_time") {
+        setGolfers(1);
+        setShowDailyPrices(false);
+        setIsStartDateOpen(false);
+      }
+
+      clearFieldError("service_option_id");
+      resetSubmitKey();
+      return;
+    }
+
+    setSelectedServiceOptionId(optionId);
+
+    if (bookingType === "tee_time") {
+      setGolfers(getInitialQuantityForOption(option));
+      setShowDailyPrices(true);
+      setIsStartDateOpen(false);
+    }
+
+    clearFieldError("service_option_id");
+    resetSubmitKey();
+  };
+
+  const openOptionDetail = (
+    option?: ProductServiceOption | null,
+  ) => {
+    if (!option) return;
+
+    optionDetailTriggerRef.current =
+      document.activeElement instanceof HTMLElement
+        ? document.activeElement
+        : null;
+    setDetailServiceOption(option);
+    setIsOptionDetailOpen(true);
+  };
+
+  const closeOptionDetail = () => {
+    setIsOptionDetailOpen(false);
+    window.setTimeout(() => {
+      optionDetailTriggerRef.current?.focus({
+        preventScroll: true,
+      });
+    }, 0);
+  };
+
+  const resetTeeTimeSelection = () => {
+    setSelectedServiceOptionId(null);
+    setDetailServiceOption(null);
+    setIsOptionDetailOpen(false);
+    setStartDate("");
+    setStartTime("");
+    setGolfers(1);
+    setIsStartDateOpen(false);
+    setShowDailyPrices(false);
+    startPickerRef.current?.flatpickr.close();
+    endPickerRef.current?.flatpickr.close();
+    setIsEndDateOpen(false);
+    setCustomerName("");
+    setCustomerEmail("");
+    setCustomerPhone("");
+    setPaymentMethod("cash");
+    setIsConfirmOpen(false);
+    setIsSuccessOpen(false);
+    setBookingCode("");
+    setMailDispatched(true);
+    setError("");
+    setFieldErrors({});
+    resetSubmitKey();
+  };
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const isInsideCalendar = (
+      target: EventTarget | null,
+      instance?: FlatpickrInstance,
+    ) => {
+      return Boolean(
+        target instanceof Node &&
+          instance?.calendarContainer.contains(target),
+      );
+    };
+
+    const isInsideElement = (
+      target: EventTarget | null,
+      element: HTMLElement | null,
+    ) => {
+      return Boolean(
+        target instanceof Node && element?.contains(target),
+      );
+    };
+
+    const onMouseDown = (event: MouseEvent) => {
+      const target = event.target;
+      const startInstance = startPickerRef.current?.flatpickr;
+      const endInstance = endPickerRef.current?.flatpickr;
+
+      if (
+        isStartDateOpenRef.current &&
+        !isInsideElement(target, startDateFieldRef.current) &&
+        !isInsideCalendar(target, startInstance)
+      ) {
+        setIsStartDateOpen(false);
+      }
+
+      if (
+        endInstance?.isOpen &&
+        !isInsideElement(target, endDateFieldRef.current) &&
+        !isInsideCalendar(target, endInstance)
+      ) {
+        endInstance.close();
+      }
+    };
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsStartDateOpen(false);
+        endPickerRef.current?.flatpickr.close();
+      }
+    };
+
+    document.addEventListener("mousedown", onMouseDown, {
+      capture: true,
+    });
+    window.addEventListener("keydown", onKeyDown);
+
+    return () => {
+      document.removeEventListener("mousedown", onMouseDown, {
+        capture: true,
+      });
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, []);
+
   const setFieldRef =
     (name: string) =>
     (
@@ -802,6 +1614,7 @@ const endPickerRef =
         | HTMLInputElement
         | HTMLTextAreaElement
         | HTMLSelectElement
+        | HTMLElement
         | null,
     ) => {
       fieldRefs.current[name] = element;
@@ -836,6 +1649,19 @@ const endPickerRef =
       setter(nextValue);
       resetSubmitKey();
     };
+
+  const updateTeeTimeGolfers = (
+    nextQuantity: number,
+  ) => {
+    const normalizedQuantity = clampQuantityForOption(
+      selectedServiceOption,
+      nextQuantity,
+    );
+
+    setGolfers(normalizedQuantity);
+    clearFieldError("golfers");
+    resetSubmitKey();
+  };
 
   const focusFirstError = (
     errors: FieldErrors,
@@ -907,7 +1733,9 @@ const endPickerRef =
       !selectedServiceOption
     ) {
       nextErrors.service_option_id =
-        "Vui lòng chọn tùy chọn dịch vụ.";
+        bookingType === "tee_time"
+          ? "Vui lòng chọn gói tee time."
+          : "Vui lòng chọn tùy chọn dịch vụ.";
     }
 
     if (
@@ -967,14 +1795,6 @@ const endPickerRef =
       }
     }
 
-    if (
-      bookingType === "tee_time" &&
-      !effectiveStartTime
-    ) {
-      nextErrors.start_time =
-        "Vui lòng chọn giờ chơi.";
-    }
-
     if (!customerName.trim()) {
       nextErrors.customer_name =
         "Vui lòng nhập họ tên.";
@@ -1012,8 +1832,92 @@ const endPickerRef =
     );
   };
 
+  const validateTeeTimeSelection = (): boolean => {
+    const nextErrors: FieldErrors = {};
+
+    if (!product?.id) {
+      nextErrors.form =
+        "Không tìm thấy dịch vụ để booking.";
+    }
+
+    if (!startDate) {
+      nextErrors.start_date = "Vui lòng chọn ngày chơi.";
+      setIsStartDateOpen(true);
+      window.requestAnimationFrame(() => {
+        startDateFieldRef.current?.focus({
+          preventScroll: true,
+        });
+      });
+    }
+
+    if (startDate && startDate < minDate) {
+      nextErrors.start_date =
+        "Vui lòng chọn ngày từ hôm nay trở đi.";
+    }
+
+    if (
+      visibleServiceOptions.length > 0 &&
+      !selectedServiceOption
+    ) {
+      nextErrors.service_option_id =
+        "Vui lòng chọn gói tee time.";
+    }
+
+    if (
+      golfers < (selectedTeeTimeQuantityRule?.min || 1) ||
+      golfers > (selectedTeeTimeQuantityRule?.max || Number.MAX_SAFE_INTEGER)
+    ) {
+      nextErrors.golfers =
+        "Số golfer chưa phù hợp với gói đã chọn.";
+    }
+
+    setFieldErrors(nextErrors);
+    focusFirstError(nextErrors);
+
+    return Object.keys(nextErrors).length === 0;
+  };
+
   const bookingDetails =
     (): Array<[string, string]> => {
+      if (bookingType === "tee_time") {
+        return [
+          [
+            "Dịch vụ",
+            product?.name ||
+              "Dịch vụ đang chọn",
+          ],
+          [
+            "Ngày chơi",
+            formatVietnameseDate(startDate),
+          ],
+          [
+            "Gói",
+            selectedPackageName,
+          ],
+          [
+            "Số golfer",
+            `${golfers} golfer`,
+          ],
+          ["Họ tên", customerName.trim()],
+          ["Email", customerEmail.trim()],
+          [
+            "Số điện thoại",
+            normalizePhone(customerPhone),
+          ],
+          [
+            "Phương thức thanh toán dự kiến",
+            paymentLabels[paymentMethod],
+          ],
+          [
+            "Giá dự kiến",
+            formatBookingPrice(
+              totalPrice,
+              bookingCopy.priceQuoteText,
+            ),
+          ],
+        ];
+      }
+
       const rows: Array<[string, string]> =
         [
           [
@@ -1037,9 +1941,7 @@ const endPickerRef =
               : effectiveStartTime || "Theo lịch dịch vụ",
           ],
           [
-            bookingType === "tee_time"
-              ? "Số golfer"
-              : "Số khách",
+            "Số khách",
             quantitySummary,
           ],
           ["Họ tên", customerName.trim()],
@@ -1247,6 +2149,18 @@ const endPickerRef =
 
     setError("");
 
+    if (bookingType === "tee_time") {
+      if (!validateTeeTimeSelection() || !product?.id) {
+        return;
+      }
+
+      idempotencyKeyRef.current ||=
+        createIdempotencyKey("booking");
+
+      setIsConfirmOpen(true);
+      return;
+    }
+
     if (!validate() || !product?.id) {
       return;
     }
@@ -1265,7 +2179,6 @@ const endPickerRef =
     setError("");
 
     if (!validate() || !product?.id) {
-      setIsConfirmOpen(false);
       return;
     }
 
@@ -1275,7 +2188,6 @@ const endPickerRef =
     const typedPayload = buildPayload();
 
     if (!typedPayload) {
-      setIsConfirmOpen(false);
       setError(
         "Không thể tạo dữ liệu booking. Vui lòng thử lại.",
       );
@@ -1291,11 +2203,10 @@ const endPickerRef =
       idempotencyKeyRef.current = null;
 
       setIsConfirmOpen(false);
+      setBookingCode(response.data?.booking_code || "");
       setMailDispatched(response.meta?.mail_dispatched !== false);
       setIsSuccessOpen(true);
     } catch (caughtError) {
-      setIsConfirmOpen(false);
-
       if (
         !applyBackendErrors(caughtError)
       ) {
@@ -1341,15 +2252,21 @@ const endPickerRef =
               )}
               className="booking-text-field"
               style={fieldStyle}
-              value={selectedServiceOptionId}
+              value={selectedServiceOptionId ?? ""}
               onChange={(event) => {
-                setSelectedServiceOptionId(
-                  event.target.value,
+                const option = options.find(
+                  (item) =>
+                    String(item.id) ===
+                    event.target.value,
                 );
-                clearFieldError(
-                  "service_option_id",
-                );
-                resetSubmitKey();
+
+                if (option) {
+                  handleSelectServiceOption(option);
+                } else {
+                  setSelectedServiceOptionId(null);
+                  clearFieldError("service_option_id");
+                  resetSubmitKey();
+                }
               }}
               aria-label={label}
             >
@@ -1408,6 +2325,1088 @@ const endPickerRef =
     );
   };
 
+  const renderTeeTimeOptionCards = (
+    options: ProductServiceOption[],
+  ) => {
+    if (options.length === 0) return null;
+
+    return (
+      <div className="tee-time-package-selector">
+        <div
+          ref={setFieldRef("service_option_id")}
+          className="tee-time-package-grid"
+          tabIndex={-1}
+        >
+          {options.map((option) => {
+            const isActive =
+              String(option.id) === selectedServiceOptionId;
+            const discountLabel = optionDiscountLabel(option);
+
+            return (
+              <article
+                key={option.id}
+                className={`tee-time-package-card ${
+                  isActive ? "is-active" : ""
+                } ${
+                  discountLabel ? "has-discount" : ""
+                }`}
+              >
+                {discountLabel && (
+                  <span className="tee-time-package-card__badge">
+                    {discountLabel}
+                  </span>
+                )}
+                <button
+                  type="button"
+                  className="tee-time-package-card__select"
+                  aria-pressed={isActive}
+                  onClick={() =>
+                    handleSelectServiceOption(option)
+                  }
+                >
+                  <span className="tee-time-package-card__name">
+                    {option.name}
+                  </span>
+                </button>
+              </article>
+            );
+          })}
+        </div>
+        {renderError("service_option_id")}
+      </div>
+    );
+  };
+
+  const renderTeeTimeDetailAccordions = (
+    sections: ReturnType<typeof resolveOptionDetail>["sections"],
+    className: string,
+    forceOpen = false,
+  ) => (
+    <div className={className}>
+      {sections.map((section) => (
+        <details key={section.title} open={forceOpen || section.defaultOpen}>
+          <summary>
+            <span>{section.title}</span>
+            <i className="fa-regular fa-chevron-down" aria-hidden="true" />
+          </summary>
+          {isItineraryDetailSection(section) ? (
+            renderTeeTimeSidebarTimeline(section)
+          ) : (
+            <ul>
+              {section.items.map((item) => (
+                <li
+                  key={item.text}
+                  className={`tone-${item.tone || section.tone || "neutral"}`}
+                >
+                  {item.text}
+                </li>
+              ))}
+            </ul>
+          )}
+        </details>
+      ))}
+    </div>
+  );
+
+  const storefrontSafeText = (value?: string | null) => {
+    const text = typeof value === "string" ? value.trim() : "";
+
+    return text &&
+      !/(demo|cms|seed|internal data|dữ\s*liệu\s*demo|tee\s*time\s*trong\s*cms)/i.test(text)
+      ? text
+      : "";
+  };
+
+  const storefrontSafeItems = (
+    section?: TeeTimeOptionDetailSection,
+  ) =>
+    section?.items.filter((item) => storefrontSafeText(item.text)) || [];
+
+  const hasStorefrontItems = (
+    section?: TeeTimeOptionDetailSection,
+  ) => storefrontSafeItems(section).length > 0;
+
+  const firstStorefrontItemMatching = (
+    section: TeeTimeOptionDetailSection | undefined,
+    patterns: RegExp[],
+  ) =>
+    storefrontSafeItems(section).find((item) =>
+      patterns.some((pattern) => pattern.test(item.text)),
+    )?.text || "";
+
+  const splitReturnInfo = (value: string) => {
+    const parts = value
+      .split(/[·•]/)
+      .map((part) => part.trim())
+      .filter(Boolean);
+
+    if (parts.length >= 2) {
+      return {
+        time: parts[0],
+        label: parts.slice(1).join(" · "),
+      };
+    }
+
+    const timeMatch = value.match(/\b\d{1,2}:\d{2}\b/);
+    const label = value
+      .replace(/\b\d{1,2}:\d{2}\b/, "")
+      .replace(/[·•]/g, "")
+      .trim();
+
+    return {
+      time: timeMatch?.[0] || "",
+      label,
+    };
+  };
+
+  const resolvePickupDetailInfo = (
+    pickupSection?: TeeTimeOptionDetailSection,
+    itinerarySection?: TeeTimeOptionDetailSection,
+  ) => {
+    const pickupItems = storefrontSafeItems(pickupSection);
+    const searchLabel = firstStorefrontItemMatching(pickupSection, [
+      /tìm\s*địa\s*điểm/i,
+      /available\s*location/i,
+    ]);
+    const confirmation = firstStorefrontItemMatching(pickupSection, [
+      /thời\s*gian.*xác\s*nhận/i,
+      /confirmed.*booking/i,
+      /confirmation/i,
+    ]);
+    const meetingPoint = firstStorefrontItemMatching(pickupSection, [
+      /khu\s*đón\s*khách/i,
+      /điểm\s*đón/i,
+      /meeting\s*point/i,
+      /pickup\s*area/i,
+    ]);
+    const note = firstStorefrontItemMatching(pickupSection, [
+      /nhà\s*điều\s*hành.*xác\s*nhận/i,
+      /operator.*confirm/i,
+      /xác\s*nhận\s*lại/i,
+    ]);
+    const pickupReturnText =
+      firstStorefrontItemMatching(pickupSection, [
+        /\b\d{1,2}:\d{2}\b.*(về|return|địa\s*chỉ)/i,
+        /(về\s*khách\s*sạn|địa\s*chỉ\s*riêng|return)/i,
+      ]) ||
+      firstStorefrontItemMatching(itinerarySection, [
+        /\b\d{1,2}:\d{2}\b.*(quay\s*về|return|trở\s*về)/i,
+        /(quay\s*về|return|trở\s*về)/i,
+      ]);
+    const returnInfo = splitReturnInfo(pickupReturnText);
+
+    return {
+      searchLabel,
+      confirmation,
+      meetingPoint,
+      note,
+      returnTime: returnInfo.time,
+      returnLabel: returnInfo.label,
+      hasDepartureData:
+        Boolean(searchLabel || confirmation || meetingPoint || note) ||
+        pickupItems.length > 0,
+      hasReturnData: Boolean(returnInfo.time || returnInfo.label),
+    };
+  };
+
+  const renderSidebarItems = (
+    section: TeeTimeOptionDetailSection,
+  ) =>
+    isItineraryDetailSection(section) ? (
+      renderTeeTimeSidebarTimeline(section)
+    ) : (
+      <ul>
+        {storefrontSafeItems(section).map((item) => (
+          <li
+            key={item.text}
+            className={`tone-${item.tone || section.tone || "neutral"}`}
+          >
+            {item.text}
+          </li>
+        ))}
+      </ul>
+    );
+
+  const renderSidebarSubsections = (
+    sections: TeeTimeOptionDetailSection[],
+  ) => (
+    <div className="tee-time-sidebar-subsections">
+      {sections.filter(hasStorefrontItems).map((section) => (
+        <section key={section.title}>
+          <h6>{section.title}</h6>
+          {renderSidebarItems(section)}
+        </section>
+      ))}
+    </div>
+  );
+
+  const renderSidebarPickupDetails = (
+    pickupSection?: TeeTimeOptionDetailSection,
+    itinerarySection?: TeeTimeOptionDetailSection,
+    option?: ProductServiceOption | null,
+  ) => {
+    const pickupInfo = resolvePickupDetailInfo(
+      pickupSection,
+      itinerarySection,
+    );
+    const map = resolveModalMap(option);
+    const hasDepartureData =
+      pickupInfo.hasDepartureData || Boolean(map);
+    const hasReturnData = pickupInfo.hasReturnData;
+
+    if (!hasDepartureData && !hasReturnData) return null;
+
+    return (
+      <div className="tee-time-sidebar-pickup">
+        {hasDepartureData && (
+          <section
+            className="tee-time-sidebar-pickup__section"
+            data-tee-time-detail-target="departure"
+          >
+            <h6>Khởi hành</h6>
+            {pickupInfo.searchLabel && (
+              <div
+                className="tee-time-sidebar-pickup__search"
+                data-tee-time-detail-target="location"
+              >
+                <i className="fa-regular fa-magnifying-glass" aria-hidden="true" />
+                <span>{pickupInfo.searchLabel}</span>
+              </div>
+            )}
+            {map && (
+              <div
+                className="tee-time-sidebar-pickup__map"
+                data-tee-time-detail-target="location"
+              >
+                <iframe
+                  src={map.src}
+                  title={`Bản đồ ${map.label}`}
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                />
+              </div>
+            )}
+            <div className="tee-time-sidebar-pickup__rows">
+              {pickupInfo.confirmation && (
+                <p>
+                  <i className="fa-regular fa-clock" aria-hidden="true" />
+                  <span>{pickupInfo.confirmation}</span>
+                </p>
+              )}
+              {pickupInfo.meetingPoint && (
+                <p>
+                  <i className="fa-regular fa-location-dot" aria-hidden="true" />
+                  <span>{pickupInfo.meetingPoint}</span>
+                </p>
+              )}
+              {pickupInfo.note && (
+                <p>
+                  <i className="fa-regular fa-circle-info" aria-hidden="true" />
+                  <span>{pickupInfo.note}</span>
+                </p>
+              )}
+            </div>
+          </section>
+        )}
+
+        {hasReturnData && (
+          <section
+            className="tee-time-sidebar-pickup__section"
+            data-tee-time-detail-target="return"
+          >
+            <h6>Quay về</h6>
+            <div className="tee-time-sidebar-pickup__rows">
+              {pickupInfo.returnTime && (
+                <p>
+                  <i className="fa-regular fa-clock" aria-hidden="true" />
+                  <span>{pickupInfo.returnTime}</span>
+                </p>
+              )}
+              {pickupInfo.returnLabel && (
+                <p>
+                  <i className="fa-regular fa-route" aria-hidden="true" />
+                  <span>{pickupInfo.returnLabel}</span>
+                </p>
+              )}
+            </div>
+          </section>
+        )}
+      </div>
+    );
+  };
+
+  const renderTeeTimeStructuredDetailAccordions = (
+    detail: ResolvedTeeTimeOptionDetail,
+    className: string,
+    option?: ProductServiceOption | null,
+  ) => {
+    const itinerarySection = findDetailSection(detail.sections, [
+      "Lịch trình",
+    ]);
+    const includeSection = findDetailSection(detail.sections, [
+      "Bao gồm",
+    ]);
+    const pickupSection = findDetailSection(detail.sections, [
+      "Thông tin tập trung / đón khách",
+    ]);
+    const bookingNoteSections = collectDetailSections(detail.sections, [
+      "Lưu ý trước khi đặt",
+      "Điều kiện",
+      "Thông tin thêm",
+      "Thông tin bổ sung",
+      "Nghiêm cấm & Hạn chế",
+      "Giới hạn",
+      "Trang phục nên mặc",
+      "Quy định trang phục",
+    ]);
+    const termSections = collectDetailSections(detail.sections, [
+      "Điều khoản chung",
+      "Xác nhận",
+      "Chính sách xác nhận",
+      "Chính sách hủy",
+    ]);
+    const usageSections = collectDetailSections(detail.sections, [
+      "Thời hạn sử dụng",
+      "Loại voucher",
+      "Thông tin voucher",
+      "Thông tin đón/nhận",
+      "Thông tin đón khách",
+    ]);
+    const pickupContent = renderSidebarPickupDetails(
+      pickupSection,
+      itinerarySection,
+      option,
+    );
+    const orderedSections = [
+      hasStorefrontItems(itinerarySection)
+        ? {
+            title: "Lịch trình",
+            content: renderSidebarItems(itinerarySection as TeeTimeOptionDetailSection),
+          }
+        : null,
+      hasStorefrontItems(includeSection)
+        ? {
+            title: "Bao gồm",
+            content: renderSidebarItems(includeSection as TeeTimeOptionDetailSection),
+          }
+        : null,
+      pickupContent
+        ? {
+            title: "Thông tin tập trung / đón khách",
+            content: pickupContent,
+          }
+        : null,
+      bookingNoteSections.some(hasStorefrontItems)
+        ? {
+            title: "Lưu ý trước khi đặt",
+            content: renderSidebarSubsections(bookingNoteSections),
+          }
+        : null,
+      termSections.some(hasStorefrontItems)
+        ? {
+            title: "Điều khoản chung",
+            content: renderSidebarSubsections(termSections),
+          }
+        : null,
+      usageSections.some(hasStorefrontItems)
+        ? {
+            title: "Hướng dẫn sử dụng",
+            content: renderSidebarSubsections(usageSections),
+          }
+        : null,
+    ].filter(Boolean) as Array<{
+      title: string;
+      content: ReactNode;
+    }>;
+
+    return (
+      <div className={className}>
+        {orderedSections.map((section) => (
+          <details key={section.title} open>
+            <summary>
+              <span>{section.title}</span>
+              <i className="fa-regular fa-chevron-down" aria-hidden="true" />
+            </summary>
+            {section.content}
+          </details>
+        ))}
+      </div>
+    );
+  };
+
+  const normalizeDetailTitle = (title: string) =>
+    title
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .trim();
+
+  const findDetailSection = (
+    sections: TeeTimeOptionDetailSection[],
+    titles: string[],
+  ) => {
+    const normalizedTitles = titles.map(normalizeDetailTitle);
+
+    return sections.find((section) =>
+      normalizedTitles.includes(normalizeDetailTitle(section.title)),
+    );
+  };
+
+  const collectDetailSections = (
+    sections: TeeTimeOptionDetailSection[],
+    titles: string[],
+  ) => {
+    const normalizedTitles = titles.map(normalizeDetailTitle);
+
+    return sections.filter((section) =>
+      normalizedTitles.includes(normalizeDetailTitle(section.title)),
+    );
+  };
+
+  const isItineraryDetailSection = (
+    section: TeeTimeOptionDetailSection,
+  ) =>
+    normalizeDetailTitle(section.title) ===
+    normalizeDetailTitle("Lịch trình");
+
+  const scrollTeeTimeDetailTo = (
+    target:
+      | "departure"
+      | "location"
+      | "return",
+    root?: HTMLElement | null,
+  ) => {
+    const container = root || optionDetailModalRef.current;
+    if (!container) return;
+
+    const targetElement =
+      container.querySelector<HTMLElement>(
+        `[data-tee-time-detail-target="${target}"]`,
+      );
+
+    if (!targetElement) return;
+
+    const details = targetElement.closest("details");
+    if (details instanceof HTMLDetailsElement) {
+      details.open = true;
+    }
+
+    const railScrollBody = container.querySelector<HTMLElement>(
+      ".tee-time-package-detail-card__body",
+    );
+    const modalScrollBody = container.querySelector<HTMLElement>(
+      ".tee-time-detail-modal__body",
+    );
+    const canScrollContainer =
+      container.scrollHeight > container.clientHeight &&
+      /auto|scroll/i.test(window.getComputedStyle(container).overflowY);
+    const scrollBody =
+      railScrollBody ||
+      modalScrollBody ||
+      (canScrollContainer ? container : null);
+
+    if (scrollBody) {
+      const bodyRect = scrollBody.getBoundingClientRect();
+      const targetRect = targetElement.getBoundingClientRect();
+
+      scrollBody.scrollTo({
+        behavior: "smooth",
+        top:
+          scrollBody.scrollTop +
+          targetRect.top -
+          bodyRect.top -
+          12,
+      });
+    }
+  };
+
+  const scrollOptionDetailTo = (
+    target:
+      | "departure"
+      | "location"
+      | "return",
+  ) => scrollTeeTimeDetailTo(target, optionDetailModalRef.current);
+
+  const renderTeeTimeSidebarTimeline = (
+    section: TeeTimeOptionDetailSection,
+  ) => {
+    const timelineItems = section.items.filter(
+      (item) =>
+        storefrontSafeText(item.text) &&
+        !/lịch\s*trình\s*có\s*thể\s*thay\s*đổi/i.test(item.text),
+    );
+    const icons = [
+      "fa-location-dot",
+      "fa-flag",
+      "fa-clock",
+    ];
+
+    return (
+      <>
+        <div className="tee-time-package-timeline">
+          {timelineItems.map((item, index) => {
+            const isActionRow =
+              index === 0 || /quay\s*về|return|trở\s*về/i.test(item.text);
+            const target =
+              index === 0
+                ? "departure"
+                : index === 1
+                  ? "location"
+                  : /quay\s*về|return|trở\s*về/i.test(item.text)
+                    ? "return"
+                    : null;
+
+            return (
+              <div
+                className="tee-time-package-timeline__item"
+                key={`${item.text}-${index}`}
+              >
+                <span
+                  className="tee-time-package-timeline__icon"
+                  aria-hidden="true"
+                >
+                  <i className={`fa-regular ${icons[index] || "fa-circle-dot"}`} />
+                </span>
+                <button
+                  type="button"
+                  className="tee-time-package-timeline__link"
+                  disabled={!target}
+                  onClick={() => {
+                    if (target) {
+                      scrollTeeTimeDetailTo(
+                        target,
+                        teeTimeDetailCardRef.current,
+                      );
+                    }
+                  }}
+                >
+                  <span>{item.text}</span>
+                  {isActionRow && (
+                    <i
+                      className="fa-regular fa-chevron-right"
+                      aria-hidden="true"
+                    />
+                  )}
+                </button>
+              </div>
+            );
+          })}
+        </div>
+        <p className="tee-time-package-timeline__note">
+          * Lịch trình có thể thay đổi tùy vào điều kiện sân,
+          giao thông và thời tiết.
+        </p>
+        <div className="tee-time-itinerary-feedback">
+          <span>Lịch trình này có hữu ích không?</span>
+          <button
+            type="button"
+            className={itineraryFeedback === "yes" ? "is-selected" : ""}
+            onClick={() => setItineraryFeedback("yes")}
+          >
+            Có
+          </button>
+          <button
+            type="button"
+            className={itineraryFeedback === "no" ? "is-selected" : ""}
+            onClick={() => setItineraryFeedback("no")}
+          >
+            Không
+          </button>
+        </div>
+      </>
+    );
+  };
+
+  const metadataString = (
+    source: Record<string, unknown> | undefined,
+    keys: string[],
+  ) => {
+    for (const key of keys) {
+      const value = source?.[key];
+
+      if (typeof value === "string" && value.trim()) {
+        return value.trim();
+      }
+    }
+
+    return "";
+  };
+
+  const resolveModalMap = (
+    option?: ProductServiceOption | null,
+  ) => {
+    const optionMetadata = option?.metadata || {};
+    const productMetadata = product?.metadata || {};
+    const productAttributes = product?.attributes || {};
+    const iframeUrl = metadataString(optionMetadata, [
+      "map_embed_url",
+      "mapEmbedUrl",
+      "map_url",
+      "mapUrl",
+      "google_map_url",
+      "googleMapUrl",
+    ]) || metadataString(productMetadata, [
+      "map_embed_url",
+      "mapEmbedUrl",
+      "map_url",
+      "mapUrl",
+      "google_map_url",
+      "googleMapUrl",
+    ]) || metadataString(productAttributes, [
+      "map_embed_url",
+      "mapEmbedUrl",
+      "map_url",
+      "mapUrl",
+      "google_map_url",
+      "googleMapUrl",
+    ]);
+    const location =
+      metadataString(optionMetadata, [
+        "meeting_point",
+        "pickup_location",
+        "location",
+      ]) ||
+      metadataString(productAttributes, [
+        "meeting_point",
+        "pickup_location",
+        "location",
+      ]) ||
+      product?.location ||
+      "";
+
+    if (iframeUrl) {
+      return { src: iframeUrl, label: location || product?.name || "Bản đồ" };
+    }
+
+    if (location) {
+      return {
+        src: `https://www.google.com/maps?q=${encodeURIComponent(location)}&output=embed`,
+        label: location,
+      };
+    }
+
+    return null;
+  };
+
+  const renderModalItemRows = (
+    items: TeeTimeOptionDetailSection["items"],
+    fallbackTone?: TeeTimeOptionDetailSection["tone"],
+  ) => (
+    <ul className="tee-time-detail-modal__list">
+      {items.filter((item) => storefrontSafeText(item.text)).map((item) => {
+        const tone = item.tone || fallbackTone || "neutral";
+
+        return (
+          <li
+            key={item.text}
+            className={`tone-${tone}`}
+          >
+            <span aria-hidden="true">
+              {tone === "include"
+                ? "✓"
+                : tone === "exclude"
+                  ? "×"
+                  : "•"}
+            </span>
+            <p>{item.text}</p>
+          </li>
+        );
+      })}
+    </ul>
+  );
+
+  const renderModalAccordion = (
+    title: string,
+    children: ReactNode,
+    defaultOpen = false,
+  ) => (
+    <details
+      className="tee-time-detail-modal__section"
+      open={defaultOpen}
+    >
+      <summary>
+        <span>{title}</span>
+        <i className="fa-regular fa-chevron-down" aria-hidden="true" />
+      </summary>
+      <div className="tee-time-detail-modal__section-body">
+        {children}
+      </div>
+    </details>
+  );
+
+  const renderModalSubsections = (
+    sections: TeeTimeOptionDetailSection[],
+  ) => (
+    <div className="tee-time-detail-modal__subsections">
+      {sections.map((section) => (
+        hasStorefrontItems(section) && (
+        <section key={section.title}>
+          <h5>{section.title}</h5>
+          {renderModalItemRows(section.items, section.tone)}
+        </section>
+        )
+      ))}
+    </div>
+  );
+
+  const renderModalItinerary = (
+    section?: TeeTimeOptionDetailSection,
+  ) => {
+    if (!section || section.items.length === 0) {
+      return (
+        <p className="tee-time-detail-modal__empty">
+          Lịch trình đang được cập nhật.
+        </p>
+      );
+    }
+
+    const icons = [
+      "fa-location-dot",
+      "fa-flag",
+      "fa-clock",
+    ];
+    const timelineItems = section.items.filter(
+      (item) =>
+        storefrontSafeText(item.text) &&
+        !/lịch\s*trình\s*có\s*thể\s*thay\s*đổi/i.test(item.text),
+    );
+    const targetByIndex = [
+      "departure",
+      "location",
+      "return",
+    ] as const;
+
+    return (
+      <>
+        <div className="tee-time-detail-modal__timeline">
+          {timelineItems.map((item, index) => {
+            const target = targetByIndex[index];
+
+            return (
+              <div
+                className="tee-time-detail-modal__timeline-item"
+                key={item.text}
+              >
+                <span aria-hidden="true">
+                  <i className={`fa-regular ${icons[index] || "fa-circle-dot"}`} />
+                </span>
+                {target ? (
+                  <button
+                    type="button"
+                    className="tee-time-detail-modal__timeline-link"
+                    onClick={() =>
+                      scrollOptionDetailTo(target)
+                    }
+                  >
+                    <span>{item.text}</span>
+                    {(index === 0 || index === 2) && (
+                      <i className="fa-regular fa-chevron-right" aria-hidden="true" />
+                    )}
+                  </button>
+                ) : (
+                  <p>{item.text}</p>
+                )}
+              </div>
+            );
+          })}
+        </div>
+        <p className="tee-time-detail-modal__note">
+          * Lịch trình có thể thay đổi tùy vào điều kiện sân,
+          giao thông và thời tiết.
+        </p>
+        <div className="tee-time-detail-modal__feedback">
+          <span>Lịch trình này có hữu ích không?</span>
+          <button
+            type="button"
+            className={itineraryFeedback === "yes" ? "is-selected" : ""}
+            onClick={() => setItineraryFeedback("yes")}
+          >
+            Có
+          </button>
+          <button
+            type="button"
+            className={itineraryFeedback === "no" ? "is-selected" : ""}
+            onClick={() => setItineraryFeedback("no")}
+          >
+            Không
+          </button>
+        </div>
+      </>
+    );
+  };
+
+  const renderModalPickup = (
+    section?: TeeTimeOptionDetailSection,
+    option?: ProductServiceOption | null,
+    itinerary?: TeeTimeOptionDetailSection,
+  ) => {
+    const map = resolveModalMap(option);
+    const pickupInfo = resolvePickupDetailInfo(section, itinerary);
+    const hasDepartureData =
+      pickupInfo.hasDepartureData || Boolean(map);
+
+    return (
+      <div className="tee-time-detail-modal__pickup">
+        {hasDepartureData ? (
+          <>
+            <h5 data-tee-time-detail-target="departure">Khởi hành</h5>
+            {pickupInfo.searchLabel && (
+              <div
+                className="tee-time-detail-modal__search"
+                data-tee-time-detail-target="location"
+              >
+                <i className="fa-regular fa-magnifying-glass" aria-hidden="true" />
+                <span>{pickupInfo.searchLabel}</span>
+              </div>
+            )}
+            {map && (
+              <div
+                className="tee-time-detail-modal__map"
+                data-tee-time-detail-target="location"
+              >
+                <iframe
+                  src={map.src}
+                  title={`Bản đồ ${map.label}`}
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                />
+              </div>
+            )}
+            <div className="tee-time-detail-modal__info-stack">
+              {pickupInfo.confirmation && (
+                <p>
+                  <i className="fa-regular fa-clock" aria-hidden="true" />
+                  <span>{pickupInfo.confirmation}</span>
+                </p>
+              )}
+              {pickupInfo.meetingPoint && (
+                <p>
+                  <i className="fa-regular fa-location-dot" aria-hidden="true" />
+                  <span>{pickupInfo.meetingPoint}</span>
+                </p>
+              )}
+              {pickupInfo.note && (
+                <p>
+                  <i className="fa-regular fa-circle-info" aria-hidden="true" />
+                  <span>{pickupInfo.note}</span>
+                </p>
+              )}
+            </div>
+          </>
+        ) : (
+          <p className="tee-time-detail-modal__empty">
+            Thông tin điểm đón đang được cập nhật.
+          </p>
+        )}
+      </div>
+    );
+  };
+
+  const renderModalReturn = (
+    itinerary?: TeeTimeOptionDetailSection,
+    pickup?: TeeTimeOptionDetailSection,
+  ) => {
+    const pickupInfo = resolvePickupDetailInfo(pickup, itinerary);
+
+    if (!pickupInfo.hasReturnData) return null;
+
+    return renderModalAccordion(
+      "Quay về",
+      <div
+        className="tee-time-detail-modal__return"
+        data-tee-time-detail-target="return"
+      >
+        {pickupInfo.returnTime && (
+          <p>
+            <i className="fa-regular fa-clock" aria-hidden="true" />
+            <span>{pickupInfo.returnTime}</span>
+          </p>
+        )}
+        {pickupInfo.returnLabel && (
+          <p>{pickupInfo.returnLabel}</p>
+        )}
+      </div>,
+      true,
+    );
+  };
+
+  const renderTeeTimeOptionDetailModalContent = (
+    detail: ResolvedTeeTimeOptionDetail,
+  ) => {
+    const itinerarySection = findDetailSection(detail.sections, [
+      "Lịch trình",
+    ]);
+    const includeSection = findDetailSection(detail.sections, [
+      "Bao gồm",
+    ]);
+    const pickupSection = findDetailSection(detail.sections, [
+      "Thông tin tập trung / đón khách",
+    ]);
+    const bookingNoteSections = collectDetailSections(detail.sections, [
+      "Lưu ý trước khi đặt",
+      "Điều kiện",
+      "Thông tin thêm",
+      "Thông tin bổ sung",
+      "Nghiêm cấm & Hạn chế",
+      "Giới hạn",
+      "Trang phục nên mặc",
+      "Quy định trang phục",
+    ]);
+    const termSections = collectDetailSections(detail.sections, [
+      "Điều khoản chung",
+      "Xác nhận",
+      "Chính sách xác nhận",
+      "Chính sách hủy",
+    ]);
+    const usageSections = collectDetailSections(detail.sections, [
+      "Thời hạn sử dụng",
+      "Loại voucher",
+      "Thông tin voucher",
+      "Thông tin đón/nhận",
+      "Thông tin đón khách",
+    ]);
+    const safeDescription = storefrontSafeText(detail.description);
+    const hasPickupDetails =
+      Boolean(pickupSection && pickupSection.items.length > 0) ||
+      Boolean(resolveModalMap(detailServiceOption));
+
+    return (
+      <>
+        <div className="tee-time-detail-modal__header">
+          <div>
+            <h4 id="tee-time-option-detail-title">
+              Chi tiết gói dịch vụ
+            </h4>
+            <p>{detail.title}</p>
+          </div>
+          {detail.badges.length > 0 && (
+            <div className="tee-time-detail-modal__badges">
+              {detail.badges.map((badge) => (
+                <em key={badge}>{badge}</em>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <div className="tee-time-detail-modal__body">
+          {safeDescription && (
+            <p className="tee-time-detail-modal__description">
+              {safeDescription}
+            </p>
+          )}
+
+          {hasStorefrontItems(itinerarySection) &&
+            renderModalAccordion(
+              "Lịch trình",
+              renderModalItinerary(itinerarySection as TeeTimeOptionDetailSection),
+              true,
+            )}
+
+          {hasStorefrontItems(includeSection) &&
+            renderModalAccordion(
+              "Bao gồm",
+              renderModalItemRows(
+                (includeSection as TeeTimeOptionDetailSection).items,
+                (includeSection as TeeTimeOptionDetailSection).tone,
+              ),
+              true,
+            )}
+
+          {hasPickupDetails &&
+            renderModalAccordion(
+              "Thông tin tập trung / đón khách",
+              renderModalPickup(
+                pickupSection,
+                detailServiceOption,
+                itinerarySection,
+              ),
+              true,
+            )}
+
+          {renderModalReturn(itinerarySection, pickupSection)}
+
+          {bookingNoteSections.some(hasStorefrontItems) &&
+            renderModalAccordion(
+              "Lưu ý trước khi đặt",
+              renderModalSubsections(bookingNoteSections),
+              true,
+            )}
+
+          {termSections.some(hasStorefrontItems) &&
+            renderModalAccordion(
+              "Điều khoản chung",
+              renderModalSubsections(termSections),
+              true,
+            )}
+
+          {usageSections.some(hasStorefrontItems) &&
+            renderModalAccordion(
+              "Hướng dẫn sử dụng",
+              renderModalSubsections(usageSections),
+              true,
+            )}
+        </div>
+      </>
+    );
+  };
+
+  const renderTeeTimePackageDetailsCard = (
+    option?: ProductServiceOption | null,
+  ) => {
+    if (!option) return null;
+
+    const detail = resolveOptionDetail(option, product);
+    const safeDescription = storefrontSafeText(detail.description);
+
+    return (
+      <aside
+        ref={teeTimeDetailCardRef}
+        className="teeTimePackageDetails tee-time-package-details-card tee-time-package-detail-card"
+      >
+        <div className="tee-time-package-detail-card__header">
+          <span>Chi tiết gói dịch vụ</span>
+          <button
+            type="button"
+            className="tee-time-package-detail-card__expand"
+            aria-label={`Mở chi tiết ${option.name}`}
+            onClick={() => openOptionDetail(option)}
+          >
+            <i className="fa-regular fa-up-right-and-down-left-from-center" />
+          </button>
+        </div>
+        <div
+          ref={teeTimeDetailRailBodyRef}
+          className="tee-time-package-detail-card__body"
+        >
+          <h5 className="tee-time-package-detail-card__name">{option.name}</h5>
+          {detail.badges.length > 0 && (
+            <div className="tee-time-package-detail-card__badges">
+              {detail.badges.map((badge) => (
+                <em key={badge}>{badge}</em>
+              ))}
+            </div>
+          )}
+
+          {safeDescription && (
+            <p>{safeDescription}</p>
+          )}
+
+          {detail.sections.length > 0 ? (
+            renderTeeTimeStructuredDetailAccordions(
+              detail,
+              "tee-time-package-detail-card__sections",
+              option,
+            )
+          ) : (
+            <p className="tee-time-package-detail-card__empty">
+              Thông tin chi tiết gói đang được cập nhật.
+            </p>
+          )}
+        </div>
+      </aside>
+    );
+  };
+
   const renderMissingOptionsNotice = (
     message = "Chưa có tùy chọn trong CMS. Chúng tôi sẽ tư vấn theo yêu cầu của quý khách.",
   ) => (
@@ -1416,123 +3415,359 @@ const endPickerRef =
     </p>
   );
 
+  const teeTimeCtaLabel =
+    bookingType === "tee_time" &&
+    selectedServiceOption &&
+    !isTeeTimeSelectionReady
+      ? "Chọn ngày để tiếp tục"
+      : "Tiếp tục đặt tee time";
+
+  const renderStartTimeSelector = () => (
+    <>
+      {bookingType !== "consultation" &&
+        (bookingType !== "tee_time" || teeTimeHasDate) &&
+        serviceTimes.length > 0 &&
+        !(
+          bookingType === "hotel" &&
+          serviceTimes.length === 1
+        ) && (
+        <div className="booking-option-block mb-10">
+          <span className="time">
+            {bookingCopy.timeLabel}
+          </span>
+
+          <div className="booking-radio-options">
+            {serviceTimes.map((time) => (
+              <div
+                className="form-check"
+                key={time}
+              >
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="serviceTime"
+                  id={`service-time-${time.replace(/[^a-zA-Z0-9]/g, "-")}`}
+                  checked={
+                    effectiveStartTime === time
+                  }
+                  onChange={() => {
+                    setStartTime(time);
+                    resetSubmitKey();
+                  }}
+                />
+
+                <label
+                  className="form-check-label"
+                  htmlFor={`service-time-${time.replace(/[^a-zA-Z0-9]/g, "-")}`}
+                >
+                  {time}
+                </label>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {bookingType === "transport" && serviceTimes.length === 0 && (
+        <div className="tg-booking-form-parent-inner mb-10">
+          <label className="booking-field-label">
+            Giờ đón
+          </label>
+          <input
+            ref={setFieldRef("start_time")}
+            className="booking-text-field"
+            style={fieldStyle}
+            type="time"
+            value={startTime}
+            onChange={(event) => {
+              setStartTime(event.target.value);
+              clearFieldError("start_time");
+              resetSubmitKey();
+            }}
+            aria-label="Giờ đón"
+          />
+          {renderError("start_time")}
+        </div>
+      )}
+    </>
+  );
+
   return (
     <form
-      className={styles.bookingSidebarForm}
+      id={formId}
+      className={`${styles.bookingSidebarForm} ${
+        bookingType === "tee_time" ? styles.teeTimeBookingForm : ""
+      }`}
       onSubmit={handleSubmit}
       noValidate
     >
-      <h4 className="tg-tour-about-title title-2 mb-15">
-        {bookingCopy.title}
-      </h4>
+      <div
+        className={
+          bookingType === "tee_time"
+            ? "teeTimePackagesLayout tee-time-packages-layout package-layout"
+            : "booking-flow-grid"
+        }
+      >
+        <div
+          className={
+            bookingType === "tee_time"
+              ? `teeTimePackageSelector tee-time-package-selector-card package-selector ${
+                  selectedServiceOption
+                    ? "has-tee-time-selection"
+                    : ""
+                }`
+              : "booking-flow-card"
+          }
+        >
+      <div className="booking-card-header">
+        <div className="booking-card-heading-row">
+          <h4 className="tg-tour-about-title title-2 mb-10">
+            {bookingType === "tee_time"
+              ? "Vui lòng chọn ngày & gói dịch vụ"
+              : bookingCopy.title}
+          </h4>
+          {bookingType === "tee_time" && hasTeeTimeDraft && (
+            <button
+              type="button"
+              className="tee-time-clear-selection"
+              onClick={resetTeeTimeSelection}
+            >
+              Xóa tất cả
+            </button>
+          )}
+        </div>
+      </div>
+
+        <div
+          className={
+            bookingType === "tee_time"
+              ? "tee-time-package-selector-main"
+              : "booking-flow-main"
+          }
+        >
 
       <div className="booking-section">
         <div className="tg-booking-form-parent-inner mb-10">
-          <label className="booking-field-label">
-            {bookingCopy.dateLabel}
-          </label>
-          <div
-            className="booking-date-field p-relative"
-            onClick={() =>
-              toggleBookingCalendar(
-                startPickerRef.current,
-                endPickerRef.current,
-              )
-            }
-          >
-            <span
-              className="booking-date-icon"
-              aria-hidden="true"
-            >
-              <i className="fa-regular fa-calendar" />
+          {bookingType !== "tee_time" && (
+            <label className="booking-field-label">
+              {bookingCopy.dateLabel}
+            </label>
+          )}
+          {bookingType === "tee_time" && (
+            <span className="tee-time-date-helper">
+              Xin chọn ngày tham gia
             </span>
+          )}
+          {bookingType === "tee_time" ? (
+            <div className="tee-time-calendar-anchor">
+              <button
+                ref={(element) => {
+                  startDateFieldRef.current = element;
+                }}
+                type="button"
+                className="tee-time-date-trigger"
+                aria-expanded={isStartDateOpen}
+                onClick={() => {
+                  setIsStartDateOpen((current) => !current);
+                }}
+              >
+                <span
+                  className="booking-date-icon"
+                  aria-hidden="true"
+                >
+                  <i className="fa-regular fa-calendar" />
+                </span>
+                <span>
+                  {startDate
+                    ? formatCompactVietnameseDate(startDate)
+                    : "Xem trạng thái dịch vụ"}
+                </span>
+              </button>
 
-            <Flatpickr
-              ref={startPickerRef}
-              value={
-                startDate
-                  ? new Date(
-                      `${startDate}T00:00:00`,
-                    )
-                  : undefined
+              <div
+                className={`tee-time-calendar-inline-shell ${
+                  isStartDateOpen ? "is-open" : ""
+                }`}
+              >
+                <Flatpickr
+                  ref={startPickerRef}
+                  value={
+                    startDate
+                      ? new Date(
+                          `${startDate}T00:00:00`,
+                        )
+                      : undefined
+                  }
+                  onChange={(dates) => {
+                    const nextStartDate =
+                      formatIsoDate(dates[0]);
+
+                    setStartDate(nextStartDate);
+                    clearFieldError("start_date");
+
+                    if (
+                      endDate &&
+                      nextStartDate &&
+                      endDate < nextStartDate
+                    ) {
+                      setEndDate("");
+                    }
+
+                    resetSubmitKey();
+                    setIsStartDateOpen(false);
+                  }}
+                  options={{
+                    inline: true,
+                    clickOpens: false,
+                    closeOnSelect: false,
+                    allowInput: false,
+                    dateFormat: "d M, Y",
+                    disableMobile: true,
+                    locale: teeTimeCalendarLocale,
+                    minDate,
+                    monthSelectorType: "static",
+                    shorthandCurrentMonth: true,
+
+                    onReady: (
+                      _selectedDates,
+                      _dateString,
+                      instance,
+                    ) => {
+                      applyBookingCalendarVariant(
+                        instance,
+                        "sidebar",
+                      );
+                      syncTeeTimeCalendarContent(instance);
+                    },
+
+                    onDayCreate: (
+                      _selectedDates,
+                      _dateString,
+                      _instance,
+                      dayElement,
+                    ) => {
+                      if (!teeTimeDatePriceLabel) return;
+
+                      const label = teeTimeDatePriceLabel(dayElement.dateObj);
+
+                      if (!label) return;
+
+                      const priceElement = document.createElement("span");
+                      priceElement.className = "booking-date-price-hint";
+                      priceElement.textContent = label;
+                      dayElement.appendChild(priceElement);
+                    },
+                  }}
+                  className="tee-time-calendar-hidden-input"
+                  aria-hidden="true"
+                  readOnly
+                />
+              </div>
+            </div>
+          ) : (
+            <div
+              ref={(element) => {
+                startDateFieldRef.current = element;
+              }}
+              className="booking-date-field p-relative"
+              onClick={() =>
+                toggleBookingCalendar(
+                  startPickerRef.current,
+                  endPickerRef.current,
+                )
               }
-              onChange={(dates) => {
-                const nextStartDate =
-                  formatIsoDate(dates[0]);
+            >
+              <span
+                className="booking-date-icon"
+                aria-hidden="true"
+              >
+                <i className="fa-regular fa-calendar" />
+              </span>
 
-                setStartDate(nextStartDate);
-                clearFieldError("start_date");
-
-                if (
-                  endDate &&
-                  nextStartDate &&
-                  endDate < nextStartDate
-                ) {
-                  setEndDate("");
+              <Flatpickr
+                ref={startPickerRef}
+                value={
+                  startDate
+                    ? new Date(
+                        `${startDate}T00:00:00`,
+                      )
+                    : undefined
                 }
+                onChange={(dates) => {
+                  const nextStartDate =
+                    formatIsoDate(dates[0]);
 
-                resetSubmitKey();
-              }}
-              options={{
-                clickOpens: false,
-                allowInput: false,
-                dateFormat: "d/m/Y",
-                disableMobile: true,
-                locale: Vietnamese,
-                minDate,
-                monthSelectorType: "static",
+                  setStartDate(nextStartDate);
+                  clearFieldError("start_date");
 
-                onClose: () => {
-                  setIsStartDateOpen(false);
-                },
+                  if (
+                    endDate &&
+                    nextStartDate &&
+                    endDate < nextStartDate
+                  ) {
+                    setEndDate("");
+                  }
 
-                onOpen: (
-                  _selectedDates,
-                  _dateString,
-                  instance,
-                ) => {
-                  applyBookingCalendarVariant(
+                  resetSubmitKey();
+                }}
+                options={{
+                  clickOpens: false,
+                  allowInput: false,
+                  dateFormat: "d/m/Y",
+                  disableMobile: true,
+                  locale: Vietnamese,
+                  minDate,
+                  monthSelectorType: "static",
+
+                  onClose: () => {
+                    setIsStartDateOpen(false);
+                  },
+
+                  onOpen: (
+                    _selectedDates,
+                    _dateString,
                     instance,
-                    "sidebar",
-                  );
+                  ) => {
+                    applyBookingCalendarVariant(
+                      instance,
+                      "sidebar",
+                    );
+                    setIsStartDateOpen(true);
+                  },
 
-                  setIsStartDateOpen(true);
-                },
-
-                onReady: (
-                  _selectedDates,
-                  _dateString,
-                  instance,
-                ) => {
-                  applyBookingCalendarVariant(
+                  onReady: (
+                    _selectedDates,
+                    _dateString,
                     instance,
-                    "sidebar",
-                  );
-                },
-              }}
-              className="input booking-date-input"
-              placeholder={
-                bookingCopy.datePlaceholder
-              }
-              style={dateInputStyle}
-              aria-label={bookingCopy.dateLabel}
-              aria-invalid={Boolean(
-                fieldErrors.start_date,
-              )}
-              readOnly
-            />
+                  ) => {
+                    applyBookingCalendarVariant(
+                      instance,
+                      "sidebar",
+                    );
+                  },
+                }}
+                className="input booking-date-input"
+                placeholder={bookingCopy.datePlaceholder}
+                style={dateInputStyle}
+                aria-label={bookingCopy.dateLabel}
+                aria-invalid={Boolean(
+                  fieldErrors.start_date,
+                )}
+                readOnly
+              />
 
-            <span
-              className={`booking-date-caret ${
-                isStartDateOpen
-                  ? "is-open"
-                  : ""
-              }`}
-              aria-hidden="true"
-            >
-              <i className="fa-sharp fa-solid fa-angle-down" />
-            </span>
-          </div>
+              <span
+                className={`booking-date-caret ${
+                  isStartDateOpen
+                    ? "is-open"
+                    : ""
+                }`}
+                aria-hidden="true"
+              >
+                <i className="fa-sharp fa-solid fa-angle-down" />
+              </span>
+            </div>
+          )}
 
           {renderError("start_date")}
         </div>
@@ -1543,6 +3778,7 @@ const endPickerRef =
             {bookingCopy.endDateLabel}
           </label>
           <div
+            ref={endDateFieldRef}
             className="booking-date-field p-relative"
             onClick={() =>
               toggleBookingCalendar(
@@ -1574,6 +3810,7 @@ const endPickerRef =
 
                 clearFieldError("end_date");
                 resetSubmitKey();
+                endPickerRef.current?.flatpickr.close();
               }}
               options={{
                 clickOpens: false,
@@ -1645,72 +3882,7 @@ const endPickerRef =
         </div>
       )}
 
-      {bookingType !== "consultation" &&
-        serviceTimes.length > 0 &&
-        !(
-          bookingType === "hotel" &&
-          serviceTimes.length === 1
-        ) && (
-        <div className="booking-option-block mb-10">
-          <span className="time">
-            {bookingCopy.timeLabel}
-          </span>
-
-          <div className="booking-radio-options">
-            {serviceTimes.map((time) => (
-              <div
-                className="form-check"
-                key={time}
-              >
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="serviceTime"
-                  id={`service-time-${time.replace(/[^a-zA-Z0-9]/g, "-")}`}
-                  checked={
-                    effectiveStartTime === time
-                  }
-                  onChange={() => {
-                    setStartTime(time);
-                    resetSubmitKey();
-                  }}
-                />
-
-                <label
-                  className="form-check-label"
-                  htmlFor={`service-time-${time.replace(/[^a-zA-Z0-9]/g, "-")}`}
-                >
-                  {time}
-                </label>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {(bookingType === "transport" ||
-        bookingType === "tee_time") &&
-        serviceTimes.length === 0 && (
-        <div className="tg-booking-form-parent-inner mb-10">
-          <label className="booking-field-label">
-            {bookingType === "transport" ? "Giờ đón" : "Giờ chơi"}
-          </label>
-          <input
-            ref={setFieldRef("start_time")}
-            className="booking-text-field"
-            style={fieldStyle}
-            type="time"
-            value={startTime}
-            onChange={(event) => {
-              setStartTime(event.target.value);
-              clearFieldError("start_time");
-              resetSubmitKey();
-            }}
-            aria-label={bookingType === "transport" ? "Giờ đón" : "Giờ chơi"}
-          />
-          {renderError("start_time")}
-        </div>
-      )}
+      {bookingType !== "tee_time" && renderStartTimeSelector()}
 
       {bookingType === "hotel" &&
         serviceTimes.length === 1 && (
@@ -1722,7 +3894,9 @@ const endPickerRef =
 
       </div>
 
-      <div className="tg-tour-about-border-doted mb-15" />
+      {bookingType !== "tee_time" && (
+        <div className="tg-tour-about-border-doted mb-15" />
+      )}
 
       {(bookingType === "tour" ||
         bookingType === "attraction") && (
@@ -2100,184 +4274,233 @@ const endPickerRef =
       )}
 
       {bookingType === "tee_time" && (
-        <div className="tg-tour-about-tickets-wrap mb-15">
-          <span className="tg-tour-about-sidebar-title">
-            Số golfer:
+        <div className="tg-tour-about-tickets-wrap tee-time-package-block mb-15">
+          <span className="tee-time-package-block__label">
+            Loại gói dịch vụ
           </span>
-
-          {renderServiceOptionSelect(
-            "Chọn gói golf",
-            teeTimeServiceOptions,
-          )}
+          {renderTeeTimeOptionCards(teeTimeServiceOptions)}
           {teeTimeServiceOptions.length === 0 &&
             renderMissingOptionsNotice("Chưa có gói golf hoặc khung giờ trong CMS. Quý khách vẫn có thể gửi yêu cầu để được kiểm tra tee time.")}
 
-          <div className="tg-tour-about-tickets mb-10">
-            <div className="tg-tour-about-tickets-adult">
-              <span>Số golfer</span>
+          {teeTimeCanShowCompactControls && (
+          <div className="tee-time-quantity-price-row">
+            <div className="tee-time-stepper-block">
+              <span>Số lượng</span>
+              <small>
+                {selectedTeeTimeQuantityRule?.fixed
+                  ? `Bạn cần chọn đúng số lượng là ${selectedTeeTimeQuantityRule.min} để có thể đặt gói dịch vụ này`
+                  : selectedTeeTimeQuantityRule
+                    ? `Bạn phải chọn từ ${selectedTeeTimeQuantityRule.min} - ${selectedTeeTimeQuantityRule.max} với gói này`
+                    : ""}
+              </small>
+              <div className="tee-time-quantity-control-row">
+                <span>Người</span>
+                <div className="tee-time-stepper">
+                  <button
+                    type="button"
+                    aria-label="Giảm số golfer"
+                    disabled={
+                      golfers <=
+                      (selectedTeeTimeQuantityRule?.min || 1)
+                    }
+                    onClick={() =>
+                      updateTeeTimeGolfers(golfers - 1)
+                    }
+                  >
+                    <i className="fa-regular fa-minus" />
+                  </button>
+                  <strong>{golfers}</strong>
+                  <button
+                    type="button"
+                    aria-label="Tăng số golfer"
+                    disabled={
+                      golfers >=
+                      (selectedTeeTimeQuantityRule?.max ||
+                        Number.MAX_SAFE_INTEGER)
+                    }
+                    onClick={() =>
+                      updateTeeTimeGolfers(golfers + 1)
+                    }
+                  >
+                    <i className="fa-regular fa-plus" />
+                  </button>
+                </div>
+              </div>
+              {renderError("golfers")}
             </div>
 
-            <div className="tg-tour-about-tickets-quantity">
-              <NiceSelect
-                className="select item-first"
-                options={
-                  positiveQuantityOptions
-                }
-                defaultCurrent={0}
-                onChange={updateNumber(
-                  setGolfers,
-                  1,
-                )}
-                name="golfers"
-                placeholder=""
-              />
+            <div className="tee-time-total-block">
+              <span>Từ</span>
+              <strong>
+                {unitPrice !== null
+                  ? formatBookingPrice(
+                      unitPrice,
+                      bookingCopy.priceQuoteText,
+                    )
+                  : "Liên hệ tư vấn"}
+              </strong>
+              <small>
+                Vui lòng hoàn tất các mục cần thiết để đến bước tiếp theo
+              </small>
             </div>
+          </div>
+          )}
+        </div>
+      )}
+
+      {bookingType !== "tee_time" && (
+        <div className="tg-tour-about-border-doted mb-15" />
+      )}
+
+      {bookingType !== "tee_time" && (
+        <div className="tg-tour-about-extra mb-10">
+          <span className="tg-tour-about-sidebar-title">
+            {bookingCopy.customerSectionTitle}
+          </span>
+
+          <div className="tg-filter-list">
+            <ul>
+              <li>
+                <input
+                  ref={setFieldRef(
+                    "customer_name",
+                  )}
+                  className="booking-text-field"
+                  style={fieldStyle}
+                  value={customerName}
+                  onChange={updateText(
+                    "customer_name",
+                    setCustomerName,
+                  )}
+                  placeholder="Họ tên *"
+                  autoComplete="name"
+                />
+
+                {renderError(
+                  "customer_name",
+                )}
+              </li>
+
+              <li>
+                <input
+                  ref={setFieldRef(
+                    "customer_email",
+                  )}
+                  className="booking-text-field"
+                  style={fieldStyle}
+                  type="email"
+                  value={customerEmail}
+                  onChange={updateText(
+                    "customer_email",
+                    setCustomerEmail,
+                  )}
+                  placeholder="Email *"
+                  autoComplete="email"
+                />
+
+                {renderError(
+                  "customer_email",
+                )}
+              </li>
+
+              <li>
+                <input
+                  ref={setFieldRef(
+                    "customer_phone",
+                  )}
+                  className="booking-text-field"
+                  style={fieldStyle}
+                  type="tel"
+                  value={customerPhone}
+                  onChange={updateText(
+                    "customer_phone",
+                    setCustomerPhone,
+                  )}
+                  placeholder="Số điện thoại *"
+                  autoComplete="tel"
+                  inputMode="tel"
+                />
+
+                {renderError(
+                  "customer_phone",
+                )}
+              </li>
+
+            </ul>
           </div>
         </div>
       )}
 
-      <div className="tg-tour-about-border-doted mb-15" />
+      {bookingType !== "tee_time" && (
+        <div className="tg-tour-about-border-doted mb-15" />
+      )}
 
-      <div className="tg-tour-about-extra mb-10">
-        <span className="tg-tour-about-sidebar-title">
-          {bookingCopy.customerSectionTitle}
-        </span>
+      {bookingType !== "tee_time" && (
+        <div className="booking-option-block mb-10">
+          <span className="time">
+            {bookingCopy.paymentTitle}
+          </span>
 
-        <div className="tg-filter-list">
-          <ul>
-            <li>
+          <div className="booking-radio-options payment-options">
+            <div className="form-check">
               <input
-                ref={setFieldRef(
-                  "customer_name",
-                )}
-                className="booking-text-field"
-                style={fieldStyle}
-                value={customerName}
-                onChange={updateText(
-                  "customer_name",
-                  setCustomerName,
-                )}
-                placeholder="Họ tên *"
-                autoComplete="name"
+                className="form-check-input"
+                type="radio"
+                name="paymentMethod"
+                id="pay-cash"
+                checked={
+                  paymentMethod === "cash"
+                }
+                onChange={() => {
+                  setPaymentMethod("cash");
+                  resetSubmitKey();
+                }}
               />
 
-              {renderError(
-                "customer_name",
-              )}
-            </li>
+              <label
+                className="form-check-label"
+                htmlFor="pay-cash"
+              >
+                Tiền mặt
+              </label>
+            </div>
 
-            <li>
+            <div className="form-check">
               <input
-                ref={setFieldRef(
-                  "customer_email",
-                )}
-                className="booking-text-field"
-                style={fieldStyle}
-                type="email"
-                value={customerEmail}
-                onChange={updateText(
-                  "customer_email",
-                  setCustomerEmail,
-                )}
-                placeholder="Email *"
-                autoComplete="email"
+                className="form-check-input"
+                type="radio"
+                name="paymentMethod"
+                id="pay-bank"
+                checked={
+                  paymentMethod ===
+                  "bank_transfer"
+                }
+                onChange={() => {
+                  setPaymentMethod(
+                    "bank_transfer",
+                  );
+
+                  resetSubmitKey();
+                }}
               />
 
-              {renderError(
-                "customer_email",
-              )}
-            </li>
-
-            <li>
-              <input
-                ref={setFieldRef(
-                  "customer_phone",
-                )}
-                className="booking-text-field"
-                style={fieldStyle}
-                type="tel"
-                value={customerPhone}
-                onChange={updateText(
-                  "customer_phone",
-                  setCustomerPhone,
-                )}
-                placeholder="Số điện thoại *"
-                autoComplete="tel"
-                inputMode="tel"
-              />
-
-              {renderError(
-                "customer_phone",
-              )}
-            </li>
-
-          </ul>
-        </div>
-      </div>
-
-      <div className="tg-tour-about-border-doted mb-15" />
-
-      <div className="booking-option-block mb-10">
-        <span className="time">
-          {bookingCopy.paymentTitle}
-        </span>
-
-        <div className="booking-radio-options payment-options">
-          <div className="form-check">
-            <input
-              className="form-check-input"
-              type="radio"
-              name="paymentMethod"
-              id="pay-cash"
-              checked={
-                paymentMethod === "cash"
-              }
-              onChange={() => {
-                setPaymentMethod("cash");
-                resetSubmitKey();
-              }}
-            />
-
-            <label
-              className="form-check-label"
-              htmlFor="pay-cash"
-            >
-              Tiền mặt
-            </label>
+              <label
+                className="form-check-label"
+                htmlFor="pay-bank"
+              >
+                Chuyển khoản
+              </label>
+            </div>
           </div>
 
-          <div className="form-check">
-            <input
-              className="form-check-input"
-              type="radio"
-              name="paymentMethod"
-              id="pay-bank"
-              checked={
-                paymentMethod ===
-                "bank_transfer"
-              }
-              onChange={() => {
-                setPaymentMethod(
-                  "bank_transfer",
-                );
-
-                resetSubmitKey();
-              }}
-            />
-
-            <label
-              className="form-check-label"
-              htmlFor="pay-bank"
-            >
-              Chuyển khoản
-            </label>
-          </div>
         </div>
+      )}
 
-      </div>
+      {bookingType !== "tee_time" && (
+        <div className="tg-tour-about-border-doted mb-15" />
+      )}
 
-      <div className="tg-tour-about-border-doted mb-15" />
-
+      {bookingType !== "tee_time" && (
       <div className="booking-price-summary mb-20">
         <span className="tg-tour-about-sidebar-title">
           Thanh toán
@@ -2319,6 +4542,7 @@ const endPickerRef =
           </div>
         )}
       </div>
+      )}
 
       {fieldErrors.form && (
         <p className="form_error">
@@ -2332,17 +4556,70 @@ const endPickerRef =
         </p>
       )}
 
-      <button
-        type="submit"
-        disabled={
-          isSubmitting || !product?.id
-        }
-        className="tg-btn tg-btn-switch-animation w-100"
-      >
-        {isSubmitting
-          ? "Đang gửi..."
-          : bookingCopy.submitLabel}
-      </button>
+      {(bookingType !== "tee_time" || selectedServiceOption) && (
+        <button
+          type="submit"
+          disabled={
+            isSubmitting ||
+            !product?.id
+          }
+          className="tg-btn tg-btn-switch-animation w-100"
+        >
+          {isSubmitting
+            ? "Đang gửi..."
+            : bookingType === "tee_time"
+              ? teeTimeCtaLabel
+              : bookingCopy.submitLabel}
+        </button>
+      )}
+
+        </div>
+        </div>
+
+        {bookingType === "tee_time" && selectedServiceOption && (
+          <aside className="teeTimePackageDetailsRail tee-time-package-details tee-time-package-details--notched package-detail">
+            {renderTeeTimePackageDetailsCard(selectedServiceOption)}
+          </aside>
+        )}
+      </div>
+
+      {isOptionDetailOpen && detailServiceOption && (
+        <div
+          className="booking-confirm-overlay"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) {
+              closeOptionDetail();
+            }
+          }}
+        >
+          <div
+            ref={optionDetailModalRef}
+            className="booking-confirm-modal tee-time-option-detail-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="tee-time-option-detail-title"
+          >
+            <button
+              ref={optionDetailCloseRef}
+              type="button"
+              className="tee-time-option-detail-close"
+              aria-label="Đóng chi tiết gói"
+              onClick={closeOptionDetail}
+            >
+              <i className="fa-regular fa-xmark" />
+            </button>
+
+            {(() => {
+              const detail = resolveOptionDetail(
+                detailServiceOption,
+                product,
+              );
+
+              return renderTeeTimeOptionDetailModalContent(detail);
+            })()}
+          </div>
+        </div>
+      )}
 
       {isConfirmOpen && (
         <div
@@ -2350,50 +4627,278 @@ const endPickerRef =
           role="dialog"
           aria-modal="true"
           aria-labelledby="booking-confirm-title"
+          onMouseDown={(event) => {
+            if (
+              event.target === event.currentTarget &&
+              !isSubmitting
+            ) {
+              setIsConfirmOpen(false);
+            }
+          }}
         >
-          <div className="booking-confirm-modal">
-            <h4 id="booking-confirm-title">
-              Xác nhận thông tin booking
-            </h4>
+          {bookingType === "tee_time" ? (
+            <div className="booking-confirm-modal tee-time-confirm-modal">
+              <button
+                type="button"
+                className="tee-time-option-detail-close"
+                aria-label="Đóng xác nhận booking"
+                disabled={isSubmitting}
+                onClick={() => setIsConfirmOpen(false)}
+              >
+                <i className="fa-regular fa-xmark" />
+              </button>
 
-            <div className="booking-summary-list">
-              {bookingDetails().map(
-                ([label, value]) => (
-                  <div
-                    className="booking-summary-row"
-                    key={label}
-                  >
-                    <span>{label}</span>
-                    <strong>{value}</strong>
+              <div className="tee-time-confirm-modal__header">
+                <h4 id="booking-confirm-title">
+                  Xác nhận yêu cầu đặt tee time
+                </h4>
+              </div>
+
+              <div className="tee-time-confirm-modal__body">
+                <div className="tee-time-confirm-section">
+                  <span className="tee-time-confirm-section-title">
+                    Tóm tắt yêu cầu
+                  </span>
+                  <div className="booking-summary-list tee-time-confirm-summary">
+                    {[
+                      [
+                        "Sân golf",
+                        product?.name || "Dịch vụ đang chọn",
+                      ],
+                      [
+                        "Ngày chơi",
+                        formatVietnameseDate(startDate),
+                      ],
+                      ["Gói", selectedPackageName],
+                      [
+                        "Đơn giá",
+                        unitPrice
+                          ? `${formatCurrencyVnd(unitPrice)} / golfer`
+                          : bookingCopy.priceQuoteText,
+                      ],
+                      [
+                        "Số golfer",
+                        `${golfers} golfer`,
+                      ],
+                      [
+                        "Tổng dự kiến",
+                        formatBookingPrice(
+                          totalPrice,
+                          bookingCopy.priceQuoteText,
+                        ),
+                      ],
+                    ].map(([label, value]) => (
+                      <div
+                        className="booking-summary-row"
+                        key={label}
+                      >
+                        <span>{label}</span>
+                        <strong>{value}</strong>
+                      </div>
+                    ))}
                   </div>
-                ),
-              )}
-            </div>
+                </div>
 
-            <div className="booking-confirm-actions">
-              <button
-                type="button"
-                className="booking-edit-btn"
-                disabled={isSubmitting}
-                onClick={() =>
-                  setIsConfirmOpen(false)
-                }
-              >
-                Chỉnh sửa
-              </button>
+                <div className="tee-time-confirm-section">
+                  <span className="tee-time-confirm-section-title">
+                    Thông tin khách hàng
+                  </span>
+                  <div className="tg-filter-list">
+                    <ul>
+                      <li>
+                        <input
+                          ref={setFieldRef(
+                            "customer_name",
+                          )}
+                          className="booking-text-field"
+                          style={fieldStyle}
+                          value={customerName}
+                          onChange={updateText(
+                            "customer_name",
+                            setCustomerName,
+                          )}
+                          placeholder="Họ tên *"
+                          autoComplete="name"
+                        />
+                        {renderError("customer_name")}
+                      </li>
+                      <li>
+                        <input
+                          ref={setFieldRef(
+                            "customer_email",
+                          )}
+                          className="booking-text-field"
+                          style={fieldStyle}
+                          type="email"
+                          value={customerEmail}
+                          onChange={updateText(
+                            "customer_email",
+                            setCustomerEmail,
+                          )}
+                          placeholder="Email *"
+                          autoComplete="email"
+                        />
+                        {renderError("customer_email")}
+                      </li>
+                      <li>
+                        <input
+                          ref={setFieldRef(
+                            "customer_phone",
+                          )}
+                          className="booking-text-field"
+                          style={fieldStyle}
+                          type="tel"
+                          value={customerPhone}
+                          onChange={updateText(
+                            "customer_phone",
+                            setCustomerPhone,
+                          )}
+                          placeholder="Số điện thoại *"
+                          autoComplete="tel"
+                          inputMode="tel"
+                        />
+                        {renderError("customer_phone")}
+                      </li>
+                    </ul>
+                  </div>
+                </div>
 
-              <button
-                type="button"
-                className="tg-btn tg-btn-switch-animation"
-                disabled={isSubmitting}
-                onClick={confirmSubmit}
-              >
-                {isSubmitting
-                  ? "Đang gửi..."
-                  : bookingCopy.confirmSubmitLabel}
-              </button>
+                <div className="tee-time-confirm-section">
+                  <span className="tee-time-confirm-section-title">
+                    Phương thức thanh toán dự kiến
+                  </span>
+                  <div className="booking-radio-options payment-options">
+                    <div className="form-check">
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        name="teeTimePaymentMethod"
+                        id="tee-time-pay-cash"
+                        checked={paymentMethod === "cash"}
+                        onChange={() => {
+                          setPaymentMethod("cash");
+                          resetSubmitKey();
+                        }}
+                      />
+                      <label
+                        className="form-check-label"
+                        htmlFor="tee-time-pay-cash"
+                      >
+                        {paymentLabels.cash}
+                      </label>
+                    </div>
+
+                    <div className="form-check">
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        name="teeTimePaymentMethod"
+                        id="tee-time-pay-bank"
+                        checked={
+                          paymentMethod === "bank_transfer"
+                        }
+                        onChange={() => {
+                          setPaymentMethod("bank_transfer");
+                          resetSubmitKey();
+                        }}
+                      />
+                      <label
+                        className="form-check-label"
+                        htmlFor="tee-time-pay-bank"
+                      >
+                        {paymentLabels.bank_transfer}
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                {fieldErrors.form && (
+                  <p className="form_error">
+                    {fieldErrors.form}
+                  </p>
+                )}
+
+                {error && (
+                  <p className="form_error">
+                    {error}
+                  </p>
+                )}
+              </div>
+
+              <div className="booking-confirm-actions tee-time-confirm-modal__footer">
+                <button
+                  type="button"
+                  className="booking-edit-btn"
+                  disabled={isSubmitting}
+                  onClick={() =>
+                    setIsConfirmOpen(false)
+                  }
+                >
+                  Quay lại
+                </button>
+
+                <button
+                  type="button"
+                  className={`tg-btn tg-btn-switch-animation${isSubmitting ? " is-loading" : ""}`}
+                  disabled={isSubmitting}
+                  onClick={confirmSubmit}
+                >
+                  {isSubmitting && (
+                    <i className="fa-solid fa-spinner" />
+                  )}
+                  <span>
+                    {isSubmitting
+                      ? "Đang gửi yêu cầu..."
+                      : "Xác nhận gửi yêu cầu"}
+                  </span>
+                </button>
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="booking-confirm-modal">
+              <h4 id="booking-confirm-title">
+                Xác nhận thông tin booking
+              </h4>
+
+              <div className="booking-summary-list">
+                {bookingDetails().map(
+                  ([label, value]) => (
+                    <div
+                      className="booking-summary-row"
+                      key={label}
+                    >
+                      <span>{label}</span>
+                      <strong>{value}</strong>
+                    </div>
+                  ),
+                )}
+              </div>
+
+              <div className="booking-confirm-actions">
+                <button
+                  type="button"
+                  className="booking-edit-btn"
+                  disabled={isSubmitting}
+                  onClick={() =>
+                    setIsConfirmOpen(false)
+                  }
+                >
+                  Chỉnh sửa
+                </button>
+
+                <button
+                  type="button"
+                  className="tg-btn tg-btn-switch-animation"
+                  disabled={isSubmitting}
+                  onClick={confirmSubmit}
+                >
+                  {isSubmitting
+                    ? "Đang gửi..."
+                    : bookingCopy.confirmSubmitLabel}
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       )}
 
@@ -2422,6 +4927,13 @@ const endPickerRef =
                 : "Chúng tôi đã nhận thông tin của quý khách, nhưng email xác nhận chưa gửi được. Đội ngũ tư vấn sẽ liên hệ lại trong thời gian sớm nhất."}
             </p>
 
+            {bookingCode && (
+              <div className="booking-success-code">
+                <span>Mã booking</span>
+                <strong>{bookingCode}</strong>
+              </div>
+            )}
+
             <button
               type="button"
               className="tg-btn tg-btn-switch-animation w-100"
@@ -2432,6 +4944,7 @@ const endPickerRef =
           </div>
         </div>
       )}
+
     </form>
   );
 };

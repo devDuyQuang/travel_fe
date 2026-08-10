@@ -25,12 +25,12 @@ const TEE_TIME_LISTING_PATH = "/dich-vu/dat-tee-time/danh-sach";
 
 const modeCopy: Record<TeeTimeMarketplaceMode, { title: string; label: string }> = {
   all: {
-    title: "Top tee time & trải nghiệm golf tại các điểm đến nổi bật",
+    title: "Tee time và sân golf nổi bật",
     label: "Tất cả trải nghiệm",
   },
   featured: {
     title: "Sân golf được quan tâm",
-    label: "Golfnity gợi ý",
+    label: "GOLFNITY gợi ý",
   },
   weekend: {
     title: "Tee time cuối tuần",
@@ -129,13 +129,57 @@ function productImage(product: Product, index: number) {
   );
 }
 
+function attributeFlag(product: Product, key: string) {
+  return product.attributes?.[key] === true;
+}
+
+function numericAttribute(product: Product, key: string) {
+  const value = product.attributes?.[key];
+  if (typeof value === "number") return Number.isFinite(value) ? value : null;
+  if (typeof value === "string" && value.trim() !== "") {
+    const parsed = Number(value);
+    return Number.isFinite(parsed) ? parsed : null;
+  }
+
+  return null;
+}
+
+function centerDistanceMeta(product: Product) {
+  const distance = numericAttribute(product, "distance_to_center");
+  const travelTime = numericAttribute(product, "travel_time_to_center");
+  const parts = [];
+
+  if (distance !== null) {
+    parts.push(`Cách trung tâm ${formatVnd(distance)} km`);
+  }
+
+  if (travelTime !== null) {
+    parts.push(`Khoảng ${Math.round(travelTime)} phút từ trung tâm`);
+  }
+
+  return parts.join(" · ");
+}
+
 function courseMeta(product: Product) {
+  const centerMeta = centerDistanceMeta(product);
+  if (centerMeta) return centerMeta;
+
   const holes =
     product.attributes?.holes ||
     product.attributes?.hole_count ||
     product.attributes?.golf_holes;
 
   return product.duration || (holes ? `${holes} hố` : "Kiểm tra lịch theo yêu cầu");
+}
+
+function localizeTeeTimeText(value?: string | null) {
+  if (!value) return value;
+
+  return value
+    .replace(/\bNew\b/g, "Mới")
+    .replace(/\bDa Nang\b/g, "Đà Nẵng")
+    .replace(/\b6\s*km\s*from\s*Center\b/gi, "Cách trung tâm 6 km")
+    .replace(/\b25\s*minutes\s*from\s*center\b/gi, "Khoảng 25 phút từ trung tâm");
 }
 
 function normalize(value?: string | null) {
@@ -146,25 +190,6 @@ function normalize(value?: string | null) {
     .replace(/Đ/g, "D")
     .replace(/[-_]+/g, " ")
     .toLowerCase();
-}
-
-function includesAny(product: Product, values: string[]) {
-  const haystack = normalize(
-    [
-      product.name,
-      product.location,
-      product.duration,
-      product.badge,
-      product.short_description,
-      product.highlights,
-      ...(product.service_options || []).map((option) => option.name),
-      ...(product.service_options || []).map((option) => option.label),
-    ]
-      .filter(Boolean)
-      .join(" "),
-  );
-
-  return values.some((value) => haystack.includes(value));
 }
 
 function productSearchText(product: Product) {
@@ -198,34 +223,45 @@ function matchesLocation(productText: string, locationSlug: string) {
   return aliases.some((alias) => matchesQueryToken(productText, alias));
 }
 
+function sortByDisplayOrder(products: Product[]) {
+  return [...products].sort((a, b) => {
+    const orderA = a.sort_order ?? Number.MAX_SAFE_INTEGER;
+    const orderB = b.sort_order ?? Number.MAX_SAFE_INTEGER;
+
+    if (orderA !== orderB) return orderA - orderB;
+
+    return a.id - b.id;
+  });
+}
+
 function marketplaceProducts(products: Product[], mode: TeeTimeMarketplaceMode) {
   const teeTimeProducts = products.filter(
     (product) => product.category?.layout_key === "tee_time",
   );
-  const source = teeTimeProducts.length ? teeTimeProducts : products;
+  const source = sortByDisplayOrder(teeTimeProducts.length ? teeTimeProducts : products);
   let preferred = source;
 
   if (mode === "featured") {
-    preferred = source.filter((product) => product.is_featured || product.badge);
+    preferred = source.filter((product) => product.is_featured);
   }
 
   if (mode === "weekend") {
     preferred = source.filter((product) =>
-      includesAny(product, ["cuoi tuan", "weekend", "thu bay", "chu nhat"]),
+      attributeFlag(product, "is_weekend_recommended"),
     );
   }
 
   if (mode === "near-center") {
-    preferred = source.filter((product) =>
-      includesAny(product, ["trung tam", "center", "phut", "km"]),
-    );
+    preferred = source.filter((product) => attributeFlag(product, "is_near_center"));
   }
 
-  return preferred.length ? preferred : source;
+  if (mode === "all") return source;
+
+  return preferred;
 }
 
 function productBadge(product: Product) {
-  if (product.badge) return product.badge;
+  if (product.badge) return localizeTeeTimeText(product.badge);
   if (product.is_featured) return "Được quan tâm";
   return null;
 }
@@ -235,6 +271,9 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
   const rating = Number(product.rating);
   const hasRating =
     Number.isFinite(rating) && rating > 0 && Boolean(product.review_count && product.review_count > 0);
+  const badge = productBadge(product);
+  const location = localizeTeeTimeText(product.location) || "Việt Nam";
+  const meta = localizeTeeTimeText(courseMeta(product)) || "Kiểm tra lịch theo yêu cầu";
 
   return (
     <Link className={styles.card} href={href}>
@@ -245,13 +284,13 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
           sizes="(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 25vw"
           src={productImage(product, index)}
         />
-        {productBadge(product) && <span className={styles.badge}>{productBadge(product)}</span>}
+        {badge && <span className={styles.badge}>{badge}</span>}
       </span>
       <span className={styles.cardBody}>
         <strong className={styles.cardTitle}>{product.name}</strong>
         <span className={styles.metaLine}>
-          <span>{product.location || "Việt Nam"}</span>
-          <span>{courseMeta(product)}</span>
+          <span>{location}</span>
+          <span>{meta}</span>
         </span>
         {hasRating && (
           <span className={styles.ratingLine}>
@@ -351,8 +390,8 @@ const TeeTimeMarketplacePage = ({
             <span>{copy.label}</span>
             <h1>{copy.title}</h1>
             <p>
-              Lọc sân golf, điểm đến và gói tee time với thông tin rõ ràng trước
-              khi gửi yêu cầu đặt lịch.
+              Tìm sân golf, so sánh thông tin và gửi yêu cầu đặt lịch phù hợp với
+              hành trình của bạn.
             </p>
           </div>
         </section>
@@ -425,7 +464,7 @@ const TeeTimeMarketplacePage = ({
                 onChange={(event) => setSort(event.target.value)}
                 value={sort}
               >
-                <option value="recommended">Golfnity gợi ý</option>
+                <option value="recommended">GOLFNITY gợi ý</option>
                 <option value="price-asc">Giá thấp đến cao</option>
                 <option value="newest">Mới nhất</option>
               </select>
@@ -447,11 +486,11 @@ const TeeTimeMarketplacePage = ({
 
           <section className={styles.promoStrip}>
             <div>
-              <strong>Ưu đãi tee time</strong>
-              <span>Nhận báo giá trước khi thanh toán</span>
+              <strong>Báo giá trước khi xác nhận</strong>
+              <span>Nhận thông tin chi phí rõ ràng trước khi đặt.</span>
             </div>
             <div>
-              <strong>Giữ lịch rõ ràng</strong>
+              <strong>Kiểm tra lịch theo yêu cầu</strong>
               <span>GOLFNITY kiểm tra lịch sân theo yêu cầu</span>
             </div>
             <div>

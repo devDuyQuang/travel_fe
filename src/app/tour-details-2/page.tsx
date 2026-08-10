@@ -2,7 +2,7 @@ import FeatureDetailsTwo from "@/components/features/feature-details-two";
 import Wrapper from "@/layouts/Wrapper";
 
 export const metadata = {
-  title: "Chi tiết dịch vụ | Golfnity",
+  title: "Chi tiết dịch vụ | GOLFNITY",
 };
 const page = () => {
   return (

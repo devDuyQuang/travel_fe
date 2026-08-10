@@ -3,7 +3,7 @@ import Wrapper from "@/layouts/Wrapper";
 import { getProductCategories, getShopProducts } from "@/services/product.service";
 
 export const metadata = {
-  title: "Cửa hàng golf | WAYLUNE",
+  title: "Cửa hàng golf | GOLFNITY",
   alternates: { canonical: "/cua-hang" },
 };
 

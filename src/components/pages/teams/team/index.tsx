@@ -10,7 +10,7 @@ const Team = async () => {
       <>
          <HeaderThree />
          <main>
-            <BreadCrumb title="Đội ngũ WAYLUNE" sub_title="Đội ngũ" />
+            <BreadCrumb title="Đội ngũ GOLFNITY" sub_title="Đội ngũ" />
             <TeamArea members={members} />
          </main>
          <FooterSix />

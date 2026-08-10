@@ -8,7 +8,7 @@ import {
 } from "@/services/post.service";
 
 export const metadata = {
-  title: "Tin tức | WAYLUNE",
+  title: "Tin tức | GOLFNITY",
   alternates: {
     canonical: "/tin-tuc",
   },

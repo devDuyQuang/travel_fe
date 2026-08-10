@@ -25,10 +25,18 @@ export type ProductServiceOption = {
   label?: string;
   description?: string | null;
   price?: string | number | null;
+  price_discount?: string | number | null;
+  sale_price?: string | number | null;
   currency?: string | null;
   unit?: string | null;
   capacity?: number | null;
   sort_order?: number | null;
+  is_active?: boolean | number | null;
+  metadata?: Record<string, unknown> | null;
+  min_quantity?: number | string | null;
+  max_quantity?: number | string | null;
+  inclusions?: string | null;
+  exclusions?: string | null;
 };
 
 export type ProductAttributes = Record<
@@ -61,11 +69,13 @@ export type Product = {
   stock_status?: string | null;
   rating?: string | number | null;
   review_count?: number | null;
+  booking_count?: number | null;
   is_featured?: boolean;
   sort_order?: number;
   highlights?: string | null;
   facilities?: string | null;
   attributes?: ProductAttributes;
+  metadata?: Record<string, unknown> | null;
   service_options?: ProductServiceOption[];
   seo?: ProductSeo;
   category?: ProductCategory | null;

@@ -14,7 +14,7 @@ type PageProps = {
 };
 
 export const metadata: Metadata = {
-  title: "Danh sách tee time | Golfnity",
+  title: "Danh sách tee time | GOLFNITY",
 };
 
 function firstQueryValue(value?: string | string[]) {

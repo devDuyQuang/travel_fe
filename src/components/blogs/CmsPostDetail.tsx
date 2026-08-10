@@ -131,7 +131,7 @@ const CmsPostDetail = async ({ post }: { post: CmsPost }) => {
                   </div>
 
                   <div className="blog-author-fallback mb-40">
-                    <h4>Ban biên tập WAYLUNE</h4>
+                    <h4>Ban biên tập GOLFNITY</h4>
                     <p>Nội dung được biên soạn nhằm chia sẻ kinh nghiệm du lịch, golf và những thông tin hữu ích cho hành trình của bạn.</p>
                   </div>
                 </div>

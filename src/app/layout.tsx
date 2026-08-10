@@ -18,11 +18,11 @@ export default function RootLayout({
       <head>
         {/* <meta
           name="keywords"
-          content="Golfnity - Dịch vụ golf và trải nghiệm"
+          content="GOLFNITY - Dịch vụ golf và trải nghiệm"
         />
         <meta
           name="description"
-          content="Golfnity cung cấp dịch vụ golf, lưu trú, đưa đón và trải nghiệm dành cho golfer."
+          content="GOLFNITY cung cấp dịch vụ golf, lưu trú, đưa đón và trải nghiệm dành cho golfer."
         /> */}
         <meta
           name="keywords"

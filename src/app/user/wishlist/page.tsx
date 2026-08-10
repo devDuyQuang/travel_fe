@@ -2,7 +2,7 @@ import Wishlist from "@/components/pages/shops/wishlist";
 import Wrapper from "@/layouts/Wrapper";
 
 export const metadata = {
-  title: "Wishlist | Golfnity",
+  title: "Wishlist | GOLFNITY",
 };
 
 const UserWishlistPage = () => (

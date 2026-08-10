@@ -63,9 +63,9 @@ const NiceSelect: FC<NiceSelectProps> = ({
             onClick={(e) => e.stopPropagation()}
             onKeyDown={(e) => e.stopPropagation()}
          >
-            {options?.map((item, i) => (
+            {options?.map((item) => (
                <li
-                  key={i}
+                  key={item.value}
                   data-value={item.value}
                   className={`option ${item.value === current?.value ? "selected focus" : ""
                      }`}

@@ -1,7 +1,7 @@
 import FeatureThree from "@/components/features/feature-three";
 import Wrapper from "@/layouts/Wrapper";
 
-export const metadata = { title: "Tour & Trải nghiệm | Golfnity" };
+export const metadata = { title: "Tour & Trải nghiệm | GOLFNITY" };
 
 export default function SightseeingPage() {
   return (
