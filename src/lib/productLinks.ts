@@ -2,7 +2,7 @@ import type { Product } from "@/types/product";
 
 export function buildProductDetailHref(product: Product): string {
   const slug = product.slug?.trim();
-  const layoutKey = product.category?.layout_key?.trim();
+  const categorySlug = product.category?.slug?.trim();
 
   if (!slug) return "#";
 
@@ -10,9 +10,9 @@ export function buildProductDetailHref(product: Product): string {
     return `/cua-hang/${slug}`;
   }
 
-  if (!layoutKey) {
-    return `/${slug}`;
+  if (product.product_type === "service" && product.category?.type === "service" && categorySlug) {
+    return `/dich-vu/${encodeURIComponent(categorySlug)}/${encodeURIComponent(slug)}`;
   }
 
-  return `/${slug}?layout=${encodeURIComponent(layoutKey)}`;
+  return `/${encodeURIComponent(slug)}`;
 }

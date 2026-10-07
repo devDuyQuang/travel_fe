@@ -2,12 +2,15 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { buildProductDetailHref } from "@/lib/productLinks";
+import type { Product } from "@/types/product";
 
 type ExploreNavItem = {
   title: string;
   subtitle: string;
   href: string;
   image: string;
+  productSlug?: string;
 };
 
 type ExploreNavColumnItem = {
@@ -87,11 +90,11 @@ const exploreNavItems: ExploreNavSection[] = [
       { title: "Ngũ Hành Sơn", subtitle: "Đà Nẵng", href: "/dia-danh/ngu-hanh-son", image: "/assets/img/ads/destination-2.jpg" },
       { title: "Phố cổ Hội An", subtitle: "Hội An", href: "/dia-danh/pho-co-hoi-an", image: "/assets/img/ads/destination-3.jpg" },
       { title: "VinWonders", subtitle: "Vé tham quan", href: "/dia-danh/vinwonders", image: "/assets/img/location/su/destination.jpg" },
-      { title: "Laguna Golf Lăng Cô", subtitle: "Golf", href: "/laguna-golf-lang-co?layout=tee_time", image: "/assets/img/location/su/destination-2.jpg" },
-      { title: "Hoiana Shores Golf Club", subtitle: "Golf", href: "/hoiana-shores-golf-club?layout=tee_time", image: "/assets/img/location/su/destination-3.jpg" },
-      { title: "Bà Nà Golf Club", subtitle: "Golf", href: "/ba-na-hills-golf-club?layout=tee_time", image: "/assets/img/location/su/destination-4.jpg" },
-      { title: "Long Thành Golf Club", subtitle: "Golf", href: "/long-thanh-golf-club?layout=tee_time", image: "/assets/img/location/su/destination-5.jpg" },
-      { title: "Tân Sơn Nhất Golf Course", subtitle: "Golf", href: "/tan-son-nhat-golf-course?layout=tee_time", image: "/assets/img/location/su/destination-6.jpg" },
+      { title: "Laguna Golf Lăng Cô", subtitle: "Golf", href: "/laguna-golf-lang-co", productSlug: "laguna-golf-lang-co", image: "/assets/img/location/su/destination-2.jpg" },
+      { title: "Hoiana Shores Golf Club", subtitle: "Golf", href: "/hoiana-shores-golf-club", productSlug: "hoiana-shores-golf-club", image: "/assets/img/location/su/destination-3.jpg" },
+      { title: "Bà Nà Golf Club", subtitle: "Golf", href: "/ba-na-hills-golf-club", productSlug: "ba-na-hills-golf-club", image: "/assets/img/location/su/destination-4.jpg" },
+      { title: "Long Thành Golf Club", subtitle: "Golf", href: "/long-thanh-golf-club", productSlug: "long-thanh-golf-club", image: "/assets/img/location/su/destination-5.jpg" },
+      { title: "Tân Sơn Nhất Golf Course", subtitle: "Golf", href: "/tan-son-nhat-golf-course", productSlug: "tan-son-nhat-golf-course", image: "/assets/img/location/su/destination-6.jpg" },
       { title: "Tokyo Disney Resort", subtitle: "Nhật Bản", href: "/dia-danh/tokyo-disney-resort", image: "/assets/img/destination/des-2.jpg" },
       { title: "Marina Bay Sands", subtitle: "Singapore", href: "/dia-danh/marina-bay-sands", image: "/assets/img/destination/des-3.jpg" },
       { title: "Tháp Eiffel", subtitle: "Paris", href: "/dia-danh/thap-eiffel", image: "/assets/img/destination/des-4.jpg" },
@@ -181,7 +184,11 @@ const exploreNavItems: ExploreNavSection[] = [
 const OPEN_DELAY_MS = 80;
 const CLOSE_DELAY_MS = 260;
 
-const ExploreNav = () => {
+const ExploreNav = ({ products = [] }: { products?: Product[] }) => {
+  const productHref = (item: ExploreNavItem) => {
+    const product = item.productSlug ? products.find((product) => product.slug === item.productSlug) : undefined;
+    return product ? buildProductDetailHref(product) : item.href;
+  };
   const [activeExploreKey, setActiveExploreKey] = useState<string | null>(null);
   const navRef = useRef<HTMLElement | null>(null);
   const openTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -339,7 +346,7 @@ const ExploreNav = () => {
                     ) : (
                       <div className="golfnity-explore-nav__panel-grid">
                         {(section.items || []).map((item) => (
-                          <Link className="golfnity-explore-nav__card" href={item.href} key={`${section.title}-${item.title}`}>
+                          <Link className="golfnity-explore-nav__card" href={productHref(item)} key={`${section.title}-${item.title}`}>
                             <span className="golfnity-explore-nav__thumb">
                               <img src={item.image} alt="" loading="lazy" />
                             </span>

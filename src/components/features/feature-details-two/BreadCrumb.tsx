@@ -1,16 +1,8 @@
 import Link from "next/link";
 import type { Product } from "@/types/product";
 
-const serviceSlugAliases: Record<string, string> = {
-  "dat-tee-time": "golf",
-  "khach-san-nghi-duong": "khach-san",
-  "thue-xe-dua-don": "thue-xe",
-  "tham-quan-trai-nghiem": "tour-trai-nghiem",
-};
-
 function serviceHref(slug?: string | null) {
-  if (!slug) return "/dich-vu/khach-san";
-  return `/dich-vu/${serviceSlugAliases[slug] || slug}`;
+  return `/dich-vu/${slug || "khach-san-nghi-duong"}`;
 }
 
 const BreadCrumb = ({ product }: { product: Product | null }) => {

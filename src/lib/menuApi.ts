@@ -41,9 +41,9 @@ const serviceCategoryPaths: Record<string, string> = {
   "/about": "/ve-golfnity",
   "/dat-tee-time": "/dich-vu/dat-tee-time",
   "/tour-golf": "/dich-vu/tour-golf-viet-nam",
-  "/khach-san-nghi-duong": "/dich-vu/khach-san",
-  "/thue-xe-dua-don": "/dich-vu/thue-xe",
-  "/tham-quan-trai-nghiem": "/dich-vu/tour-trai-nghiem",
+  "/khach-san-nghi-duong": "/dich-vu/khach-san-nghi-duong",
+  "/thue-xe-dua-don": "/dich-vu/thue-xe-dua-don",
+  "/tham-quan-trai-nghiem": "/dich-vu/tham-quan-trai-nghiem",
   "/ve-tham-quan": "/dich-vu/ve-tham-quan",
 };
 

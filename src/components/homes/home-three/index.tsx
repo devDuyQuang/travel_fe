@@ -38,7 +38,7 @@ const HomeThree = ({
    return (
       <HomepageSettingsProvider initialSettings={initialSettings}>
          <HeaderThree showGlobalUtility />
-         <ExploreNav />
+         <ExploreNav products={initialProducts} />
          <main>
             <Banner />
             <BannerFormThree initialCategories={initialServiceCategories} />

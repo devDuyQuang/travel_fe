@@ -1,21 +1,22 @@
-import FeatureDetailsOne from "@/components/features/feature-details-one";
-import Wrapper from "@/layouts/Wrapper";
+import { isCanonicalServiceProduct, legacyProductTarget, type LegacySearchParams } from "@/lib/legacyProductRedirect";
 import { getProductBySlug } from "@/services/product.service";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 
 export const metadata = { title: "Chi tiết tham quan & trải nghiệm | GOLFNITY" };
 
 export default async function ExperienceDetailPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ slug: string }>;
+  searchParams: Promise<LegacySearchParams>;
 }) {
   const { slug } = await params;
   const product = await getProductBySlug(slug);
 
-  if (!product || product.category?.layout_key !== "attraction") {
+  if (!product || !isCanonicalServiceProduct(product) || product.category?.layout_key !== "attraction") {
     notFound();
   }
 
-  return <Wrapper><FeatureDetailsOne product={product} /></Wrapper>;
+  permanentRedirect(legacyProductTarget(product, await searchParams));
 }

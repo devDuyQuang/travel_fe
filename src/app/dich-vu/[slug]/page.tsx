@@ -106,12 +106,10 @@ export default async function ServicePage({ params, searchParams }: PageProps) {
   const dataSlug = resolveServiceSlug(slug);
   const query = searchParams ? await searchParams : undefined;
 
-  if (slug === "tham-quan-trai-nghiem") {
-    redirect(buildRedirectPath("/dich-vu/tour-trai-nghiem", query));
-  }
-
-  if (slug === "golf") {
-    permanentRedirect(buildRedirectPath("/dich-vu/dat-tee-time/danh-sach", query));
+  if (["golf", "khach-san", "thue-xe", "ve-tham-quan"].includes(slug)) {
+    const canonicalCategory = await getServiceCategoryBySlug(dataSlug);
+    if (canonicalCategory?.type !== "service") notFound();
+    permanentRedirect(buildRedirectPath(`/dich-vu/${dataSlug}`, query));
   }
 
   if (slug === "dat-tee-time" && hasQueryParams(query)) {

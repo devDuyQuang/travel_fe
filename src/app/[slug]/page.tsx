@@ -1,17 +1,6 @@
-import {
-  getServiceTemplateItems,
-  mergeCmsProductWithDetailTemplate,
-} from "@/lib/serviceCmsAdapter";
-import {
-  getServiceLayoutConfig,
-  isServiceLayoutKey,
-} from "@/lib/serviceLayoutRegistry";
-import Wrapper from "@/layouts/Wrapper";
+import { isCanonicalServiceProduct, legacyProductTarget, withLegacyDetailQuery, type LegacySearchParams } from "@/lib/legacyProductRedirect";
 import { getPostBySlug } from "@/services/post.service";
-import {
-  getProductBySlug,
-  getProductsByCategorySlug,
-} from "@/services/product.service";
+import { getProductBySlug } from "@/services/product.service";
 import { getPostExcerpt } from "@/lib/blog";
 import { resolveMediaUrl } from "@/services/post.service";
 import type { Metadata } from "next";
@@ -19,7 +8,7 @@ import { notFound, permanentRedirect } from "next/navigation";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
-  searchParams: Promise<{ layout?: string | string[] }>;
+  searchParams: Promise<LegacySearchParams>;
 };
 
 export const dynamic = "force-dynamic";
@@ -70,41 +59,15 @@ export default async function DynamicDetailPage({
   const cmsProduct = await getProductBySlug(slug);
 
   if (cmsProduct) {
-    const categorySlug = cmsProduct.category?.slug ?? "";
-    const categoryLayout = cmsProduct.category?.layout_key;
-    const queryLayout =
-      typeof query.layout === "string" ? query.layout : undefined;
-    const resolvedLayout =
-      isServiceLayoutKey(queryLayout) && queryLayout === categoryLayout
-        ? queryLayout
-        : categoryLayout;
-    const layoutConfig = getServiceLayoutConfig(resolvedLayout);
-    const templateItems = getServiceTemplateItems(
-      layoutConfig?.templatePage ?? "shop_3",
-    );
-    const categoryProducts = categorySlug
-      ? await getProductsByCategorySlug(categorySlug)
-      : [];
-    const product = mergeCmsProductWithDetailTemplate({
-      cmsItem: cmsProduct,
-      templateItems,
-      cmsItems: categoryProducts,
-    });
-    const Detail = layoutConfig.detail;
-
-    return (
-      <Wrapper>
-        <Detail
-          product={product}
-          relatedProducts={categoryProducts.filter((item) => item.slug !== slug)}
-        />
-      </Wrapper>
-    );
+    if (isCanonicalServiceProduct(cmsProduct) || cmsProduct.product_type === "physical") {
+      permanentRedirect(legacyProductTarget(cmsProduct, query));
+    }
+    notFound();
   }
 
   const cmsPost = await getPostBySlug(slug);
   if (cmsPost) {
-    permanentRedirect(`/tin-tuc/${cmsPost.slug}`);
+    permanentRedirect(withLegacyDetailQuery(`/tin-tuc/${cmsPost.slug}`, query));
   }
 
   notFound();
