@@ -1,6 +1,7 @@
 import GolfDetailsOne from "@/components/features/golf-details";
 import Wrapper from "@/layouts/Wrapper";
 import { getProductBySlug } from "@/services/product.service";
+import { notFound } from "next/navigation";
 
 type PageProps = {
   params: Promise<{
@@ -12,6 +13,8 @@ const Page = async ({ params }: PageProps) => {
   const { slug } = await params;
 
   const product = await getProductBySlug(slug);
+
+  if (!product) notFound();
 
   return (
     <Wrapper>

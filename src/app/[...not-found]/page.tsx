@@ -1,15 +1,10 @@
-import NotFound from "@/components/pages/error";
-import Wrapper from "@/layouts/Wrapper";
+import { notFound } from "next/navigation";
 
 export const metadata = {
    title: "404 || Tourex - Tour & Travel Booking React Next js Template",
 };
 const page = () => {
-   return (
-      <Wrapper>
-         <NotFound />
-      </Wrapper>
-   )
-}
+   notFound();
+};
 
-export default page
+export default page;
