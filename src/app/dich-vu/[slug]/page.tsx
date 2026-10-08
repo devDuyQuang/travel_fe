@@ -1,3 +1,4 @@
+import { metadataDescription, pageMetadata } from "@/lib/seoMetadata";
 import GolfServiceLanding from "@/components/services/GolfServiceLanding";
 import ServiceCategoryLayout from "@/components/services/ServiceCategoryLayout";
 import TeeTimeHubPage from "@/components/services/TeeTimeHubPage";
@@ -49,25 +50,15 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
+  if (["golf", "khach-san", "thue-xe", "ve-tham-quan"].includes(slug)) return {};
   const dataSlug = resolveServiceSlug(slug);
   const category = await getServiceCategoryBySlug(dataSlug);
-  const routeOverride = serviceRouteOverrides[slug];
-
-  if (routeOverride) {
-    return {
-      title: `${routeOverride.name} | GOLFNITY`,
-    };
-  }
-
   if (category?.type === "service") {
-    return {
-      title: `${category.name} | GOLFNITY`,
-    };
+    return pageMetadata(`${category.name} | GOLFNITY`, `/dich-vu/${encodeURIComponent(category.slug)}`, metadataDescription(category.description) || metadataDescription(category.content));
   }
-
   const service = getGolfService(slug);
-
-  return { title: service ? `${service.title} | GOLFNITY` : "Dịch vụ | GOLFNITY" };
+  if (service) return pageMetadata(`${service.title} | GOLFNITY`, `/dich-vu/${encodeURIComponent(slug)}`, metadataDescription(service.description));
+  return { title: "Dịch vụ | GOLFNITY" };
 }
 
 function hasQueryParams(

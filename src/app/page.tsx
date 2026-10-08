@@ -1,3 +1,4 @@
+import { pageMetadata, siteDescription } from "@/lib/seoMetadata";
 import HomeThree from "@/components/homes/home-three";
 import Wrapper from "@/layouts/Wrapper";
 import { getHomepageSettings } from "@/services/homepage.service";
@@ -8,9 +9,7 @@ import { getPosts } from "@/services/post.service";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-export const metadata = {
-  title: "GOLFNITY | Dịch vụ golf và trải nghiệm",
-};
+export const metadata = pageMetadata("GOLFNITY | Dịch vụ golf và trải nghiệm", "/", siteDescription);
 
 const page = async () => {
   const [homepageSettings, serviceCategories, products, posts] =

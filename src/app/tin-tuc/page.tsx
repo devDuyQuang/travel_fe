@@ -1,3 +1,4 @@
+import { pageMetadata, paginationPath } from "@/lib/seoMetadata";
 import BlogOne from "@/components/blogs/blog-one";
 import Wrapper from "@/layouts/Wrapper";
 import {
@@ -6,13 +7,6 @@ import {
   getPosts,
   getPostTags,
 } from "@/services/post.service";
-
-export const metadata = {
-  title: "Tin tức | GOLFNITY",
-  alternates: {
-    canonical: "/tin-tuc",
-  },
-};
 
 type NewsPageProps = {
   searchParams: Promise<{
@@ -23,6 +17,11 @@ type NewsPageProps = {
     tag?: string;
   }>;
 };
+
+export async function generateMetadata({ searchParams }: NewsPageProps) {
+  const query = await searchParams;
+  return pageMetadata("Tin tức | GOLFNITY", paginationPath("/tin-tuc", query.page));
+}
 
 const TinTucPage = async ({ searchParams }: NewsPageProps) => {
   const query = await searchParams;

@@ -1,3 +1,4 @@
+import { metadataDescription, safeMetadataImage, pageMetadata } from "@/lib/seoMetadata";
 import BreadCrumb from "@/components/common/BreadCrumb";
 import ShopProductDetailsArea from "@/components/pages/shops/shop-product-details/ShopProductDetailsArea";
 import Wrapper from "@/layouts/Wrapper";
@@ -18,30 +19,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     return { title: "Không tìm thấy sản phẩm | GOLFNITY" };
   }
 
-  const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || "").replace(/\/$/, "");
   const title = product.seo?.title?.trim() || `${product.name} | GOLFNITY`;
-  const description = product.seo?.description?.trim() || product.short_description || "Sản phẩm golf tại GOLFNITY.";
-  const canonical = product.seo?.canonical_url?.trim() || (siteUrl ? `${siteUrl}/cua-hang/${product.slug}` : `/cua-hang/${product.slug}`);
-  const image = product.image_url || undefined;
-
-  return {
-    title,
-    description,
-    alternates: { canonical },
-    openGraph: {
-      title,
-      description,
-      url: canonical,
-      type: "website",
-      images: image ? [{ url: image }] : undefined,
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description,
-      images: image ? [image] : undefined,
-    },
-  };
+  const description = metadataDescription(product.seo?.description) || metadataDescription(product.short_description);
+  return pageMetadata(title, `/cua-hang/${encodeURIComponent(product.slug)}`, description, safeMetadataImage(product.image_url));
 }
 
 const CuaHangDetailPage = async ({ params }: PageProps) => {

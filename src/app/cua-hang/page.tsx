@@ -1,15 +1,16 @@
+import { pageMetadata, paginationPath } from "@/lib/seoMetadata";
 import Shop from "@/components/pages/shops/shop";
 import Wrapper from "@/layouts/Wrapper";
 import { getProductCategories, getShopProducts } from "@/services/product.service";
 
-export const metadata = {
-  title: "Cửa hàng golf | GOLFNITY",
-  alternates: { canonical: "/cua-hang" },
-};
-
 type ShopPageProps = {
   searchParams: Promise<{ page?: string; search?: string; category?: string; sort?: string }>;
 };
+
+export async function generateMetadata({ searchParams }: ShopPageProps) {
+  const query = await searchParams;
+  return pageMetadata("Cửa hàng golf | GOLFNITY", paginationPath("/cua-hang", query.page));
+}
 
 const CuaHangPage = async ({ searchParams }: ShopPageProps) => {
   const query = await searchParams;

@@ -1,3 +1,4 @@
+import { pageMetadata } from "@/lib/seoMetadata";
 import TeeTimeMarketplacePage, {
   type TeeTimeMarketplaceMode,
 } from "@/components/services/TeeTimeMarketplacePage";
@@ -13,9 +14,7 @@ type PageProps = {
   searchParams?: Promise<Record<string, string | string[] | undefined>>;
 };
 
-export const metadata: Metadata = {
-  title: "Danh sách tee time | GOLFNITY",
-};
+export const metadata: Metadata = pageMetadata("Danh sách tee time | GOLFNITY", "/dich-vu/dat-tee-time/danh-sach", "Xem danh sách sân golf và lựa chọn tee time cùng GOLFNITY.");
 
 function firstQueryValue(value?: string | string[]) {
   return Array.isArray(value) ? value[0] : value;

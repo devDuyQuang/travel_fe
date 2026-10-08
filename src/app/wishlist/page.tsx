@@ -2,7 +2,8 @@ import Wishlist from "@/components/pages/shops/wishlist";
 import Wrapper from "@/layouts/Wrapper";
 
 export const metadata = {
-  title: "Wishlist Tourex - Tour & Travel Booking React Next js Template",
+  robots: { index: false, follow: true },
+  title: "Danh sách yêu thích | GOLFNITY",
 };
 const page = () => {
   return (

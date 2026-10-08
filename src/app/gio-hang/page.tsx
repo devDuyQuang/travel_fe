@@ -3,7 +3,7 @@ import Wrapper from "@/layouts/Wrapper";
 
 export const metadata = {
   title: "Giỏ hàng | GOLFNITY",
-  robots: { index: false, follow: false },
+  robots: { index: false, follow: true },
 };
 
 const GioHangPage = () => (
