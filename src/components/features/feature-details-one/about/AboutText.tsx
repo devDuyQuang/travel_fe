@@ -1,3 +1,4 @@
+import { resolveServiceDescription } from "@/lib/serviceDescription";
 import type { Product } from "@/types/product";
 import { resolveProductBookingType } from "@/lib/servicePrice";
 import { resolveMediaUrl } from "@/services/post.service";
@@ -10,36 +11,6 @@ function customerText(value?: string | null) {
    }
 
    return value.trim();
-}
-
-function splitHtmlBlocks(value?: string | null) {
-   const html = customerText(value);
-
-   if (!html) return [];
-
-   const paragraphMatches = html.match(/<p\b[^>]*>[\s\S]*?<\/p>/gi);
-
-   if (paragraphMatches?.length) {
-      return paragraphMatches
-         .map((block) => block.trim())
-         .filter((block) => block && !INTERNAL_COPY_PATTERN.test(block));
-   }
-
-   return [html];
-}
-
-function splitFirstHtmlBlocks(...values: unknown[]) {
-   for (const value of values) {
-      if (typeof value !== "string") continue;
-
-      const blocks = splitHtmlBlocks(value);
-
-      if (blocks.length > 0) {
-         return blocks;
-      }
-   }
-
-   return [];
 }
 
 function recordValue(value: unknown): Record<string, unknown> {
@@ -121,12 +92,12 @@ const AboutText = ({ product }: { product: Product | null }) => {
    if (isTeeTime) {
       const attributes = recordValue(product?.attributes);
       const metadata = recordValue(product?.metadata);
-      const descriptionBlocks = splitFirstHtmlBlocks(
+      const descriptionHtml = resolveServiceDescription(
+         product?.content,
          attributes.editorial_description,
          attributes.long_description,
          metadata.editorial_description,
          metadata.long_description,
-         product?.content,
          product?.short_description
       );
       const media = galleryMedia(product);
@@ -142,15 +113,11 @@ const AboutText = ({ product }: { product: Product | null }) => {
             >
                <h4 className="tg-tour-about-title mb-20">Về dịch vụ này</h4>
                <div className="tee-time-about-editorial__body">
-                  {descriptionBlocks.length > 0 && (
-                     <div className="tee-time-rich-content">
-                        {descriptionBlocks.map((block, index) => (
-                           <div
-                              key={`${index}-${block.slice(0, 24)}`}
-                              dangerouslySetInnerHTML={{ __html: block }}
-                           />
-                        ))}
-                     </div>
+                  {descriptionHtml && (
+                     <div
+                        className="tee-time-rich-content"
+                        dangerouslySetInnerHTML={{ __html: descriptionHtml }}
+                     />
                   )}
                </div>
                {media.map((image, index) => (
