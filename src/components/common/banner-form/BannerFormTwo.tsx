@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { FormEvent } from "react";
+import type { ComponentRef } from "react";
 import Flatpickr from "react-flatpickr";
 import { Vietnamese } from "flatpickr/dist/l10n/vn";
 import { useRouter } from "next/navigation";
@@ -123,9 +124,9 @@ const BannerFormTwo = ({
 
   const locationRef = useRef<HTMLDivElement>(null);
   const quantityRef = useRef<HTMLDivElement>(null);
-  const startPickerRef = useRef<InstanceType<typeof Flatpickr> | null>(null);
-  const endPickerRef = useRef<InstanceType<typeof Flatpickr> | null>(null);
-  const timePickerRef = useRef<InstanceType<typeof Flatpickr> | null>(null);
+  const startPickerRef = useRef<NonNullable<ComponentRef<typeof Flatpickr>> | null>(null);
+  const endPickerRef = useRef<NonNullable<ComponentRef<typeof Flatpickr>> | null>(null);
+  const timePickerRef = useRef<NonNullable<ComponentRef<typeof Flatpickr>> | null>(null);
 
   const initialValues = useMemo(
     () =>
@@ -506,7 +507,7 @@ const BannerFormTwo = ({
 
             <div
               className="tg-booking-add-input-date p-relative"
-              onClick={() => timePickerRef.current?.flatpickr.open()}
+              onClick={() => timePickerRef.current?.flatpickr?.open()}
             >
               <span aria-hidden="true">
                 <i className="fa-regular fa-clock" />

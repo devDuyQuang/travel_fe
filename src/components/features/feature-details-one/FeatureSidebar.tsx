@@ -12,6 +12,7 @@ import type {
   FormEvent,
   ReactNode,
 } from "react";
+import type { ComponentRef } from "react";
 import Flatpickr from "react-flatpickr";
 import { Vietnamese } from "flatpickr/dist/l10n/vn";
 import type { Instance as FlatpickrInstance } from "flatpickr/dist/types/instance";
@@ -491,10 +492,10 @@ const FeatureSidebar = ({
   >({});
 
 const startPickerRef =
-  useRef<InstanceType<typeof Flatpickr> | null>(null);
+  useRef<NonNullable<ComponentRef<typeof Flatpickr>> | null>(null);
 
 const endPickerRef =
-  useRef<InstanceType<typeof Flatpickr> | null>(null);
+  useRef<NonNullable<ComponentRef<typeof Flatpickr>> | null>(null);
   const startDateFieldRef =
     useRef<HTMLElement | null>(null);
   const endDateFieldRef =
@@ -1527,8 +1528,8 @@ const endPickerRef =
     setGolfers(1);
     setIsStartDateOpen(false);
     setShowDailyPrices(false);
-    startPickerRef.current?.flatpickr.close();
-    endPickerRef.current?.flatpickr.close();
+    startPickerRef.current?.flatpickr?.close();
+    endPickerRef.current?.flatpickr?.close();
     setIsEndDateOpen(false);
     setCustomerName("");
     setCustomerEmail("");
@@ -1590,7 +1591,7 @@ const endPickerRef =
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         setIsStartDateOpen(false);
-        endPickerRef.current?.flatpickr.close();
+        endPickerRef.current?.flatpickr?.close();
       }
     };
 
@@ -3810,7 +3811,7 @@ const endPickerRef =
 
                 clearFieldError("end_date");
                 resetSubmitKey();
-                endPickerRef.current?.flatpickr.close();
+                endPickerRef.current?.flatpickr?.close();
               }}
               options={{
                 clickOpens: false,
