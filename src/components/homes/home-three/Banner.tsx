@@ -2,6 +2,7 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, EffectFade, Autoplay } from "swiper/modules";
 import Button from "@/components/common/Button"
+import Image from "next/image";
 import Link from "next/link"
 import { useMemo, useState } from "react";
 import {
@@ -33,6 +34,41 @@ const setting = {
       delay: 3500,
       disableOnInteraction: false
    },
+};
+
+// Match the existing image allowlist without restricting other CMS sources.
+function canOptimizeHeroImage(src: string) {
+   if (src.startsWith("/") && !src.startsWith("//")) return true;
+   try {
+      const url = new URL(src);
+      const allowedOrigin = url.origin === "https://api.voduyquang.com" ||
+         url.origin === "http://api.localhost:8000";
+      return allowedOrigin && !url.username && !url.password &&
+         (url.pathname.startsWith("/storage/") || url.pathname.startsWith("/uploads/"));
+   } catch {
+      return false;
+   }
+}
+
+const HeroImage = ({ src, first }: { src: string; first: boolean }) => {
+   const [failedSource, setFailedSource] = useState<string | null>(null);
+   const unoptimized = !canOptimizeHeroImage(src) || failedSource === src;
+
+   return (
+      <Image
+         src={src}
+         alt=""
+         fill
+         sizes="100vw"
+         preload={first}
+         loading={first ? undefined : "lazy"}
+         unoptimized={unoptimized}
+         style={{ objectFit: "cover", objectPosition: "center" }}
+         onError={() => {
+            if (!unoptimized) setFailedSource(src);
+         }}
+      />
+   );
 };
 
 const Banner = () => {
@@ -81,7 +117,9 @@ const Banner = () => {
                {slides.map((slide, i) => (
                   <SwiperSlide key={i} className="swiper-slide">
                      <div className="tg-hero-bg">
-                        <div className="tg-hero-thumb" style={{ backgroundImage: `url(${slide.image})` }}></div>
+                        <div className="tg-hero-thumb">
+                           <HeroImage key={slide.image} src={slide.image} first={i === 0} />
+                        </div>
                      </div>
                   </SwiperSlide>
                ))}
