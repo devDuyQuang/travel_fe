@@ -3,7 +3,7 @@ import UseProducts from "@/hooks/UseProducts";
 import {
   mergeCmsProductsWithTemplate,
 } from "@/lib/serviceCmsAdapter";
-import type { ServiceTemplatePage } from "@/lib/serviceLayoutRegistry";
+import type { ServiceTemplatePage } from "@/lib/serviceLayoutConfig";
 import type { Product } from "@/types/product";
 
 const UseServiceItems = (

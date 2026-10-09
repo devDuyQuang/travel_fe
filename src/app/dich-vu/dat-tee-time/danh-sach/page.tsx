@@ -3,7 +3,7 @@ import TeeTimeMarketplacePage, {
   type TeeTimeMarketplaceMode,
 } from "@/components/services/TeeTimeMarketplacePage";
 import Wrapper from "@/layouts/Wrapper";
-import { fallbackServiceCategories } from "@/lib/serviceLayoutRegistry";
+import { fallbackServiceCategories } from "@/lib/serviceLayoutConfig";
 import { getProductsByCategorySlug } from "@/services/product.service";
 import { getServiceCategoryBySlug } from "@/services/service.service";
 import type { CmsServiceCategory } from "@/types/cms-post";

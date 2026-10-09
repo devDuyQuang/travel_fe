@@ -1,7 +1,7 @@
 import Image from "next/image"
 import BannerFormTwo from "@/components/common/banner-form/BannerFormTwo"
 import type { ServiceSearchLabels } from "@/types/service-layout"
-import type { ServiceLayoutKey } from "@/lib/serviceLayoutRegistry";
+import type { ServiceLayoutKey } from "@/lib/serviceLayoutConfig";
 
 import shape_1 from "@/assets/img/booking/shape.png"
 import shape_2 from "@/assets/img/booking/shape-2.png"

@@ -5,10 +5,10 @@ import BannerFormTwo from "./BannerFormTwo";
 import { getServiceCategories } from "@/services/service.service";
 import {
   fallbackServiceCategories,
-  getServiceLayoutConfig,
+  getServiceLayoutDefinition,
   isServiceLayoutKey,
   getServiceLayoutOrder,
-} from "@/lib/serviceLayoutRegistry";
+} from "@/lib/serviceLayoutConfig";
 import { useHomepageSettings } from "@/hooks/useHomepageSettings";
 import type { CmsServiceCategory } from "@/types/cms-post";
 
@@ -105,7 +105,7 @@ const BannerFormThree = ({
   if (tabs.length === 0) return null;
 
   const active = tabs[activeTab] || tabs[0];
-  const config = getServiceLayoutConfig(active.category.layout_key);
+  const config = getServiceLayoutDefinition(active.category.layout_key);
   const labels = {
     ...config.searchLabels,
     locationPlaceholder: config.searchLabels.locationPlaceholder,

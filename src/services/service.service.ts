@@ -2,7 +2,7 @@ import type {
   CmsCategoryDetailResponse,
   CmsServiceCategory,
 } from "@/types/cms-post";
-import { isServiceLayoutKey } from "@/lib/serviceLayoutRegistry";
+import { isServiceLayoutKey } from "@/lib/serviceLayoutConfig";
 
 const API_ORIGIN =
   process.env.NEXT_PUBLIC_API_URL || "http://api.localhost:8000";

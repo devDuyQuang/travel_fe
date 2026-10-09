@@ -5,7 +5,7 @@ import FooterSix from "@/layouts/footers/FooterSix";
 import BreadCrumb from "@/components/common/BreadCrumb";
 import type { Product } from "@/types/product";
 import type { ServiceSearchLabels } from "@/types/service-layout";
-import type { ServiceLayoutKey } from "@/lib/serviceLayoutRegistry";
+import type { ServiceLayoutKey } from "@/lib/serviceLayoutConfig";
 
 interface FeatureOneProps {
    title?: string;

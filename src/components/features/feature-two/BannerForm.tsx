@@ -1,6 +1,6 @@
 import BannerFormTwo from "@/components/common/banner-form/BannerFormTwo"
 import type { ServiceSearchLabels } from "@/types/service-layout"
-import type { ServiceLayoutKey } from "@/lib/serviceLayoutRegistry";
+import type { ServiceLayoutKey } from "@/lib/serviceLayoutConfig";
 
 const BannerForm = ({
    labels,

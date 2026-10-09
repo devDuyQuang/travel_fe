@@ -1,4 +1,4 @@
-import { isServiceLayoutKey } from "@/lib/serviceLayoutRegistry";
+import { isServiceLayoutKey } from "@/lib/serviceLayoutConfig";
 import { buildProductDetailHref } from "@/lib/productLinks";
 import type { Product } from "@/types/product";
 

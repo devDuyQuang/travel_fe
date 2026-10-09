@@ -12,7 +12,7 @@ import {
   type BookingSearchValues,
   type SearchBookingType,
 } from "@/lib/bookingSearchParams";
-import type { ServiceLayoutKey } from "@/lib/serviceLayoutRegistry";
+import type { ServiceLayoutKey } from "@/lib/serviceLayoutConfig";
 import {
   notifyBookingSearchChanged,
   useBrowserSearchParams,

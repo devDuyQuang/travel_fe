@@ -25,11 +25,11 @@ import type { CmsServiceCategory } from "@/types/cms-post";
 import {
   defaultServiceLayoutKey,
   fallbackServiceCategories,
-  getServiceLayoutConfig,
+  getServiceLayoutDefinition,
   isServiceLayoutKey,
-  type ServiceLayoutConfig,
+  type ServiceLayoutDefinition,
   type ServiceLayoutKey,
-} from "@/lib/serviceLayoutRegistry";
+} from "@/lib/serviceLayoutConfig";
 import {
   notifyBookingSearchChanged,
   useBrowserSearchParams,
@@ -37,7 +37,7 @@ import {
 
 import styles from "./BannerFormTwo.module.css";
 
-type QueryConfig = ServiceLayoutConfig["searchQuery"];
+type QueryConfig = ServiceLayoutDefinition["searchQuery"];
 
 type Props = {
   category?: CmsServiceCategory;
@@ -115,7 +115,7 @@ const BannerFormTwo = ({
     layout_key: resolvedLayout,
     slug: layoutDefaultSlugs[resolvedLayout],
   };
-  const layoutConfig = getServiceLayoutConfig(resolvedLayout);
+  const layoutConfig = getServiceLayoutDefinition(resolvedLayout);
   const searchLabels = labels || layoutConfig.searchLabels;
   const type = searchBookingTypeFromLayout(resolvedLayout);
   const router = useRouter();

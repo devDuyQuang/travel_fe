@@ -1,5 +1,5 @@
 import shopData from "@/data/BookingTemplateData";
-import type { ServiceTemplatePage } from "@/lib/serviceLayoutRegistry";
+import type { ServiceTemplatePage } from "@/lib/serviceLayoutConfig";
 import { resolveMediaUrl } from "@/services/post.service";
 import type { Product as CardItem } from "@/redux/features/productSlice";
 import type { CmsPost } from "@/types/cms-post";

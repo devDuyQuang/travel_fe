@@ -1,7 +1,7 @@
 import type { Product } from "@/types/product";
 import type { CmsPost, CmsServiceCategory } from "@/types/cms-post";
 import { stripHtml } from "@/lib/blog";
-import { isServiceLayoutKey } from "@/lib/serviceLayoutRegistry";
+import { isServiceLayoutKey } from "@/lib/serviceLayoutConfig";
 import { isCanonicalServiceProduct } from "@/lib/legacyProductRedirect";
 
 const api = `${(process.env.NEXT_PUBLIC_API_URL || "http://api.localhost:8000").replace(/\/$/, "")}/api`;

@@ -5,7 +5,7 @@ import BreadCrumb from "@/components/common/BreadCrumb";
 import type { Product } from "@/types/product";
 import type { ServiceSearchLabels } from "@/types/service-layout";
 import BannerForm from "@/components/features/feature-two/BannerForm";
-import type { ServiceLayoutKey } from "@/lib/serviceLayoutRegistry";
+import type { ServiceLayoutKey } from "@/lib/serviceLayoutConfig";
 
 interface FeatureThreeProps {
    title?: string;

@@ -4,7 +4,7 @@ import ServiceCategoryLayout from "@/components/services/ServiceCategoryLayout";
 import TeeTimeHubPage from "@/components/services/TeeTimeHubPage";
 import { getGolfService, golfServices } from "@/data/GolfServiceData";
 import Wrapper from "@/layouts/Wrapper";
-import { fallbackServiceCategories } from "@/lib/serviceLayoutRegistry";
+import { fallbackServiceCategories } from "@/lib/serviceLayoutConfig";
 import { getProductsByCategorySlug } from "@/services/product.service";
 import { getServiceCategoryBySlug } from "@/services/service.service";
 import type { Metadata } from "next";

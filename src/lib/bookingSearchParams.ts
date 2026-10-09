@@ -1,5 +1,5 @@
 import type { BookingType } from "@/lib/bookingLabels";
-import type { ServiceLayoutKey } from "@/lib/serviceLayoutRegistry";
+import type { ServiceLayoutKey } from "@/lib/serviceLayoutConfig";
 
 export type SearchBookingType =
   | "hotel"

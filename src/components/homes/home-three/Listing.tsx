@@ -19,7 +19,7 @@ import { getServiceCategories } from "@/services/service.service";
 import {
   fallbackServiceCategories,
   getServiceLayoutOrder,
-} from "@/lib/serviceLayoutRegistry";
+} from "@/lib/serviceLayoutConfig";
 import type { CmsServiceCategory } from "@/types/cms-post";
 import { homepageText, useHomepageSettings } from "@/hooks/useHomepageSettings";
 import { useRouter } from "next/navigation";
