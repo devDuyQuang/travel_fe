@@ -16,15 +16,15 @@ const Breadcrumb = ({ product }: { product: Product | null }) => {
             <div className="container">
                <div className="row">
                   <div className="col-12">
-                     <div className="tg-breadcrumb-list-2">
+                     <nav className="tg-breadcrumb-list-2" aria-label="Breadcrumb">
                         <ul>
                            <li><Link href="/">Home</Link></li>
-                           <li><i className="fa-sharp fa-solid fa-angle-right"></i></li>
+                           <li><i aria-hidden="true" className="fa-sharp fa-solid fa-angle-right"></i></li>
                            <li><Link href={categoryPath}>{categoryName}</Link></li>
-                           <li><i className="fa-sharp fa-solid fa-angle-right"></i></li>
-                           <li><span>{product?.name || "Vatican Museums Sistine Chapel Skip the Line"}</span></li>
+                           <li><i aria-hidden="true" className="fa-sharp fa-solid fa-angle-right"></i></li>
+                           <li><span aria-current="page">{product?.name || "Vatican Museums Sistine Chapel Skip the Line"}</span></li>
                         </ul>
-                     </div>
+                     </nav>
                   </div>
                </div>
             </div>

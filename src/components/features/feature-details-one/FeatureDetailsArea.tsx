@@ -152,9 +152,9 @@ const FeatureDetailsArea = ({ product }: { product: Product | null }) => {
               <div className="tg-tour-details-video-title-wrap">
                 {isTeeTime ? (
                   <div className="tee-time-title-row">
-                    <h2 className="tg-tour-details-video-title mb-0">
+                    <h1 className="tg-tour-details-video-title mb-0">
                       {product?.name || "Sân golf GOLFNITY"}
-                    </h2>
+                    </h1>
                     <Link href="#" className="tee-time-favorite-link">
                       <svg
                         width="16"
@@ -174,9 +174,9 @@ const FeatureDetailsArea = ({ product }: { product: Product | null }) => {
                     </Link>
                   </div>
                 ) : (
-                  <h2 className="tg-tour-details-video-title mb-15">
+                  <h1 className="tg-tour-details-video-title mb-15">
                     {product?.name || "Dịch vụ GOLFNITY"}
-                  </h2>
+                  </h1>
                 )}
                 {isTeeTime ? (
                   <>
@@ -266,14 +266,14 @@ const FeatureDetailsArea = ({ product }: { product: Product | null }) => {
           <div className={`row gx-15 ${isTeeTime ? "mb-0" : "mb-25"}`}>
             <div className="col-lg-7">
               <div className="tg-tour-details-video-thumb mb-15">
-                <Image className="w-100" src={primaryImage} alt="" />
+                <Image className="w-100" src={primaryImage} alt={product?.name || ""} />
               </div>
             </div>
             <div className="col-lg-5">
               <div className="row  gx-15">
                 <div className="col-12">
                   <div className="tg-tour-details-video-thumb p-relative mb-15">
-                    <Image className="w-100" src={secondaryImages[0]} alt="" />
+                    <Image className="w-100" src={secondaryImages[0]} alt={product?.name ? `${product.name} — ảnh 2` : ""} />
                     <div className="tg-tour-details-video-inner text-center">
                       <a
                         onClick={() => setIsVideoOpen(true)}
@@ -300,12 +300,12 @@ const FeatureDetailsArea = ({ product }: { product: Product | null }) => {
                 </div>
                 <div className="col-lg-6 col-md-6">
                   <div className="tg-tour-details-video-thumb mb-15">
-                    <Image className="w-100" src={secondaryImages[1]} alt="" />
+                    <Image className="w-100" src={secondaryImages[1]} alt={product?.name ? `${product.name} — ảnh 3` : ""} />
                   </div>
                 </div>
                 <div className="col-lg-6 col-md-6">
                   <div className="tg-tour-details-video-thumb p-relative mb-15">
-                    <Image className="w-100" src={secondaryImages[2]} alt="" />
+                    <Image className="w-100" src={secondaryImages[2]} alt={product?.name ? `${product.name} — ảnh 4` : ""} />
                     {isTeeTime && galleryMedia.length > 0 && (
                       <button
                         type="button"

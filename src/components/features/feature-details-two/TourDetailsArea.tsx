@@ -13,9 +13,9 @@ const TourDetailsArea = ({ product }: { product: Product | null }) => {
         <div className="row align-items-end mb-25">
           <div className="col-xl-9 col-lg-8">
             <div className="tg-tour-details-video-title-wrap">
-              <h2 className="tg-tour-details-video-title mb-15">
+              <h1 className="tg-tour-details-video-title mb-15">
                 {product?.name || "Vatican Museums Sistine Chapel Skip the Line"}
-              </h2>
+              </h1>
               <div className="tg-tour-details-video-location d-flex flex-wrap">
                 <div className="tg-tour-details-video-feature-price mb-10 mr-25">
                   {startingPrice.amount ? (

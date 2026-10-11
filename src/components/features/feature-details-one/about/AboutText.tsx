@@ -111,7 +111,7 @@ const AboutText = ({ product }: { product: Product | null }) => {
                className="tg-tour-about-inner mb-40 tee-time-scroll-section tee-time-about-editorial"
                tabIndex={-1}
             >
-               <h4 className="tg-tour-about-title mb-20">Về dịch vụ này</h4>
+               <h2 className="tg-tour-about-title mb-20">Về dịch vụ này</h2>
                <div className="tee-time-about-editorial__body">
                   {descriptionHtml && (
                      <div
@@ -134,8 +134,8 @@ const AboutText = ({ product }: { product: Product | null }) => {
                   className="tg-tour-about-inner mb-40 tee-time-scroll-section tee-time-notes-editorial"
                   tabIndex={-1}
                >
-                  <h4 className="tg-tour-about-title mb-20">Những điều cần lưu ý</h4>
-                  <h5>Nên mặc gì:</h5>
+                  <h2 className="tg-tour-about-title mb-20">Những điều cần lưu ý</h2>
+                  <h3>Nên mặc gì:</h3>
                   <ul>
                      {dressCode.map((item) => (
                         <li key={item}>{item}</li>
