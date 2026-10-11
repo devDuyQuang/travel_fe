@@ -7,6 +7,7 @@ import { getServiceLayoutConfig } from "@/lib/serviceLayoutRegistry";
 import { getServiceTemplateItems, mergeCmsProductWithDetailTemplate } from "@/lib/serviceCmsAdapter";
 import { getProductBySlug, getProductsByCategorySlug } from "@/services/product.service";
 import { notFound } from "next/navigation";
+import { serializeServiceBreadcrumb } from "@/lib/serviceBreadcrumbSchema";
 
 export const dynamic = "force-dynamic";
 
@@ -37,5 +38,5 @@ export default async function ServiceProductPage({ params }: PageProps) {
     cmsItems: categoryProducts,
   });
   const Detail = config.detail;
-  return <Wrapper><Detail product={product} relatedProducts={categoryProducts.filter((item) => item.slug !== productSlug)} /></Wrapper>;
+  return <Wrapper><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeServiceBreadcrumb(cmsProduct) }} /><Detail product={product} relatedProducts={categoryProducts.filter((item) => item.slug !== productSlug)} /></Wrapper>;
 }
