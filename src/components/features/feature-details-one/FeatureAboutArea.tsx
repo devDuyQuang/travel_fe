@@ -11,6 +11,7 @@ import FeatureSidebar from "./FeatureSidebar"
 import TeeTimeHighlights from "./TeeTimeHighlights";
 import TeeTimeSectionNav, { type TeeTimeSectionNavItem } from "./TeeTimeSectionNav";
 import TeeTimeSmartPriceCard from "./TeeTimeSmartPriceCard";
+import { canDisplayProductReviews } from "@/lib/productPresentationPolicy";
 import TeeTimeVoucherSection from "./TeeTimeVoucherSection";
 import type { Product } from "@/types/product";
 import { resolveProductBookingType } from "@/lib/servicePrice";
@@ -142,6 +143,7 @@ function resolveReviewItems(product: Product | null): ReviewItem[] {
 }
 
 function TeeTimeReviewSection({ product }: { product: Product | null }) {
+   if (!canDisplayProductReviews(product)) return null;
    const rating = positiveNumber(product?.rating);
    const reviewCount = positiveNumber(product?.review_count);
    const label = resolveRatingLabel(product);
@@ -307,7 +309,7 @@ const FeatureAboutArea = ({ product }: { product: Product | null }) => {
          { id: "cac-goi-dich-vu", label: "Các gói dịch vụ" },
          { id: "ve-dich-vu-nay", label: "Về dịch vụ này" },
          { id: "nhung-dieu-can-luu-y", label: "Những điều cần lưu ý" },
-         { id: "danh-gia", label: "Đánh giá" },
+         ...(canDisplayProductReviews(product) ? [{ id: "danh-gia", label: "Đánh giá" }] : []),
       ];
 
       return (
@@ -330,14 +332,12 @@ const FeatureAboutArea = ({ product }: { product: Product | null }) => {
                               className="tee-time-section-nav-sentinel"
                               aria-hidden="true"
                            />
-                           <div className="tee-time-overview-voucher">
                               <TeeTimeVoucherSection
                                  isOpen={activeOverlay === "vouchers"}
                                  onClose={closeTeeTimeOverlay}
                                  onOpen={openVoucherOverlay}
                                  selectedCode={selectedVoucherCode}
                               />
-                           </div>
                         </div>
                         <aside className="teeTimeOverviewPriceColumn tee-time-overview__price-column overview-price">
                            <TeeTimeSmartPriceCard
@@ -361,12 +361,14 @@ const FeatureAboutArea = ({ product }: { product: Product | null }) => {
                      <div className="service-content-layout">
                         <main className="tg-tour-about-content service-content-column">
                            <AboutText product={product} />
+                           {canDisplayProductReviews(product) && (
                            <section
                               id="danh-gia"
                               className="tee-time-review-anchor tee-time-scroll-section"
                               tabIndex={-1}
                               aria-label="Đánh giá"
                            />
+                           )}
                         </main>
                         <aside className="service-price-column" aria-hidden="true" />
                      </div>

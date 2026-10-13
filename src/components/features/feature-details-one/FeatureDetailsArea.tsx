@@ -6,6 +6,7 @@ import Link from "next/link";
 import FeatureList from "./FeatureList";
 import Lightbox from "yet-another-react-lightbox";
 
+import { canDisplayProductReviews } from "@/lib/productPresentationPolicy";
 import type { Product } from "@/types/product";
 import {
   formatCurrencyVnd,
@@ -104,8 +105,9 @@ const FeatureDetailsArea = ({ product }: { product: Product | null }) => {
   const courseType = textAttribute(product, ["course_type"]);
   const distance = positiveNumber(product?.attributes?.distance_to_center);
   const travelTime = positiveNumber(product?.attributes?.travel_time_to_center);
-  const rating = positiveNumber(product?.rating);
-  const reviewCount = positiveNumber(product?.review_count);
+  const showReviews = canDisplayProductReviews(product);
+  const rating = showReviews ? positiveNumber(product?.rating) : null;
+  const reviewCount = showReviews ? positiveNumber(product?.review_count) : null;
   const bookedCount = positiveNumber(
     product?.booking_count ??
       product?.attributes?.booking_count ??
@@ -211,14 +213,14 @@ const FeatureDetailsArea = ({ product }: { product: Product | null }) => {
                     <span className="mr-25">
                       {product?.location || "Thông tin địa điểm đang được cập nhật."}
                     </span>
-                    <div className="tg-tour-details-video-ratings">
+                    {showReviews && <div className="tg-tour-details-video-ratings">
                       {Array.from({ length: 5 }).map((_, index) => (
                         <span key={index} className={index < Math.round(Number(product?.rating || 5)) ? "" : "opacity-25"}>
                           <i className="fa-sharp fa-solid fa-star"></i>
                         </span>
                       ))}
                       <span className="review">({product?.review_count || "5"} đánh giá)</span>
-                    </div>
+                    </div>}
                   </div>
                 )}
               </div>
