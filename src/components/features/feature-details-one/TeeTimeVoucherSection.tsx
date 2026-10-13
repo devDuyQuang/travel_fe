@@ -12,35 +12,6 @@ type TeeTimeVoucher = {
   category: "platform" | "payment";
 };
 
-// Local voucher data; replace with voucher API data when available.
-const TEE_TIME_VOUCHERS: TeeTimeVoucher[] = [
-  {
-    code: "GOLF100",
-    title: "Ưu đãi đặt tee time",
-    discountLabel: "Giảm 100.000đ",
-    minimumOrder: 2000000,
-    category: "platform",
-  },
-  {
-    code: "GOLF200",
-    title: "Ưu đãi cho đơn từ 5.000.000đ",
-    discountLabel: "Giảm đến 200.000đ",
-    minimumOrder: 5000000,
-    category: "platform",
-  },
-  {
-    code: "GOLF5",
-    title: "Ưu đãi giảm 5%",
-    discountLabel: "Giảm 5%",
-    maximumDiscount: 300000,
-    category: "platform",
-  },
-];
-
-const platformVouchers = TEE_TIME_VOUCHERS.filter(
-  (voucher) => voucher.category === "platform",
-);
-
 const formatVnd = (value: number) => `${value.toLocaleString("vi-VN")}đ`;
 
 const getVoucherCondition = (voucher: TeeTimeVoucher) => {
@@ -60,12 +31,16 @@ const TeeTimeVoucherSection = ({
   onClose,
   onOpen,
   selectedCode,
+  verifiedVouchers = [],
 }: {
   isOpen: boolean;
   onClose: () => void;
   onOpen: (code?: string) => void;
   selectedCode?: string;
+  /** Only pass offers backed by a verified production source; no demo defaults. */
+  verifiedVouchers?: readonly TeeTimeVoucher[];
 }) => {
+  const platformVouchers = verifiedVouchers.filter((voucher) => voucher.category === "platform");
   const [copiedCode, setCopiedCode] = useState("");
   const titleId = useId();
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
@@ -109,8 +84,11 @@ const TeeTimeVoucherSection = ({
     }
   };
 
+  // Keep the component available, but expose no entry point/modal without offers.
+  if (!platformVouchers.length) return null;
+
   return (
-    <>
+    <div className="tee-time-overview-voucher">
       <section
         className="tee-time-voucher-bar"
         aria-label="Mã ưu đãi"
@@ -214,7 +192,7 @@ const TeeTimeVoucherSection = ({
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 };
 
