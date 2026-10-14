@@ -39,6 +39,7 @@ test('tee-time component renders rich text once and preserves gallery and notes'
   const componentExports = {};
   const source = fs.readFileSync('src/components/features/feature-details-one/about/AboutText.tsx', 'utf8');
   const dependencies = (name) => {
+    if (name === './AboutText.module.css') return { description: 'description' };
     if (name === '@/lib/serviceDescription') return exportsObject;
     if (name === '@/lib/servicePrice') return { resolveProductBookingType: () => 'tee_time' };
     if (name === '@/services/post.service') return { resolveMediaUrl: (url) => url };

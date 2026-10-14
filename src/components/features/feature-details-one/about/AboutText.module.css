@@ -1,0 +1,54 @@
+:global(.tee-time-rich-content).description {
+  font-size: 16px;
+  line-height: 1.75;
+  overflow-wrap: anywhere;
+}
+
+:global(.tee-time-rich-content).description :is(p, ul, ol, blockquote) {
+  margin: 0 0 1rem;
+  line-height: 1.75;
+}
+
+:global(.tee-time-rich-content).description :is(h2, h3) {
+  color: var(--golfnity-moss-dark, #1b4d3e);
+  font-weight: 600;
+  line-height: 1.35;
+  margin: 1.75rem 0 0.75rem;
+  text-transform: none;
+}
+
+:global(.tee-time-rich-content).description h2 { font-size: 24px; }
+:global(.tee-time-rich-content).description h3 { font-size: 20px; }
+
+:global(.tee-time-rich-content).description ul { list-style: disc outside; }
+:global(.tee-time-rich-content).description ol { list-style: decimal outside; }
+:global(.tee-time-rich-content).description :is(ul, ol) { padding-inline-start: 1.5rem; }
+:global(.tee-time-rich-content).description li { display: list-item; list-style: inherit; margin: 0.35rem 0; }
+:global(.tee-time-rich-content).description li::marker { color: currentColor; }
+:global(.tee-time-rich-content).description li :is(ul, ol) { margin: 0.5rem 0; }
+:global(.tee-time-rich-content).description li > p { margin: 0; }
+
+:global(.tee-time-rich-content).description a {
+  color: var(--golfnity-moss-dark, #1b4d3e);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+:global(.tee-time-rich-content).description a:hover { text-decoration-thickness: 2px; }
+:global(.tee-time-rich-content).description a:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+:global(.tee-time-rich-content).description p:empty { display: none; }
+:global(.tee-time-rich-content).description :is(h2, h3) + :is(h2, h3) { margin-top: 0.75rem; }
+:global(.tee-time-rich-content).description > :first-child { margin-top: 0; }
+:global(.tee-time-rich-content).description > :last-child { margin-bottom: 0; }
+
+@media (max-width: 575px) {
+  :global(.tee-time-rich-content).description h2 { font-size: 21px; }
+  :global(.tee-time-rich-content).description h3 { font-size: 18px; }
+  :global(.tee-time-rich-content).description :is(h2, h3) { margin-top: 1.5rem; }
+  :global(.tee-time-rich-content).description :is(h2, h3) + :is(h2, h3) { margin-top: 0.75rem; }
+  :global(.tee-time-rich-content).description > :first-child { margin-top: 0; }
+}

@@ -2,6 +2,7 @@ import { resolveServiceDescription } from "@/lib/serviceDescription";
 import type { Product } from "@/types/product";
 import { resolveProductBookingType } from "@/lib/servicePrice";
 import { resolveMediaUrl } from "@/services/post.service";
+import styles from "./AboutText.module.css";
 
 const INTERNAL_COPY_PATTERN = /(demo|cms|seed|internal|dữ liệu demo|tee time trong cms)/i;
 
@@ -115,7 +116,7 @@ const AboutText = ({ product }: { product: Product | null }) => {
                <div className="tee-time-about-editorial__body">
                   {descriptionHtml && (
                      <div
-                        className="tee-time-rich-content"
+                        className={`tee-time-rich-content ${styles.description}`}
                         dangerouslySetInnerHTML={{ __html: descriptionHtml }}
                      />
                   )}
