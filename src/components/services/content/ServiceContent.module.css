@@ -1,0 +1,36 @@
+.additions { padding-top:20px; }
+.description { border:0; padding:0; background:transparent; }
+.description summary { cursor:pointer; list-style:none; }
+.description summary::-webkit-details-marker { display:none; }
+.preview { display:block; font-size:15px; line-height:1.85; margin-bottom:14px; }
+.more,.less { display:inline-flex; align-items:center; gap:20px; color:var(--golfnity-moss-dark,#1b4d3e); font-size:14px; font-weight:600; border-bottom:1px solid currentColor; }
+.less { display:none; }
+.description[open] .preview,.description[open] .more { display:none; }
+.description[open] .less { display:inline-flex; margin-bottom:20px; }
+.fullContent { max-width:76ch; }
+.note summary { cursor:pointer; font-size:15px; font-weight:600; color:var(--golfnity-moss-dark,#1b4d3e); }
+.guidance { font-size:13px; line-height:1.7; color:#626c62; margin:12px 0 18px; }
+.note { border:0; padding:0; background:transparent; }
+.note summary h3 { display:inline; font-size:17px; }
+.note ul { padding-left:22px; margin:16px 0 0; }
+.note li { list-style:disc; line-height:1.8; margin-bottom:8px; }
+.reviews { margin-top:24px; }
+.reviewGrid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; }
+.reviewCard { border:1px solid #e4e9e1; border-radius:10px; padding:20px; background:#fafbf8; min-width:0; }
+.reviewCard h3 { font-size:16px; margin-bottom:12px; }
+.reviewCard p { font-size:14px; line-height:1.8; }
+.reviewCard small { display:block; font-size:11px; color:#6d735e; border-top:1px solid #e4e9e1; padding-top:12px; }
+.cards { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:20px; }
+.cardSlot,.destination { min-width:0; }
+.description summary:focus-visible,.note summary:focus-visible { outline:2px solid #927438; outline-offset:4px; }
+@media(max-width:991px) { .cards { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media(max-width:575px) {
+ .cards,.reviewGrid { display:flex; overflow-x:auto; gap:12px; padding-bottom:12px; scroll-snap-type:x proximity; }
+ .cardSlot,.destination,.reviewCard { flex:0 0 85%; scroll-snap-align:start; }
+}
+@media(prefers-reduced-motion:reduce) { .cards :global(.tg-listing-card-item),.cards :global(.golfnity-home-location__card) { transition:none; } }
+.editorialGallery { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; margin-top:20px; }
+.editorialGallery button { display:block; padding:0; border:0; border-radius:10px; overflow:hidden; background:transparent; cursor:zoom-in; }
+.editorialGallery img { display:block; width:100%; height:auto; aspect-ratio:8 / 5; object-fit:cover; }
+.editorialGallery button:focus-visible { outline:2px solid #927438; outline-offset:4px; }
+@media(max-width:575px) { .editorialGallery { grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; } }

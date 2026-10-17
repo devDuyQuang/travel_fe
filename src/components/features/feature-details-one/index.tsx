@@ -1,3 +1,4 @@
+import RelatedServiceContent from "@/components/services/content/RelatedServiceContent";
 import HeaderThree from "@/layouts/headers/HeaderThree";
 import Breadcrumb from "./Breadcrumb";
 import FeatureDetailsArea from "./FeatureDetailsArea";
@@ -11,7 +12,7 @@ type FeatureDetailsOneProps = {
   relatedProducts?: Product[];
 };
 
-const FeatureDetailsOne = ({ product = null }: FeatureDetailsOneProps) => {
+const FeatureDetailsOne = ({ product = null, relatedProducts = [] }: FeatureDetailsOneProps) => {
   return (
     <>
       <HeaderThree variant="transparent" />
@@ -21,6 +22,7 @@ const FeatureDetailsOne = ({ product = null }: FeatureDetailsOneProps) => {
         <Breadcrumb product={product} />
         <FeatureDetailsArea product={product} />
         <FeatureAboutArea product={product} />
+        {product && <RelatedServiceContent product={product} products={relatedProducts} />}
       </main>
 
       <FooterSix />

@@ -35,18 +35,29 @@ test('sanitization is stable for hydration and malformed HTML', () => {
   assert.ok(!result.includes('javascript:'));
 });
 
-test('tee-time component renders rich text once and preserves gallery and notes', () => {
+test('tee-time component renders rich text once and preserves original vertical editorial images and notes', () => {
   const componentExports = {};
   const source = fs.readFileSync('src/components/features/feature-details-one/about/AboutText.tsx', 'utf8');
   const dependencies = (name) => {
-    if (name === './AboutText.module.css') return { description: 'description' };
+    if (name === 'yet-another-react-lightbox') return () => null;
+    if (name.endsWith('.css')) return { __esModule: true, default: new Proxy({}, { get: (_, key) => String(key) }) };
     if (name === '@/lib/serviceDescription') return exportsObject;
     if (name === '@/lib/servicePrice') return { resolveProductBookingType: () => 'tee_time' };
     if (name === '@/services/post.service') return { resolveMediaUrl: (url) => url };
+    if (name.startsWith('@/')) {
+      const base = 'src/' + name.slice(2);
+      const file = fs.existsSync(base + '.ts') ? base + '.ts' : base + '.tsx';
+      const result = {};
+      vm.runInNewContext(ts.transpileModule(fs.readFileSync(file, 'utf8'), {
+        compilerOptions: { target: ts.ScriptTarget.ES2020, module: ts.ModuleKind.CommonJS, jsx: ts.JsxEmit.ReactJSX, esModuleInterop: true },
+      }).outputText, { exports: result, require: dependencies, process, URL });
+      return result;
+    }
+    if (name === './contentData') return dependencies('@/components/services/content/contentData');
     return require(name);
   };
   vm.runInNewContext(ts.transpileModule(source, {
-    compilerOptions: { module: ts.ModuleKind.CommonJS, jsx: ts.JsxEmit.ReactJSX, esModuleInterop: true },
+    compilerOptions: { target: ts.ScriptTarget.ES2020, module: ts.ModuleKind.CommonJS, jsx: ts.JsxEmit.ReactJSX, esModuleInterop: true },
   }).outputText, { exports: componentExports, require: dependencies });
   const React = require('react');
   const { renderToStaticMarkup } = require('react-dom/server');
@@ -58,5 +69,7 @@ test('tee-time component renders rich text once and preserves gallery and notes'
   assert.ok(html.includes('<ul><li>Included</li></ul>'));
   assert.ok(!html.includes('Old copy'));
   assert.ok(!html.includes('<h1'));
-  assert.ok(html.includes('/course.jpg') && html.includes('Verified caption') && html.includes('Golf shoes'));
+  assert.ok(html.includes('Golf shoes'));
+  assert.ok(html.includes('Verified caption') && html.includes('/course.jpg'));
+  assert.ok(html.includes('class="tee-time-about-media"'));
 });

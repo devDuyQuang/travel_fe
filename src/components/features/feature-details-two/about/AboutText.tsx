@@ -1,4 +1,8 @@
 
+import CompactDescription from "@/components/services/content/CompactDescription";
+import EditorialMedia from "@/components/services/content/EditorialMedia";
+import { embeddedEditorialImages } from "@/components/services/content/contentData";
+import { sanitizeServiceDescription } from "@/lib/serviceDescription";
 import type { Product } from "@/types/product";
 
 const AboutText = ({ product }: { product: Product | null }) => {
@@ -12,7 +16,10 @@ const AboutText = ({ product }: { product: Product | null }) => {
                <p className="text-capitalize lh-28 mb-35">isiting Stonehenge, Bath, and Windsor Castle in one day is next to impossible. Designed cifically for with limited time in London, this tour allows you to check off a range of southern England‘s are just one day by eliminating the hassle of traveling between.</p>
             )}
             {product?.content && (
-               <div dangerouslySetInnerHTML={{ __html: product.content }} />
+               <>
+                  <CompactDescription html={sanitizeServiceDescription(product.content)} />
+                  <EditorialMedia images={embeddedEditorialImages(product.content)} />
+               </>
             )}
             <h4 className="tg-tour-about-title mb-20">Trip Highlights</h4>
             <div className="tg-tour-about-list">

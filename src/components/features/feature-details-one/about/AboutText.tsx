@@ -1,8 +1,11 @@
-import { resolveServiceDescription } from "@/lib/serviceDescription";
+import CompactDescription from "@/components/services/content/CompactDescription";
+import EditorialMedia from "@/components/services/content/EditorialMedia";
+import { embeddedEditorialImages } from "@/components/services/content/contentData";
+import contentStyles from "@/components/services/content/ServiceContent.module.css";
+import { sanitizeServiceDescription, resolveServiceDescription } from "@/lib/serviceDescription";
 import type { Product } from "@/types/product";
 import { resolveProductBookingType } from "@/lib/servicePrice";
 import { resolveMediaUrl } from "@/services/post.service";
-import styles from "./AboutText.module.css";
 
 const INTERNAL_COPY_PATTERN = /(demo|cms|seed|internal|dữ liệu demo|tee time trong cms)/i;
 
@@ -114,12 +117,7 @@ const AboutText = ({ product }: { product: Product | null }) => {
             >
                <h2 className="tg-tour-about-title mb-20">Về dịch vụ này</h2>
                <div className="tee-time-about-editorial__body">
-                  {descriptionHtml && (
-                     <div
-                        className={`tee-time-rich-content ${styles.description}`}
-                        dangerouslySetInnerHTML={{ __html: descriptionHtml }}
-                     />
-                  )}
+                  <CompactDescription html={descriptionHtml} />
                </div>
                {media.map((image, index) => (
                   <figure className="tee-time-about-media" key={image}>
@@ -136,12 +134,14 @@ const AboutText = ({ product }: { product: Product | null }) => {
                   tabIndex={-1}
                >
                   <h2 className="tg-tour-about-title mb-20">Những điều cần lưu ý</h2>
-                  <h3>Nên mặc gì:</h3>
+                  <details className={contentStyles.note} open>
+                  <summary><h3>Nên mặc gì:</h3></summary>
                   <ul>
                      {dressCode.map((item) => (
                         <li key={item}>{item}</li>
                      ))}
                   </ul>
+                  </details>
                </section>
             )}
          </>
@@ -161,7 +161,10 @@ const AboutText = ({ product }: { product: Product | null }) => {
                by comfortable coach and witness your guide bring each.</p>
             )}
             {product?.content && (
-               <div dangerouslySetInnerHTML={{ __html: product.content }} />
+               <>
+                  <CompactDescription html={sanitizeServiceDescription(product.content)} />
+                  <EditorialMedia images={embeddedEditorialImages(product.content)} />
+               </>
             )}
          </div>
          <div className="tg-tour-about-inner mb-40">

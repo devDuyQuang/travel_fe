@@ -1,5 +1,7 @@
 "use client";
 
+import DemoServiceReviews from "@/components/services/content/DemoServiceReviews";
+
 import { useCallback, useEffect, useState } from "react";
 import AboutText from "./about/AboutText"
 import Faq from "./about/Faq"
@@ -369,6 +371,7 @@ const FeatureAboutArea = ({ product }: { product: Product | null }) => {
                               aria-label="Đánh giá"
                            />
                            )}
+                           <DemoServiceReviews />
                         </main>
                         <aside className="service-price-column" aria-hidden="true" />
                      </div>
