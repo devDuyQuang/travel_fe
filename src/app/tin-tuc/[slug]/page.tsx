@@ -2,6 +2,7 @@ import { metadataDescription, safeMetadataImage, pageMetadata } from "@/lib/seoM
 import CmsPostDetail from "@/components/blogs/CmsPostDetail";
 import Wrapper from "@/layouts/Wrapper";
 import { getPostBySlug, resolveMediaUrl } from "@/services/post.service";
+import { serializePostStructuredData } from "@/lib/postStructuredData";
 import { getPostExcerpt } from "@/lib/blog";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -29,6 +30,7 @@ const TinTucDetailPage = async ({ params }: PageProps) => {
 
   return (
     <Wrapper>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializePostStructuredData(post) }} />
       <CmsPostDetail post={post} />
     </Wrapper>
   );

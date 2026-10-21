@@ -17,7 +17,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       ...data.categories.map((category) => ({ path: `/dich-vu/${category.slug}` })),
       ...(data.categories.some((category) => category.slug === "dat-tee-time" && category.layout_key === "tee_time") ? [{ path: "/dich-vu/dat-tee-time/danh-sach" }] : []),
       ...data.serviceProducts.map((product) => ({ path: `/dich-vu/${product.category!.slug}/${product.slug}`, updated: product.updated_at })),
-      ...data.news.map((post) => ({ path: `/tin-tuc/${post.slug}` })),
+      ...data.news.map((post) => ({ path: `/tin-tuc/${post.slug}`, updated: post.updated_at })),
       ...data.shopProducts.map((product) => ({ path: `/cua-hang/${product.slug}`, updated: product.updated_at })),
     ];
     const seen = new Set<string>();

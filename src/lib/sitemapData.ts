@@ -64,6 +64,30 @@ export function realLastModified(value?: string | null): Date | undefined {
   return Number.isNaN(date.getTime()) ? undefined : date;
 }
 
+/** The general timestamp endpoint cannot establish article eligibility. Join only
+ * onto records already verified by the public, paginated news/category APIs. */
+async function newsWithTimestamps(posts: CmsPost[]): Promise<CmsPost[]> {
+  if (!posts.length) return posts;
+  try {
+    const response = await fetch(`${api}/post_sitemap`, { cache: "no-store", headers: { Accept: "application/json" }, signal: AbortSignal.timeout(15000) });
+    if (!response.ok) throw new Error(`Timestamp API returned ${response.status}`);
+    const rows: unknown = await response.json();
+    if (!Array.isArray(rows)) throw new Error("Invalid post timestamp collection");
+    const timestamps = new Map<string, string>();
+    for (const row of rows) {
+      if (!row || !validSlug(row.slug) || timestamps.has(row.slug)) throw new Error("Invalid/duplicate post timestamp slug");
+      const date = realLastModified(row.updated_at);
+      if (date) timestamps.set(row.slug, date.toISOString());
+    }
+    return posts.map(post => ({ ...post, updated_at: realLastModified(post.updated_at)?.toISOString() || timestamps.get(post.slug) }));
+  } catch (error) {
+    // Dates are optional; discovery URLs must not disappear if this ancillary
+    // endpoint is unavailable. Critical listing failures still fail generation.
+    console.warn("[sitemap] post timestamps unavailable; retaining verified news URLs", error instanceof Error ? error.message : "Unknown error");
+    return posts;
+  }
+}
+
 export async function getSitemapData() {
   const [serviceCategories, postCategories, services, physical, posts] = await Promise.all([
     categories("service"), categories("post"),
@@ -88,5 +112,5 @@ export async function getSitemapData() {
   const shopProducts = physical.filter((product) => product.status === 1 && product.product_type === "physical" && product.category?.type === "product" && validSlug(product.slug));
   if (shopProducts.length !== physical.length) throw new Error("Physical sitemap records failed validation");
   if (excluded.length) console.warn("[sitemap] excluded products", excluded);
-  return { categories: [...categoryById.values()], serviceProducts, news, shopProducts };
+  return { categories: [...categoryById.values()], serviceProducts, news: await newsWithTimestamps(news), shopProducts };
 }

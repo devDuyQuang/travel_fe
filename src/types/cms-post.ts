@@ -10,6 +10,7 @@ export type CmsPost = {
   description_seo?: string | null;
   canonical_seo?: string | null;
   created_at?: string | null;
+  updated_at?: string | null;
   published_at?: string | null;
   created_by?: number | null;
   author?: CmsPostAuthor | null;
