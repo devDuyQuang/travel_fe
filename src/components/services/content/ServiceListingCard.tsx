@@ -1,19 +1,16 @@
-import Image from 'next/image';
+import ContentImage from './ContentImage';
 import Link from 'next/link';
 import type { Product } from '@/types/product';
 import { buildProductDetailHref } from '@/lib/productLinks';
 import { formatCurrencyVnd, getProductStartingPrice } from '@/lib/servicePrice';
-import { safeEditorialImage } from './contentData';
 
 /** Homepage Listing.tsx card markup/classes; no template badges or review figures. */
 export default function ServiceListingCard({ product }: { product: Product }) {
   const href = buildProductDetailHref(product);
-  const image = safeEditorialImage(product.image_url || '');
   const price = getProductStartingPrice(product);
-  if (!image) return null;
   return <div className="tg-listing-card-item mb-30">
     <div className="tg-listing-card-thumb fix mb-15 p-relative">
-      <Link href={href}><Image className="tg-card-border w-100" src={image} alt={`Ảnh dịch vụ · ${product.name}`} width={360} height={270} unoptimized /></Link>
+      <Link href={href}><ContentImage className="tg-card-border w-100" src={product.image_url} alt={`Ảnh dịch vụ · ${product.name}`} /></Link>
     </div>
     <div className="tg-listing-card-content">
       <h3 className="tg-listing-card-title"><Link href={href}>{product.name}</Link></h3>
@@ -29,7 +26,7 @@ export default function ServiceListingCard({ product }: { product: Product }) {
     </div>
     <div className="tg-listing-card-price d-flex align-items-end justify-content-between">
       <div className="tg-listing-card-price-wrap price-bg d-flex align-items-start justify-content-center flex-column">
-        <span className="tg-listing-card-currency-amount">{price.amount ? <><span className="currency-symbol">Từ</span> {formatCurrencyVnd(price.amount)}</> : 'Liên hệ'}</span>
+        <span className="tg-listing-card-currency-amount">{price.amount ? <><span className="currency-symbol">Từ</span> {formatCurrencyVnd(price.amount)}</> : 'Liên hệ nhận báo giá'}</span>
       </div>
     </div>
     <Link className="golfnity-home-listing__cta" href={href}>{product.category?.layout_key === 'tee_time' ? 'Xem sân' : 'Xem chi tiết'}</Link>

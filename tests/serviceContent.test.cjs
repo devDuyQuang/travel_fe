@@ -6,9 +6,10 @@ const vm = require('node:vm');
 const ts = require('typescript');
 const React = require('react');
 const { renderToStaticMarkup } = require('react-dom/server');
-function modules() {
+function modules(reactRuntime = React) {
   const cache = {};
   function load(name, parent = process.cwd()) {
+    if (name === 'react') return reactRuntime;
     if (name.endsWith('.css')) return { __esModule: true, default: new Proxy({}, { get: (_, key) => String(key) }) };
     if (name === 'yet-another-react-lightbox') return () => null;
     if (name === 'next/link') return ({ href, children, ...props }) => React.createElement('a', { href, ...props }, children);
@@ -54,15 +55,9 @@ test('editorial images render in a deduplicated gallery without disclosure or ca
   three.forEach(src => assert.ok(gallery.includes(src)));
   assert.ok(!gallery.includes('javascript:'));
 });
-test('demo reviews are explicit fictional examples without stars, counts, photos or schema', () => {
+test('fictional reviews never render in the public component', () => {
   const Component = modules()('@/components/services/content/DemoServiceReviews').default;
-  const html = renderToStaticMarkup(React.createElement(Component));
-  assert.ok(html.includes('Khách hàng mẫu 01'));
-  assert.equal((html.match(/Nội dung mẫu · không phải đánh giá thật/g) || []).length, 3);
-  assert.ok(!html.includes('Đánh giá minh họa — dữ liệu demo') && !html.includes('Các thẻ dưới đây'));
-  assert.ok(html.includes('tee-time-section-title'));
-  assert.equal((html.match(/<article/g) || []).length, 3);
-  for (const forbidden of ['AggregateRating', 'application/ld+json', '<img', 'fa-star', 'verified']) assert.ok(!html.includes(forbidden));
+  assert.equal(renderToStaticMarkup(React.createElement(Component)), '');
 });
 test('recommendations exclude self, inactive and incomplete records; use real links and contact price', () => {
   const load = modules(), Component = load('@/components/services/content/RelatedServiceContent').default;
@@ -70,8 +65,8 @@ test('recommendations exclude self, inactive and incomplete records; use real li
   const html = renderToStaticMarkup(React.createElement(Component, { product: fixture, products: [fixture, other, other, { ...other, id: 19, slug: 'bad', status: 0 }, { ...other, id: 20, slug: 'missing-image', image_url: null }] }));
   assert.ok(!html.includes('undefined'));
   assert.ok(html.includes('Bạn có thể sẽ thích') && html.includes('/dich-vu/dat-tee-time/other') && html.includes('Liên hệ'));
-  assert.equal((html.match(/Actual related product/g) || []).length, 2); // image alt + name
-  assert.ok(!html.includes('/dat-tee-time/bad') && !html.includes('/dat-tee-time/missing-image'));
+  assert.equal((html.match(/Actual related product/g) || []).length, 3); // CMS image alt plus two product titles
+  assert.ok(!html.includes('/dat-tee-time/bad'));
   assert.ok(html.includes('Khám phá điểm đến') && html.includes('location=da-nang'));
   assert.ok(html.includes('golfnity-home-listing') && html.includes('tg-listing-card-item') && html.includes('golfnity-home-listing__cta'));
   assert.ok(html.includes('golfnity-home-location__card') && html.includes('golfnity-home-location__thumb'));
@@ -87,8 +82,64 @@ test('tee-time editorial photos retain baseline vertical figure markup and origi
   const Component = modules()('@/components/features/feature-details-one/about/AboutText').default;
   const gallery = ['https://example.com/staff.jpg', 'https://example.com/bridge.jpg', 'https://example.com/practice.jpg'];
   const html = renderToStaticMarkup(React.createElement(Component, { product: { ...fixture, gallery } }));
-  const figures = html.match(/<figure class="tee-time-about-media"[\s\S]*?<\/figure>/g) || [];
+  const figures = html.match(/<figure class="tee-time-about-media editorialFigure"[\s\S]*?<\/figure>/g) || [];
   assert.equal(figures.length, 3);
   gallery.forEach((src, index) => assert.ok(figures[index].includes(`src="${src}"`)));
   assert.ok(!figures.join('').includes('<button') && !figures.join('').includes('<details'));
+});
+
+ test('card images retain CMS sources including legitimate shared URLs and use placeholders when missing', () => {
+  const load = modules(), Card = load('@/components/services/content/ServiceListingCard').default;
+  const render = (product, imageUnavailable = false) => renderToStaticMarkup(React.createElement(Card, { product, imageUnavailable }));
+  assert.ok(render(fixture).includes('https://api.voduyquang.com/storage/service.jpg'));
+  assert.ok(render({...fixture, image_url: null}).includes('service-placeholder.svg'));
+  assert.ok(render(fixture, true).includes(fixture.image_url));
+  const Related = load('@/components/services/content/RelatedServiceContent').default;
+  for (const id of [18, 19, 20]) {
+    const product = {...fixture, id, slug: `course-${id}`};
+    const html = renderToStaticMarkup(React.createElement(Related, {product: fixture, products: [product]}));
+    assert.ok(html.includes(`/dich-vu/dat-tee-time/course-${id}`));
+    assert.ok(html.includes('https://api.voduyquang.com/storage/service.jpg'));
+  }
+});
+
+test('production-shaped Product 17 and three tee-time recommendations keep URLs/prices and legitimate shared CMS imagery', () => {
+  const Component = modules()('@/components/services/content/RelatedServiceContent').default;
+  const product = {...fixture, price: '331.00', display_price: '331.00'};
+  const records = [
+    [37, 'Montgomerie Links Vietnam', 'montgomerie-links-vietnam', '2800000.00'],
+    [35, 'Hoiana Shores Golf Club', 'hoiana-shores-golf-club', '3200000.00'],
+    [34, 'Laguna Golf Lăng Cô', 'laguna-golf-lang-co', '2900000.00'],
+  ].map(([id, name, slug, price]) => ({...fixture, id, name, slug, price, display_price: price}));
+  const html = renderToStaticMarkup(React.createElement(Component, {product, products: records}));
+  for (const record of records) assert.ok(html.includes(`/dich-vu/dat-tee-time/${record.slug}`));
+  assert.ok(html.includes(fixture.image_url));
+  for (const price of ['2.800.000', '3.200.000', '2.900.000']) assert.ok(html.includes(price));
+  assert.ok(html.includes('service-placeholder.svg'));
+});
+
+test('option inclusions never inherit general product facilities or product-wide benefits', () => {
+  const {resolveOptionDetail} = modules()('@/lib/teeTimeOptionSelection');
+  const option = {id: 17, name: 'Gói dịch vụ', type: 'golf_package', metadata: {}, price: null};
+  const product = {...fixture, facilities: '<ul><li>General facility</li></ul>', attributes: {inclusions: ['Unconfirmed product benefit']}};
+  const section = resolveOptionDetail(option, product).sections.find(section => section.title === 'Bao gồm');
+  assert.ok(section.items.some(item => item.text.includes('cần được xác nhận')));
+  assert.ok(!JSON.stringify(section).includes('General facility'));
+  assert.ok(!JSON.stringify(section).includes('Unconfirmed product benefit'));
+  const explicit = resolveOptionDetail({...option, metadata: {inclusions: ['Actual option inclusion']}}, product).sections.find(section => section.title === 'Bao gồm');
+  assert.ok(explicit.items.some(item => item.text === 'Actual option inclusion'));
+  assert.ok(!JSON.stringify(explicit).includes('cần được xác nhận'));
+});
+
+test('image failure switches to neutral placeholder and a new CMS source can recover', () => {
+  let failed = null;
+  const load = modules({...React, useState: () => [failed, value => {failed = value;}]});
+  const {default: Image, CONTENT_PLACEHOLDER} = load('@/components/services/content/ContentImage');
+  const props = {src: 'https://example.com/own-photo.jpg', alt: 'CMS photo'};
+  const initial = Image(props);
+  assert.equal(initial.props.src, props.src);
+  initial.props.onError();
+  assert.equal(Image(props).props.src, CONTENT_PLACEHOLDER);
+  assert.equal(Image({...props, src: 'https://example.com/replacement.jpg'}).props.src, 'https://example.com/replacement.jpg');
+  assert.equal(Image({...props, src: null}).props.src, CONTENT_PLACEHOLDER);
 });

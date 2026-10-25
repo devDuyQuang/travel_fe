@@ -30,7 +30,7 @@ export function embeddedEditorialImages(html: string) {
 export function relatedContentProducts(product: Product, products: Product[]) {
   const seen = new Set<number>();
   return products.filter(p => {
-    if (p.id === product.id || p.slug === product.slug || !isCanonicalServiceProduct(p) || !safeEditorialImage(p.image_url || '') || seen.has(p.id)) return false;
+    if (p.id === product.id || p.slug === product.slug || !isCanonicalServiceProduct(p) || seen.has(p.id)) return false;
     seen.add(p.id);
     return true;
   }).sort((a, b) => Number(b.location === product.location) - Number(a.location === product.location)).slice(0, 4);

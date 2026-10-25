@@ -71,5 +71,5 @@ test('tee-time component renders rich text once and preserves original vertical 
   assert.ok(!html.includes('<h1'));
   assert.ok(html.includes('Golf shoes'));
   assert.ok(html.includes('Verified caption') && html.includes('/course.jpg'));
-  assert.ok(html.includes('class="tee-time-about-media"'));
+  assert.ok(html.includes('class="tee-time-about-media editorialFigure"'));
 });

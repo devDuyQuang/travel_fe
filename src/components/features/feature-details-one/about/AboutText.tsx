@@ -120,7 +120,7 @@ const AboutText = ({ product }: { product: Product | null }) => {
                   <CompactDescription html={descriptionHtml} />
                </div>
                {media.map((image, index) => (
-                  <figure className="tee-time-about-media" key={image}>
+                  <figure className={`tee-time-about-media ${contentStyles.editorialFigure}`} key={image}>
                      <img src={image} alt={`${product?.name || "Dịch vụ golf"} ${index + 1}`} />
                      {captions[index] && <figcaption>{captions[index]}</figcaption>}
                   </figure>

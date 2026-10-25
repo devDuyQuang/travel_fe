@@ -248,7 +248,9 @@ function includeExcludeSection(
   exclusions: string[],
 ): TeeTimeOptionDetailSection | null {
   const items: TeeTimeOptionDetailItem[] = [
-    ...inclusions.map((item) => ({ text: item, tone: "include" as const })),
+    ...(inclusions.length
+      ? inclusions.map((item) => ({ text: item, tone: "include" as const }))
+      : [{ text: "Quyền lợi của gói cần được xác nhận trước khi chốt booking.", tone: "neutral" as const }]),
     ...exclusions.map((item) => ({ text: item, tone: "exclude" as const })),
   ];
 
@@ -423,12 +425,6 @@ export function resolveOptionDetail(
     metadata.included_items,
     option?.inclusions ||
       "",
-    productPackageDetails?.inclusions,
-    productAttributes.inclusions,
-    productAttributes.included_items,
-    productMetadata.inclusions,
-    productMetadata.included_items,
-    product?.facilities,
   );
   const exclusions = firstItems(
     optionPackageDetails?.exclusions,
