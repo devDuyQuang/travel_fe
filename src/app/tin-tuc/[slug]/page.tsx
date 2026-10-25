@@ -1,7 +1,7 @@
 import { metadataDescription, safeMetadataImage, pageMetadata } from "@/lib/seoMetadata";
 import CmsPostDetail from "@/components/blogs/CmsPostDetail";
 import Wrapper from "@/layouts/Wrapper";
-import { getPostBySlug, resolveMediaUrl } from "@/services/post.service";
+import { getPostBySlug, isNewsPost, resolveMediaUrl } from "@/services/post.service";
 import { serializePostStructuredData } from "@/lib/postStructuredData";
 import { getPostExcerpt } from "@/lib/blog";
 import type { Metadata } from "next";
@@ -16,7 +16,7 @@ export const dynamic = "force-dynamic";
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const post = await getPostBySlug(slug);
-  if (!post) notFound();
+  if (!isNewsPost(post)) notFound();
 
   const title = post.title_seo?.trim() || post.name;
   const description = metadataDescription(post.description_seo) || getPostExcerpt(post, 155);
@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 const TinTucDetailPage = async ({ params }: PageProps) => {
   const { slug } = await params;
   const post = await getPostBySlug(slug);
-  if (!post) notFound();
+  if (!isNewsPost(post)) notFound();
 
   return (
     <Wrapper>

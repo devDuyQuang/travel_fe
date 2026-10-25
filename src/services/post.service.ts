@@ -187,6 +187,14 @@ export async function getPosts(limit = 12): Promise<CmsPost[]> {
   return result.data;
 }
 
+/** Match the news listing's type=post category eligibility (LOWER(type) on API).
+ * Keep the raw slug lookup unchanged for the legacy root resolver. */
+export function isNewsPost(post: CmsPost | null | undefined): post is CmsPost {
+  return Boolean(post && Array.isArray(post.categories) && post.categories.some(
+    category => typeof category?.type === "string" && category.type.toLowerCase() === "post",
+  ));
+}
+
 export async function getPostBySlug(slug: string): Promise<CmsPost | null> {
   try {
     const response = await fetch(`${API_URL}/post/${slug}`, {
